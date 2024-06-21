@@ -2,6 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import "../services/newsUpdater.js";
+
 const getTopComment = async (commentIds) => {
   try {
     const comments = await Comment.find({ _id: { $in: commentIds } }).select(
@@ -31,49 +32,96 @@ const enrichPostsWithTopComment = async (posts) => {
   }
 };
 
+const fetchFullDetails = async (articles) => {
+  try {
+    // Fetch full details of the first 9 posts
+    const fullArticles = [];
+    for (let article of articles) {
+      const post = await Post.findById(article._id, {
+        title: 1,
+        image: 1,
+        publishedAt: 1,
+        source: 1,
+        category: 1,
+        comments: 1,
+      }).lean();
+      if (post) {
+        fullArticles.push(post);
+      }
+    }
+
+    await enrichPostsWithTopComment(fullArticles);
+    // console.log("Most comm :",fullArticles)
+    return fullArticles;
+  } catch (error) {
+    console.error("Error fetching full details:", error);
+  }
+};
+
+const sendMostCommented = async (username, res) => {
+  const user = await User.findOne({ username });
+  const posts = await Post.find(
+    { category: { $in: user.selectedCategories } },
+    { totalComments: 1 }
+  ).lean();
+
+  // Sort the posts in descending order based on totalComments
+  posts.sort((a, b) => b.totalComments - a.totalComments);
+  const mostCommented = await fetchFullDetails(posts.slice(0, 9));
+
+  console.log("Most Commented Articles:", mostCommented);
+
+  // await enrichPostsWithTopComment(posts);
+  res.status(200).send(mostCommented);
+};
+
+const sendMostReacted = async (username,res)=>{
+  const user = await User.findOne({ username });
+  const posts = await Post.find(
+    { category: { $in: user.selectedCategories } },
+    { upvotes:1,downvotes:1 }
+  ).lean();
+
+  // Sort the posts in descending order based on totalComments
+  posts.sort(
+    (a, b) => b.upvotes + b.downvotes - (a.upvotes + a.downvotes)
+  );
+  const mostReacted = await fetchFullDetails(posts.slice(0, 9));
+
+  console.log("Most Reacted Articles:", mostReacted);
+
+  // await enrichPostsWithTopComment(posts);
+  res.status(200).send(mostReacted);
+}
+
 const sendNews = async (req, res) => {
-  const { username } = req.body;
   let trending, daily;
 
   daily = await Post.find(
     { category: "Nation" },
     { title: 1, image: 1, publishedAt: 1, source: 1, category: 1, comments: 1 }
   )
+    .sort({ publishedAt: -1 })
     .limit(3)
     .lean();
 
   await enrichPostsWithTopComment(daily);
 
-  if (!username) {
-    trending = await Post.find(
-      { category: "General" },
-      {
-        title: 1,
-        image: 1,
-        publishedAt: 1,
-        source: 1,
-        category: 1,
-        comments: 1,
-      }
-    )
-      .limit(3)
-      .lean();
-  } else {
-    const user = await User.findOne({ username });
-    trending = await Post.find(
-      { category: { $in: user.selectedCategories } },
-      {
-        title: 1,
-        image: 1,
-        publishedAt: 1,
-        source: 1,
-        category: 1,
-        comments: 1,
-      }
-    )
-      .limit(3)
-      .lean();
-  }
+  trending = await Post.find(
+    { category: "General" },
+    {
+      title: 1,
+      image: 1,
+      publishedAt: 1,
+      source: 1,
+      category: 1,
+      comments: 1,
+    }
+  )
+    .sort({ publishedAt: -1 })
+    .limit(3)
+    .lean();
+
   await enrichPostsWithTopComment(trending);
 
   console.log("Top Voted Articles:", trending);
@@ -92,12 +140,18 @@ const sendNewsByCategory = async (req, res) => {
   const { category, username } = req.body;
   let news;
 
+  if (category == "Most Commented") {
+    sendMostCommented(username, res);
+    return;
+  }
+  if (category == "Most Reacted") {
+    sendMostReacted(username, res);
+    return;
+  }
+
   if (category == "Trending") {
-    const user = await User.findOne({ username });
     const posts = await Post.find(
-      {
-        category: { $in: user.selectedCategories },
-      },
+      { category: "General" },
       {
         title: 1,
         image: 1,
@@ -107,7 +161,8 @@ const sendNewsByCategory = async (req, res) => {
         comments: 1,
       }
     )
-      .limit(6)
+      .sort({ publishedAt: -1 })
+      .limit(9)
       .lean();
 
     await enrichPostsWithTopComment(posts);
@@ -124,7 +179,8 @@ const sendNewsByCategory = async (req, res) => {
         comments: 1,
       }
     )
-      .limit(6)
+      .sort({ publishedAt: -1 })
+      .limit(9)
       .lean();
 
     await enrichPostsWithTopComment(posts);
@@ -142,7 +198,8 @@ const sendNewsByCategory = async (req, res) => {
         comments: 1,
       }
     )
-      .limit(6)
+      .sort({ publishedAt: -1 })
+      .limit(9)
       .lean();
     await enrichPostsWithTopComment(posts);
     news = posts;
@@ -150,4 +207,4 @@ const sendNewsByCategory = async (req, res) => {
   res.status(200).send(news);
 };
 
-export { sendNews, sendNewsDetails, sendNewsByCategory };
+export { sendNews, sendNewsDetails, sendNewsByCategory, sendMostCommented };

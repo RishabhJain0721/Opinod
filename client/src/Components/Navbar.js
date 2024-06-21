@@ -51,6 +51,14 @@ const Navbar = () => {
     }
     setSelectedCategory(category);
     dispatch(selectCategory(category));
+    if (category === "Most Commented") {
+      navigate("/category/MostCommented");
+      return;
+    }
+    if (category === "Most Reacted") {
+      navigate("/category/MostReacted");
+      return;
+    }
     navigate(`/category/${category}`);
   };
 

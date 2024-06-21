@@ -6,6 +6,7 @@ import Card from "../Components/Card";
 import { getNewsByCategory } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
 import { saveNews } from "../Actions/actions";
+import { MutatingDots } from "react-loader-spinner";
 
 const CategoryNews = () => {
   const dispatch = useDispatch();
@@ -14,16 +15,25 @@ const CategoryNews = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [news, setNews] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const res = await getNewsByCategory(category, username);
         console.log(res);
-        dispatch(saveNews(res, category));
+        if (category === "Most Commented") {
+          dispatch(saveNews(res, "MostCommented"));
+        } else if (category === "Most Reacted") {
+          dispatch(saveNews(res, "MostReacted"));
+        } else {
+          dispatch(saveNews(res, category));
+        }
         setNews(res);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchNews();
@@ -50,40 +60,48 @@ const CategoryNews = () => {
           </div>
           <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
             <div>Trending News</div>
-            {/* <div>
-              <button
-                className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
-                onClick={handleViewMore}
-              >
-                <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
-              </button>
-            </div> */}
           </div>
 
-          <div className="flex flex-wrap justify-start md:ml-6 ">
-            {news.map((article) => (
-              <Card
-                key={article._id}
-                id={article._id}
-                profilePhoto={article.image}
-                name={article.source}
-                datePosted={new Date(article.publishedAt).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                title={article.title}
-                opinion={article.opinion}
-                opinionAuthorPhoto={article.opinionAuthorPhoto}
-                opinionAuthorName={article.opinionAuthorName}
-                opinionDate={new Date(article.opinionDate).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                upvotes={article.upvotes}
-                downvotes={article.downvotes}
+          {isLoading ? (
+            <div className="flex items-center justify-center h-4/5">
+              <MutatingDots
+                visible={true}
+                height="100"
+                width="100"
+                color="#2196F3"
+                secondaryColor="#2196F3"
+                radius="12.5"
+                ariaLabel="mutating-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
               />
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="flex flex-wrap justify-start md:ml-6 ">
+              {news.map((article) => (
+                <Card
+                  key={article._id}
+                  id={article._id}
+                  profilePhoto={article.image}
+                  name={article.source}
+                  datePosted={new Date(article.publishedAt).toLocaleDateString(
+                    "en-US",
+                    { year: "numeric", month: "long", day: "numeric" }
+                  )}
+                  title={article.title}
+                  opinion={article.opinion}
+                  opinionAuthorPhoto={article.opinionAuthorPhoto}
+                  opinionAuthorName={article.opinionAuthorName}
+                  opinionDate={new Date(article.opinionDate).toLocaleDateString(
+                    "en-US",
+                    { year: "numeric", month: "long", day: "numeric" }
+                  )}
+                  upvotes={article.upvotes}
+                  downvotes={article.downvotes}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

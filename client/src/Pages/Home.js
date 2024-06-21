@@ -9,6 +9,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { getNews } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
 import { saveNews, selectCategory } from "../Actions/actions";
+import { MutatingDots } from "react-loader-spinner";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,11 +21,12 @@ const Home = () => {
   const [trending, setTrending] = useState([]);
   const [daily, setDaily] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await getNews(username);
+        const res = await getNews();
         console.log(res);
         dispatch(saveNews(res.trendingArticles, "Trending"));
         dispatch(saveNews(res.dailyArticles, "Daily"));
@@ -32,6 +34,8 @@ const Home = () => {
         setTrending(res.trendingArticles);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (trendingFromStore.length === 0 || dailyFromStore.length === 0) {
@@ -39,6 +43,7 @@ const Home = () => {
     } else {
       setTrending(trendingFromStore);
       setDaily(dailyFromStore);
+      setIsLoading(false);
     }
 
     const handleResize = () => {
@@ -50,7 +55,7 @@ const Home = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [username]);
+  }, []);
 
   const handleViewTrending = () => {
     if (!username) {
@@ -76,80 +81,110 @@ const Home = () => {
       {isMobile ? <TopNavbar /> : <Navbar />}
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
-          <div className="text-2xl ml-5 md:ml-10 mt-7 font-bold text-blue-500 w-auto">
-            Home
-          </div>
-          <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-            <div>Trending News</div>
-            <div>
-              <button
-                className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
-                onClick={handleViewTrending}
-              >
-                <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
-              </button>
+          {isLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <MutatingDots
+                visible={true}
+                height="100"
+                width="100"
+                color="#2196F3"
+                secondaryColor="#2196F3"
+                radius="12.5"
+                ariaLabel="mutating-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="text-2xl ml-5 md:ml-10 mt-7 font-bold text-blue-500 w-auto">
+                Home
+              </div>
+              <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div>Trending News</div>
+                <div>
+                  <button
+                    className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
+                    onClick={handleViewTrending}
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
+                  </button>
+                </div>
+              </div>
 
-          <div className="flex flex-wrap justify-start md:ml-6 ">
-            {trending.slice(0, 3).map((article) => (
-              <Card
-                key={article._id}
-                id={article._id}
-                profilePhoto={article.image}
-                name={article.source}
-                datePosted={new Date(article.publishedAt).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                title={article.title}
-                opinion={article.opinion}
-                opinionAuthorPhoto={article.opinionAuthorPhoto}
-                opinionAuthorName={article.opinionAuthorName}
-                opinionDate={new Date(article.opinionDate).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                upvotes={article.upvotes}
-                downvotes={article.downvotes}
-              />
-            ))}
-          </div>
-          <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-            <div>Daily Updates</div>
-            <div>
-              <button
-                className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
-                onClick={handleViewDaily}
-              >
-                <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-wrap justify-start md:ml-6">
-            {daily.slice(0, 3).map((article) => (
-              <Card
-                key={article._id}
-                id={article._id}
-                profilePhoto={article.image}
-                name={article.source}
-                datePosted={new Date(article.publishedAt).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                title={article.title}
-                opinion={article.opinion}
-                opinionAuthorPhoto={article.opinionAuthorPhoto}
-                opinionAuthorName={article.opinionAuthorName}
-                opinionDate={new Date(article.opinionDate).toLocaleDateString(
-                  "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-                upvotes={article.upvotes}
-                downvotes={article.downvotes}
-              />
-            ))}
-          </div>
+              <div className="flex flex-wrap justify-start md:ml-6 ">
+                {trending.slice(0, 3).map((article) => (
+                  <Card
+                    key={article._id}
+                    id={article._id}
+                    profilePhoto={article.image}
+                    name={article.source}
+                    datePosted={new Date(
+                      article.publishedAt
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    title={article.title}
+                    opinion={article.opinion}
+                    opinionAuthorPhoto={article.opinionAuthorPhoto}
+                    opinionAuthorName={article.opinionAuthorName}
+                    opinionDate={new Date(
+                      article.opinionDate
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
+                  />
+                ))}
+              </div>
+              <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div>Daily Updates</div>
+                <div>
+                  <button
+                    className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
+                    onClick={handleViewDaily}
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-start md:ml-6">
+                {daily.slice(0, 3).map((article) => (
+                  <Card
+                    key={article._id}
+                    id={article._id}
+                    profilePhoto={article.image}
+                    name={article.source}
+                    datePosted={new Date(
+                      article.publishedAt
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    title={article.title}
+                    opinion={article.opinion}
+                    opinionAuthorPhoto={article.opinionAuthorPhoto}
+                    opinionAuthorName={article.opinionAuthorName}
+                    opinionDate={new Date(
+                      article.opinionDate
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

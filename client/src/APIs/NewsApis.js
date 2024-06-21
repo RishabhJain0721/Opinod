@@ -1,10 +1,8 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://192.168.189.181:3001"; // Replace with your API base URL
-
-export const getNews = async (username) => {
+export const getNews = async () => {
   try {
-    const response = await axios.post("/api/news/", { username });
+    const response = await axios.get("/api/news/");
     return response.data;
   } catch (error) {
     throw error;

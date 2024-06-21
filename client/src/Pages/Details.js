@@ -8,6 +8,7 @@ import Comment from "../Components/Comment";
 import { getNewsById } from "../APIs/NewsApis";
 import { addTopComment, getComments } from "../APIs/CommentApis";
 import { useSelector } from "react-redux";
+import { MutatingDots } from "react-loader-spinner";
 
 const Details = () => {
   const { id } = useParams();
@@ -15,6 +16,8 @@ const Details = () => {
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(true);
+  const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const username = useSelector((state) => state.user.username);
 
@@ -22,8 +25,8 @@ const Details = () => {
     const fetchDetails = async () => {
       try {
         const res = await getNewsById(id);
-        console.log(res);
         setDetails(res);
+        setIsLoadingDetails(false);
       } catch (error) {
         console.log(error);
       }
@@ -32,8 +35,8 @@ const Details = () => {
     const fetchComments = async () => {
       try {
         const res = await getComments(id);
-        console.log("Where is thiw", res);
         setComments(res);
+        setIsLoadingComments(false);
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +75,21 @@ const Details = () => {
       <Topbar />
       {isMobile ? <TopNavbar /> : <Navbar />}
       <div className="flex mt-16">
-        {details ? (
+        {isLoadingDetails ? (
+          <div className="flex items-center justify-center w-screen h-96 md:ml-60">
+            <MutatingDots
+              visible={true}
+              height="100"
+              width="100"
+              color="#2196F3"
+              secondaryColor="#2196F3"
+              radius="12.5"
+              ariaLabel="mutating-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </div>
+        ) : (
           <div className="w-full md:ml-60 mt-11 md:mt-0">
             <div className=" text-2xl ml-3 md:ml-6 mt-7 font-bold text-blue-500 w-auto">
               {details.category}
@@ -102,15 +119,29 @@ const Details = () => {
                       Add Reply
                     </button>
                   </div>
-                  {comments.map((comment, index) => (
-                    <Comment key={index} comment={comment} />
-                  ))}
+                  {isLoadingComments ? (
+                    <div className="flex items-center justify-center w-full">
+                      <MutatingDots
+                        visible={true}
+                        height="100"
+                        width="100"
+                        color="#2196F3"
+                        secondaryColor="#2196F3"
+                        radius="12.5"
+                        ariaLabel="mutating-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    </div>
+                  ) : (
+                    comments.map((comment, index) => (
+                      <Comment key={index} comment={comment} />
+                    ))
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          <></>
         )}
       </div>
     </div>

@@ -9,6 +9,8 @@ const initialState = {
   Business: [],
   Sports: [],
   World: [],
+  MostCommented: [],
+  MostReacted: [],
 };
 
 const newsReducer = (state = initialState, action) => {

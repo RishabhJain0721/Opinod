@@ -17,6 +17,7 @@ const addTopComment = async (req, res) => {
   // Update the post with the new comment in posts collection
   const post = await Post.findById(postId);
   post.comments.push(newComment._id);
+  post.totalComments++;
   await post.save();
 
   res.send({ message: "Comment Added successfully" });
@@ -38,8 +39,11 @@ const addReply = async (req, res) => {
   //Update the parent comment with the new reply in comments collection
   const parentComment = await Comment.findById(parentId);
   parentComment.childern.push(newComment._id);
-
   await parentComment.save();
+
+  const post = await Post.findById(postId, { totalComments: 1 });
+  post.totalComments++;
+  await post.save();
 
   res.send({ message: "Reply Added successfully" });
 };
