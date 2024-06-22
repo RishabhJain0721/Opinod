@@ -103,18 +103,16 @@ const Navbar = () => {
 
   return (
     <div className="relative">
-      <div className="min-h-screen h-max w-60 pt-10 bg-white text-gray-800 transition-transform duration-300 fixed left-0 z-50 overflow-y-auto border-gray-300 border-t-2 shadow-md">
-        <div className="text-xl font-semibold mb-4 pl-6 text-blue-500">
-          CATEGORIES
-        </div>
+      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-500 text-white fixed left-0 z-50 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
+        <div className="text-xl font-semibold mb-4 pl-6">CATEGORIES</div>
         <div className="pl-6">
           {Object.values(categories).map((cat) => (
             <div key={cat}>
               <button
                 className={`flex items-center p-1 px-2 focus:outline-none ${
                   selectedCategory === cat
-                    ? "bg-blue-100 rounded-md"
-                    : "text-gray-600"
+                    ? "bg-blue-100 rounded-md text-gray-800"
+                    : "text-white"
                 }`}
                 onClick={() => handleCategorySelect(cat)}
               >
@@ -125,23 +123,21 @@ const Navbar = () => {
           ))}
         </div>
         <button
-          className=" bg-blue-500 ml-8 mt-2 mr-3 px-4 py-1 rounded-full text-white"
+          className="block w-48 ml-5 mt-4 py-2 text-gray-800 rounded-lg bg-white"
           onClick={handleAddCategory}
         >
-          <FontAwesomeIcon icon={faPlus} /> &nbsp; Add Category
+          Add Category
         </button>
         <div className="border-t border-gray-300 mt-4"></div>
-        <div className="text-xl font-semibold mb-4 mt-4 pl-6 text-blue-500">
-          ALSO VISIT
-        </div>
+        <div className="text-xl font-semibold mb-4 mt-4 pl-6">ALSO VISIT</div>
         <div className="pl-6">
           {alsoVisit.map((category) => (
             <div key={category}>
               <button
                 className={`flex items-center p-1 px-2 focus:outline-none ${
                   selectedCategory === category
-                    ? "bg-blue-100 rounded-md"
-                    : "text-gray-600"
+                    ? "bg-blue-100 rounded-md text-gray-800"
+                    : "text-white"
                 }`}
                 onClick={() => handleCategorySelect(category)}
               >

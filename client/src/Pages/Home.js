@@ -5,7 +5,7 @@ import Navbar from "../Components/Navbar";
 import TopNavbar from "../Components/TopNavbar";
 import Card from "../Components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { getNews } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
 import { saveNews, selectCategory } from "../Actions/actions";
@@ -78,7 +78,23 @@ const Home = () => {
   return (
     <div>
       <Topbar />
-      {isMobile ? <TopNavbar /> : <Navbar />}
+
+      {/* Search bar */}
+      {isMobile && (
+        <div className="relative top-24 flex mx-3">
+          <input
+            type="text"
+            className="w-full px-4 py-2 border border-gray-900 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+            placeholder="Search news"
+          />
+          <button className="px-4 border border-gray-900 border-l-0 rounded-r-full text-gray-400">
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      )}
+
+      {!isMobile && <Navbar />}
+
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           {isLoading ? (
@@ -97,17 +113,17 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-2xl ml-5 md:ml-10 mt-7 font-bold text-blue-500 w-auto">
+              <div className="text-2xl ml-5 md:ml-10 md:mt-7 font-semibold text-blue-500 w-auto">
                 Home
               </div>
-              <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div>Trending News</div>
+              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div>Trending</div>
                 <div>
                   <button
-                    className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
+                    className="text-xs md:text-lg text-gray-600 px-2"
                     onClick={handleViewTrending}
                   >
-                    <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
+                    See all
                   </button>
                 </div>
               </div>
@@ -142,14 +158,14 @@ const Home = () => {
                   />
                 ))}
               </div>
-              <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div>Daily Updates</div>
                 <div>
                   <button
-                    className=" bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
+                    className="text-xs md:text-lg text-gray-600 px-2"
                     onClick={handleViewDaily}
                   >
-                    <FontAwesomeIcon icon={faArrowRight} /> &nbsp; View More
+                    See all
                   </button>
                 </div>
               </div>

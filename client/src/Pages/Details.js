@@ -73,7 +73,7 @@ const Details = () => {
   return (
     <div>
       <Topbar />
-      {isMobile ? <TopNavbar /> : <Navbar />}
+      {!isMobile && <Navbar />}
       <div className="flex mt-16">
         {isLoadingDetails ? (
           <div className="flex items-center justify-center w-screen h-96 md:ml-60">

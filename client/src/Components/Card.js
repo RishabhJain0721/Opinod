@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleUp,
+  faArrowRight,
   faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
@@ -34,7 +35,7 @@ const Card = ({
 
   return (
     <div
-      className="bg-white rounded-lg shadow-md p-4 mb-4 w-96 max-w-md duration-150 m-4 h-fit border border-gray-300 cursor-pointer"
+      className="bg-white rounded-lg shadow-sm p-4 mb-4 w-96 max-w-md duration-150 m-4 h-fit border border-gray-300 cursor-pointer"
       onClick={handleClick}
     >
       {/* Profile photo and name */}
@@ -42,17 +43,18 @@ const Card = ({
         <img
           src={profilePhoto}
           alt="Profile"
-          className="w-8 h-8 rounded-full mr-2"
+          className="h-20 w-20 rounded-lg mr-2"
         />
-        <div className="text-sm font-medium text-gray-700 flex-grow">
-          {name.length > 15 ? name.slice(0, 15) + "..." : name}
+        <div>
+          <div className="text-sm flex text-gray-700 flex-grow">
+            {name.length > 15 ? name.slice(0, 15) + "..." : name}
+            <div className="ml-auto text-xs text-gray-500">{datePosted}</div>
+          </div>
+          {/* Title */}
+          <div className="text-sm md:text-base font-medium mb-2 text-blue-500">
+            {title.length > 70 ? title.slice(0, 70) + "..." : title}
+          </div>
         </div>
-        <div className="ml-auto text-xs text-gray-500">{datePosted}</div>
-      </div>
-
-      {/* Title */}
-      <div className=" text-base font-semibold mb-2 text-blue-500">
-        {title.length > 70 ? title.slice(0, 70) + "..." : title}
       </div>
 
       {/* Divider */}
@@ -90,11 +92,9 @@ const Card = ({
           </div>
         </div>
       ) : (
-        <div className="flex items-center flex-col">
+        <div className="flex items-center flex-row justify-between">
           <div className="text-gray-600">No opinions yet. Be the first.</div>
-          <button className=" bg-blue-500 text-white p-2 m-2 text-xs rounded-md">
-            Give opinion
-          </button>
+          <FontAwesomeIcon icon={faArrowRight} className="mr-2" />
         </div>
       )}
     </div>

@@ -12,6 +12,7 @@ const CategoryNews = () => {
   const dispatch = useDispatch();
   const category = useSelector((state) => state.category.category);
   const username = useSelector((state) => state.user.username);
+  const newsFromStore = useSelector((state) => state.news);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [news, setNews] = useState([]);
@@ -20,6 +21,7 @@ const CategoryNews = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        console.log("here");
         const res = await getNewsByCategory(category, username);
         console.log(res);
         if (category === "Most Commented") {
@@ -36,7 +38,30 @@ const CategoryNews = () => {
         setIsLoading(false);
       }
     };
-    fetchNews();
+
+    if (
+      newsFromStore[
+        category === "Most Commented"
+          ? "MostCommented"
+          : category === "Most Reacted"
+          ? "MostReacted"
+          : category
+      ].length === 0
+    ) {
+      console.log("here 1");
+      fetchNews();
+    } else {
+      setNews(
+        newsFromStore[
+          category === "Most Commented"
+            ? "MostCommented"
+            : category === "Most Reacted"
+            ? "MostReacted"
+            : category
+        ]
+      );
+      setIsLoading(false);
+    }
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -47,12 +72,12 @@ const CategoryNews = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [category]);
+  }, [category, newsFromStore]);
 
   return (
     <div>
       <Topbar />
-      {isMobile ? <TopNavbar /> : <Navbar />}
+      {!isMobile && <Navbar />}
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           <div className="text-2xl ml-5 md:ml-10 mt-7 font-bold text-blue-500 w-auto">
