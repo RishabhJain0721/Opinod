@@ -7,6 +7,7 @@ import { getNewsByCategory } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
 import { saveNews } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";
+import MobileSearch from "../Components/MobileSearch";
 
 const CategoryNews = () => {
   const dispatch = useDispatch();
@@ -19,9 +20,9 @@ const CategoryNews = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchNews = async () => {
       try {
-        console.log("here");
         const res = await getNewsByCategory(category, username);
         console.log(res);
         if (category === "Most Commented") {
@@ -40,6 +41,11 @@ const CategoryNews = () => {
     };
 
     if (
+      (category === "Trending" || category === "Daily") &&
+      newsFromStore[category].length === 3
+    ) {
+      fetchNews();
+    } else if (
       newsFromStore[
         category === "Most Commented"
           ? "MostCommented"
@@ -48,7 +54,6 @@ const CategoryNews = () => {
           : category
       ].length === 0
     ) {
-      console.log("here 1");
       fetchNews();
     } else {
       setNews(
@@ -77,14 +82,12 @@ const CategoryNews = () => {
   return (
     <div>
       <Topbar />
+      {isMobile && <MobileSearch />}
       {!isMobile && <Navbar />}
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
-          <div className="text-2xl ml-5 md:ml-10 mt-7 font-bold text-blue-500 w-auto">
+          <div className="text-2xl ml-5 md:ml-10 mt-5 md:mt-7 font-semibold text-blue-600 w-auto">
             {category}
-          </div>
-          <div className="text-2xl md:text-4xl ml-5 md:ml-10 mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-            <div>Trending News</div>
           </div>
 
           {isLoading ? (

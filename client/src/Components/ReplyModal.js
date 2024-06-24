@@ -10,7 +10,7 @@ const ReplyModal = ({ isOpen, onClose, children }) => {
       <div className="bg-white p-4 rounded w-96 shadow-lg">
         <button
           onClick={onClose}
-          className=" text-lg text-red-500 p-1 mb-1 rounded text-right w-full"
+          className=" text-sm text-blue-500 p-1 mb-1 rounded text-right w-full"
         >
           <FontAwesomeIcon icon={faCircleXmark} />
         </button>

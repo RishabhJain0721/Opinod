@@ -12,6 +12,10 @@ export const loginToStore = (
   categories,
   profilePicture,
   description,
+  likedPosts,
+  dislikedPosts,
+  likedComments,
+  dislikedComments,
   instagram,
   reddit,
   linkedin,
@@ -26,6 +30,10 @@ export const loginToStore = (
       categories: categories,
       profilePicture: profilePicture,
       description: description,
+      likedPosts: likedPosts,
+      dislikedPosts: dislikedPosts,
+      likedComments: likedComments,
+      dislikedComments: dislikedComments,
       instagram: instagram,
       reddit: reddit,
       linkedin: linkedin,
@@ -57,5 +65,33 @@ export const saveNews = (articlesArray, category) => {
 export const refreshNews = () => {
   return {
     type: "REFRESH_NEWS",
+  };
+};
+
+export const like = (postId) => {
+  return {
+    type: "LIKE",
+    payload: postId,
+  };
+};
+
+export const dislike = (postId) => {
+  return {
+    type: "DISLIKE",
+    payload: postId,
+  };
+};
+
+export const likeRemove = (postId) => {
+  return {
+    type: "LIKE_REMOVE",
+    payload: postId,
+  };
+};
+
+export const dislikeRemove = (postId) => {
+  return {
+    type: "DISLIKE_REMOVE",
+    payload: postId,
   };
 };

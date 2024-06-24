@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import TopNavbar from "../Components/TopNavbar";
+import MobileSearch from "../Components/MobileSearch";
 import Card from "../Components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -79,19 +80,7 @@ const Home = () => {
     <div>
       <Topbar />
 
-      {/* Search bar */}
-      {isMobile && (
-        <div className="relative top-24 flex mx-3">
-          <input
-            type="text"
-            className="w-full px-4 py-2 border border-gray-900 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
-            placeholder="Search news"
-          />
-          <button className="px-4 border border-gray-900 border-l-0 rounded-r-full text-gray-400">
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
-        </div>
-      )}
+      {isMobile && <MobileSearch />}
 
       {!isMobile && <Navbar />}
 
@@ -113,7 +102,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-2xl ml-5 md:ml-10 md:mt-7 font-semibold text-blue-500 w-auto">
+              <div className="text-2xl ml-5 md:ml-10 md:mt-7 font-semibold text-blue-600 w-auto">
                 Home
               </div>
               <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
@@ -143,6 +132,8 @@ const Home = () => {
                       day: "numeric",
                     })}
                     title={article.title}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
                     opinion={article.opinion}
                     opinionAuthorPhoto={article.opinionAuthorPhoto}
                     opinionAuthorName={article.opinionAuthorName}
@@ -153,8 +144,8 @@ const Home = () => {
                       month: "long",
                       day: "numeric",
                     })}
-                    upvotes={article.upvotes}
-                    downvotes={article.downvotes}
+                    opinionUpvotes={article.commentUpvotes}
+                    opinionDownvotes={article.commentDownvotes}
                   />
                 ))}
               </div>

@@ -152,11 +152,12 @@ const Topbar = () => {
           </div>
         </div>
 
-        <div>
+        <div className="ml-auto mr-4">
           <button
             className="bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
             onClick={() => {
               dispatch(refreshNews());
+              window.location.reload();
             }}
           >
             Refresh news

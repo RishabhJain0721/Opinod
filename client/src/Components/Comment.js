@@ -54,7 +54,7 @@ const Comment = ({ comment }) => {
           </div>
         </div>
       </div>
-      <div className="text-sm mb-2">{comment.text}</div>
+      <div className="text-xs md:text-sm mb-2">{comment.text}</div>
       <div className="flex items-center text-gray-500 text-xs">
         <button className="flex items-center mr-4">
           <FontAwesomeIcon icon={faChevronUp} className="mr-1" />{" "}
@@ -75,14 +75,14 @@ const Comment = ({ comment }) => {
       <ReplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="flex flex-col">
           <textarea
-            className="border rounded p-2 mb-2"
+            className="border rounded text-xs md:text-sm p-2 mb-2"
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
             placeholder="Write your reply..."
           />
           <button
             onClick={handleSubmitReply}
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Submit Reply
           </button>

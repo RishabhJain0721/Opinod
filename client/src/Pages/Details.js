@@ -21,29 +21,31 @@ const Details = () => {
 
   const username = useSelector((state) => state.user.username);
 
+  const fetchDetails = async () => {
+    try {
+      setIsLoadingDetails(true);
+      const res = await getNewsById(id);
+      setDetails(res);
+      setIsLoadingDetails(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      setIsLoadingComments(true);
+      const res = await getComments(id);
+      setComments(res);
+      setIsLoadingComments(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const res = await getNewsById(id);
-        setDetails(res);
-        setIsLoadingDetails(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchComments = async () => {
-      try {
-        const res = await getComments(id);
-        setComments(res);
-        setIsLoadingComments(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchComments();
     fetchDetails();
+    fetchComments();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -63,6 +65,7 @@ const Details = () => {
     }
     try {
       const res = await addTopComment(id, newReply, username);
+      fetchComments();
       console.log("Response is : ", res);
       setNewReply("");
     } catch (err) {
@@ -90,11 +93,11 @@ const Details = () => {
             />
           </div>
         ) : (
-          <div className="w-full md:ml-60 mt-11 md:mt-0">
-            <div className=" text-2xl ml-3 md:ml-6 mt-7 font-bold text-blue-500 w-auto">
+          <div className="w-full md:ml-60 md:mt-0">
+            <div className="text-2xl ml-3 md:ml-6 mt-7 font-semibold text-blue-500 w-auto">
               {details.category}
             </div>
-            <div className="bg-white rounded-lg mx-2 shadow-md p-2 sm:p-2 md:p-4 mb-4 w-auto duration-150 m-2 md:m-4 h-fit border md:border-blue-400">
+            <div className="bg-white p-1 sm:p-2 md:p-3 mb-4 w-auto m-2 h-fit">
               <div className="flex flex-col justify-between items-between mb-2">
                 <NewsDetails details={details} />
 

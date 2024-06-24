@@ -22,11 +22,16 @@ import { selectCategory } from "../Actions/actions";
 const Navbar = () => {
   const username = useSelector((state) => state.user.username);
   let categories = useSelector((state) => state.user.categories);
+  const initialSelectedCategory = useSelector(
+    (state) => state.category.category
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialSelectedCategory
+  );
 
   const alsoVisit = ["Most Reacted", "Most Commented", "Help", "About"];
 
@@ -47,6 +52,12 @@ const Navbar = () => {
   const handleCategorySelect = (category) => {
     if (!username) {
       alert("Please login first to view more");
+      return;
+    }
+    if (category === selectedCategory) {
+      setSelectedCategory(null);
+      dispatch(selectCategory(null));
+      navigate("/");
       return;
     }
     setSelectedCategory(category);
@@ -102,8 +113,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-500 text-white fixed left-0 z-50 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
+    <div className="relative ">
+      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-600 text-white fixed left-0 z-50 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
         <div className="text-xl font-semibold mb-4 pl-6">CATEGORIES</div>
         <div className="pl-6">
           {Object.values(categories).map((cat) => (

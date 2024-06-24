@@ -1,5 +1,5 @@
 const initialState = {
-  category: "general",
+  category: "General",
 };
 
 const categoryReducer = (state = initialState, action) => {

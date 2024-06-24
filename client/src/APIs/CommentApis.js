@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://192.168.189.181:3001"; // Replace with your API base URL
-
 export const getComments = async (postId) => {
   try {
     const response = await axios.post("/api/comment/getComments", { postId });
