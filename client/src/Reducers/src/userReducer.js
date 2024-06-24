@@ -50,7 +50,6 @@ const userReducer = (state = initialState, action) => {
         categories: action.payload,
       };
     case "LIKE":
-      console.log("action.payload", action.payload);
       return {
         ...state,
         likedPosts: [...state.likedPosts, action.payload],

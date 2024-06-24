@@ -29,3 +29,12 @@ export const getNewsByCategory = async (category, username) => {
     throw error;
   }
 };
+
+export const updateNews = async (postId) => {
+  try {
+    const response = await axios.post("/api/news/update", { postId });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

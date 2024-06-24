@@ -10,7 +10,6 @@ import {
   faNotesMedical,
   faBriefcase,
   faPersonRunning,
-  faPlus,
   faHeart,
   faComment,
   faCircleInfo,

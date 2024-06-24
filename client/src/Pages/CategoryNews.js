@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
-import TopNavbar from "../Components/TopNavbar";
 import Card from "../Components/Card";
 import { getNewsByCategory } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
@@ -117,6 +116,8 @@ const CategoryNews = () => {
                     { year: "numeric", month: "long", day: "numeric" }
                   )}
                   title={article.title}
+                  upvotes={article.upvotes}
+                  downvotes={article.downvotes}
                   opinion={article.opinion}
                   opinionAuthorPhoto={article.opinionAuthorPhoto}
                   opinionAuthorName={article.opinionAuthorName}
@@ -124,8 +125,8 @@ const CategoryNews = () => {
                     "en-US",
                     { year: "numeric", month: "long", day: "numeric" }
                   )}
-                  upvotes={article.upvotes}
-                  downvotes={article.downvotes}
+                  opinionUpvotes={article.commentUpvotes}
+                  opinionDownvotes={article.commentDownvotes}
                 />
               ))}
             </div>

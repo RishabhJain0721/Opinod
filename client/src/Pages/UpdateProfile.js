@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
-import TopNavbar from "../Components/TopNavbar";
 import { updateProfile } from "../APIs/UserDetailsApis";
 import { loginToStore } from "../Actions/actions";
 
@@ -85,7 +84,7 @@ const UpdateProfile = () => {
   return (
     <div>
       <Topbar />
-      {isMobile ? <TopNavbar /> : <Navbar />}
+      {!isMobile && <Navbar />}
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           <div className="bg-white rounded-lg shadow-md p-4 md:p-4 md:m-4 h-fit border md:border-blue-400">

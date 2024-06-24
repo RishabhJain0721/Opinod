@@ -12,11 +12,13 @@ import {
   removeLike,
   removeDislike,
 } from "../APIs/LikeApis.js";
+import { updateNews } from "../APIs/NewsApis.js";
 import {
   like,
   dislike,
   likeRemove,
   dislikeRemove,
+  updateNewsInStore,
 } from "../Actions/actions.js";
 
 const NewsDetails = (props) => {
@@ -63,24 +65,28 @@ const NewsDetails = (props) => {
 
   const handleToggleLike = async () => {
     if (isLiked) {
-      handleRemoveLike();
+      await handleRemoveLike();
     } else {
       if (isDisliked) {
         await handleRemoveDislike();
       }
-      handleLike();
+      await handleLike();
     }
+    const res = await updateNews(details._id);
+    dispatch(updateNewsInStore(res));
   };
 
   const handleToggleDislike = async () => {
     if (isDisliked) {
-      handleRemoveDislike();
+      await handleRemoveDislike();
     } else {
       if (isLiked) {
         await handleRemoveLike();
       }
-      handleDislike();
+      await handleDislike();
     }
+    const res = await updateNews(details._id);
+    dispatch(updateNewsInStore(res));
   };
 
   return (

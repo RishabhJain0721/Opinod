@@ -95,3 +95,10 @@ export const dislikeRemove = (postId) => {
     payload: postId,
   };
 };
+
+export const updateNewsInStore = (article) => {
+  return {
+    type: "UPDATE_NEWS",
+    payload: article,
+  };
+};

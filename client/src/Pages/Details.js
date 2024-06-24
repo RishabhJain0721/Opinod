@@ -3,15 +3,16 @@ import { useParams } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import NewsDetails from "../Components/NewsDetails";
-import TopNavbar from "../Components/TopNavbar";
 import Comment from "../Components/Comment";
-import { getNewsById } from "../APIs/NewsApis";
+import { getNewsById, updateNews } from "../APIs/NewsApis";
 import { addTopComment, getComments } from "../APIs/CommentApis";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
+import { updateNewsInStore } from "../Actions/actions";
 
 const Details = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [details, setDetails] = useState();
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
@@ -64,10 +65,11 @@ const Details = () => {
       return;
     }
     try {
-      const res = await addTopComment(id, newReply, username);
-      fetchComments();
-      console.log("Response is : ", res);
+      await addTopComment(id, newReply, username);
+      await fetchComments();
       setNewReply("");
+      const res = await updateNews(details._id);
+      dispatch(updateNewsInStore(res));
     } catch (err) {
       throw err;
     }

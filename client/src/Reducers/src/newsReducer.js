@@ -17,8 +17,6 @@ const newsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SAVE_ARTICLES": {
       const { category, articlesArray } = action.payload;
-      console.log("articlesArray", articlesArray);
-      console.log("category", category);
 
       // Filter out articles that already exist in the state
       const filteredArticles = articlesArray.filter(
@@ -48,6 +46,20 @@ const newsReducer = (state = initialState, action) => {
         World: [],
       };
     }
+
+    case "UPDATE_NEWS": {
+      const { category, _id } = action.payload;
+
+      const updatedNewsArray = state[category].map((news) =>
+        news._id === _id ? action.payload : news
+      );
+
+      return {
+        ...state,
+        [category]: updatedNewsArray,
+      };
+    }
+
     default:
       return state;
   }
