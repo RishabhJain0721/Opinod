@@ -106,17 +106,10 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-const sendOTP = (req, res) => {
-  console.log("SendOTP route");
-  console.log(req.body);
-  res.send("Send OTP route");
-};
-
 const login = async (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
 
-  const existingUser = await User.findOne({ username });
+  const existingUser = await User.findOne({ username }).lean();
 
   if (!existingUser) {
     // No such user found
@@ -149,26 +142,22 @@ const login = async (req, res) => {
 
   // Login successful
   console.log("Login successful");
-  console.log(existingUser);
+  // console.log(existingUser);
+
+  const {
+    password: pass,
+    isVerified,
+    createdAt,
+    updatedAt,
+    ...userWithoutExtraFields
+  } = existingUser;
+
+  // console.log(userWithoutExtraFields);
+
   res.status(200).send({
     message: "Login successful.",
-    token: existingUser.verificationToken,
-    username: existingUser.username,
-    email: existingUser.email,
-    selectedCategories: existingUser.selectedCategories,
-    profilePicture: existingUser.profilePicture,
-    description: existingUser.description,
-    instagram: existingUser.instagram,
-    reddit: existingUser.reddit,
-    linkedin: existingUser.linkedin,
-    twitter: existingUser.twitter,
+    ...userWithoutExtraFields,
   });
 };
 
-const logout = (req, res) => {
-  console.log("Logout route");
-  console.log(req.body);
-  res.send("Logout route");
-};
-
-export { signup, verifyEmail, sendOTP, login, logout };
+export { signup, verifyEmail, login };

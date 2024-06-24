@@ -47,20 +47,19 @@ const updateProfile = async (req, res) => {
       }
       await user.save();
 
-      const updatedUser = await User.findOne({ username });
+      const updatedUser = await User.findOne({ username }).lean();
+
+      const {
+        password: pass,
+        isVerified,
+        createdAt,
+        updatedAt,
+        ...userWithoutExtraFields
+      } = updatedUser;
 
       res.status(200).send({
         message: "Profile updated successfully.",
-        token: updatedUser.verificationToken,
-        username: updatedUser.username,
-        email: updatedUser.email,
-        selectedCategories: updatedUser.selectedCategories,
-        profilePicture: updatedUser.profilePicture,
-        description: updatedUser.description,
-        instagram: updatedUser.instagram,
-        reddit: updatedUser.reddit,
-        linkedin: updatedUser.linkedin,
-        twitter: updatedUser.twitter,
+        ...userWithoutExtraFields,
       });
     } catch (error) {
       console.error("Error updating profile:", error);

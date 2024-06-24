@@ -2,6 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import "../services/newsUpdater.js";
+import { get } from "mongoose";
 
 const getTopComment = async (commentIds) => {
   try {
@@ -26,8 +27,8 @@ const enrichPostsWithTopComment = async (posts) => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQivPo5rKZdrbIIjkfi-z9TAyZWGGyN2DHIA&s";
       post.opinionAuthorName = topComment.author;
       post.opinionDate = topComment.createdAt;
-      post.upvotes = topComment.upvotes;
-      post.downvotes = topComment.downvotes;
+      post.commentUpvotes = topComment.upvotes;
+      post.commentDownvotes = topComment.downvotes;
     }
   }
 };
@@ -44,6 +45,8 @@ const fetchFullDetails = async (articles) => {
         source: 1,
         category: 1,
         comments: 1,
+        upvotes: 1,
+        downvotes: 1,
       }).lean();
       if (post) {
         fullArticles.push(post);
@@ -51,7 +54,6 @@ const fetchFullDetails = async (articles) => {
     }
 
     await enrichPostsWithTopComment(fullArticles);
-    // console.log("Most comm :",fullArticles)
     return fullArticles;
   } catch (error) {
     console.error("Error fetching full details:", error);
@@ -75,31 +77,38 @@ const sendMostCommented = async (username, res) => {
   res.status(200).send(mostCommented);
 };
 
-const sendMostReacted = async (username,res)=>{
+const sendMostReacted = async (username, res) => {
   const user = await User.findOne({ username });
   const posts = await Post.find(
     { category: { $in: user.selectedCategories } },
-    { upvotes:1,downvotes:1 }
+    { upvotes: 1, downvotes: 1 }
   ).lean();
 
   // Sort the posts in descending order based on totalComments
-  posts.sort(
-    (a, b) => b.upvotes + b.downvotes - (a.upvotes + a.downvotes)
-  );
+  posts.sort((a, b) => b.upvotes + b.downvotes - (a.upvotes + a.downvotes));
   const mostReacted = await fetchFullDetails(posts.slice(0, 9));
 
   console.log("Most Reacted Articles:", mostReacted);
 
   // await enrichPostsWithTopComment(posts);
   res.status(200).send(mostReacted);
-}
+};
 
 const sendNews = async (req, res) => {
   let trending, daily;
 
   daily = await Post.find(
     { category: "Nation" },
-    { title: 1, image: 1, publishedAt: 1, source: 1, category: 1, comments: 1 }
+    {
+      title: 1,
+      image: 1,
+      publishedAt: 1,
+      source: 1,
+      category: 1,
+      comments: 1,
+      upvotes: 1,
+      downvotes: 1,
+    }
   )
     .sort({ publishedAt: -1 })
     .limit(3)
@@ -116,6 +125,8 @@ const sendNews = async (req, res) => {
       source: 1,
       category: 1,
       comments: 1,
+      upvotes: 1,
+      downvotes: 1,
     }
   )
     .sort({ publishedAt: -1 })
@@ -207,4 +218,40 @@ const sendNewsByCategory = async (req, res) => {
   res.status(200).send(news);
 };
 
-export { sendNews, sendNewsDetails, sendNewsByCategory, sendMostCommented };
+const sendUpdatedNews = async (req, res) => {
+  const { postId } = req.body;
+  try {
+    const updatedNews = await Post.findById(postId, {
+      title: 1,
+      image: 1,
+      publishedAt: 1,
+      source: 1,
+      category: 1,
+      comments: 1,
+      upvotes: 1,
+      downvotes: 1,
+    }).lean();
+    const topComment = await getTopComment(updatedNews.comments);
+    if (topComment) {
+      updatedNews.opinion = topComment.text;
+      updatedNews.opinionAuthorPhoto =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQivPo5rKZdrbIIjkfi-z9TAyZWGGyN2DHIA&s";
+      updatedNews.opinionAuthorName = topComment.author;
+      updatedNews.opinionDate = topComment.createdAt;
+      updatedNews.commentUpvotes = topComment.upvotes;
+      updatedNews.commentDownvotes = topComment.downvotes;
+    }
+    res.status(200).send(updatedNews);
+  } catch (error) {
+    console.error("Error fetching updated news:", error);
+    res.status(500).send("Failed to fetch updated news");
+  }
+};
+
+export {
+  sendNews,
+  sendNewsDetails,
+  sendNewsByCategory,
+  sendMostCommented,
+  sendUpdatedNews,
+};

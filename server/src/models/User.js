@@ -61,6 +61,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  likedPosts: {
+    type: [String],
+    default: [],
+  },
+  dislikedPosts: {
+    type: [String],
+    default: [],
+  },
+  likedComments: {
+    type: [String],
+    default: [],
+  },
+  dislikedComments: {
+    type: [String],
+    default: [],
+  },
 });
 
 // Create the User model using the schema
