@@ -44,14 +44,51 @@ const newsReducer = (state = initialState, action) => {
         Business: [],
         Sports: [],
         World: [],
+        MostCommented: [],
+        MostReacted: [],
       };
     }
 
     case "UPDATE_NEWS": {
-      const { category, _id } = action.payload;
+      console.log(action.payload);
+      const article = action.payload.article;
+      let category = action.payload.category;
 
-      const updatedNewsArray = state[category].map((news) =>
-        news._id === _id ? action.payload : news
+      const { _id } = article;
+      let updatedNewsArray = [];
+
+      if (category === null) {
+        if (state.Trending.some((news) => news._id === _id)) {
+          // Check if _id exists in Trending
+          updatedNewsArray = state.Trending.map((news) =>
+            news._id === _id ? { ...article } : news
+          );
+          console.log(updatedNewsArray);
+          return {
+            ...state,
+            Trending: updatedNewsArray,
+          };
+        } else if (state.Daily.some((news) => news._id === _id)) {
+          // Check if _id exists in Daily
+          updatedNewsArray = state.Daily.map((news) =>
+            news._id === _id ? { ...article } : news
+          );
+          return {
+            ...state,
+            Daily: updatedNewsArray,
+          };
+        }
+      }
+
+      if (category === "Most Commented") {
+        category = "MostCommented";
+      }
+      if (category === "Most Reacted") {
+        category = "MostReacted";
+      }
+
+      updatedNewsArray = state[category].map((news) =>
+        news._id === _id ? { ...article } : news
       );
 
       return {

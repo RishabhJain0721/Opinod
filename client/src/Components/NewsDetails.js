@@ -5,6 +5,7 @@ import {
   faChevronDown,
   faShareNodes,
 } from "@fortawesome/free-solid-svg-icons";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -26,6 +27,7 @@ const NewsDetails = (props) => {
   const dispatch = useDispatch();
 
   const username = useSelector((state) => state.user.username);
+  const category = useSelector((state) => state.category.category);
   const likedPosts = useSelector((state) => state.user.likedPosts);
   const dislikedPosts = useSelector((state) => state.user.dislikedPosts);
 
@@ -37,6 +39,8 @@ const NewsDetails = (props) => {
   const [isDisliked, setIsDisiked] = useState(
     dislikedPosts.includes(details._id) ? true : false
   );
+  const [likeToggle, setLikeToggle] = useState(false);
+  const [dislikeToggle, setDislikeToggle] = useState(false);
 
   const handleLike = async () => {
     await likePost(username, details._id);
@@ -64,6 +68,7 @@ const NewsDetails = (props) => {
   };
 
   const handleToggleLike = async () => {
+    setLikeToggle(true);
     if (isLiked) {
       await handleRemoveLike();
     } else {
@@ -72,11 +77,13 @@ const NewsDetails = (props) => {
       }
       await handleLike();
     }
+    setLikeToggle(false);
     const res = await updateNews(details._id);
-    dispatch(updateNewsInStore(res));
+    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleDislike = async () => {
+    setDislikeToggle(true);
     if (isDisliked) {
       await handleRemoveDislike();
     } else {
@@ -85,8 +92,9 @@ const NewsDetails = (props) => {
       }
       await handleDislike();
     }
+    setDislikeToggle(false);
     const res = await updateNews(details._id);
-    dispatch(updateNewsInStore(res));
+    dispatch(updateNewsInStore(res, category));
   };
 
   return (
@@ -128,24 +136,56 @@ const NewsDetails = (props) => {
 
       {/* Upvote, Downvote, Shares */}
       <div className="flex items-center justify-between mb-5 text-gray-700">
-        <div className="flex flex-row items-center">
-          <button
-            className={`px-1 ${isLiked && "text-green-500"}`}
-            onClick={handleToggleLike}
-          >
-            <FontAwesomeIcon icon={faChevronUp} />
-          </button>
-          <div className="ml-0 md:ml-2">{likes} Likes</div>
-        </div>
-        <div className="flex flex-row items-center">
-          <button
-            className={`px-1 ${isDisliked && "text-red-500"}`}
-            onClick={handleToggleDislike}
-          >
-            <FontAwesomeIcon icon={faChevronDown} />
-          </button>
-          <div className="ml-0 md:ml-2">{dislikes} Dislikes</div>
-        </div>
+        {likeToggle ? (
+          <div className="ml-4">
+            <ThreeDots
+              visible={true}
+              height="24"
+              width="50"
+              color="#1E88E5"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </div>
+        ) : (
+          <div className="flex flex-row items-center">
+            <button
+              className={`px-1 flex flex-row items-center justify-between w-20 ${
+                isLiked && "text-green-500"
+              }`}
+              onClick={handleToggleLike}
+            >
+              <FontAwesomeIcon icon={faChevronUp} />
+              <div className="ml-0 md:ml-2">{likes} Likes</div>
+            </button>
+          </div>
+        )}
+        {dislikeToggle ? (
+          <ThreeDots
+            visible={true}
+            height="24"
+            width="50"
+            color="#1E88E5"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        ) : (
+          <div className="flex flex-row items-center ">
+            <button
+              className={`px-1 flex flex-row items-center justify-between w-24 ${
+                isDisliked && "text-red-500"
+              }`}
+              onClick={handleToggleDislike}
+            >
+              <FontAwesomeIcon icon={faChevronDown} />
+              <div className="ml-0 md:ml-2">{dislikes} Dislikes</div>
+            </button>
+          </div>
+        )}
         <div className="flex flex-row items-center">
           <button className="px-1">
             <FontAwesomeIcon icon={faShareNodes} />

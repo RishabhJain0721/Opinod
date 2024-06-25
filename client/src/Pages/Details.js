@@ -21,6 +21,7 @@ const Details = () => {
   const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const username = useSelector((state) => state.user.username);
+  const category = useSelector((state) => state.category.category);
 
   const fetchDetails = async () => {
     try {
@@ -69,7 +70,8 @@ const Details = () => {
       await fetchComments();
       setNewReply("");
       const res = await updateNews(details._id);
-      dispatch(updateNewsInStore(res));
+      console.log(res);
+      dispatch(updateNewsInStore(res, category));
     } catch (err) {
       throw err;
     }

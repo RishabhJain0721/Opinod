@@ -134,7 +134,10 @@ const Topbar = () => {
             src={logo}
             alt="Logo"
             className="w-11 h-11 mr-4 rounded-sm"
-            onClick={() => navigate("/")}
+            onClick={() => {
+              navigate("/");
+              dispatch(selectCategory(null));
+            }}
           />
           <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col">
             <div className="text-2xl font-semibold">Opinod</div>

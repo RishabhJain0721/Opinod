@@ -96,9 +96,9 @@ export const dislikeRemove = (postId) => {
   };
 };
 
-export const updateNewsInStore = (article) => {
+export const updateNewsInStore = (article, category) => {
   return {
     type: "UPDATE_NEWS",
-    payload: article,
+    payload: { article, category },
   };
 };
