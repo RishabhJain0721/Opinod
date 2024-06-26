@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import VerifyEmail from "./Pages/VerifyEmail";
 import Profile from "./Pages/Profile";
+import Reply from "./Pages/Reply";
 import UpdateProfile from "./Pages/UpdateProfile";
 import Details from "./Pages/Details";
 import Notifications from "./Pages/Notifications";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         <Route path="/category/:category" element={<CategoryNews />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/details/:id/reply/:commentId" element={<Reply />} />
         <Route path="/updateProfile" element={<UpdateProfile />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/selectCategories" element={<SelectCategories />} />

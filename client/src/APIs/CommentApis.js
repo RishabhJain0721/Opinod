@@ -9,6 +9,17 @@ export const getComments = async (postId) => {
   }
 };
 
+export const fetchCommentAndReplies = async (commentId) => {
+  try {
+    const response = await axios.post("/api/comment/fetchCommentAndReplies", {
+      commentId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addTopComment = async (postId, text, author) => {
   try {
     const response = await axios.post("/api/comment/addTopComment", {

@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronUp,
   faChevronDown,
   faReply,
-  faFlag,
+  faCommentDots,
 } from "@fortawesome/free-solid-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { addReply } from "../APIs/CommentApis";
 import { useSelector } from "react-redux";
 
 const Comment = ({ comment }) => {
+  console.log(comment.author);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const postId = location.pathname.split("/")[2];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const username = useSelector((state) => state.user.username);
@@ -65,10 +70,15 @@ const Comment = ({ comment }) => {
           {comment.downvotes} Disagrees
         </button>
         <button className="flex items-center mr-4" onClick={handleOpenModal}>
-          <FontAwesomeIcon icon={faReply} className="mr-1" /> 0 Replies
+          <FontAwesomeIcon icon={faReply} className="mr-1" />
+          Reply
         </button>
-        <button className="flex items-center">
-          <FontAwesomeIcon icon={faFlag} className="mr-1" /> Report
+        <button
+          className="flex items-center"
+          onClick={() => navigate(`/details/${postId}/reply/${comment._id}`)}
+        >
+          <FontAwesomeIcon icon={faCommentDots} className="mr-1" />
+          {comment.children.length} Replies
         </button>
       </div>
 

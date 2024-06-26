@@ -38,7 +38,7 @@ const addReply = async (req, res) => {
 
   //Update the parent comment with the new reply in comments collection
   const parentComment = await Comment.findById(parentId);
-  parentComment.childern.push(newComment._id);
+  parentComment.children.push(newComment._id);
   await parentComment.save();
 
   const post = await Post.findById(postId, { totalComments: 1 });
@@ -52,6 +52,7 @@ const sendComments = async (req, res) => {
   const { postId } = req.body;
 
   const post = await Post.findById(postId);
+  console.log(post);
   const postComments = post.comments;
 
   const comments = await Comment.find({ _id: { $in: postComments } });
@@ -59,4 +60,17 @@ const sendComments = async (req, res) => {
   res.send(comments);
 };
 
-export { addTopComment, addReply, sendComments };
+const sendCommentAndReplies = async (req, res) => {
+  const { commentId } = req.body;
+  try {
+    const comment = await Comment.findById(commentId);
+    const replies = await Comment.find({ _id: { $in: comment.children } });
+    console.log("Comment is : ", comment);
+    console.log("Replies :", replies);
+    res.status(200).send({ comment, replies });
+  } catch (error) {
+    res.status(404).send({ message: "Comment not found", error });
+  }
+};
+
+export { addTopComment, addReply, sendComments, sendCommentAndReplies };

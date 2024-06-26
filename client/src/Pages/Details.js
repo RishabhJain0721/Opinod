@@ -36,8 +36,8 @@ const Details = () => {
 
   const fetchComments = async () => {
     try {
-      setIsLoadingComments(true);
       const res = await getComments(id);
+      console.log(res);
       setComments(res);
       setIsLoadingComments(false);
     } catch (error) {
@@ -65,7 +65,9 @@ const Details = () => {
       alert("Please write something.");
       return;
     }
+
     try {
+      setIsLoadingComments(true);
       await addTopComment(id, newReply, username);
       await fetchComments();
       setNewReply("");
@@ -111,21 +113,6 @@ const Details = () => {
                   <div className="text-base sm:text-lg md:text-xl font-medium mb-2 w-full">
                     Replies :
                   </div>
-                  <div className="my-4 w-full">
-                    <input
-                      type="text"
-                      value={newReply}
-                      onChange={(e) => setNewReply(e.target.value)}
-                      className="border rounded w-full p-2 mb-2"
-                      placeholder="Add a reply..."
-                    />
-                    <button
-                      onClick={handleAddTopComment}
-                      className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                      Add Reply
-                    </button>
-                  </div>
                   {isLoadingComments ? (
                     <div className="flex items-center justify-center w-full">
                       <MutatingDots
@@ -141,9 +128,26 @@ const Details = () => {
                       />
                     </div>
                   ) : (
-                    comments.map((comment, index) => (
-                      <Comment key={index} comment={comment} />
-                    ))
+                    <>
+                      <div className="my-4 w-full">
+                        <input
+                          type="text"
+                          value={newReply}
+                          onChange={(e) => setNewReply(e.target.value)}
+                          className="border rounded w-full p-2 mb-2"
+                          placeholder="Add a reply..."
+                        />
+                        <button
+                          onClick={handleAddTopComment}
+                          className="bg-blue-500 text-white px-4 py-2 rounded"
+                        >
+                          Add Reply
+                        </button>
+                      </div>
+                      {comments.map((comment, index) => (
+                        <Comment key={index} comment={comment} />
+                      ))}
+                    </>
                   )}
                 </div>
               </div>

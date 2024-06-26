@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import axios from "axios";
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
 import scraper from "./scraper.js";
 
 const fetchNews = async (value) => {
@@ -56,12 +57,6 @@ const fetchNewsForCategories = async () => {
 
 // fetchNewsForCategories();
 
-// const delAllPosts = async () => {
-//   await Post.deleteMany({});
-// };
-
-// delAllPosts();
-
 // Schedule the first task to run at 6:00 AM
 cron.schedule(
   "0 6 * * *",
@@ -89,3 +84,12 @@ cron.schedule(
     timezone: "Asia/Kolkata",
   }
 );
+
+// Forbidden code
+// Don't uncomment this or you shall suffer.
+
+// const delAllPosts = async () => {
+//   await Post.deleteMany({});
+// };
+
+// delAllPosts();

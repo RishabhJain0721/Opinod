@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../Assets/logo.png";
+import Opinod from "../Assets/opinodLogo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { refreshNews } from "../Actions/actions";
@@ -131,9 +131,9 @@ const Topbar = () => {
       <div className="flex items-center justify-between ">
         <div className="flex items-center justify-start">
           <img
-            src={logo}
+            src={Opinod}
             alt="Logo"
-            className="w-11 h-11 mr-4 rounded-sm"
+            className="w-11 h-11 mr-4 rounded-sm bg-blue-500"
             onClick={() => {
               navigate("/");
               dispatch(selectCategory(null));
