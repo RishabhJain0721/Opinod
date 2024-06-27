@@ -5,7 +5,7 @@ import {
   faChevronDown,
   faShareNodes,
 } from "@fortawesome/free-solid-svg-icons";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,

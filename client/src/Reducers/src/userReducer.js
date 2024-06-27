@@ -75,6 +75,31 @@ const userReducer = (state = initialState, action) => {
           (postId) => postId !== action.payload
         ),
       };
+    case "LIKE_COMMENT":
+      return {
+        ...state,
+        likedComments: [...state.likedComments, action.payload],
+      };
+    case "DISLIKE_COMMENT":
+      return {
+        ...state,
+        dislikedComments: [...state.dislikedComments, action.payload],
+      };
+    case "LIKE_COMMENT_REMOVE":
+      return {
+        ...state,
+        likedComments: state.likedComments.filter(
+          (commentId) => commentId !== action.payload
+        ),
+      };
+    case "DISLIKE_COMMENT_REMOVE":
+      return {
+        ...state,
+        dislikedComments: state.dislikedComments.filter(
+          (commentId) => commentId !== action.payload
+        ),
+      };
+
     default:
       return state;
   }

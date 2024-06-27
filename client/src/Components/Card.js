@@ -5,7 +5,7 @@ import {
   faAngleDown,
   faAngleUp,
   faArrowRight,
-  faFlag,
+  faShareNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -13,6 +13,10 @@ import {
   dislikePost,
   removeLike,
   removeDislike,
+  likeComment,
+  dislikeComment,
+  removeCommentLike,
+  removeCommentDislike,
 } from "../APIs/LikeApis.js";
 import { updateNews } from "../APIs/NewsApis.js";
 import {
@@ -20,6 +24,10 @@ import {
   dislike,
   likeRemove,
   dislikeRemove,
+  likeCom,
+  dislikeCom,
+  likeComRemove,
+  dislikeComRemove,
   updateNewsInStore,
 } from "../Actions/actions.js";
 import { ThreeDots } from "react-loader-spinner";
@@ -32,6 +40,7 @@ const Card = ({
   title,
   upvotes,
   downvotes,
+  opinionId,
   opinion,
   opinionAuthorPhoto,
   opinionAuthorName,
@@ -46,17 +55,30 @@ const Card = ({
   const category = useSelector((state) => state.category.category);
   const likedPosts = useSelector((state) => state.user.likedPosts);
   const dislikedPosts = useSelector((state) => state.user.dislikedPosts);
+  const likedComments = useSelector((state) => state.user.likedComments);
+  const dislikedComments = useSelector((state) => state.user.dislikedComments);
 
   const [likes, setLikes] = useState(upvotes);
   const [dislikes, setDislikes] = useState(downvotes);
   const [isLiked, setIsLiked] = useState(
-    likedPosts.includes(id) ? true : false
+    username ? (likedPosts.includes(id) ? true : false) : false
   );
   const [isDisliked, setIsDisiked] = useState(
-    dislikedPosts.includes(id) ? true : false
+    username ? (dislikedPosts.includes(id) ? true : false) : false
   );
   const [likeToggle, setLikeToggle] = useState(false);
   const [dislikeToggle, setDislikeToggle] = useState(false);
+
+  const [commentLikes, setCommentLikes] = useState(opinionUpvotes);
+  const [commentDislikes, setCommentDislikes] = useState(opinionDownvotes);
+  const [isCommentLiked, setIsCommentLiked] = useState(
+    username ? (likedComments.includes(opinionId) ? true : false) : false
+  );
+  const [isCommentDisliked, setIsCommentDisliked] = useState(
+    username ? (dislikedComments.includes(opinionId) ? true : false) : false
+  );
+  const [commentLikeToggle, setCommentLikeToggle] = useState(false);
+  const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
 
   const handleClick = () => {
     if (!username) {
@@ -92,6 +114,10 @@ const Card = ({
   };
 
   const handleToggleLike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this article.");
+      return;
+    }
     setLikeToggle(true);
     if (isLiked) {
       await handleRemoveLike();
@@ -107,6 +133,10 @@ const Card = ({
   };
 
   const handleToggleDislike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this article.");
+      return;
+    }
     setDislikeToggle(true);
     if (isDisliked) {
       await handleRemoveDislike();
@@ -117,6 +147,69 @@ const Card = ({
       await handleDislike();
     }
     setDislikeToggle(false);
+    const res = await updateNews(id);
+    dispatch(updateNewsInStore(res, category));
+  };
+
+  const handleCommentLike = async () => {
+    await likeComment(username, opinionId);
+    dispatch(likeCom(opinionId));
+    setIsCommentLiked(true);
+    setCommentLikes(commentLikes + 1);
+  };
+  const handleRemoveCommentLike = async () => {
+    await removeCommentLike(username, opinionId);
+    dispatch(likeComRemove(opinionId));
+    setIsCommentLiked(false);
+    setCommentLikes(commentLikes - 1);
+  };
+  const handleCommentDislike = async () => {
+    await dislikeComment(username, opinionId);
+    dispatch(dislikeCom(opinionId));
+    setIsCommentDisliked(true);
+    setCommentDislikes(commentDislikes + 1);
+  };
+  const handleRemoveCommentDislike = async () => {
+    await removeCommentDislike(username, opinionId);
+    dispatch(dislikeComRemove(opinionId));
+    setIsCommentDisliked(false);
+    setCommentDislikes(commentDislikes - 1);
+  };
+
+  const handleToggleCommentLike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this comment.");
+      return;
+    }
+    setCommentLikeToggle(true);
+    if (isCommentLiked) {
+      await handleRemoveCommentLike();
+    } else {
+      if (isCommentDisliked) {
+        await handleRemoveCommentDislike();
+      }
+      await handleCommentLike();
+    }
+    setCommentLikeToggle(false);
+    const res = await updateNews(id);
+    dispatch(updateNewsInStore(res, category));
+  };
+
+  const handleToggleCommentDislike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this comment.");
+      return;
+    }
+    setCommentDislikeToggle(true);
+    if (isCommentDisliked) {
+      await handleRemoveCommentDislike();
+    } else {
+      if (isCommentLiked) {
+        await handleRemoveCommentLike();
+      }
+      await handleCommentDislike();
+    }
+    setCommentDislikeToggle(false);
     const res = await updateNews(id);
     dispatch(updateNewsInStore(res, category));
   };
@@ -188,8 +281,11 @@ const Card = ({
             {dislikes} Dislikes
           </button>
         )}
-        <button className="text-xs text-gray-500 flex items-center">
-          <FontAwesomeIcon icon={faFlag} className="mr-1" /> Report
+        <button
+          className="text-xs text-gray-500 flex items-center"
+          onClick={handleClick}
+        >
+          <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
         </button>
       </div>
 
@@ -198,7 +294,15 @@ const Card = ({
 
       {/* Opinion */}
       {opinion ? (
-        <div className="flex items-start flex-col mb-2">
+        <div
+          className="flex items-start flex-col mb-2"
+          onClick={() => {
+            if (!username) {
+              alert("Pease login first");
+              return;
+            }
+          }}
+        >
           <div className="flex items-center w-full">
             <img
               src={opinionAuthorPhoto}
@@ -215,16 +319,52 @@ const Card = ({
               {opinion.length > 50 ? opinion.slice(0, 50) + "..." : opinion}
             </div>
             <div className="flex justify-between items-center w-full">
+              {commentLikeToggle ? (
+                <ThreeDots
+                  visible={true}
+                  height="18"
+                  width="50"
+                  color="#1E88E5"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                <button
+                  className={`text-xs text-gray-500 flex items-center ${
+                    isCommentLiked ? "text-green-500" : ""
+                  }`}
+                  onClick={handleToggleCommentLike}
+                >
+                  <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
+                  {commentLikes} Agrees
+                </button>
+              )}
+              {commentDislikeToggle ? (
+                <ThreeDots
+                  visible={true}
+                  height="18"
+                  width="50"
+                  color="#1E88E5"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                <button
+                  className={`text-xs text-gray-500 flex items-center ${
+                    isCommentDisliked ? "text-red-500" : ""
+                  }`}
+                  onClick={handleToggleCommentDislike}
+                >
+                  <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
+                  {commentDislikes} Disagrees
+                </button>
+              )}
               <button className="text-xs text-gray-500 flex items-center">
-                <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
-                {opinionUpvotes} Agrees
-              </button>
-              <button className="text-xs text-gray-500 flex items-center">
-                <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
-                {opinionDownvotes} Disagrees
-              </button>
-              <button className="text-xs text-gray-500 flex items-center">
-                <FontAwesomeIcon icon={faFlag} className="mr-1" /> Report
+                <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
               </button>
             </div>
           </div>

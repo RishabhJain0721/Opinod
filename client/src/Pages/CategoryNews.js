@@ -113,17 +113,26 @@ const CategoryNews = () => {
                   name={article.source}
                   datePosted={new Date(article.publishedAt).toLocaleDateString(
                     "en-US",
-                    { year: "numeric", month: "long", day: "numeric" }
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
                   )}
                   title={article.title}
                   upvotes={article.upvotes}
                   downvotes={article.downvotes}
+                  opinionId={article.opinionId}
                   opinion={article.opinion}
                   opinionAuthorPhoto={article.opinionAuthorPhoto}
                   opinionAuthorName={article.opinionAuthorName}
                   opinionDate={new Date(article.opinionDate).toLocaleDateString(
                     "en-US",
-                    { year: "numeric", month: "long", day: "numeric" }
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
                   )}
                   opinionUpvotes={article.commentUpvotes}
                   opinionDownvotes={article.commentDownvotes}

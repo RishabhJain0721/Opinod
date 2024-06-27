@@ -96,6 +96,34 @@ export const dislikeRemove = (postId) => {
   };
 };
 
+export const likeCom = (commentId) => {
+  return {
+    type: "LIKE_COMMENT",
+    payload: commentId,
+  };
+};
+
+export const dislikeCom = (commentId) => {
+  return {
+    type: "DISLIKE_COMMENT",
+    payload: commentId,
+  };
+};
+
+export const likeComRemove = (commentId) => {
+  return {
+    type: "LIKE_COMMENT_REMOVE",
+    payload: commentId,
+  };
+};
+
+export const dislikeComRemove = (commentId) => {
+  return {
+    type: "DISLIKE_COMMENT_REMOVE",
+    payload: commentId,
+  };
+};
+
 export const updateNewsInStore = (article, category) => {
   return {
     type: "UPDATE_NEWS",

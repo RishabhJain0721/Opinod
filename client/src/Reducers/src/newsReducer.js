@@ -50,7 +50,6 @@ const newsReducer = (state = initialState, action) => {
     }
 
     case "UPDATE_NEWS": {
-      console.log(action.payload);
       const article = action.payload.article;
       let category = action.payload.category;
 
@@ -63,7 +62,6 @@ const newsReducer = (state = initialState, action) => {
           updatedNewsArray = state.Trending.map((news) =>
             news._id === _id ? { ...article } : news
           );
-          console.log(updatedNewsArray);
           return {
             ...state,
             Trending: updatedNewsArray,

@@ -37,3 +37,51 @@ export const removeDislike = async (username, postId) => {
     throw error;
   }
 };
+
+export const likeComment = async (username, commentId) => {
+  try {
+    const response = await axios.post("/api/like/comment/add", {
+      username,
+      commentId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const dislikeComment = async (username, commentId) => {
+  try {
+    const response = await axios.post("/api/dislike/comment/add", {
+      username,
+      commentId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeCommentLike = async (username, commentId) => {
+  try {
+    const response = await axios.post("/api/like/comment/remove", {
+      username,
+      commentId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeCommentDislike = async (username, commentId) => {
+  try {
+    const response = await axios.post("/api/dislike/comment/remove", {
+      username,
+      commentId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -131,6 +131,7 @@ const Home = () => {
                     title={article.title}
                     upvotes={article.upvotes}
                     downvotes={article.downvotes}
+                    opinionId={article.opinionId}
                     opinion={article.opinion}
                     opinionAuthorPhoto={article.opinionAuthorPhoto}
                     opinionAuthorName={article.opinionAuthorName}
@@ -172,6 +173,9 @@ const Home = () => {
                       day: "numeric",
                     })}
                     title={article.title}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
+                    opinionId={article.opinionId}
                     opinion={article.opinion}
                     opinionAuthorPhoto={article.opinionAuthorPhoto}
                     opinionAuthorName={article.opinionAuthorName}
@@ -182,8 +186,8 @@ const Home = () => {
                       month: "long",
                       day: "numeric",
                     })}
-                    upvotes={article.upvotes}
-                    downvotes={article.downvotes}
+                    opinionUpvotes={article.commentUpvotes}
+                    opinionDownvotes={article.commentDownvotes}
                   />
                 ))}
               </div>

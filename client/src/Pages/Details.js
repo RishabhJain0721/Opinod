@@ -72,7 +72,6 @@ const Details = () => {
       await fetchComments();
       setNewReply("");
       const res = await updateNews(details._id);
-      console.log(res);
       dispatch(updateNewsInStore(res, category));
     } catch (err) {
       throw err;
@@ -145,7 +144,7 @@ const Details = () => {
                         </button>
                       </div>
                       {comments.map((comment, index) => (
-                        <Comment key={index} comment={comment} />
+                        <Comment key={index} opinion={comment} />
                       ))}
                     </>
                   )}
