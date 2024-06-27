@@ -7,13 +7,13 @@ import scraper from "./scraper.js";
 const fetchNews = async (value) => {
   const API_KEY = process.env.NEWS_API_KEY;
   const news = await axios.get(
-    `https://gnews.io/api/v4/top-headlines?category=${value}&max=5&lang=en&country=in&apikey=${API_KEY}`
+    `https://gnews.io/api/v4/top-headlines?category=${value}&max=5&lang=en&country=in&apikey=736553ecd22efffd34f56e708348cdba#`
   );
 
   return news.data.articles;
 };
 
-const fetchNewsForCategories = async () => {
+export const fetchNewsForCategories = async () => {
   console.log("Fetching news for all categories");
   const cat = [
     "general",
@@ -93,3 +93,9 @@ cron.schedule(
 // };
 
 // delAllPosts();
+
+// const delAllComments = async () => {
+//   await Comment.deleteMany({});
+// };
+
+// delAllComments();

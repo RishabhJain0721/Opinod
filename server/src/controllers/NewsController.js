@@ -20,8 +20,10 @@ const getTopComment = async (commentIds) => {
 
 const enrichPostsWithTopComment = async (posts) => {
   for (let post of posts) {
-    const topComment = await getTopComment(post.comments); // Assuming the first comment ID is available
+    const topComment = await getTopComment(post.comments);
+    console.log("Hellllllllllllllllllllllooooooooooooo", topComment);
     if (topComment) {
+      post.opinionId = topComment._id;
       post.opinion = topComment.text;
       post.opinionAuthorPhoto =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQivPo5rKZdrbIIjkfi-z9TAyZWGGyN2DHIA&s";
@@ -170,6 +172,8 @@ const sendNewsByCategory = async (req, res) => {
         source: 1,
         category: 1,
         comments: 1,
+        upvotes: 1,
+        downvotes: 1,
       }
     )
       .sort({ publishedAt: -1 })
@@ -188,6 +192,8 @@ const sendNewsByCategory = async (req, res) => {
         source: 1,
         category: 1,
         comments: 1,
+        upvotes: 1,
+        downvotes: 1,
       }
     )
       .sort({ publishedAt: -1 })
@@ -207,6 +213,8 @@ const sendNewsByCategory = async (req, res) => {
         source: 1,
         category: 1,
         comments: 1,
+        upvotes: 1,
+        downvotes: 1,
       }
     )
       .sort({ publishedAt: -1 })
@@ -233,6 +241,7 @@ const sendUpdatedNews = async (req, res) => {
     }).lean();
     const topComment = await getTopComment(updatedNews.comments);
     if (topComment) {
+      updatedNews.opinionId = topComment._id;
       updatedNews.opinion = topComment.text;
       updatedNews.opinionAuthorPhoto =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQivPo5rKZdrbIIjkfi-z9TAyZWGGyN2DHIA&s";
