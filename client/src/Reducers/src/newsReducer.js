@@ -95,6 +95,23 @@ const newsReducer = (state = initialState, action) => {
       };
     }
 
+    case "LOGOUT": {
+      return {
+        Trending: [],
+        Daily: [],
+        General: [],
+        Entertainment: [],
+        Technology: [],
+        Science: [],
+        Health: [],
+        Business: [],
+        Sports: [],
+        World: [],
+        MostCommented: [],
+        MostReacted: [],
+      };
+    }
+
     default:
       return state;
   }

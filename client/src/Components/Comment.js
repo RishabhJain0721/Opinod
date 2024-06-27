@@ -43,7 +43,7 @@ const Comment = ({ opinion }) => {
     username ? (likedComments.includes(opinion._id) ? true : false) : false
   );
   const [isCommentDisliked, setIsCommentDisliked] = useState(
-    username ? (dislikedComments.includes(opinion.id) ? true : false) : false
+    username ? (dislikedComments.includes(opinion._id) ? true : false) : false
   );
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
@@ -68,6 +68,9 @@ const Comment = ({ opinion }) => {
     }
     setIsModalOpen(false);
     setReplyText("");
+
+    //this has to optimised later to avoid reloading and fetching only the updated comment(no. of replies)
+    window.location.reload();
   };
 
   const handleCommentLike = async () => {
@@ -129,8 +132,8 @@ const Comment = ({ opinion }) => {
       await handleCommentDislike();
     }
     setCommentDislikeToggle(false);
-    // const res = await updateNews(id);
-    // dispatch(updateNewsInStore(res, category));
+    const res = await updateNews(postId);
+    dispatch(updateNewsInStore(res, category));
   };
 
   return (
