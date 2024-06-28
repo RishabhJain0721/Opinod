@@ -9,13 +9,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const MONGO_URI = process.env.MONGODB_CONNECTION_STRING;
+const PORT = process.env.PORT || 3001;
 
 // Connect to MongoDB
 mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    app.listen(3001, () => {
+    app.listen(PORT, () => {
       console.log("Server is running on port 3001");
     });
   })
