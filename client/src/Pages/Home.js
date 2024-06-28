@@ -18,6 +18,7 @@ const Home = () => {
 
   const [trending, setTrending] = useState([]);
   const [daily, setDaily] = useState([]);
+  const [popularOpinions, setPopularOpinions] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -147,8 +148,52 @@ const Home = () => {
                   />
                 ))}
               </div>
-              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              {/* <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div>Daily Updates</div>
+                <div>
+                  <button
+                    className="text-xs md:text-lg text-gray-600 px-2"
+                    onClick={handleViewDaily}
+                  >
+                    See all
+                  </button>
+                </div>
+              </div> */}
+              {/* <div className="flex flex-wrap justify-start md:ml-6">
+                {daily.slice(0, 3).map((article) => (
+                  <Card
+                    key={article._id}
+                    id={article._id}
+                    profilePhoto={article.image}
+                    name={article.source}
+                    datePosted={new Date(
+                      article.publishedAt
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    title={article.title}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
+                    opinionId={article.opinionId}
+                    opinion={article.opinion}
+                    opinionAuthorPhoto={article.opinionAuthorPhoto}
+                    opinionAuthorName={article.opinionAuthorName}
+                    opinionDate={new Date(
+                      article.opinionDate
+                    ).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    opinionUpvotes={article.commentUpvotes}
+                    opinionDownvotes={article.commentDownvotes}
+                  />
+                ))}
+              </div> */}
+              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div>Popular Opinions</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -159,7 +204,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {daily.slice(0, 3).map((article) => (
+                {popularOpinions.slice(0, 3).map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}

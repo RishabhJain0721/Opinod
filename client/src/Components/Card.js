@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -79,6 +79,19 @@ const Card = ({
   );
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleClick = () => {
     if (!username) {
@@ -215,7 +228,11 @@ const Card = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-4 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 m-4 h-fit border border-gray-300 cursor-pointer">
+    <div
+      className={`bg-white rounded-lg p-4 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit ${
+        !isMobile && "border border-gray-300 shadow-sm m-4"
+      }  cursor-pointer`}
+    >
       {/* Profile photo and name */}
       <div className="flex items-center mb-2" onClick={handleClick}>
         <img
@@ -229,151 +246,163 @@ const Card = ({
             <div className="text-xs text-gray-500">{datePosted}</div>
           </div>
           {/* Title */}
-          <div className="text-sm md:text-base font-medium mb-2 text-blue-600">
+          <div className="text-sm md:text-base font-medium text-blue-600">
             {title.length > 70 ? title.slice(0, 70) + "..." : title}
           </div>
         </div>
       </div>
-
-      {/* Likes and Dislikes */}
-      <div className="flex justify-between items-center w-full mb-2">
-        {likeToggle ? (
-          <ThreeDots
-            visible={true}
-            height="18"
-            width="50"
-            color="#1E88E5"
-            radius="9"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        ) : (
-          <button
-            className={`text-xs text-gray-500 flex items-center ${
-              isLiked ? "text-green-500" : ""
-            }`}
-            onClick={handleToggleLike}
-          >
-            <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
-            {likes} Likes
-          </button>
-        )}
-        {dislikeToggle ? (
-          <ThreeDots
-            visible={true}
-            height="18"
-            width="50"
-            color="#1E88E5"
-            radius="9"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        ) : (
-          <button
-            className={`text-xs text-gray-500 flex items-center ${
-              isDisliked ? "text-red-500" : ""
-            }`}
-            onClick={handleToggleDislike}
-          >
-            <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
-            {dislikes} Dislikes
-          </button>
-        )}
-        <button
-          className="text-xs text-gray-500 flex items-center"
-          onClick={handleClick}
-        >
-          <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
+      {/* {isMobile && (
+        <button className=" text-xs w-full rounded-full bg-gray-100 p-0.5">
+          See opinions
         </button>
-      </div>
-
-      {/* Divider */}
-      <div className="border-b-2 border-gray-200 mb-2"></div>
-
-      {/* Opinion */}
-      {opinion ? (
-        <div
-          className="flex items-start flex-col mb-2"
-          onClick={() => {
-            if (!username) {
-              alert("Pease login first");
-              return;
-            }
-          }}
-        >
-          <div className="flex items-center w-full">
-            <img
-              src={opinionAuthorPhoto}
-              alt="Opinion Author"
-              className="w-6 h-6 rounded-full mr-2"
-            />
-            <div className="text-sm font-medium text-gray-700 flex-grow">
-              {opinionAuthorName}
-            </div>
-            <div className="text-xs ml-auto text-gray-500">{opinionDate}</div>
-          </div>
-          <div className="flex items-start flex-col w-full">
-            <div className="mt-2 mb-1 text-gray-600">
-              {opinion.length > 50 ? opinion.slice(0, 50) + "..." : opinion}
-            </div>
-            <div className="flex justify-between items-center w-full">
-              {commentLikeToggle ? (
-                <ThreeDots
-                  visible={true}
-                  height="18"
-                  width="50"
-                  color="#1E88E5"
-                  radius="9"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              ) : (
-                <button
-                  className={`text-xs text-gray-500 flex items-center ${
-                    isCommentLiked ? "text-green-500" : ""
-                  }`}
-                  onClick={handleToggleCommentLike}
-                >
-                  <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
-                  {commentLikes} Agrees
-                </button>
-              )}
-              {commentDislikeToggle ? (
-                <ThreeDots
-                  visible={true}
-                  height="18"
-                  width="50"
-                  color="#1E88E5"
-                  radius="9"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              ) : (
-                <button
-                  className={`text-xs text-gray-500 flex items-center ${
-                    isCommentDisliked ? "text-red-500" : ""
-                  }`}
-                  onClick={handleToggleCommentDislike}
-                >
-                  <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
-                  {commentDislikes} Disagrees
-                </button>
-              )}
-              <button className="text-xs text-gray-500 flex items-center">
-                <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
+      )} */}
+      {!isMobile && (
+        <>
+          {" "}
+          {/* Likes and Dislikes */}
+          <div className="flex justify-between items-center w-full mb-2">
+            {likeToggle ? (
+              <ThreeDots
+                visible={true}
+                height="18"
+                width="50"
+                color="#1E88E5"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              <button
+                className={`text-xs text-gray-500 flex items-center ${
+                  isLiked ? "text-green-500" : ""
+                }`}
+                onClick={handleToggleLike}
+              >
+                <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
+                {likes} Likes
               </button>
-            </div>
+            )}
+            {dislikeToggle ? (
+              <ThreeDots
+                visible={true}
+                height="18"
+                width="50"
+                color="#1E88E5"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              <button
+                className={`text-xs text-gray-500 flex items-center ${
+                  isDisliked ? "text-red-500" : ""
+                }`}
+                onClick={handleToggleDislike}
+              >
+                <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
+                {dislikes} Dislikes
+              </button>
+            )}
+            <button
+              className="text-xs text-gray-500 flex items-center"
+              onClick={handleClick}
+            >
+              <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
+            </button>
           </div>
-        </div>
-      ) : (
-        <div className="flex items-center flex-row justify-between">
-          <div className="text-gray-600">No opinions yet. Be the first.</div>
-          <FontAwesomeIcon icon={faArrowRight} className="mr-2" />
-        </div>
+          {/* Divider */}
+          <div className="border-b-2 border-gray-200 mb-2"></div>
+          {/* Opinion */}
+          {opinion ? (
+            <div
+              className="flex items-start flex-col mb-2"
+              onClick={() => {
+                if (!username) {
+                  alert("Pease login first");
+                  return;
+                }
+              }}
+            >
+              <div className="flex items-center w-full">
+                <img
+                  src={opinionAuthorPhoto}
+                  alt="Opinion Author"
+                  className="w-6 h-6 rounded-full mr-2"
+                />
+                <div className="text-sm font-medium text-gray-700 flex-grow">
+                  {opinionAuthorName}
+                </div>
+                <div className="text-xs ml-auto text-gray-500">
+                  {opinionDate}
+                </div>
+              </div>
+              <div className="flex items-start flex-col w-full">
+                <div className="mt-2 mb-1 text-gray-600">
+                  {opinion.length > 50 ? opinion.slice(0, 50) + "..." : opinion}
+                </div>
+                <div className="flex justify-between items-center w-full">
+                  {commentLikeToggle ? (
+                    <ThreeDots
+                      visible={true}
+                      height="18"
+                      width="50"
+                      color="#1E88E5"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    <button
+                      className={`text-xs text-gray-500 flex items-center ${
+                        isCommentLiked ? "text-green-500" : ""
+                      }`}
+                      onClick={handleToggleCommentLike}
+                    >
+                      <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
+                      {commentLikes} Agrees
+                    </button>
+                  )}
+                  {commentDislikeToggle ? (
+                    <ThreeDots
+                      visible={true}
+                      height="18"
+                      width="50"
+                      color="#1E88E5"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    <button
+                      className={`text-xs text-gray-500 flex items-center ${
+                        isCommentDisliked ? "text-red-500" : ""
+                      }`}
+                      onClick={handleToggleCommentDislike}
+                    >
+                      <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
+                      {commentDislikes} Disagrees
+                    </button>
+                  )}
+                  <button className="text-xs text-gray-500 flex items-center">
+                    <FontAwesomeIcon icon={faShareNodes} className="mr-1" />{" "}
+                    Share
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center flex-row justify-between">
+              <div className="text-gray-600">
+                No opinions yet. Be the first.
+              </div>
+              <FontAwesomeIcon icon={faArrowRight} className="mr-2" />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
