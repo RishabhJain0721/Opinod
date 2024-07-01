@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronUp,
-  faChevronDown,
-  faReply,
-  faCommentDots,
-} from "@fortawesome/free-solid-svg-icons";
+import { faReply } from "@fortawesome/free-solid-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { useSelector, useDispatch } from "react-redux";
 import { addReply } from "../APIs/CommentApis";
@@ -23,6 +18,12 @@ import {
   dislikeComRemove,
 } from "../Actions/actions";
 import { ThreeDots } from "react-loader-spinner";
+import {
+  faThumbsDown,
+  faThumbsUp,
+  faCommentDots,
+  faFlag,
+} from "@fortawesome/free-regular-svg-icons";
 
 const SingleReply = (props) => {
   const comment = props.comment;
@@ -137,7 +138,7 @@ const SingleReply = (props) => {
   return (
     <div>
       <div className="flex flex-col">
-        <div className="flex items-start flex-col p-4 bg-white rounded-lg shadow-md mt-3 mx-3 mb-4">
+        <div className="flex items-start flex-col p-2 mt-1 mx-3">
           <div className="flex items-center justify-center mb-2">
             <img
               src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
@@ -155,8 +156,8 @@ const SingleReply = (props) => {
               </div>
             </div>
           </div>
-          <div className="text-xs md:text-sm mb-2">{comment.text}</div>
-          <div className="flex items-center text-gray-500 text-xs">
+          <div className="text-sm mb-2 ml-8">{comment.text}</div>
+          <div className="flex items-center text-gray-500 text-xs ml-8">
             {commentLikeToggle ? (
               <ThreeDots
                 visible={true}
@@ -175,8 +176,8 @@ const SingleReply = (props) => {
                 } `}
                 onClick={handleToggleCommentLike}
               >
-                <FontAwesomeIcon icon={faChevronUp} className="mr-1" />{" "}
-                {commentLikes} Agrees
+                <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />{" "}
+                {commentLikes}
               </button>
             )}
             {commentDislikeToggle ? (
@@ -197,26 +198,26 @@ const SingleReply = (props) => {
                 }`}
                 onClick={handleToggleCommentDislike}
               >
-                <FontAwesomeIcon icon={faChevronDown} className="mr-1" />{" "}
-                {commentDislikes} Disagrees
+                <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />{" "}
+                {commentDislikes}
               </button>
             )}
-            <button
+            {/* <button
               className="flex items-center mr-4"
               onClick={handleOpenModal}
             >
               <FontAwesomeIcon icon={faReply} className="mr-1" /> Reply
-            </button>
+            </button> */}
             <button
               className="flex items-center mr-4"
-              onClick={() => {
-                navigate(`/details/${postId}/reply/${comment._id}`);
-                window.location.reload();
-              }}
+              onClick={handleOpenModal}
             >
               <FontAwesomeIcon icon={faCommentDots} className="mr-1" />{" "}
-              {comment.children.length} Replies
             </button>
+            <button className="flex items-center mr-4">
+              <FontAwesomeIcon icon={faFlag} className="mr-1" />
+            </button>
+
             <ReplyModal
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
@@ -237,6 +238,17 @@ const SingleReply = (props) => {
               </div>
             </ReplyModal>
           </div>
+          {comment.children.length > 0 && (
+            <div
+              className="flex items-center text-gray-500 text-xs ml-8 mt-2"
+              onClick={() => {
+                navigate(`/details/${postId}/reply/${comment._id}`);
+                window.location.reload();
+              }}
+            >
+              See more ({comment.children.length})
+            </div>
+          )}
         </div>
       </div>
     </div>

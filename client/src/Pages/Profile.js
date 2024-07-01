@@ -12,12 +12,20 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../Actions/actions";
+import {
+  faCircle,
+  faFilter,
+  faFire,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [filter, setFilter] = useState("All");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const base64Image = user.profilePicture.buffer;
   const imageType = user.profilePicture.mimetype;
@@ -35,6 +43,15 @@ const ProfilePage = () => {
     };
   }, []);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const selectFilter = (option) => {
+    setFilter(option);
+    setIsDropdownOpen(false);
+  };
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
@@ -45,8 +62,8 @@ const ProfilePage = () => {
       <Topbar />
       {!isMobile && <Navbar />}
       <div className="flex mt-16">
-        <div className="md:ml-60 mt-11 md:mt-0 p-4 w-full">
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-4 md:m-4 h-fit border md:border-blue-400">
+        <div className="md:ml-60 p-4 w-full">
+          <div className="bg-white p-4 md:p-4 md:m-4 h-fit">
             {/* First Row: Profile pic, Followers, Following, Category */}
             <div className="flex items-center justify-start mb-2 md:mb-4">
               <img
@@ -55,44 +72,51 @@ const ProfilePage = () => {
                 className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
               />
               <div className="flex flex-col text-center ml-2 md:ml-5">
-                <span className="text-base md:text-xl">{308}</span>
-                <span className="text-sm md:text-lg font-semibold text-blue-600">
+                <span className="text-lg md:text-xl font-semibold">{308}</span>
+                <span className="text-base md:text-lg font-normal text-gray-500">
                   Followers
                 </span>
               </div>
               <div className="flex flex-col text-center ml-5">
-                <span className="text-base md:text-xl">{100}</span>
-                <span className="text-sm md:text-lg font-semibold text-blue-600">
+                <span className="text-lg md:text-xl font-semibold">{100}</span>
+                <span className="text-base md:text-lg font-normal text-gray-500">
                   Following
                 </span>
               </div>
               <div className="flex flex-col text-center ml-5">
-                <span className="text-base md:text-xl">
+                <span className="text-lg md:text-xl font-semibold">
                   {user.categories.length}
                 </span>
-                <span className="text-sm md:text-lg font-semibold text-blue-600">
-                  Categories
+                <span className="text-base md:text-lg font-normal text-gray-500">
+                  Badges
                 </span>
               </div>
             </div>
 
-            {/* Second Row: Name */}
-            <div className="text-2xl font-semibold text-blue-600 mb-1 md:mb-3">
-              {user.username}
+            {/* Second Row: Name and Edit button */}
+
+            <div className="flex items-center">
+              <div className="text-xl font-medium">{user.username}</div>
+              <button
+                className="px-2 py-1 rounded text-blue-600 duration-100 ml-2 text-sm md:text-base"
+                onClick={() => navigate("/updateProfile")}
+              >
+                Edit profile
+              </button>
             </div>
 
             {/* Third Row: Email */}
-            <div className=" text-sm md:text-lg text-gray-700 mb-4">
+            {/* <div className="text-xs md:text-lg text-gray-700 mb-4">
               {user.email}
-            </div>
+            </div> */}
 
             {/* Fourth Row: Description */}
-            <div className="text-gray-700 text-xs md:text-base mb-6">
+            <div className="text-gray-600 text-sm md:text-base mb-6">
               {user.description}
             </div>
 
             {/* Social Media Links */}
-            <div className="flex justify-start mb-6">
+            {/* <div className="flex justify-start mb-6">
               <a href={user.instagram} className="mx-2 text-blue-600">
                 <FontAwesomeIcon icon={faInstagram} className="text-2xl" />
               </a>
@@ -105,23 +129,161 @@ const ProfilePage = () => {
               <a href={user.twitter} className="mx-2 text-blue-600">
                 <FontAwesomeIcon icon={faTwitter} className="text-2xl" />
               </a>
+            </div> */}
+
+            {/* Recent Activities */}
+            <div className="text-lg font-medium mb-2">
+              Recent Activities
+              <button
+                onClick={toggleDropdown}
+                className=" rounded px-2 py-1 text-xs"
+              >
+                <FontAwesomeIcon
+                  icon={faFilter}
+                  className=" text-gray-600 text-sm"
+                />
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute bg-white border text-base rounded shadow-md mt-1 ml-36">
+                  <div
+                    onClick={() => selectFilter("All")}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    All
+                  </div>
+                  <div
+                    onClick={() => selectFilter("Posts")}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    Posts
+                  </div>
+                  <div
+                    onClick={() => selectFilter("Opinions")}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    Opinions
+                  </div>
+                  <div
+                    onClick={() => selectFilter("Quizzes")}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    Quizzes
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col">
+              {/* {user.activities.map((activity, index) => ( */}
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faFire}
+                    className="  mr-2 text-xs md:text-sm text-red-500"
+                  />
+                  Scored 20% in politics quiz
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faFire}
+                    className="  mr-2 text-xs md:text-sm text-red-500"
+                  />
+                  Made a new community called Chess
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faFire}
+                    className="  mr-2 text-xs md:text-sm text-red-500"
+                  />
+                  Gave opinion on climate impact
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+
+              {/* ))} */}
+            </div>
+
+            {/* Achievements */}
+            <div className="text-lg font-medium mb-2 mt-5">Achievements</div>
+            <div className="flex flex-col">
+              {/* {user.activities.map((activity, index) => ( */}
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="  mr-2 text-xs md:text-sm text-yellow-400"
+                  />
+                  Scored 20% in politics quiz
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="  mr-2 text-xs md:text-sm text-yellow-400"
+                  />
+                  Made a new community called Chess
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+              <div
+                // key={index}
+                className="flex justify-between items-center mb-2"
+              >
+                <div className="text-sm md:text-base">
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className="  mr-2 text-xs md:text-sm text-yellow-400"
+                  />
+                  Gave opinion on climate impact
+                </div>
+                <div className="text-xs md:text-sm text-gray-500">
+                  {new Date().toLocaleDateString()}
+                </div>
+              </div>
+
+              {/* ))} */}
             </div>
 
             {/* Edit Profile and Logout Buttons */}
-            <div className="flex justify-start space-x-4">
-              <button
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-blue-600 duration-100"
-                onClick={() => navigate("/updateProfile")}
-              >
-                Edit Profile
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 duration-100"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
+
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 duration-100 mt-10"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>

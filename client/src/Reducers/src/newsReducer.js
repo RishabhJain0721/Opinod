@@ -1,6 +1,5 @@
 const initialState = {
   Trending: [],
-  Daily: [],
   General: [],
   Entertainment: [],
   Technology: [],
@@ -35,7 +34,6 @@ const newsReducer = (state = initialState, action) => {
     case "REFRESH_NEWS": {
       return {
         Trending: [],
-        Daily: [],
         General: [],
         Entertainment: [],
         Technology: [],
@@ -66,15 +64,6 @@ const newsReducer = (state = initialState, action) => {
             ...state,
             Trending: updatedNewsArray,
           };
-        } else if (state.Daily.some((news) => news._id === _id)) {
-          // Check if _id exists in Daily
-          updatedNewsArray = state.Daily.map((news) =>
-            news._id === _id ? { ...article } : news
-          );
-          return {
-            ...state,
-            Daily: updatedNewsArray,
-          };
         }
       }
 
@@ -98,7 +87,6 @@ const newsReducer = (state = initialState, action) => {
     case "LOGOUT": {
       return {
         Trending: [],
-        Daily: [],
         General: [],
         Entertainment: [],
         Technology: [],

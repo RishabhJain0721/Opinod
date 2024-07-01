@@ -8,19 +8,21 @@ import { getNews } from "../APIs/NewsApis";
 import { useSelector, useDispatch } from "react-redux";
 import { saveNews, selectCategory } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";
+import OpinionCard from "../Components/OpinionCard";
+import { getPopularOpinions } from "../APIs/CommentApis";
+import { formatDistanceToNow } from "date-fns";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
   const trendingFromStore = useSelector((state) => state.news.Trending);
-  const dailyFromStore = useSelector((state) => state.news.Daily);
 
   const [trending, setTrending] = useState([]);
-  const [daily, setDaily] = useState([]);
   const [popularOpinions, setPopularOpinions] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
+  const [opinionsLoading, setOpinionsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -28,8 +30,6 @@ const Home = () => {
         const res = await getNews();
         console.log(res);
         dispatch(saveNews(res.trendingArticles, "Trending"));
-        dispatch(saveNews(res.dailyArticles, "Daily"));
-        setDaily(res.dailyArticles);
         setTrending(res.trendingArticles);
       } catch (error) {
         console.log(error);
@@ -37,13 +37,24 @@ const Home = () => {
         setIsLoading(false);
       }
     };
-    if (trendingFromStore.length === 0 || dailyFromStore.length === 0) {
+    if (trendingFromStore.length === 0) {
       fetchNews();
     } else {
       setTrending(trendingFromStore);
-      setDaily(dailyFromStore);
       setIsLoading(false);
     }
+
+    const fetchOpinions = async () => {
+      try {
+        const res = await getPopularOpinions(2);
+        setPopularOpinions(res);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setOpinionsLoading(false);
+      }
+    };
+    fetchOpinions();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -65,13 +76,12 @@ const Home = () => {
     navigate("/category/Trending");
   };
 
-  const handleViewDaily = () => {
+  const handleViewPopularOpinions = () => {
     if (!username) {
       alert("Please login to view more articles.");
       return;
     }
-    dispatch(selectCategory("Daily"));
-    navigate("/category/Daily");
+    navigate("/topOpinions");
   };
 
   return (
@@ -100,11 +110,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-2xl ml-5 md:ml-10 md:mt-7 font-semibold text-blue-600 w-auto">
-                Home
-              </div>
-              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div>Trending</div>
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className=" font-semibold md:font-normal">Trending</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -114,6 +121,11 @@ const Home = () => {
                   </button>
                 </div>
               </div>
+              {isMobile && (
+                <div className="flex items-center ml-6">
+                  <span className="text-sm text-gray-500">General</span>
+                </div>
+              )}
 
               <div className="flex flex-wrap justify-start md:ml-6 ">
                 {trending.slice(0, 3).map((article) => (
@@ -121,14 +133,12 @@ const Home = () => {
                     key={article._id}
                     id={article._id}
                     profilePhoto={article.image}
+                    cat={article.category}
                     name={article.source}
-                    datePosted={new Date(
-                      article.publishedAt
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    datePosted={formatDistanceToNow(
+                      new Date(article.publishedAt),
+                      { addSuffix: true }
+                    )}
                     title={article.title}
                     upvotes={article.upvotes}
                     downvotes={article.downvotes}
@@ -136,103 +146,68 @@ const Home = () => {
                     opinion={article.opinion}
                     opinionAuthorPhoto={article.opinionAuthorPhoto}
                     opinionAuthorName={article.opinionAuthorName}
-                    opinionDate={new Date(
-                      article.opinionDate
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    opinionDate={formatDistanceToNow(
+                      new Date(
+                        article.opinionDate
+                          ? article.opinionDate
+                          : article.publishedAt
+                      ),
+                      { addSuffix: true }
+                    )}
                     opinionUpvotes={article.commentUpvotes}
                     opinionDownvotes={article.commentDownvotes}
                   />
                 ))}
               </div>
-              {/* <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div>Daily Updates</div>
-                <div>
-                  <button
-                    className="text-xs md:text-lg text-gray-600 px-2"
-                    onClick={handleViewDaily}
-                  >
-                    See all
-                  </button>
+            </>
+          )}
+
+          {opinionsLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <MutatingDots
+                visible={true}
+                height="100"
+                width="100"
+                color="#2196F3"
+                secondaryColor="#2196F3"
+                radius="12.5"
+                ariaLabel="mutating-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ) : (
+            <>
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-8 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className=" font-semibold md:font-normal">
+                  Popular Opinions
                 </div>
-              </div> */}
-              {/* <div className="flex flex-wrap justify-start md:ml-6">
-                {daily.slice(0, 3).map((article) => (
-                  <Card
-                    key={article._id}
-                    id={article._id}
-                    profilePhoto={article.image}
-                    name={article.source}
-                    datePosted={new Date(
-                      article.publishedAt
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    title={article.title}
-                    upvotes={article.upvotes}
-                    downvotes={article.downvotes}
-                    opinionId={article.opinionId}
-                    opinion={article.opinion}
-                    opinionAuthorPhoto={article.opinionAuthorPhoto}
-                    opinionAuthorName={article.opinionAuthorName}
-                    opinionDate={new Date(
-                      article.opinionDate
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    opinionUpvotes={article.commentUpvotes}
-                    opinionDownvotes={article.commentDownvotes}
-                  />
-                ))}
-              </div> */}
-              <div className="text-lg md:text-4xl ml-5 md:ml-10 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div>Popular Opinions</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
-                    onClick={handleViewDaily}
+                    onClick={handleViewPopularOpinions}
                   >
                     See all
                   </button>
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions.slice(0, 3).map((article) => (
-                  <Card
-                    key={article._id}
-                    id={article._id}
-                    profilePhoto={article.image}
-                    name={article.source}
-                    datePosted={new Date(
-                      article.publishedAt
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    title={article.title}
-                    upvotes={article.upvotes}
-                    downvotes={article.downvotes}
-                    opinionId={article.opinionId}
-                    opinion={article.opinion}
-                    opinionAuthorPhoto={article.opinionAuthorPhoto}
-                    opinionAuthorName={article.opinionAuthorName}
-                    opinionDate={new Date(
-                      article.opinionDate
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    opinionUpvotes={article.commentUpvotes}
-                    opinionDownvotes={article.commentDownvotes}
+                {popularOpinions.slice(0, 3).map((opinion) => (
+                  <OpinionCard
+                    key={opinion._id}
+                    id={opinion._id}
+                    category={opinion.post.category}
+                    profilePhoto={opinion.authorPicture.profilePicture}
+                    author={opinion.author}
+                    datePosted={formatDistanceToNow(
+                      new Date(opinion.createdAt),
+                      { addSuffix: true }
+                    )}
+                    title={opinion.post.title}
+                    text={opinion.text}
+                    upvotes={opinion.upvotes}
+                    downvotes={opinion.downvotes}
+                    postId={opinion.post._id}
                   />
                 ))}
               </div>

@@ -39,10 +39,7 @@ const CategoryNews = () => {
       }
     };
 
-    if (
-      (category === "Trending" || category === "Daily") &&
-      newsFromStore[category].length === 3
-    ) {
+    if (category === "Trending" && newsFromStore[category].length === 3) {
       fetchNews();
     } else if (
       newsFromStore[

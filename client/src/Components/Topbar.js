@@ -25,6 +25,15 @@ import {
   faCircleQuestion,
   faEarthAmericas,
   faXmark,
+  faChevronDown,
+  faChevronUp,
+  faChevronRight,
+  faBarsProgress,
+  faLayerGroup,
+  faUsers,
+  faPencil,
+  faGear,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Topbar = () => {
@@ -36,8 +45,9 @@ const Topbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  const alsoVisit = ["Most Reacted", "Most Commented", "Help", "About"];
+  const [toggleCategory, setToggleCategory] = useState(false);
+  const [toggleCommunity, setToggleCommunity] = useState(false);
+  const [toggleSettings, setToggleSettings] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -126,6 +136,18 @@ const Topbar = () => {
     }
   };
 
+  const handleToggleCategory = () => {
+    setToggleCategory(!toggleCategory);
+  };
+
+  const handleToggleCommunity = () => {
+    setToggleCommunity(!toggleCommunity);
+  };
+
+  const handleToggleSettings = () => {
+    setToggleSettings(!toggleSettings);
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       <div className="flex items-center justify-between ">
@@ -141,7 +163,7 @@ const Topbar = () => {
           />
           <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col">
             <div className="text-2xl font-semibold">Opinod</div>
-            <div className="text-xs">Share Learn Grow</div>
+            <div className="text-xs text-gray-500">Share Learn Grow</div>
           </h1>
           <div className="md:w-1/4 relative hidden md:flex">
             <input
@@ -173,101 +195,172 @@ const Topbar = () => {
               <FontAwesomeIcon icon={faBars} />{" "}
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-0 h-screen w-64 overflow-auto font-League bg-blue-500 border-l-2 border-gray-300 p-2.5 shadow-sm">
-                <div
-                  onClick={toggleMenu}
-                  className="text-right text-white cursor-pointer"
-                >
-                  <FontAwesomeIcon icon={faXmark} />
-                </div>
-                {username && (
-                  <div>
-                    <h2 className="text-2xl font-semibold mb-3 text-white mt-5">
-                      <div>Navigate</div>
-                    </h2>
-                    <button
-                      className="flex items-center p-1 px-2 my-1 focus:outline-none text-white"
-                      onClick={() => navigate("/notifications")}
-                    >
-                      <FontAwesomeIcon icon={faBell} className="mr-2" />
-                      Notifications
-                    </button>
-                    <button
-                      className="flex items-center justify-center p-1 px-2 my-1 focus:outline-none text-white"
-                      onClick={() => navigate("/profile")}
-                    >
-                      <FontAwesomeIcon icon={faUser} className="mr-2" />
-                      <div>Profile</div>
-                    </button>
+              <div>
+                <div className="absolute right-0 top-0 h-screen w-64 overflow-auto font-League bg-blue-500 border-l-2 border-gray-300 p-2.5 shadow-sm">
+                  {/* Closing menu button */}
+                  <div
+                    onClick={toggleMenu}
+                    className="text-right text-white cursor-pointer"
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
                   </div>
-                )}
-                <h2 className="text-2xl font-semibold mb-3 text-white mt-5">
-                  <div>Categories</div>
-                </h2>
-                <div>
-                  {Object.values(categories).map((cat) => (
-                    <div key={cat}>
+
+                  {/* Home */}
+                  <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home
+                      </div>
+                    </div>
+                  </h2>
+
+                  {/* Categories */}
+                  <h2
+                    className="text-lg mb-2 ml-5 text-white mt-5"
+                    onClick={handleToggleCategory}
+                  >
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "}
+                        New Categories
+                      </div>
+                      <FontAwesomeIcon
+                        icon={toggleCategory ? faChevronDown : faChevronRight}
+                        className="text-xs ml-3"
+                      />
+                    </div>
+                  </h2>
+                  {toggleCategory && (
+                    <div>
+                      {Object.values(categories).map((cat) => (
+                        <div key={cat}>
+                          <button
+                            className={`flex items-center p-1 px-8 my-0 focus:outline-none ${
+                              selectedCategory === cat
+                                ? "bg-blue-100 rounded-md text-gray-800"
+                                : "text-white"
+                            }`}
+                            onClick={() => handleCategorySelect(cat)}
+                          >
+                            <FontAwesomeIcon
+                              icon={selectIcon(cat)}
+                              className="mr-2"
+                            />
+                            {cat}
+                          </button>
+                        </div>
+                      ))}
                       <button
-                        className={`flex items-center p-1 px-2 my-1 focus:outline-none ${
-                          selectedCategory === cat
-                            ? "bg-blue-100 rounded-md text-gray-800"
-                            : "text-white"
-                        }`}
-                        onClick={() => handleCategorySelect(cat)}
+                        className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
+                        onClick={handleAddCategory}
                       >
-                        <FontAwesomeIcon
-                          icon={selectIcon(cat)}
-                          className="mr-2"
-                        />
-                        {cat}
+                        Add Category
                       </button>
                     </div>
-                  ))}
-                </div>
-                <button
-                  className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white"
-                  onClick={handleAddCategory}
-                >
-                  Add Category
-                </button>
-                <h2 className="text-2xl font-semibold mt-7 mb-3 text-white">
-                  See More
-                </h2>
-                <div>
-                  {alsoVisit.map((category) => (
-                    <div key={category}>
+                  )}
+
+                  {/* Communities */}
+                  <h2
+                    className="text-lg mb-2 ml-5 text-white mt-5"
+                    onClick={handleToggleCommunity}
+                  >
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faUsers} className="mr-1" />{" "}
+                        Community
+                      </div>
+                      <FontAwesomeIcon
+                        icon={toggleCommunity ? faChevronDown : faChevronRight}
+                        className="text-xs ml-3"
+                      />
+                    </div>
+                  </h2>
+
+                  {/* Quizzes and Challenges */}
+                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faPencil} className="mr-1" />{" "}
+                        Quiz / Challenges
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="text-xs ml-3"
+                      />
+                    </div>
+                  </h2>
+
+                  {/* Settings */}
+                  <h2
+                    className="text-lg mb-2 ml-5 text-white mt-5"
+                    onClick={handleToggleSettings}
+                  >
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faGear} className="mr-1" />{" "}
+                        Settings{" "}
+                      </div>
+                      <FontAwesomeIcon
+                        icon={toggleSettings ? faChevronDown : faChevronRight}
+                        className="text-xs ml-3"
+                      />
+                    </div>
+                  </h2>
+                  {toggleSettings && (
+                    <>
                       <button
-                        className={`flex items-center p-1 px-2 my-1 focus:outline-none ${
-                          selectedCategory === category
-                            ? "bg-blue-100 rounded-md text-gray-800"
-                            : "text-white"
-                        }`}
-                        onClick={() => handleCategorySelect(category)}
+                        className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
+                        onClick={() => {}}
                       >
                         <FontAwesomeIcon
-                          icon={selectIcon(category)}
+                          icon={faBarsProgress}
                           className="mr-2"
                         />
-                        {category}
+                        Manage preferences
                       </button>
+                      <button
+                        className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
+                        onClick={() => {}}
+                      >
+                        <FontAwesomeIcon
+                          icon={faCircleQuestion}
+                          className="mr-2"
+                        />
+                        Help
+                      </button>
+                    </>
+                  )}
+
+                  {/* Profile */}
+                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faUser} className="mr-1" />{" "}
+                        Profile{" "}
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="text-xs ml-3"
+                      />
                     </div>
-                  ))}
+                  </h2>
+
+                  {username ? (
+                    <button
+                      onClick={() => navigate("/logout")}
+                      className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
+                    >
+                      LOGIN
+                    </button>
+                  )}
                 </div>
-                {username ? (
-                  <button
-                    onClick={() => navigate("/logout")}
-                    className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
-                  >
-                    Logout
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
-                  >
-                    LOGIN
-                  </button>
-                )}
               </div>
             )}
           </div>

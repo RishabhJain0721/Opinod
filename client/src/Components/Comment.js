@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faReply } from "@fortawesome/free-solid-svg-icons";
 import {
-  faChevronUp,
-  faChevronDown,
-  faReply,
+  faThumbsUp,
+  faThumbsDown,
   faCommentDots,
-} from "@fortawesome/free-solid-svg-icons";
+  faFlag,
+} from "@fortawesome/free-regular-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { ThreeDots } from "react-loader-spinner";
 import { addReply } from "../APIs/CommentApis";
@@ -25,6 +26,7 @@ import {
   dislikeComRemove,
   updateNewsInStore,
 } from "../Actions/actions";
+import { formatDistanceToNow } from "date-fns";
 
 const Comment = ({ opinion }) => {
   const navigate = useNavigate();
@@ -137,7 +139,7 @@ const Comment = ({ opinion }) => {
   };
 
   return (
-    <div className="flex items-start flex-col w-full p-4 bg-white rounded-lg shadow-md mb-4">
+    <div className="flex items-start flex-col w-full p-4 pb-2 bg-white rounded-lg mb-0">
       <div className="flex items-center justify-center mb-2">
         <img
           src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
@@ -147,16 +149,14 @@ const Comment = ({ opinion }) => {
         <div className="flex flex-row items-baseline">
           <div className="text-sm font-semibold">{opinion.author}</div>
           <div className="text-xs text-gray-500 ml-2">
-            {new Date(opinion.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
+            {formatDistanceToNow(new Date(opinion.createdAt), {
+              addSuffix: true,
             })}
           </div>
         </div>
       </div>
-      <div className="text-xs md:text-sm mb-2">{opinion.text}</div>
-      <div className="flex items-center text-gray-500 text-xs">
+      <div className="text-sm md:text-sm mb-1 ml-8">{opinion.text}</div>
+      <div className="flex items-center text-gray-500 text-xs ml-8 mb-2">
         {commentLikeToggle ? (
           <ThreeDots
             visible={true}
@@ -175,8 +175,8 @@ const Comment = ({ opinion }) => {
             } `}
             onClick={handleToggleCommentLike}
           >
-            <FontAwesomeIcon icon={faChevronUp} className="mr-1" />{" "}
-            {commentLikes} Agrees
+            <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />{" "}
+            {commentLikes}
           </button>
         )}
         {commentDislikeToggle ? (
@@ -197,22 +197,34 @@ const Comment = ({ opinion }) => {
             }`}
             onClick={handleToggleCommentDislike}
           >
-            <FontAwesomeIcon icon={faChevronDown} className="mr-1" />{" "}
-            {commentDislikes} Disagrees
+            <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />{" "}
+            {commentDislikes}
           </button>
         )}
         <button className="flex items-center mr-4" onClick={handleOpenModal}>
-          <FontAwesomeIcon icon={faReply} className="mr-1" />
-          Reply
+          <FontAwesomeIcon icon={faCommentDots} className="mr-1" />
+          {opinion.children.length}
         </button>
-        <button
+        <button className="flex items-center mr-4">
+          <FontAwesomeIcon icon={faFlag} className="mr-1" />
+        </button>
+
+        {/* <button
           className="flex items-center"
           onClick={() => navigate(`/details/${postId}/reply/${opinion._id}`)}
         >
           <FontAwesomeIcon icon={faCommentDots} className="mr-1" />
           {opinion.children.length} Replies
-        </button>
+        </button> */}
       </div>
+      {opinion.children.length > 0 && (
+        <div
+          className="flex items-center text-gray-500 text-xs ml-8"
+          onClick={() => navigate(`/details/${postId}/reply/${opinion._id}`)}
+        >
+          See more ({opinion.children.length})
+        </div>
+      )}
 
       <ReplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="flex flex-col">

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import {
-  faChevronUp,
-  faChevronDown,
-  faReply,
-  faArrowLeft,
+  faThumbsDown,
+  faThumbsUp,
   faCommentDots,
-} from "@fortawesome/free-solid-svg-icons";
-import ReplyModal from "../Components/ReplyModal";
+  faFlag,
+} from "@fortawesome/free-regular-svg-icons";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import SingleReply from "../Components/SingleReply";
@@ -30,6 +29,7 @@ import {
   updateNewsInStore,
 } from "../Actions/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { formatDistanceToNow } from "date-fns";
 
 const Reply = () => {
   const dispatch = useDispatch();
@@ -216,6 +216,9 @@ const Reply = () => {
                 <div className="flex flex-row items-baseline">
                   <div className="text-sm font-semibold">{comment.author}</div>
                   <div className="text-xs text-gray-500 ml-2">
+                    {/* {formatDistanceToNow(new Date(comment.createdAt), {
+                      addSuffix: true,
+                    })} */}
                     {new Date(comment.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
@@ -224,8 +227,8 @@ const Reply = () => {
                   </div>
                 </div>
               </div>
-              <div className="text-xs md:text-sm mb-2">{comment.text}</div>
-              <div className="flex items-center text-gray-500 text-xs">
+              <div className="text-sm mb-2 ml-8">{comment.text}</div>
+              <div className="flex items-center text-gray-500 text-xs ml-8">
                 {commentLikeToggle ? (
                   <ThreeDots
                     visible={true}
@@ -244,8 +247,8 @@ const Reply = () => {
                     } `}
                     onClick={handleToggleCommentLike}
                   >
-                    <FontAwesomeIcon icon={faChevronUp} className="mr-1" />{" "}
-                    {commentLikes} Agrees
+                    <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />{" "}
+                    {commentLikes}
                   </button>
                 )}
                 {commentDislikeToggle ? (
@@ -266,48 +269,55 @@ const Reply = () => {
                     }`}
                     onClick={handleToggleCommentDislike}
                   >
-                    <FontAwesomeIcon icon={faChevronDown} className="mr-1" />{" "}
-                    {commentDislikes} Disagrees
+                    <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />{" "}
+                    {commentDislikes}
                   </button>
                 )}
-                <button
+                {/* <button
                   className="flex items-center mr-4"
                   onClick={handleOpenModal}
                 >
                   <FontAwesomeIcon icon={faReply} className="mr-1" /> Reply
-                </button>
+                </button> */}
                 <button className="flex items-center mr-4">
                   <FontAwesomeIcon icon={faCommentDots} className="mr-1" />{" "}
-                  {replies.length} Replies
+                  {replies.length}
+                </button>
+                <button className="flex items-center mr-4">
+                  <FontAwesomeIcon icon={faFlag} className="mr-1" />
                 </button>
               </div>
             </div>
             <div>
               <div className="text-lg ml-5">Replies :</div>
-              <div>
+              <div className=" mb-6">
                 {replies.map((reply) => {
                   return <SingleReply key={reply._id} comment={reply} />;
                 })}
               </div>
-              <ReplyModal
+              {/* <ReplyModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-              >
-                <div className="flex flex-col">
-                  <textarea
-                    className="border rounded text-xs md:text-sm p-2 mb-2"
+              > */}
+
+              <div className="w-screen fixed bottom-0 z-40">
+                <div className="flex bg-white border border-t-2 p-5">
+                  <input
+                    type="text"
+                    className="border border-gray-800 rounded w-4/5 p-3 mr-3"
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your reply..."
                   />
                   <button
                     onClick={handleSubmitReply}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-full"
                   >
-                    Submit Reply
+                    <FontAwesomeIcon icon={faPaperPlane} className=" text-lg" />
                   </button>
                 </div>
-              </ReplyModal>
+              </div>
+              {/* </ReplyModal> */}
             </div>
           </div>
         )}

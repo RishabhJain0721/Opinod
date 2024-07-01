@@ -31,10 +31,12 @@ import {
   updateNewsInStore,
 } from "../Actions/actions.js";
 import { ThreeDots } from "react-loader-spinner";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const Card = ({
   id,
   profilePhoto,
+  cat,
   name,
   datePosted,
   title,
@@ -228,11 +230,7 @@ const Card = ({
   };
 
   return (
-    <div
-      className={`bg-white rounded-lg p-4 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit ${
-        !isMobile && "border border-gray-300 shadow-sm m-4"
-      }  cursor-pointer`}
-    >
+    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit  md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mb-2 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex items-center mb-2" onClick={handleClick}>
         <img
@@ -241,21 +239,29 @@ const Card = ({
           className="h-20 w-20 rounded-lg mr-2"
         />
         <div className=" w-full justify-between">
-          <div className="text-sm flex justify-between text-gray-700 ">
-            {name.length > 15 ? name.slice(0, 15) + "..." : name}
-            <div className="text-xs text-gray-500">{datePosted}</div>
-          </div>
+          {/* <div className=" text-xs text-gray-500">{cat}</div> */}
           {/* Title */}
-          <div className="text-sm md:text-base font-medium text-blue-600">
+          <div className="text-sm md:text-base font-medium text-gray-700 mb-1">
             {title.length > 70 ? title.slice(0, 70) + "..." : title}
+          </div>
+          <div className="text-xs flex justify-between text-gray-700 ">
+            {name.length > 15 ? name.slice(0, 15) + "..." : name}
+
+            <div className="text-gray-500 flex items-center">
+              <FontAwesomeIcon
+                icon={faClock}
+                className="text-gray-500 ml-3 mr-1"
+              />
+              {datePosted}
+            </div>
           </div>
         </div>
       </div>
-      {/* {isMobile && (
+      {isMobile && (
         <button className=" text-xs w-full rounded-full bg-gray-100 p-0.5">
           See opinions
         </button>
-      )} */}
+      )}
       {!isMobile && (
         <>
           {" "}
@@ -335,6 +341,10 @@ const Card = ({
                   {opinionAuthorName}
                 </div>
                 <div className="text-xs ml-auto text-gray-500">
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className="text-gray-500 mr-1"
+                  />
                   {opinionDate}
                 </div>
               </div>

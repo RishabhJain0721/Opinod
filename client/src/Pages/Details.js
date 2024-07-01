@@ -8,6 +8,8 @@ import { getNewsById, updateNews } from "../APIs/NewsApis";
 import { addTopComment, getComments } from "../APIs/CommentApis";
 import { useSelector, useDispatch } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { updateNewsInStore } from "../Actions/actions";
 
 const Details = () => {
@@ -99,10 +101,27 @@ const Details = () => {
           </div>
         ) : (
           <div className="w-full md:ml-60 md:mt-0">
-            <div className="text-2xl ml-3 md:ml-6 mt-7 font-semibold text-blue-500 w-auto">
-              {details.category}
+            {/* Comment box */}
+            <div className="w-screen fixed bottom-0 z-40">
+              <div className="flex bg-white border border-t-2 p-5">
+                <input
+                  type="text"
+                  value={newReply}
+                  onChange={(e) => setNewReply(e.target.value)}
+                  className="border border-gray-800 rounded w-4/5 p-3 mr-3"
+                  placeholder="Add a reply..."
+                />
+                <button
+                  onClick={handleAddTopComment}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                >
+                  <FontAwesomeIcon icon={faPaperPlane} className=" text-lg" />
+                </button>
+              </div>
             </div>
-            <div className="bg-white p-1 sm:p-2 md:p-3 mb-4 w-auto m-2 h-fit">
+
+            {/* News */}
+            <div className="bg-white p-1 sm:p-2 md:p-3 mb-4 w-auto h-fit">
               <div className="flex flex-col justify-between items-between mb-2">
                 <NewsDetails details={details} />
 
@@ -112,6 +131,7 @@ const Details = () => {
                   <div className="text-base sm:text-lg md:text-xl font-medium mb-2 w-full">
                     Replies :
                   </div>
+
                   {isLoadingComments ? (
                     <div className="flex items-center justify-center w-full">
                       <MutatingDots
@@ -127,26 +147,11 @@ const Details = () => {
                       />
                     </div>
                   ) : (
-                    <>
-                      <div className="my-4 w-full">
-                        <input
-                          type="text"
-                          value={newReply}
-                          onChange={(e) => setNewReply(e.target.value)}
-                          className="border rounded w-full p-2 mb-2"
-                          placeholder="Add a reply..."
-                        />
-                        <button
-                          onClick={handleAddTopComment}
-                          className="bg-blue-500 text-white px-4 py-2 rounded"
-                        >
-                          Add Reply
-                        </button>
-                      </div>
+                    <div className=" mb-16">
                       {comments.map((comment, index) => (
                         <Comment key={index} opinion={comment} />
                       ))}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

@@ -113,7 +113,7 @@ const Navbar = () => {
 
   return (
     <div className="relative ">
-      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-600 text-white fixed left-0 z-50 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
+      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-600 text-white fixed left-0 z-30 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
         <div className="text-xl font-semibold mb-4 pl-6">CATEGORIES</div>
         <div className="pl-6">
           {Object.values(categories).map((cat) => (
