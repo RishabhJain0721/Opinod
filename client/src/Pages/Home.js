@@ -27,6 +27,7 @@ const Home = () => {
     const fetchNews = async () => {
       try {
         const res = await getNews();
+        console.log(res);
         setTrending(res.trendingArticles);
       } catch (error) {
         console.log(error);
@@ -39,6 +40,7 @@ const Home = () => {
     const fetchOpinions = async () => {
       try {
         const res = await getPopularOpinions(2);
+        console.log(res);
         setPopularOpinions(res);
       } catch (error) {
         console.log(error);
@@ -184,7 +186,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions.slice(0, 3).map((opinion) => (
+                {popularOpinions.map((opinion) => (
                   <OpinionCard
                     key={opinion._id}
                     id={opinion._id}

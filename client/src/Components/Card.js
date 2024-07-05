@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleDown,
-  faAngleUp,
-  faArrowRight,
-  faShareNodes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faShareNodes } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsDown, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -275,7 +271,7 @@ const Card = ({
                 }`}
                 onClick={handleToggleLike}
               >
-                <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
+                <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
                 {likes} Likes
               </button>
             )}
@@ -297,7 +293,7 @@ const Card = ({
                 }`}
                 onClick={handleToggleDislike}
               >
-                <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
+                <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
                 {dislikes} Dislikes
               </button>
             )}
@@ -361,7 +357,7 @@ const Card = ({
                       }`}
                       onClick={handleToggleCommentLike}
                     >
-                      <FontAwesomeIcon icon={faAngleUp} className="mr-1" />
+                      <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
                       {commentLikes} Agrees
                     </button>
                   )}
@@ -383,7 +379,7 @@ const Card = ({
                       }`}
                       onClick={handleToggleCommentDislike}
                     >
-                      <FontAwesomeIcon icon={faAngleDown} className="mr-1" />
+                      <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
                       {commentDislikes} Disagrees
                     </button>
                   )}

@@ -40,7 +40,6 @@ import {
   faUserGraduate,
   faPencilRuler,
   faScaleBalanced,
-  faTree,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 
@@ -303,9 +302,16 @@ const Topbar = () => {
                   {/* Communities */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">
                     <div className="flex justify-between items-center mr-4">
-                      <div onClick={() => navigate("/communities")}>
-                        <FontAwesomeIcon icon={faUsers} className="mr-1" />{" "}
-                        Community
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faUsers}
+                          className="mr-1"
+                          onClick={() => navigate("/communities")}
+                        />
+                        <span onClick={() => navigate("/communities")}>
+                          {" "}
+                          Community
+                        </span>
                       </div>
                       <FontAwesomeIcon
                         icon={toggleCommunity ? faChevronDown : faChevronRight}
@@ -317,17 +323,21 @@ const Topbar = () => {
                   {toggleCommunity && (
                     <div>
                       <div>
-                        <button
-                          className="flex items-center px-8 p-1 focus:outline-none text-white"
-                          onClick={() => {
-                            navigate("/communities/main");
-                          }}
-                        >
+                        <button className="flex items-center px-8 p-1 focus:outline-none text-white">
                           <FontAwesomeIcon
                             icon={faRankingStar}
                             className="mr-2"
+                            onClick={() => {
+                              navigate("/communities/main");
+                            }}
                           />
-                          Main Topics
+                          <span
+                            onClick={() => {
+                              navigate("/communities/main");
+                            }}
+                          >
+                            Main Topics
+                          </span>
                           <FontAwesomeIcon
                             icon={showMainTopics ? faChevronUp : faChevronDown}
                             className=" text-xs ml-3"
@@ -339,7 +349,10 @@ const Topbar = () => {
                             {mainTopics.map((topic) => {
                               return (
                                 <div key={topic}>
-                                  <button onClick={() => {}}>
+                                  <button
+                                    onClick={() => {}}
+                                    className="flex justify-start"
+                                  >
                                     <FontAwesomeIcon
                                       icon={selectIcon(topic)}
                                       className="mr-2"
@@ -353,17 +366,21 @@ const Topbar = () => {
                         )}
                       </div>
                       <div>
-                        <button
-                          className="flex items-center px-8 my-2 focus:outline-none text-white"
-                          onClick={() => {
-                            navigate("/communities/special");
-                          }}
-                        >
+                        <button className="flex items-center px-8 my-2 focus:outline-none text-white">
                           <FontAwesomeIcon
                             icon={faLightbulb}
                             className="mr-2"
+                            onClick={() => {
+                              navigate("/communities/special");
+                            }}
                           />
-                          Special Interest
+                          <span
+                            onClick={() => {
+                              navigate("/communities/special");
+                            }}
+                          >
+                            Special Interest
+                          </span>
                           <FontAwesomeIcon
                             icon={
                               showSpecialInterestGroups
@@ -379,7 +396,10 @@ const Topbar = () => {
                             {specialIntrestGroups.map((topic) => {
                               return (
                                 <div key={topic}>
-                                  <button onClick={() => {}}>
+                                  <button
+                                    onClick={() => {}}
+                                    className="flex justify-start"
+                                  >
                                     <FontAwesomeIcon
                                       icon={selectIcon(topic)}
                                       className="mr-2"

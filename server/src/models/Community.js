@@ -15,11 +15,12 @@ const commSchema = new mongoose.Schema({
     required: true,
   },
   subCategories: {
-    type: [String],
+    type: [{}],
     required: false,
   },
   parent: {
     type: String,
+    required: true,
   },
   subscriberCount: {
     type: Number,

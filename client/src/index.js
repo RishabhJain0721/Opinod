@@ -7,15 +7,15 @@ import "./index.css";
 import App from "./App";
 import axios from "axios";
 
-// axios.defaults.baseURL = "https://opinod.onrender.com"; // Replace with your API base URL
-axios.defaults.baseURL = "http://localhost:3001"; // Replace with your API base URL
+axios.defaults.baseURL = "https://opinod.onrender.com"; // Replace with your API base URL
+// axios.defaults.baseURL = "http://localhost:3001"; // Replace with your API base URL
 // axios.defaults.baseURL = "http://192.168.77.181:3001";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <div className=" font-League">
+      <div className="font-League">
         <App />
       </div>
     </PersistGate>

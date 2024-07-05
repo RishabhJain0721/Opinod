@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { selectCategory, logout } from "../Actions/actions";
 import {
+  faBell,
+  faUser,
+  faSearch,
+  faRightToBracket,
+  faUserPlus,
+  faBars,
   faIcons,
   faClapperboard,
   faMicrochip,
@@ -15,8 +22,25 @@ import {
   faCircleInfo,
   faCircleQuestion,
   faEarthAmericas,
+  faXmark,
+  faChevronDown,
+  faChevronRight,
+  faBarsProgress,
+  faLayerGroup,
+  faUsers,
+  faPencil,
+  faGear,
+  faHouse,
+  faChevronUp,
+  faRankingStar,
+  faLightbulb,
+  faBrain,
+  faBook,
+  faUserGraduate,
+  faPencilRuler,
+  faScaleBalanced,
 } from "@fortawesome/free-solid-svg-icons";
-import { selectCategory } from "../Actions/actions";
+import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 
 const Navbar = () => {
   const username = useSelector((state) => state.user.username);
@@ -31,6 +55,12 @@ const Navbar = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     initialSelectedCategory
   );
+  const [toggleCategory, setToggleCategory] = useState(false);
+  const [toggleCommunity, setToggleCommunity] = useState(false);
+  const [toggleSettings, setToggleSettings] = useState(false);
+  const [showMainTopics, setShowMainTopics] = useState(false);
+  const [showSpecialInterestGroups, setShowSpecialInterestGroups] =
+    useState(false);
 
   const alsoVisit = ["Most Reacted", "Most Commented", "Help", "About"];
 
@@ -47,6 +77,25 @@ const Navbar = () => {
       "World",
     ];
   }
+
+  const mainTopics = [
+    "World News",
+    "Politics",
+    "Business",
+    "Technology",
+    "Science",
+    "Health",
+    "Environment",
+    "Sports",
+    "Entertainment",
+  ];
+
+  const specialIntrestGroups = [
+    "Expert Opinions",
+    "Educational Resources",
+    "Book & Article Reviews",
+    "Quiz Discussions",
+  ];
 
   const handleCategorySelect = (category) => {
     if (!username) {
@@ -98,6 +147,21 @@ const Navbar = () => {
         return faCircleQuestion;
       case "About":
         return faCircleInfo;
+      case "Expert Opinions":
+        return faBrain;
+      case "Educational Resources":
+        return faUserGraduate;
+      case "Book & Article Reviews":
+        return faBook;
+      case "Quiz Discussions":
+        return faPencilRuler;
+      case "World News":
+        return faEarthAmericas;
+      case "Politics":
+        return faScaleBalanced;
+      case "Environment":
+        return faPagelines;
+
       default:
         return faClapperboard;
     }
@@ -111,34 +175,274 @@ const Navbar = () => {
     navigate("/selectCategories");
   };
 
+  const handleToggleCategory = () => {
+    setToggleCategory(!toggleCategory);
+  };
+
+  const handleToggleCommunity = () => {
+    setToggleCommunity(!toggleCommunity);
+  };
+
+  const handleToggleSettings = () => {
+    setToggleSettings(!toggleSettings);
+  };
+
+  const toggleMainTopics = () => {
+    setShowMainTopics(!showMainTopics);
+  };
+
+  const toggleSpecialInterestGroups = () => {
+    setShowSpecialInterestGroups(!showSpecialInterestGroups);
+  };
+
   return (
-    <div className="relative ">
-      <div className="min-h-screen h-max w-60 pt-10 mt-1 bg-blue-600 text-white fixed left-0 z-30 overflow-y-auto border-gray-300 border-r-2 border-t shadow-md">
-        <div className="text-xl font-semibold mb-4 pl-6">CATEGORIES</div>
-        <div className="pl-6">
-          {Object.values(categories).map((cat) => (
-            <div key={cat}>
-              <button
-                className={`flex items-center p-1 px-2 focus:outline-none ${
-                  selectedCategory === cat
-                    ? "bg-blue-100 rounded-md text-gray-800"
-                    : "text-white"
-                }`}
-                onClick={() => handleCategorySelect(cat)}
-              >
-                <FontAwesomeIcon icon={selectIcon(cat)} className="mr-2" />
-                {cat}
-              </button>
+    <div>
+      <div className="fixed left-0 top-16 h-screen w-60 overflow-auto font-League bg-blue-600 border-r-2 border-gray-300 p-2.5 shadow-sm no-scrollbar">
+        {/* Home */}
+        <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
+          <div className="flex justify-between items-center mr-4 cursor-pointer">
+            <div>
+              <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home
             </div>
-          ))}
-        </div>
-        <button
-          className="block w-48 ml-5 mt-4 py-2 text-gray-800 rounded-lg bg-white"
-          onClick={handleAddCategory}
+          </div>
+        </h2>
+
+        {/* Categories */}
+        <h2
+          className="text-lg mb-2 ml-5 text-white mt-5"
+          onClick={handleToggleCategory}
         >
-          Add Category
-        </button>
-        <div className="border-t border-gray-300 mt-4"></div>
+          <div className="flex justify-between items-center mr-4">
+            <div className="cursor-pointer">
+              <FontAwesomeIcon icon={faLayerGroup} className="mr-1" /> News
+              Categories
+            </div>
+            <FontAwesomeIcon
+              icon={toggleCategory ? faChevronDown : faChevronRight}
+              className="text-xs ml-3 cursor-pointer"
+            />
+          </div>
+        </h2>
+        {toggleCategory && (
+          <div>
+            {Object.values(categories).map((cat) => (
+              <div key={cat}>
+                <button
+                  className={`flex items-center p-1 px-8 my-0 focus:outline-none ${
+                    selectedCategory === cat
+                      ? "bg-blue-100 rounded-md text-gray-800"
+                      : "text-white"
+                  }`}
+                  onClick={() => handleCategorySelect(cat)}
+                >
+                  <FontAwesomeIcon icon={selectIcon(cat)} className="mr-2" />
+                  {cat}
+                </button>
+              </div>
+            ))}
+            <button
+              className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
+              onClick={handleAddCategory}
+            >
+              Add Category
+            </button>
+          </div>
+        )}
+
+        {/* Communities */}
+        <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+          <div className="flex justify-between items-center mr-4">
+            <div className="cursor-pointer">
+              <FontAwesomeIcon
+                icon={faUsers}
+                className="mr-1"
+                onClick={() => navigate("/communities")}
+              />
+              <span onClick={() => navigate("/communities")}> Community</span>
+            </div>
+            <FontAwesomeIcon
+              icon={toggleCommunity ? faChevronDown : faChevronRight}
+              className="text-xs ml-3 cursor-pointer"
+              onClick={handleToggleCommunity}
+            />
+          </div>
+        </h2>
+        {toggleCommunity && (
+          <div>
+            <div>
+              <button className="flex items-center px-8 p-1 focus:outline-none text-white">
+                <FontAwesomeIcon
+                  icon={faRankingStar}
+                  className="mr-2"
+                  onClick={() => {
+                    navigate("/communities/main");
+                  }}
+                />
+                <span
+                  onClick={() => {
+                    navigate("/communities/main");
+                  }}
+                >
+                  Main Topics
+                </span>
+                <FontAwesomeIcon
+                  icon={showMainTopics ? faChevronUp : faChevronDown}
+                  className=" text-xs ml-3"
+                  onClick={toggleMainTopics}
+                />
+              </button>
+              {showMainTopics && (
+                <ul className="ml-10 mt-2 space-y-2 text-white">
+                  {mainTopics.map((topic) => {
+                    return (
+                      <div key={topic}>
+                        <button
+                          onClick={() => {}}
+                          className="flex justify-start"
+                        >
+                          <FontAwesomeIcon
+                            icon={selectIcon(topic)}
+                            className="mr-2"
+                          />
+                          {topic}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+            <div>
+              <button className="flex items-center px-8 my-2 focus:outline-none text-white">
+                <FontAwesomeIcon
+                  icon={faLightbulb}
+                  className="mr-2"
+                  onClick={() => {
+                    navigate("/communities/special");
+                  }}
+                />
+                <span
+                  onClick={() => {
+                    navigate("/communities/special");
+                  }}
+                >
+                  Special Interest
+                </span>
+                <FontAwesomeIcon
+                  icon={showSpecialInterestGroups ? faChevronUp : faChevronDown}
+                  className=" text-xs   ml-2"
+                  onClick={toggleSpecialInterestGroups}
+                />
+              </button>
+              {showSpecialInterestGroups && (
+                <ul className="ml-10 mt-2 space-y-2 text-white">
+                  {specialIntrestGroups.map((topic) => {
+                    return (
+                      <div key={topic}>
+                        <button
+                          onClick={() => {}}
+                          className="flex justify-start"
+                        >
+                          <FontAwesomeIcon
+                            icon={selectIcon(topic)}
+                            className="mr-2"
+                          />
+                          {topic}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Quizzes and Challenges */}
+        <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+          <div className="flex justify-between items-center mr-4">
+            <div className="cursor-pointer">
+              <FontAwesomeIcon icon={faPencil} className="mr-1" /> Quiz /
+              Challenges
+            </div>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className="text-xs ml-3 cursor-pointer"
+            />
+          </div>
+        </h2>
+
+        {/* Settings */}
+        <h2
+          className="text-lg mb-2 ml-5 text-white mt-5"
+          onClick={handleToggleSettings}
+        >
+          <div className="flex justify-between items-center mr-4">
+            <div className="cursor-pointer">
+              <FontAwesomeIcon icon={faGear} className="mr-1" /> Settings{" "}
+            </div>
+            <FontAwesomeIcon
+              icon={toggleSettings ? faChevronDown : faChevronRight}
+              className="text-xs ml-3 cursor-pointer"
+            />
+          </div>
+        </h2>
+        {toggleSettings && (
+          <>
+            <button
+              className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
+              onClick={() => {}}
+            >
+              <FontAwesomeIcon icon={faBarsProgress} className="mr-2" />
+              Manage
+            </button>
+            <button
+              className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
+              onClick={() => {}}
+            >
+              <FontAwesomeIcon icon={faCircleQuestion} className="mr-2" />
+              Help
+            </button>
+          </>
+        )}
+
+        {/* Profile */}
+        <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+          <div
+            className="flex justify-between items-center mr-4"
+            onClick={() => navigate("/profile")}
+          >
+            <div className="cursor-pointer">
+              <FontAwesomeIcon icon={faUser} className="mr-1" /> Profile{" "}
+            </div>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className="text-xs ml-3 cursor-pointer"
+            />
+          </div>
+        </h2>
+
+        {username ? (
+          <button
+            onClick={() => {
+              dispatch(logout());
+              navigate("/");
+            }}
+            className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
+          >
+            LOGIN
+          </button>
+        )}
+      </div>
+
+      {/* <div className="border-t border-gray-300 mt-4"></div>
         <div className="text-xl font-semibold mb-4 mt-4 pl-6">ALSO VISIT</div>
         <div className="pl-6">
           {alsoVisit.map((category) => (
@@ -156,8 +460,7 @@ const Navbar = () => {
               </button>
             </div>
           ))}
-        </div>
-      </div>
+        </div> */}
     </div>
   );
 };

@@ -1,16 +1,27 @@
 import Community from "../models/Community.js";
 import CommunityPost from "../models/CommunityPost.js";
+import User from "../models/User.js";
 
 const topCommunityPosts = async (id, numberOfPosts) => {
   try {
-    const topPosts = await CommunityPost.find({})
-      // .sort({ upvotes: -1 })
-      .limit(numberOfPosts);
-    console.log(topPosts);
+    const topPosts = await CommunityPost.aggregate([
+      { $match: { community: id } },
+      { $addFields: { score: { $add: ["$upvotes", "$downvotes"] } } },
+      { $sort: { score: -1 } },
+      { $limit: numberOfPosts },
+    ]);
+    for (const post of topPosts) {
+      const username = post.author;
+      const profilePic = await User.findOne(
+        { username },
+        { profilePicture: 1 }
+      ).exec();
+      post.profilePicture = profilePic ? profilePic.profilePicture : null;
+    }
+    return topPosts;
   } catch (error) {
     console.log(error);
   }
-  return topPosts;
 };
 
 const sendCommunities = async (req, res) => {
@@ -29,7 +40,7 @@ const sendCommunityData = async (req, res) => {
     const subcategories = community.subCategories;
     const topPosts = await topCommunityPosts(id, 2);
     console.log(topPosts);
-    res.status(200).send({ subcategories });
+    res.status(200).send({ subcategories, topPosts });
   } catch (error) {
     res.status(404).send(error);
   }

@@ -196,7 +196,6 @@ const Comment = ({ opinion }) => {
         )}
         <button className="flex items-center mr-4" onClick={handleOpenModal}>
           <FontAwesomeIcon icon={faCommentDots} className="mr-1" />
-          {opinion.children.length}
         </button>
         <button className="flex items-center mr-4">
           <FontAwesomeIcon icon={faFlag} className="mr-1" />
@@ -215,7 +214,7 @@ const Comment = ({ opinion }) => {
           className="flex items-center text-gray-500 text-xs ml-8"
           onClick={() => navigate(`/details/${postId}/reply/${opinion._id}`)}
         >
-          See more ({opinion.children.length})
+          See replies ({opinion.children.length})
         </div>
       )}
 

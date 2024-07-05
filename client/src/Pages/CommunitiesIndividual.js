@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
+import CommunityPostCard from "../Components/CommunityPostCard";
 import { getCommunityData, addCommunityPost } from "../APIs/CommunityApis";
 import { MutatingDots } from "react-loader-spinner";
 import SubcategoryCard from "../Components/SubcategoryCard";
@@ -9,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const communityId = location.pathname.split("/")[2];
   const username = useSelector((state) => state.user.username);
 
@@ -25,7 +27,9 @@ const CommunitiesIndividual = () => {
     const fetchCommunityData = async () => {
       try {
         const res = await getCommunityData(communityId);
+        console.log(res);
         setSubcategories(res.subcategories);
+        setTopPosts(res.topPosts);
       } catch (error) {
         console.log(error);
       } finally {
@@ -60,6 +64,10 @@ const CommunitiesIndividual = () => {
     }
   };
 
+  const handleViewAllSubcategories = () => {
+    navigate(`/community/${communityId}/subcategories`);
+  };
+
   return (
     <div>
       <Topbar />
@@ -87,22 +95,36 @@ const CommunitiesIndividual = () => {
           ) : (
             <>
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                {/* Subcategories */}
                 <div className=" font-semibold md:font-normal mb-3">
                   Explore sub-categories
                 </div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
-                    // onClick={handleViewAllSubcategories}
+                    onClick={handleViewAllSubcategories}
                   >
                     See all
                   </button>
                 </div>
               </div>
 
-              <div className="flex flex-wrap justify-start mx-5 md:ml-6 ">
-                {subcategories.slice(0, 3).map((category, index) => {
-                  return <SubcategoryCard key={index} />;
+              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                {subcategories.slice(0, 3).map((subcategory, index) => {
+                  return (
+                    <SubcategoryCard
+                      key={index}
+                      name={subcategory.name}
+                      image={subcategory.image}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Top Posts */}
+              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                {topPosts.map((post, index) => {
+                  return <CommunityPostCard key={index} post={post} />;
                 })}
               </div>
 
@@ -126,7 +148,7 @@ const CommunitiesIndividual = () => {
                       {subcategories.map((category, index) => {
                         return (
                           <option key={index} value={category._id}>
-                            {category}
+                            {category.name}
                           </option>
                         );
                       })}

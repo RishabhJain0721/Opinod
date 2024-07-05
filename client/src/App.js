@@ -19,6 +19,7 @@ import {
 } from "./Pages/CommunitiesMainAndSpecial";
 import CommunitiesJoined from "./Pages/CommunitiesJoined";
 import CommunitiesIndividual from "./Pages/CommunitiesIndividual";
+import CommunitySubcategories from "./Pages/CommunitySubcategories";
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
         <Route path="/communities/special" element={<CommunitiesSpecial />} />
         <Route path="/communities/joined" element={<CommunitiesJoined />} />
         <Route path="/community/:id" element={<CommunitiesIndividual />} />
+        <Route
+          path="/community/:id/subcategories"
+          element={<CommunitySubcategories />}
+        />
       </Routes>
     </Router>
   );
