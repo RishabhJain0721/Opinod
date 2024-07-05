@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  joinedCommunities: {
+    type: [String],
+    default: [],
+  },
   profilePicture: {
     type: Object,
   },

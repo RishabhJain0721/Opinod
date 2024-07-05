@@ -1,5 +1,6 @@
 import Comment from "../models/Comment.js";
 import Post from "../models/Post.js";
+import User from "../models/User.js";
 
 const addTopComment = async (req, res) => {
   const { postId, text, author } = req.body;
@@ -48,6 +49,51 @@ const addReply = async (req, res) => {
   res.send({ message: "Reply Added successfully" });
 };
 
+const sendTopComments = async (req, res) => {
+  const { numberOfOpinions } = req.body;
+  console.log(numberOfOpinions);
+
+  try {
+    const topComments = await Comment.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
+          $expr: { $eq: ["$postId", "$parentId"] },
+        },
+      },
+      {
+        $addFields: {
+          totalVotes: { $add: ["$upvotes", "$downvotes"] },
+        },
+      },
+      {
+        $sort: { totalVotes: -1 },
+      },
+      {
+        $limit: numberOfOpinions,
+      },
+    ]).exec();
+
+    //Adding post data to top comments
+    for (let i = 0; i < topComments.length; i++) {
+      const post = await Post.findById(topComments[i].postId, {
+        title: 1,
+        category: 1,
+      });
+      topComments[i].post = post;
+      const authorPicture = await User.findOne(
+        { username: topComments[i].author },
+        { profilePicture: 1 }
+      );
+      topComments[i].authorPicture = authorPicture;
+    }
+
+    res.status(200).send(topComments);
+  } catch (error) {
+    res.status(404).send({ message: "No comments found", error });
+  }
+};
+
 const sendComments = async (req, res) => {
   const { postId } = req.body;
 
@@ -65,12 +111,16 @@ const sendCommentAndReplies = async (req, res) => {
   try {
     const comment = await Comment.findById(commentId);
     const replies = await Comment.find({ _id: { $in: comment.children } });
-    console.log("Comment is : ", comment);
-    console.log("Replies :", replies);
     res.status(200).send({ comment, replies });
   } catch (error) {
     res.status(404).send({ message: "Comment not found", error });
   }
 };
 
-export { addTopComment, addReply, sendComments, sendCommentAndReplies };
+export {
+  addTopComment,
+  addReply,
+  sendComments,
+  sendCommentAndReplies,
+  sendTopComments,
+};

@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Community from "../models/Community.js";
 import multer from "multer";
 
 // Create a multer instance with the storage configuration
@@ -68,4 +69,41 @@ const updateProfile = async (req, res) => {
   });
 };
 
-export { addCategories, updateProfile };
+const joinCommunity = async (req, res) => {
+  const { username, communityId } = req.body;
+  console.log(username, communityId);
+  try {
+    const user = await User.findOne({ username });
+    user.joinedCommunities.push(communityId);
+    await user.save();
+    const community = await Community.findById(communityId);
+    community.subscriberCount++;
+    await community.save();
+    res
+      .status(200)
+      .send({ "Updated communities array": user.joinedCommunities });
+  } catch (error) {
+    res.status(500).send({ Message: "Internal server error." });
+  }
+};
+
+const leaveCommunity = async (req, res) => {
+  const { username, communityId } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    user.joinedCommunities = user.joinedCommunities.filter(
+      (id) => id !== communityId
+    );
+    await user.save();
+    const community = await Community.findById(communityId);
+    community.subscriberCount--;
+    await community.save();
+    res
+      .status(200)
+      .send({ "Updated communities array": user.joinedCommunities });
+  } catch (error) {
+    res.status(500).send({ Message: "Internal server error." });
+  }
+};
+
+export { addCategories, updateProfile, joinCommunity, leaveCommunity };

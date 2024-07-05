@@ -5,6 +5,7 @@ import userDetailsRoutes from "./src/userDetailsRoutes.js";
 import likeRoutes from "./src/likeRoutes.js";
 import dislikeRoutes from "./src/dislikeRoutes.js";
 import commentRoutes from "./src/commentRoutes.js";
+import communityRoutes from "./src/communityRoutes.js";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/user", userDetailsRoutes);
 router.use("/like", likeRoutes);
 router.use("/dislike", dislikeRoutes);
 router.use("/comment", commentRoutes);
+router.use("/community", communityRoutes);
 
 export default router;

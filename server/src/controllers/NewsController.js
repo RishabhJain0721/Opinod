@@ -21,7 +21,6 @@ const getTopComment = async (commentIds) => {
 const enrichPostsWithTopComment = async (posts) => {
   for (let post of posts) {
     const topComment = await getTopComment(post.comments);
-    console.log("Hellllllllllllllllllllllooooooooooooo", topComment);
     if (topComment) {
       post.opinionId = topComment._id;
       post.opinion = topComment.text;
@@ -62,7 +61,7 @@ const fetchFullDetails = async (articles) => {
   }
 };
 
-const sendMostCommented = async (username, res) => {
+const sendMostCommented = async (username, res, skip, pageSize) => {
   const user = await User.findOne({ username });
   const posts = await Post.find(
     { category: { $in: user.selectedCategories } },
@@ -71,7 +70,9 @@ const sendMostCommented = async (username, res) => {
 
   // Sort the posts in descending order based on totalComments
   posts.sort((a, b) => b.totalComments - a.totalComments);
-  const mostCommented = await fetchFullDetails(posts.slice(0, 9));
+
+  const paginatedPosts = posts.slice(skip, skip + pageSize);
+  const mostCommented = await fetchFullDetails(paginatedPosts);
 
   console.log("Most Commented Articles:", mostCommented);
 
@@ -79,7 +80,7 @@ const sendMostCommented = async (username, res) => {
   res.status(200).send(mostCommented);
 };
 
-const sendMostReacted = async (username, res) => {
+const sendMostReacted = async (username, res, skip, pageSize) => {
   const user = await User.findOne({ username });
   const posts = await Post.find(
     { category: { $in: user.selectedCategories } },
@@ -88,7 +89,9 @@ const sendMostReacted = async (username, res) => {
 
   // Sort the posts in descending order based on totalComments
   posts.sort((a, b) => b.upvotes + b.downvotes - (a.upvotes + a.downvotes));
-  const mostReacted = await fetchFullDetails(posts.slice(0, 9));
+
+  const paginatedPosts = posts.slice(skip, skip + pageSize);
+  const mostReacted = await fetchFullDetails(paginatedPosts);
 
   console.log("Most Reacted Articles:", mostReacted);
 
@@ -150,15 +153,21 @@ const sendNewsDetails = async (req, res) => {
 };
 
 const sendNewsByCategory = async (req, res) => {
-  const { category, username } = req.body;
+  const { category, username, page } = req.body;
+  console.log("Category:", category, "Username:", username, "Page:", page);
+  const pageSize = 9; // Number of posts per page
+
+  // Calculate the number of posts to skip based on the page number
+  const skip = (page - 1) * pageSize;
+
   let news;
 
   if (category == "Most Commented") {
-    sendMostCommented(username, res);
+    sendMostCommented(username, res, skip, pageSize);
     return;
   }
   if (category == "Most Reacted") {
-    sendMostReacted(username, res);
+    sendMostReacted(username, res, skip, pageSize);
     return;
   }
 
@@ -177,31 +186,11 @@ const sendNewsByCategory = async (req, res) => {
       }
     )
       .sort({ publishedAt: -1 })
-      .limit(9)
+      .skip(skip)
+      .limit(pageSize)
       .lean();
 
     await enrichPostsWithTopComment(posts);
-    news = posts;
-  } else if (category == "Daily") {
-    const posts = await Post.find(
-      { category: "Nation" },
-      {
-        title: 1,
-        image: 1,
-        publishedAt: 1,
-        source: 1,
-        category: 1,
-        comments: 1,
-        upvotes: 1,
-        downvotes: 1,
-      }
-    )
-      .sort({ publishedAt: -1 })
-      .limit(9)
-      .lean();
-
-    await enrichPostsWithTopComment(posts);
-
     news = posts;
   } else {
     const posts = await Post.find(
@@ -218,7 +207,8 @@ const sendNewsByCategory = async (req, res) => {
       }
     )
       .sort({ publishedAt: -1 })
-      .limit(9)
+      .skip(skip)
+      .limit(pageSize)
       .lean();
     await enrichPostsWithTopComment(posts);
     news = posts;

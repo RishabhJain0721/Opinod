@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  sendTopComments,
   addTopComment,
   sendComments,
   addReply,
@@ -8,6 +9,7 @@ import {
 
 const router = express.Router();
 
+router.post("/topComments", sendTopComments);
 router.post("/getComments", sendComments);
 router.post("/addTopComment", addTopComment);
 router.post("/addReply", addReply);
