@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Opinod from "../Assets/opinodLogo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { refreshNews } from "../Actions/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { selectCategory } from "../Actions/actions";
+import { selectCategory, logout } from "../Actions/actions";
 import {
   faBell,
   faUser,
@@ -26,7 +25,6 @@ import {
   faEarthAmericas,
   faXmark,
   faChevronDown,
-  faChevronUp,
   faChevronRight,
   faBarsProgress,
   faLayerGroup,
@@ -34,7 +32,17 @@ import {
   faPencil,
   faGear,
   faHouse,
+  faChevronUp,
+  faRankingStar,
+  faLightbulb,
+  faBrain,
+  faBook,
+  faUserGraduate,
+  faPencilRuler,
+  faScaleBalanced,
+  faTree,
 } from "@fortawesome/free-solid-svg-icons";
+import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -48,6 +56,9 @@ const Topbar = () => {
   const [toggleCategory, setToggleCategory] = useState(false);
   const [toggleCommunity, setToggleCommunity] = useState(false);
   const [toggleSettings, setToggleSettings] = useState(false);
+  const [showMainTopics, setShowMainTopics] = useState(false);
+  const [showSpecialInterestGroups, setShowSpecialInterestGroups] =
+    useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -78,6 +89,25 @@ const Topbar = () => {
       "World",
     ];
   }
+
+  const mainTopics = [
+    "World News",
+    "Politics",
+    "Business",
+    "Technology",
+    "Science",
+    "Health",
+    "Environment",
+    "Sports",
+    "Entertainment",
+  ];
+
+  const specialIntrestGroups = [
+    "Expert Opinions",
+    "Educational Resources",
+    "Book and Article Reviews",
+    "Quiz Discussions",
+  ];
 
   const handleCategorySelect = (category) => {
     if (!username) {
@@ -131,6 +161,21 @@ const Topbar = () => {
         return faCircleQuestion;
       case "About":
         return faCircleInfo;
+      case "Expert Opinions":
+        return faBrain;
+      case "Educational Resources":
+        return faUserGraduate;
+      case "Book and Article Reviews":
+        return faBook;
+      case "Quiz Discussions":
+        return faPencilRuler;
+      case "World News":
+        return faEarthAmericas;
+      case "Politics":
+        return faScaleBalanced;
+      case "Environment":
+        return faPagelines;
+
       default:
         return faClapperboard;
     }
@@ -148,6 +193,14 @@ const Topbar = () => {
     setToggleSettings(!toggleSettings);
   };
 
+  const toggleMainTopics = () => {
+    setShowMainTopics(!showMainTopics);
+  };
+
+  const toggleSpecialInterestGroups = () => {
+    setShowSpecialInterestGroups(!showSpecialInterestGroups);
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       <div className="flex items-center justify-between ">
@@ -155,7 +208,7 @@ const Topbar = () => {
           <img
             src={Opinod}
             alt="Logo"
-            className="w-11 h-11 mr-4 rounded-sm bg-blue-500"
+            className="w-11 h-11 mr-4 rounded-sm bg-gray-900"
             onClick={() => {
               navigate("/");
               dispatch(selectCategory(null));
@@ -175,18 +228,6 @@ const Topbar = () => {
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
-        </div>
-
-        <div className="ml-auto mr-4">
-          <button
-            className="bg-blue-500 px-4 py-1 text-sm md:text-lg rounded-full text-white"
-            onClick={() => {
-              dispatch(refreshNews());
-              window.location.reload();
-            }}
-          >
-            Refresh news
-          </button>
         </div>
 
         {isMobile ? (
@@ -222,7 +263,7 @@ const Topbar = () => {
                     <div className="flex justify-between items-center mr-4">
                       <div>
                         <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "}
-                        New Categories
+                        News Categories
                       </div>
                       <FontAwesomeIcon
                         icon={toggleCategory ? faChevronDown : faChevronRight}
@@ -260,21 +301,99 @@ const Topbar = () => {
                   )}
 
                   {/* Communities */}
-                  <h2
-                    className="text-lg mb-2 ml-5 text-white mt-5"
-                    onClick={handleToggleCommunity}
-                  >
+                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
                     <div className="flex justify-between items-center mr-4">
-                      <div>
+                      <div onClick={() => navigate("/communities")}>
                         <FontAwesomeIcon icon={faUsers} className="mr-1" />{" "}
                         Community
                       </div>
                       <FontAwesomeIcon
                         icon={toggleCommunity ? faChevronDown : faChevronRight}
                         className="text-xs ml-3"
+                        onClick={handleToggleCommunity}
                       />
                     </div>
                   </h2>
+                  {toggleCommunity && (
+                    <div>
+                      <div>
+                        <button
+                          className="flex items-center px-8 p-1 focus:outline-none text-white"
+                          onClick={() => {
+                            navigate("/communities/main");
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faRankingStar}
+                            className="mr-2"
+                          />
+                          Main Topics
+                          <FontAwesomeIcon
+                            icon={showMainTopics ? faChevronUp : faChevronDown}
+                            className=" text-xs ml-3"
+                            onClick={toggleMainTopics}
+                          />
+                        </button>
+                        {showMainTopics && (
+                          <ul className="ml-10 mt-2 space-y-2 text-white">
+                            {mainTopics.map((topic) => {
+                              return (
+                                <div key={topic}>
+                                  <button onClick={() => {}}>
+                                    <FontAwesomeIcon
+                                      icon={selectIcon(topic)}
+                                      className="mr-2"
+                                    />
+                                    {topic}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </div>
+                      <div>
+                        <button
+                          className="flex items-center px-8 my-2 focus:outline-none text-white"
+                          onClick={() => {
+                            navigate("/communities/special");
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faLightbulb}
+                            className="mr-2"
+                          />
+                          Special Interest
+                          <FontAwesomeIcon
+                            icon={
+                              showSpecialInterestGroups
+                                ? faChevronUp
+                                : faChevronDown
+                            }
+                            className=" text-xs   ml-2"
+                            onClick={toggleSpecialInterestGroups}
+                          />
+                        </button>
+                        {showSpecialInterestGroups && (
+                          <ul className="ml-10 mt-2 space-y-2 text-white">
+                            {specialIntrestGroups.map((topic) => {
+                              return (
+                                <div key={topic}>
+                                  <button onClick={() => {}}>
+                                    <FontAwesomeIcon
+                                      icon={selectIcon(topic)}
+                                      className="mr-2"
+                                    />
+                                    {topic}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Quizzes and Challenges */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">
@@ -333,7 +452,10 @@ const Topbar = () => {
 
                   {/* Profile */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-                    <div className="flex justify-between items-center mr-4">
+                    <div
+                      className="flex justify-between items-center mr-4"
+                      onClick={() => navigate("/profile")}
+                    >
                       <div>
                         <FontAwesomeIcon icon={faUser} className="mr-1" />{" "}
                         Profile{" "}
@@ -347,7 +469,10 @@ const Topbar = () => {
 
                   {username ? (
                     <button
-                      onClick={() => navigate("/logout")}
+                      onClick={() => {
+                        dispatch(logout());
+                        navigate("/");
+                      }}
                       className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
                     >
                       Logout

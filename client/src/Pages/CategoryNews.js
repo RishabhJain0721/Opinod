@@ -1,79 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import Card from "../Components/Card";
 import { getNewsByCategory } from "../APIs/NewsApis";
-import { useSelector, useDispatch } from "react-redux";
-import { saveNews } from "../Actions/actions";
+import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import MobileSearch from "../Components/MobileSearch";
+import { set } from "date-fns";
 
 const CategoryNews = () => {
-  const dispatch = useDispatch();
   const category = useSelector((state) => state.category.category);
   const username = useSelector((state) => state.user.username);
-  const newsFromStore = useSelector((state) => state.news);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [news, setNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchNews = async () => {
-      try {
-        const res = await getNewsByCategory(category, username);
-        console.log(res);
-        if (category === "Most Commented") {
-          dispatch(saveNews(res, "MostCommented"));
-        } else if (category === "Most Reacted") {
-          dispatch(saveNews(res, "MostReacted"));
-        } else {
-          dispatch(saveNews(res, category));
-        }
-        setNews(res);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+  const fetchNews = useCallback(async () => {
+    try {
+      const res = await getNewsByCategory(category, username, page);
+      if (res.length > 0) {
+        setNews((prevNews) => [...prevNews, ...res]);
+        setPage((prevPage) => prevPage + 1);
+      } else {
+        setHasMore(false); // No more articles available
       }
-    };
-
-    if (category === "Trending" && newsFromStore[category].length === 3) {
-      fetchNews();
-    } else if (
-      newsFromStore[
-        category === "Most Commented"
-          ? "MostCommented"
-          : category === "Most Reacted"
-          ? "MostReacted"
-          : category
-      ].length === 0
-    ) {
-      fetchNews();
-    } else {
-      setNews(
-        newsFromStore[
-          category === "Most Commented"
-            ? "MostCommented"
-            : category === "Most Reacted"
-            ? "MostReacted"
-            : category
-        ]
-      );
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsLoading(false);
     }
+  }, [category, username, page, isLoading, hasMore]);
 
+  useEffect(() => {
+    fetchNews();
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
     };
 
+    const handleScroll = async () => {
+      if (
+        window.innerHeight + Math.round(window.scrollY) !==
+          document.body.offsetHeight - 1 ||
+        isLoading ||
+        !hasMore
+      )
+        return;
+      await fetchNews();
+    };
+
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [category, newsFromStore]);
+  }, [isLoading, hasMore, fetchNews]);
 
   return (
     <div>
@@ -82,7 +70,7 @@ const CategoryNews = () => {
       {!isMobile && <Navbar />}
       <div className="flex mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
-          <div className="text-2xl ml-5 md:ml-10 mt-5 md:mt-7 font-semibold text-blue-600 w-auto">
+          <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-7 font-semibold text-gray-800 w-auto">
             {category}
           </div>
 
@@ -101,41 +89,46 @@ const CategoryNews = () => {
               />
             </div>
           ) : (
-            <div className="flex flex-wrap justify-start md:ml-6 ">
-              {news.map((article) => (
-                <Card
-                  key={article._id}
-                  id={article._id}
-                  profilePhoto={article.image}
-                  name={article.source}
-                  datePosted={new Date(article.publishedAt).toLocaleDateString(
-                    "en-US",
-                    {
+            <>
+              <div className="flex flex-wrap justify-start md:ml-6 ">
+                {news.map((article) => (
+                  <Card
+                    key={article._id}
+                    id={article._id}
+                    profilePhoto={article.image}
+                    name={article.source}
+                    datePosted={new Date(
+                      article.publishedAt
+                    ).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-                    }
-                  )}
-                  title={article.title}
-                  upvotes={article.upvotes}
-                  downvotes={article.downvotes}
-                  opinionId={article.opinionId}
-                  opinion={article.opinion}
-                  opinionAuthorPhoto={article.opinionAuthorPhoto}
-                  opinionAuthorName={article.opinionAuthorName}
-                  opinionDate={new Date(article.opinionDate).toLocaleDateString(
-                    "en-US",
-                    {
+                    })}
+                    title={article.title}
+                    upvotes={article.upvotes}
+                    downvotes={article.downvotes}
+                    opinionId={article.opinionId}
+                    opinion={article.opinion}
+                    opinionAuthorPhoto={article.opinionAuthorPhoto}
+                    opinionAuthorName={article.opinionAuthorName}
+                    opinionDate={new Date(
+                      article.opinionDate
+                    ).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-                    }
-                  )}
-                  opinionUpvotes={article.commentUpvotes}
-                  opinionDownvotes={article.commentDownvotes}
-                />
-              ))}
-            </div>
+                    })}
+                    opinionUpvotes={article.commentUpvotes}
+                    opinionDownvotes={article.commentDownvotes}
+                  />
+                ))}
+              </div>
+              {!hasMore && (
+                <div className=" text-center my-5">
+                  .... No more articles here ....
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

@@ -20,13 +20,11 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis";
-import { updateNews } from "../APIs/NewsApis.js";
 import {
   likeCom,
   dislikeCom,
   likeComRemove,
   dislikeComRemove,
-  updateNewsInStore,
 } from "../Actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
@@ -39,11 +37,9 @@ const Reply = () => {
   const navigate = useNavigate();
 
   const username = useSelector((state) => state.user.username);
-  const category = useSelector((state) => state.category.category);
   const likedComments = useSelector((state) => state.user.likedComments);
   const dislikedComments = useSelector((state) => state.user.dislikedComments);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [comment, setComment] = useState({});
   const [replies, setReplies] = useState([]);
@@ -94,9 +90,6 @@ const Reply = () => {
     };
   }, []);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
   const handleSubmitReply = async () => {
     try {
       const res = await addReply(
@@ -109,7 +102,6 @@ const Reply = () => {
     } catch (error) {
       throw error;
     }
-    setIsModalOpen(false);
     setReplyText("");
   };
 
@@ -153,8 +145,6 @@ const Reply = () => {
       await handleCommentLike();
     }
     setCommentLikeToggle(false);
-    const res = await updateNews(postId);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleCommentDislike = async () => {
@@ -172,8 +162,6 @@ const Reply = () => {
       await handleCommentDislike();
     }
     setCommentDislikeToggle(false);
-    const res = await updateNews(postId);
-    dispatch(updateNewsInStore(res, category));
   };
 
   return (

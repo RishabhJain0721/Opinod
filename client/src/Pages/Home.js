@@ -4,19 +4,18 @@ import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import MobileSearch from "../Components/MobileSearch";
 import Card from "../Components/Card";
-import { getNews } from "../APIs/NewsApis";
-import { useSelector, useDispatch } from "react-redux";
-import { saveNews, selectCategory } from "../Actions/actions";
-import { MutatingDots } from "react-loader-spinner";
 import OpinionCard from "../Components/OpinionCard";
+import { getNews } from "../APIs/NewsApis";
 import { getPopularOpinions } from "../APIs/CommentApis";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCategory } from "../Actions/actions";
+import { MutatingDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-  const trendingFromStore = useSelector((state) => state.news.Trending);
 
   const [trending, setTrending] = useState([]);
   const [popularOpinions, setPopularOpinions] = useState([]);
@@ -28,8 +27,6 @@ const Home = () => {
     const fetchNews = async () => {
       try {
         const res = await getNews();
-        console.log(res);
-        dispatch(saveNews(res.trendingArticles, "Trending"));
         setTrending(res.trendingArticles);
       } catch (error) {
         console.log(error);
@@ -37,12 +34,7 @@ const Home = () => {
         setIsLoading(false);
       }
     };
-    if (trendingFromStore.length === 0) {
-      fetchNews();
-    } else {
-      setTrending(trendingFromStore);
-      setIsLoading(false);
-    }
+    fetchNews();
 
     const fetchOpinions = async () => {
       try {

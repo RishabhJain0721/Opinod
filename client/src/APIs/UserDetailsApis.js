@@ -20,3 +20,27 @@ export const updateProfile = async (formData) => {
     throw error;
   }
 };
+
+export const joinCommunity = async (username, communityId) => {
+  try {
+    const response = await axios.post("/api/user/joinCommunity", {
+      username,
+      communityId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const leaveCommunity = async (username, communityId) => {
+  try {
+    const response = await axios.post("/api/user/leaveCommunity", {
+      username,
+      communityId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

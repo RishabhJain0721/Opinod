@@ -10,6 +10,7 @@ export const loginToStore = (
   username,
   email,
   categories,
+  joinedCommunities,
   profilePicture,
   description,
   likedPosts,
@@ -28,6 +29,7 @@ export const loginToStore = (
       username: username,
       email: email,
       categories: categories,
+      joinedCommunities: joinedCommunities,
       profilePicture: profilePicture,
       description: description,
       likedPosts: likedPosts,
@@ -55,16 +57,17 @@ export const updateCategories = (categories) => {
   };
 };
 
-export const saveNews = (articlesArray, category) => {
+export const updateCommunities = (communityId) => {
   return {
-    type: "SAVE_ARTICLES",
-    payload: { articlesArray, category },
+    type: "UPDATE_COMMUNITIES",
+    payload: communityId,
   };
 };
 
-export const refreshNews = () => {
+export const updateRemoveCommunity = (communityId) => {
   return {
-    type: "REFRESH_NEWS",
+    type: "UPDATE_REMOVE_COMMUNITY",
+    payload: communityId,
   };
 };
 
@@ -121,12 +124,5 @@ export const dislikeComRemove = (commentId) => {
   return {
     type: "DISLIKE_COMMENT_REMOVE",
     payload: commentId,
-  };
-};
-
-export const updateNewsInStore = (article, category) => {
-  return {
-    type: "UPDATE_NEWS",
-    payload: { article, category },
   };
 };

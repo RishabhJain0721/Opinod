@@ -4,17 +4,15 @@ import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import NewsDetails from "../Components/NewsDetails";
 import Comment from "../Components/Comment";
-import { getNewsById, updateNews } from "../APIs/NewsApis";
+import { getNewsById } from "../APIs/NewsApis";
 import { addTopComment, getComments } from "../APIs/CommentApis";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { updateNewsInStore } from "../Actions/actions";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const Details = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const [details, setDetails] = useState();
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
@@ -23,7 +21,6 @@ const Details = () => {
   const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const username = useSelector((state) => state.user.username);
-  const category = useSelector((state) => state.category.category);
 
   const fetchDetails = async () => {
     try {
@@ -73,8 +70,6 @@ const Details = () => {
       await addTopComment(id, newReply, username);
       await fetchComments();
       setNewReply("");
-      const res = await updateNews(details._id);
-      dispatch(updateNewsInStore(res, category));
     } catch (err) {
       throw err;
     }

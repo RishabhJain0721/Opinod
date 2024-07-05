@@ -8,13 +8,11 @@ import {
   removeLike,
   removeDislike,
 } from "../APIs/LikeApis.js";
-import { updateNews } from "../APIs/NewsApis.js";
 import {
   like,
   dislike,
   likeRemove,
   dislikeRemove,
-  updateNewsInStore,
 } from "../Actions/actions.js";
 import {
   faThumbsUp,
@@ -23,11 +21,7 @@ import {
   faCommentDots,
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
-import {
-  faShareNodes,
-  faAngleLeft,
-  faAngleRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { formatDistanceToNow } from "date-fns";
 
 const NewsDetails = (props) => {
@@ -35,7 +29,6 @@ const NewsDetails = (props) => {
   const dispatch = useDispatch();
 
   const username = useSelector((state) => state.user.username);
-  const category = useSelector((state) => state.category.category);
   const likedPosts = useSelector((state) => state.user.likedPosts);
   const dislikedPosts = useSelector((state) => state.user.dislikedPosts);
 
@@ -88,8 +81,6 @@ const NewsDetails = (props) => {
       await handleLike();
     }
     setLikeToggle(false);
-    const res = await updateNews(details._id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleDislike = async () => {
@@ -103,8 +94,6 @@ const NewsDetails = (props) => {
       await handleDislike();
     }
     setDislikeToggle(false);
-    const res = await updateNews(details._id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   return (

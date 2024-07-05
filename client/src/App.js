@@ -12,6 +12,13 @@ import Details from "./Pages/Details";
 import Notifications from "./Pages/Notifications";
 import SelectCategories from "./Pages/SelectCategories";
 import CategoryNews from "./Pages/CategoryNews";
+import Communities from "./Pages/Communities";
+import {
+  CommunitiesMain,
+  CommunitiesSpecial,
+} from "./Pages/CommunitiesMainAndSpecial";
+import CommunitiesJoined from "./Pages/CommunitiesJoined";
+import CommunitiesIndividual from "./Pages/CommunitiesIndividual";
 
 function App() {
   return (
@@ -29,6 +36,11 @@ function App() {
         <Route path="/updateProfile" element={<UpdateProfile />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/selectCategories" element={<SelectCategories />} />
+        <Route path="/communities" element={<Communities />} />
+        <Route path="/communities/main" element={<CommunitiesMain />} />
+        <Route path="/communities/special" element={<CommunitiesSpecial />} />
+        <Route path="/communities/joined" element={<CommunitiesJoined />} />
+        <Route path="/community/:id" element={<CommunitiesIndividual />} />
       </Routes>
     </Router>
   );

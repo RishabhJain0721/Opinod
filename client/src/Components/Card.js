@@ -18,7 +18,6 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis.js";
-import { updateNews } from "../APIs/NewsApis.js";
 import {
   like,
   dislike,
@@ -28,7 +27,6 @@ import {
   dislikeCom,
   likeComRemove,
   dislikeComRemove,
-  updateNewsInStore,
 } from "../Actions/actions.js";
 import { ThreeDots } from "react-loader-spinner";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -143,8 +141,6 @@ const Card = ({
       await handleLike();
     }
     setLikeToggle(false);
-    const res = await updateNews(id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleDislike = async () => {
@@ -162,8 +158,6 @@ const Card = ({
       await handleDislike();
     }
     setDislikeToggle(false);
-    const res = await updateNews(id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleCommentLike = async () => {
@@ -206,8 +200,6 @@ const Card = ({
       await handleCommentLike();
     }
     setCommentLikeToggle(false);
-    const res = await updateNews(id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleCommentDislike = async () => {
@@ -225,8 +217,6 @@ const Card = ({
       await handleCommentDislike();
     }
     setCommentDislikeToggle(false);
-    const res = await updateNews(id);
-    dispatch(updateNewsInStore(res, category));
   };
 
   return (

@@ -44,6 +44,7 @@ const Login = () => {
           res.username,
           res.email,
           res.selectedCategories,
+          res.joinedCommunities,
           res.profilePicture,
           res.description,
           res.likedPosts,

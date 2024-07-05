@@ -3,21 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
+import BadgeCard from "../Components/BadgeCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInstagram,
-  faTwitter,
-  faReddit,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+// import {
+//   faInstagram,
+//   faTwitter,
+//   faReddit,
+//   faLinkedin,
+// } from "@fortawesome/free-brands-svg-icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../Actions/actions";
-import {
-  faCircle,
-  faFilter,
-  faFire,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faFire, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -96,9 +93,9 @@ const ProfilePage = () => {
             {/* Second Row: Name and Edit button */}
 
             <div className="flex items-center">
-              <div className="text-xl font-medium">{user.username}</div>
+              <div className="text-lg font-medium">{user.username}</div>
               <button
-                className="px-2 py-1 rounded text-blue-600 duration-100 ml-2 text-sm md:text-base"
+                className="px-2 py-1 rounded text-blue-600 duration-100 ml-1 text-sm md:text-base"
                 onClick={() => navigate("/updateProfile")}
               >
                 Edit profile
@@ -111,9 +108,11 @@ const ProfilePage = () => {
             </div> */}
 
             {/* Fourth Row: Description */}
-            <div className="text-gray-600 text-sm md:text-base mb-6">
+            <div className="text-gray-600 text-sm md:text-base mb-3">
               {user.description}
             </div>
+
+            <BadgeCard />
 
             {/* Social Media Links */}
             {/* <div className="flex justify-start mb-6">
@@ -132,7 +131,7 @@ const ProfilePage = () => {
             </div> */}
 
             {/* Recent Activities */}
-            <div className="text-lg font-medium mb-2">
+            <div className=" text-base font-medium mb-2">
               Recent Activities
               <button
                 onClick={toggleDropdown}
@@ -140,32 +139,32 @@ const ProfilePage = () => {
               >
                 <FontAwesomeIcon
                   icon={faFilter}
-                  className=" text-gray-600 text-sm"
+                  className=" text-gray-600 text-xs"
                 />
               </button>
               {isDropdownOpen && (
                 <div className="absolute bg-white border text-base rounded shadow-md mt-1 ml-36">
                   <div
                     onClick={() => selectFilter("All")}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
                   >
                     All
                   </div>
                   <div
                     onClick={() => selectFilter("Posts")}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
                   >
                     Posts
                   </div>
                   <div
                     onClick={() => selectFilter("Opinions")}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
                   >
                     Opinions
                   </div>
                   <div
                     onClick={() => selectFilter("Quizzes")}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
                   >
                     Quizzes
                   </div>
@@ -180,8 +179,8 @@ const ProfilePage = () => {
               >
                 <div className="text-sm md:text-base">
                   <FontAwesomeIcon
-                    icon={faFire}
-                    className="  mr-2 text-xs md:text-sm text-red-500"
+                    icon={faSquare}
+                    className="  mr-2 text-xs md:text-sm text-blue-500"
                   />
                   Scored 20% in politics quiz
                 </div>
@@ -195,8 +194,8 @@ const ProfilePage = () => {
               >
                 <div className="text-sm md:text-base">
                   <FontAwesomeIcon
-                    icon={faFire}
-                    className="  mr-2 text-xs md:text-sm text-red-500"
+                    icon={faSquare}
+                    className="  mr-2 text-xs md:text-sm text-blue-500"
                   />
                   Made a new community called Chess
                 </div>
@@ -210,8 +209,8 @@ const ProfilePage = () => {
               >
                 <div className="text-sm md:text-base">
                   <FontAwesomeIcon
-                    icon={faFire}
-                    className="  mr-2 text-xs md:text-sm text-red-500"
+                    icon={faSquare}
+                    className="  mr-2 text-xs md:text-sm text-blue-500"
                   />
                   Gave opinion on climate impact
                 </div>
@@ -226,54 +225,7 @@ const ProfilePage = () => {
             {/* Achievements */}
             <div className="text-lg font-medium mb-2 mt-5">Achievements</div>
             <div className="flex flex-col">
-              {/* {user.activities.map((activity, index) => ( */}
-              <div
-                // key={index}
-                className="flex justify-between items-center mb-2"
-              >
-                <div className="text-sm md:text-base">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className="  mr-2 text-xs md:text-sm text-yellow-400"
-                  />
-                  Scored 20% in politics quiz
-                </div>
-                <div className="text-xs md:text-sm text-gray-500">
-                  {new Date().toLocaleDateString()}
-                </div>
-              </div>
-              <div
-                // key={index}
-                className="flex justify-between items-center mb-2"
-              >
-                <div className="text-sm md:text-base">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className="  mr-2 text-xs md:text-sm text-yellow-400"
-                  />
-                  Made a new community called Chess
-                </div>
-                <div className="text-xs md:text-sm text-gray-500">
-                  {new Date().toLocaleDateString()}
-                </div>
-              </div>
-              <div
-                // key={index}
-                className="flex justify-between items-center mb-2"
-              >
-                <div className="text-sm md:text-base">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className="  mr-2 text-xs md:text-sm text-yellow-400"
-                  />
-                  Gave opinion on climate impact
-                </div>
-                <div className="text-xs md:text-sm text-gray-500">
-                  {new Date().toLocaleDateString()}
-                </div>
-              </div>
-
-              {/* ))} */}
+              <BadgeCard />
             </div>
 
             {/* Edit Profile and Logout Buttons */}

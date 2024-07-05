@@ -18,13 +18,11 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis";
-import { updateNews } from "../APIs/NewsApis.js";
 import {
   likeCom,
   dislikeCom,
   likeComRemove,
   dislikeComRemove,
-  updateNewsInStore,
 } from "../Actions/actions";
 import { formatDistanceToNow } from "date-fns";
 
@@ -35,7 +33,6 @@ const Comment = ({ opinion }) => {
   const postId = location.pathname.split("/")[2];
 
   const username = useSelector((state) => state.user.username);
-  const category = useSelector((state) => state.category.category);
   const likedComments = useSelector((state) => state.user.likedComments);
   const dislikedComments = useSelector((state) => state.user.dislikedComments);
 
@@ -115,8 +112,6 @@ const Comment = ({ opinion }) => {
       await handleCommentLike();
     }
     setCommentLikeToggle(false);
-    const res = await updateNews(postId);
-    dispatch(updateNewsInStore(res, category));
   };
 
   const handleToggleCommentDislike = async () => {
@@ -134,8 +129,6 @@ const Comment = ({ opinion }) => {
       await handleCommentDislike();
     }
     setCommentDislikeToggle(false);
-    const res = await updateNews(postId);
-    dispatch(updateNewsInStore(res, category));
   };
 
   return (

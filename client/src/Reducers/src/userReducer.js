@@ -5,6 +5,7 @@ const initialState = {
   categories: [],
   profilePicture: null,
   description: null,
+  joinedCommunities: [],
   likedPosts: null,
   dislikedPosts: null,
   likedComments: null,
@@ -26,6 +27,7 @@ const userReducer = (state = initialState, action) => {
         categories: action.payload.categories,
         profilePicture: action.payload.profilePicture,
         description: action.payload.description,
+        joinedCommunities: action.payload.joinedCommunities,
         likedPosts: action.payload.likedPosts,
         dislikedPosts: action.payload.dislikedPosts,
         likedComments: action.payload.likedComments,
@@ -43,11 +45,33 @@ const userReducer = (state = initialState, action) => {
         categories: [],
         profilePicture: null,
         description: null,
+        joinedCommunities: [],
+        likedPosts: null,
+        dislikedPosts: null,
+        likedComments: null,
+        dislikedComments: null,
+        instagram: null,
+        reddit: null,
+        linkedin: null,
+        twitter: null,
       };
     case "UPDATE_CATEGORIES":
       return {
         ...state,
         categories: action.payload,
+      };
+    case "UPDATE_COMMUNITIES":
+      return {
+        ...state,
+        joinedCommunities: [...state.joinedCommunities, action.payload],
+      };
+    case "UPDATE_REMOVE_COMMUNITY":
+      console.log(state.joinedCommunities);
+      return {
+        ...state,
+        joinedCommunities: state.joinedCommunities.filter(
+          (communityId) => communityId !== action.payload
+        ),
       };
     case "LIKE":
       return {
