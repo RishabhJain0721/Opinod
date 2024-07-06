@@ -5,12 +5,14 @@ import Navbar from "../Components/Navbar";
 import MobileSearch from "../Components/MobileSearch";
 import Card from "../Components/Card";
 import OpinionCard from "../Components/OpinionCard";
+import CommunityCardShort from "../Components/CommunityCardShort";
 import { getNews } from "../APIs/NewsApis";
 import { getPopularOpinions } from "../APIs/CommentApis";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCategory } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
+import { getCommunities } from "../APIs/CommunityApis";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,13 +21,16 @@ const Home = () => {
 
   const [trending, setTrending] = useState([]);
   const [popularOpinions, setPopularOpinions] = useState([]);
+  const [topCommunities, setTopCommunities] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [isLoading, setIsLoading] = useState(true);
-  const [opinionsLoading, setOpinionsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [opinionsLoading, setOpinionsLoading] = useState(false);
+  const [communitiesLoading, setCommunitiesLoading] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
+        setIsLoading(true);
         const res = await getNews();
         console.log(res);
         setTrending(res.trendingArticles);
@@ -39,7 +44,8 @@ const Home = () => {
 
     const fetchOpinions = async () => {
       try {
-        const res = await getPopularOpinions(2);
+        setOpinionsLoading(true);
+        const res = await getPopularOpinions(2, 1);
         console.log(res);
         setPopularOpinions(res);
       } catch (error) {
@@ -49,6 +55,20 @@ const Home = () => {
       }
     };
     fetchOpinions();
+
+    const fetchCommunities = async () => {
+      try {
+        setCommunitiesLoading(true);
+        const res = await getCommunities();
+        console.log(res);
+        setTopCommunities(res.communities);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setCommunitiesLoading(false);
+      }
+    };
+    fetchCommunities();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -76,6 +96,14 @@ const Home = () => {
       return;
     }
     navigate("/topOpinions");
+  };
+
+  const handleViewTopCommunities = () => {
+    if (!username) {
+      alert("Please login to view more articles.");
+      return;
+    }
+    navigate("/communities");
   };
 
   return (
@@ -202,6 +230,48 @@ const Home = () => {
                     upvotes={opinion.upvotes}
                     downvotes={opinion.downvotes}
                     postId={opinion.post._id}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          {communitiesLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <MutatingDots
+                visible={true}
+                height="100"
+                width="100"
+                color="#2196F3"
+                secondaryColor="#2196F3"
+                radius="12.5"
+                ariaLabel="mutating-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ) : (
+            <>
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-8 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className=" font-semibold md:font-normal">
+                  Top Communities
+                </div>
+                <div>
+                  <button
+                    className="text-xs md:text-lg text-gray-600 px-2"
+                    onClick={handleViewTopCommunities}
+                  >
+                    See all
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-start md:ml-6">
+                {topCommunities.slice(0, 3).map((community) => (
+                  <CommunityCardShort
+                    key={community._id}
+                    id={community._id}
+                    name={community.name}
+                    image={community.image}
                   />
                 ))}
               </div>

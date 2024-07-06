@@ -74,8 +74,6 @@ const sendMostCommented = async (username, res, skip, pageSize) => {
   const paginatedPosts = posts.slice(skip, skip + pageSize);
   const mostCommented = await fetchFullDetails(paginatedPosts);
 
-  console.log("Most Commented Articles:", mostCommented);
-
   // await enrichPostsWithTopComment(posts);
   res.status(200).send(mostCommented);
 };
@@ -92,8 +90,6 @@ const sendMostReacted = async (username, res, skip, pageSize) => {
 
   const paginatedPosts = posts.slice(skip, skip + pageSize);
   const mostReacted = await fetchFullDetails(paginatedPosts);
-
-  console.log("Most Reacted Articles:", mostReacted);
 
   // await enrichPostsWithTopComment(posts);
   res.status(200).send(mostReacted);
@@ -140,9 +136,6 @@ const sendNews = async (req, res) => {
 
   await enrichPostsWithTopComment(trending);
 
-  console.log("Top Voted Articles:", trending);
-  console.log("Top Commented Articles:", daily);
-
   res.status(200).send({ trendingArticles: trending, dailyArticles: daily });
 };
 
@@ -154,7 +147,6 @@ const sendNewsDetails = async (req, res) => {
 
 const sendNewsByCategory = async (req, res) => {
   const { category, username, page } = req.body;
-  console.log("Category:", category, "Username:", username, "Page:", page);
   const pageSize = 9; // Number of posts per page
 
   // Calculate the number of posts to skip based on the page number

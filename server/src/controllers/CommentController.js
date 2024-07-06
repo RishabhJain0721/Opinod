@@ -50,14 +50,18 @@ const addReply = async (req, res) => {
 };
 
 const sendTopComments = async (req, res) => {
-  const { numberOfOpinions } = req.body;
-  console.log(numberOfOpinions);
+  const { numberOfOpinions, page } = req.body;
+  console.log(numberOfOpinions, page);
+
+  // Calculate the number of posts to skip based on the page number
+  const skip = (page - 1) * numberOfOpinions;
+  console.log(skip);
 
   try {
     const topComments = await Comment.aggregate([
       {
         $match: {
-          createdAt: { $gte: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
+          createdAt: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
           $expr: { $eq: ["$postId", "$parentId"] },
         },
       },
@@ -70,9 +74,14 @@ const sendTopComments = async (req, res) => {
         $sort: { totalVotes: -1 },
       },
       {
+        $skip: skip,
+      },
+      {
         $limit: numberOfOpinions,
       },
     ]).exec();
+
+    topComments.forEach((comment) => console.log(comment._id));
 
     //Adding post data to top comments
     for (let i = 0; i < topComments.length; i++) {
@@ -98,7 +107,6 @@ const sendComments = async (req, res) => {
   const { postId } = req.body;
 
   const post = await Post.findById(postId);
-  console.log(post);
   const postComments = post.comments;
 
   const comments = await Comment.find({ _id: { $in: postComments } });

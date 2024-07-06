@@ -3,7 +3,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import routes from "./routes/index.js";
-import Community from "./models/Community.js";
+// import Community from "./models/Community.js";
+import Comment from "./models/Comment.js";
+import Post from "./models/Post.js";
 
 const app = express();
 app.use(cors());
@@ -368,3 +370,40 @@ app.use("/api", routes);
 // };
 
 // del();
+
+// const launch = async () => {
+//   const duplicates = await Post.aggregate([
+//     {
+//       $group: {
+//         _id: "$title",
+//         count: { $sum: 1 },
+//       },
+//     },
+//   ]);
+
+//   const titlesToDelete = duplicates
+//     .filter((doc) => doc.count > 1)
+//     .map((doc) => doc._id);
+
+//   console.log(titlesToDelete.length);
+
+//   for (let title of titlesToDelete) {
+//     const deleteResult = await Post.deleteOne({ title: title });
+//   }
+// };
+
+// launch();
+
+//delete comments with no post
+// const launch = async () => {
+//   const comments = await Comment.find({});
+
+//   for (let comment of comments) {
+//     const post = await Post.findById(comment.postId);
+//     if (!post) {
+//       await Comment.deleteOne({ _id: comment._id });
+//     }
+//   }
+// };
+
+// launch();

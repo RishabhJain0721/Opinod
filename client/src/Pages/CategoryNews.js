@@ -6,11 +6,11 @@ import { getNewsByCategory } from "../APIs/NewsApis";
 import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import MobileSearch from "../Components/MobileSearch";
-import { set } from "date-fns";
 
 const CategoryNews = () => {
   const category = useSelector((state) => state.category.category);
   const username = useSelector((state) => state.user.username);
+  let isArticleLoading = false;
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [news, setNews] = useState([]);
@@ -31,6 +31,7 @@ const CategoryNews = () => {
       console.log(error);
     } finally {
       setIsLoading(false);
+      isArticleLoading = false;
     }
   }, [category, username, page, isLoading, hasMore]);
 
@@ -48,10 +49,12 @@ const CategoryNews = () => {
       if (
         window.innerHeight + Math.round(window.scrollY) !==
           document.body.offsetHeight - 1 ||
-        isLoading ||
+        isArticleLoading ||
         !hasMore
       )
         return;
+
+      isArticleLoading = true;
       await fetchNews();
     };
 
@@ -123,9 +126,10 @@ const CategoryNews = () => {
                   />
                 ))}
               </div>
+
               {!hasMore && (
-                <div className=" text-center my-5">
-                  .... No more articles here ....
+                <div className="flex items-center justify-center w-full h-24 text-gray-600">
+                  No more articles available
                 </div>
               )}
             </>

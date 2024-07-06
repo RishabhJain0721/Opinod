@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,6 +7,20 @@ import {
   faCommentDots,
   faClock,
 } from "@fortawesome/free-regular-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  likeCom,
+  likeComRemove,
+  dislikeCom,
+  dislikeComRemove,
+} from "../Actions/actions";
+import {
+  likeComment,
+  removeCommentLike,
+  dislikeComment,
+  removeCommentDislike,
+} from "../APIs/LikeApis";
+import { ThreeDots } from "react-loader-spinner";
 
 const OpinionCard = ({
   id,
@@ -21,20 +35,97 @@ const OpinionCard = ({
   postId,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const base64Image = profilePhoto.buffer;
   const imageType = profilePhoto.mimetype;
   const src = `data:${imageType};base64,${base64Image}`;
+
+  const username = useSelector((state) => state.user.username);
+  const likedComments = useSelector((state) => state.user.likedComments);
+  const dislikedComments = useSelector((state) => state.user.dislikedComments);
+
+  const [commentLikes, setCommentLikes] = useState(upvotes);
+  const [commentDislikes, setCommentDislikes] = useState(downvotes);
+  const [isCommentLiked, setIsCommentLiked] = useState(
+    username ? (likedComments.includes(id) ? true : false) : false
+  );
+  const [isCommentDisliked, setIsCommentDisliked] = useState(
+    username ? (dislikedComments.includes(id) ? true : false) : false
+  );
+  const [commentLikeToggle, setCommentLikeToggle] = useState(false);
+  const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
+
+  const handleCommentLike = async () => {
+    await likeComment(username, id);
+    dispatch(likeCom(id));
+    setIsCommentLiked(true);
+    setCommentLikes(commentLikes + 1);
+  };
+  const handleRemoveCommentLike = async () => {
+    await removeCommentLike(username, id);
+    dispatch(likeComRemove(id));
+    setIsCommentLiked(false);
+    setCommentLikes(commentLikes - 1);
+  };
+  const handleCommentDislike = async () => {
+    await dislikeComment(username, id);
+    dispatch(dislikeCom(id));
+    setIsCommentDisliked(true);
+    setCommentDislikes(commentDislikes + 1);
+  };
+  const handleRemoveCommentDislike = async () => {
+    await removeCommentDislike(username, id);
+    dispatch(dislikeComRemove(id));
+    setIsCommentDisliked(false);
+    setCommentDislikes(commentDislikes - 1);
+  };
+
+  const handleToggleCommentLike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this comment.");
+      return;
+    }
+    setCommentLikeToggle(true);
+    if (isCommentLiked) {
+      await handleRemoveCommentLike();
+    } else {
+      if (isCommentDisliked) {
+        await handleRemoveCommentDislike();
+      }
+      await handleCommentLike();
+    }
+    setCommentLikeToggle(false);
+  };
+
+  const handleToggleCommentDislike = async () => {
+    if (!username) {
+      alert("Please login to like/dislike this comment.");
+      return;
+    }
+    setCommentDislikeToggle(true);
+    if (isCommentDisliked) {
+      await handleRemoveCommentDislike();
+    } else {
+      if (isCommentLiked) {
+        await handleRemoveCommentLike();
+      }
+      await handleCommentDislike();
+    }
+    setCommentDislikeToggle(false);
+  };
+
   return (
-    <div
-      className="p-2 mx-4 mb-2 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md"
-      onClick={() => {
-        navigate(`/details/${postId}`);
-      }}
-    >
+    <div className="p-2 mx-4 mb-2 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md">
       <div className="flex items-center mb-1">
         <span className="text-sm text-gray-500">{category}</span>
       </div>
-      <h2 className="text-sm md:text-base font-normal mb-2">
+      <h2
+        className="text-sm md:text-base font-normal mb-2"
+        onClick={() => {
+          navigate(`/details/${postId}`);
+        }}
+      >
         {title.length > 70 ? title.slice(0, 70) + "..." : title}
       </h2>
       <div className="flex items-center mb-1">
@@ -56,14 +147,61 @@ const OpinionCard = ({
       </p>
       <div className="flex items-center text-gray-700 space-x-6">
         <div className="flex items-center">
-          <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
-          <span>{upvotes}</span>
+          {commentLikeToggle ? (
+            <ThreeDots
+              visible={true}
+              height="16"
+              width="20"
+              color="#1E88E5"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            <button
+              className={`text-xs text-gray-500 flex items-center ${
+                isCommentLiked ? "text-green-500" : ""
+              }`}
+              onClick={handleToggleCommentLike}
+              disabled={commentDislikeToggle}
+            >
+              <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
+              {commentLikes}
+            </button>
+          )}
         </div>
         <div className="flex items-center">
-          <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
-          <span>{downvotes}</span>
+          {commentDislikeToggle ? (
+            <ThreeDots
+              visible={true}
+              height="16"
+              width="20"
+              color="#1E88E5"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            <button
+              className={`text-xs text-gray-500 flex items-center ${
+                isCommentDisliked ? "text-red-500" : ""
+              }`}
+              onClick={handleToggleCommentDislike}
+              disabled={commentLikeToggle}
+            >
+              <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
+              {commentDislikes}
+            </button>
+          )}
         </div>
-        <div className="flex items-center">
+        <div
+          className="flex items-center text-xs text-gray-500"
+          onClick={() => {
+            navigate(`/details/${postId}`);
+          }}
+        >
           <FontAwesomeIcon icon={faCommentDots} />
         </div>
       </div>

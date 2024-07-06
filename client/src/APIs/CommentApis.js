@@ -47,10 +47,11 @@ export const addReply = async (parentId, postId, text, author) => {
   }
 };
 
-export const getPopularOpinions = async (numberOfOpinions) => {
+export const getPopularOpinions = async (numberOfOpinions, page) => {
   try {
     const response = await axios.post("/api/comment/topComments", {
       numberOfOpinions,
+      page,
     });
     return response.data;
   } catch (error) {

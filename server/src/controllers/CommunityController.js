@@ -39,7 +39,6 @@ const sendCommunityData = async (req, res) => {
     const community = await Community.findById(id, { subCategories: 1 }).lean();
     const subcategories = community.subCategories;
     const topPosts = await topCommunityPosts(id, 2);
-    console.log(topPosts);
     res.status(200).send({ subcategories, topPosts });
   } catch (error) {
     res.status(404).send(error);
@@ -56,7 +55,6 @@ const addPost = async (req, res) => {
     subCategory: selectedSubcategory,
     author: username,
   });
-  console.log(newPost);
   try {
     await newPost.save();
     res.status(200).send(newPost);
@@ -65,4 +63,4 @@ const addPost = async (req, res) => {
   }
 };
 
-export { sendCommunities, sendCommunityData, addPost };
+export { sendCommunities, sendCommunityData, addPost, topCommunityPosts };

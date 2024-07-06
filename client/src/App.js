@@ -9,6 +9,7 @@ import Profile from "./Pages/Profile";
 import Reply from "./Pages/Reply";
 import UpdateProfile from "./Pages/UpdateProfile";
 import Details from "./Pages/Details";
+import TopOpinions from "./Pages/TopOpinions";
 import Notifications from "./Pages/Notifications";
 import SelectCategories from "./Pages/SelectCategories";
 import CategoryNews from "./Pages/CategoryNews";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/category/:category" element={<CategoryNews />} />
+        <Route path="/topOpinions" element={<TopOpinions />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/details/:id/reply/:commentId" element={<Reply />} />
         <Route path="/updateProfile" element={<UpdateProfile />} />

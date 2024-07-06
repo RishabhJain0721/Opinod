@@ -270,6 +270,7 @@ const Card = ({
                   isLiked ? "text-green-500" : ""
                 }`}
                 onClick={handleToggleLike}
+                disabled={dislikeToggle}
               >
                 <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
                 {likes} Likes
@@ -292,6 +293,7 @@ const Card = ({
                   isDisliked ? "text-red-500" : ""
                 }`}
                 onClick={handleToggleDislike}
+                disabled={likeToggle}
               >
                 <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
                 {dislikes} Dislikes
@@ -356,6 +358,7 @@ const Card = ({
                         isCommentLiked ? "text-green-500" : ""
                       }`}
                       onClick={handleToggleCommentLike}
+                      disabled={commentDislikeToggle}
                     >
                       <FontAwesomeIcon icon={faThumbsUp} className="mr-1" />
                       {commentLikes} Agrees
@@ -378,6 +381,7 @@ const Card = ({
                         isCommentDisliked ? "text-red-500" : ""
                       }`}
                       onClick={handleToggleCommentDislike}
+                      disabled={commentLikeToggle}
                     >
                       <FontAwesomeIcon icon={faThumbsDown} className="mr-1" />
                       {commentDislikes} Disagrees
