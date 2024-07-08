@@ -50,7 +50,7 @@ function App() {
           element={<CommunitySubcategories />}
         />
         <Route
-          path="/community/:id/subcategory/:subcategory"
+          path="/subcategory/:subcategory"
           element={<SubcategoryIndividual />}
         />
       </Routes>

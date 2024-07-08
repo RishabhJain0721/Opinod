@@ -8,7 +8,7 @@ import { MutatingDots } from "react-loader-spinner";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
-  const subWithDash = location.pathname.split("/")[4];
+  const subWithDash = location.pathname.split("/")[2];
   const subcategory = subWithDash.replaceAll("-", " ");
   console.log(subcategory);
 

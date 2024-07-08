@@ -5,7 +5,7 @@ const SubcategoryCard = ({ name, image }) => {
   const navigate = useNavigate();
 
   const handleGoToSubcategory = () => {
-    navigate(`subcategory/${name.replace(/\s/g, "-")}`);
+    navigate(`/subcategory/${name.replace(/\s/g, "-")}`);
   };
 
   return (
