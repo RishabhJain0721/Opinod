@@ -33,6 +33,7 @@ export const fetchNewsForCategories = async () => {
     //save the news articles in the database
     for (let j = 0; j < articles.length; j++) {
       const article = articles[j];
+      console.log("Post is:", article.title);
 
       const body = await scraper(articles[j].url);
 
@@ -40,12 +41,10 @@ export const fetchNewsForCategories = async () => {
         title: article.title,
         content: body ? body : article.description, //if fetching takes more time and body is not fetched, use description
         image: article.image,
-        publishedAt: article.publishedAt,
+        publishedAt: new Date().toISOString(),
         category: cat[i].charAt(0).toUpperCase() + cat[i].slice(1),
         source: article.source.name,
       });
-
-      console.log("Post is:", post);
 
       await post.save();
 
