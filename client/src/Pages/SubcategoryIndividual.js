@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
-import MobileSearch from "../Components/MobileSearch";
-import CommunityCard from "../Components/CommunityCard";
-import { getCommunities } from "../APIs/CommunityApis";
-import { useSelector } from "react-redux";
+import CommunityPostCard from "../Components/CommunityPostCard";
+import { getSubcategoryPosts } from "../APIs/CommunityApis";
 import { MutatingDots } from "react-loader-spinner";
 
-const CommunitiesJoined = () => {
-  const joinedFromStore = useSelector((state) => state.user.joinedCommunities);
+const CommunitiesIndividual = () => {
+  const location = useLocation();
+  const subWithDash = location.pathname.split("/")[4];
+  const subcategory = subWithDash.replaceAll("-", " ");
+  console.log(subcategory);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
-  const [communities, setCommunities] = useState([]);
+  const [topPosts, setTopPosts] = useState([]);
 
   useEffect(() => {
-    const fetchCommunities = async () => {
+    const fetchSubcategoryData = async () => {
       try {
-        const res = await getCommunities();
-        res.communities.forEach((ele) => {
-          if (joinedFromStore.includes(ele._id)) {
-            setCommunities((prev) => [...prev, ele]);
-          }
-        });
+        const res = await getSubcategoryPosts(subcategory, 1);
+        console.log(res);
+        setTopPosts(res.topPosts);
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCommunities();
+    fetchSubcategoryData();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -45,7 +45,7 @@ const CommunitiesJoined = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
+      {/* {isMobile && <MobileSearch />} */}
 
       {!isMobile && <Navbar />}
 
@@ -67,24 +67,14 @@ const CommunitiesJoined = () => {
             </div>
           ) : (
             <>
+              {/* Top Posts */}
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal mb-4">
-                  Joined Communities
-                </div>
-
-                {/* Main Topics */}
-                <div className="flex flex-wrap justify-start ">
-                  {communities.map((community) => (
-                    <CommunityCard
-                      key={community._id}
-                      id={community._id}
-                      name={community.name}
-                      description={community.description}
-                      image={community.image}
-                      subscribers={community.subscriberCount}
-                    />
-                  ))}
-                </div>
+                <div className="font-semibold md:font-normal">Posts</div>
+              </div>
+              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                {topPosts.map((post, index) => {
+                  return <CommunityPostCard key={index} post={post} />;
+                })}
               </div>
             </>
           )}
@@ -94,4 +84,4 @@ const CommunitiesJoined = () => {
   );
 };
 
-export default CommunitiesJoined;
+export default CommunitiesIndividual;

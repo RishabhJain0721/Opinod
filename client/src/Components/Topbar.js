@@ -246,7 +246,10 @@ const Topbar = () => {
                   </div>
 
                   {/* Home */}
-                  <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
+                  <h2
+                    className="text-2xl font-semibold mb-2 text-white mt-5"
+                    onClick={() => navigate("/")}
+                  >
                     <div className="flex justify-between items-center mr-4">
                       <div>
                         <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home

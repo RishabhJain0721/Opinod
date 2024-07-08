@@ -18,6 +18,18 @@ export const getCommunityData = async (id) => {
   }
 };
 
+export const getSubcategoryPosts = async (subcategory, page) => {
+  try {
+    const response = await axios.post("/api/community/subcategory", {
+      subcategory,
+      page,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addCommunityPost = async (data) => {
   try {
     const response = await axios.post("/api/community/post", data);

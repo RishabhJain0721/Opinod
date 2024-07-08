@@ -23,6 +23,7 @@ const Home = () => {
   const [popularOpinions, setPopularOpinions] = useState([]);
   const [topCommunities, setTopCommunities] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [smallScreen, setSmallScreen] = useState(window.innerWidth < 1280);
   const [isLoading, setIsLoading] = useState(false);
   const [opinionsLoading, setOpinionsLoading] = useState(false);
   const [communitiesLoading, setCommunitiesLoading] = useState(false);
@@ -45,7 +46,7 @@ const Home = () => {
     const fetchOpinions = async () => {
       try {
         setOpinionsLoading(true);
-        const res = await getPopularOpinions(2, 1);
+        const res = await getPopularOpinions(isMobile ? 2 : 3, 1);
         console.log(res);
         setPopularOpinions(res);
       } catch (error) {
@@ -73,6 +74,8 @@ const Home = () => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
+      const smallScreen = window.innerWidth < 1280;
+      setSmallScreen(smallScreen);
     };
 
     window.addEventListener("resize", handleResize);
@@ -150,7 +153,7 @@ const Home = () => {
               )}
 
               <div className="flex flex-wrap justify-start md:ml-6 ">
-                {trending.slice(0, 3).map((article) => (
+                {trending.slice(0, smallScreen ? 2 : 3).map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}
@@ -214,24 +217,26 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions.map((opinion) => (
-                  <OpinionCard
-                    key={opinion._id}
-                    id={opinion._id}
-                    category={opinion.post.category}
-                    profilePhoto={opinion.authorPicture.profilePicture}
-                    author={opinion.author}
-                    datePosted={formatDistanceToNow(
-                      new Date(opinion.createdAt),
-                      { addSuffix: true }
-                    )}
-                    title={opinion.post.title}
-                    text={opinion.text}
-                    upvotes={opinion.upvotes}
-                    downvotes={opinion.downvotes}
-                    postId={opinion.post._id}
-                  />
-                ))}
+                {popularOpinions
+                  .slice(0, smallScreen ? 2 : 3)
+                  .map((opinion) => (
+                    <OpinionCard
+                      key={opinion._id}
+                      id={opinion._id}
+                      category={opinion.post.category}
+                      profilePhoto={opinion.authorPicture.profilePicture}
+                      author={opinion.author}
+                      datePosted={formatDistanceToNow(
+                        new Date(opinion.createdAt),
+                        { addSuffix: true }
+                      )}
+                      title={opinion.post.title}
+                      text={opinion.text}
+                      upvotes={opinion.upvotes}
+                      downvotes={opinion.downvotes}
+                      postId={opinion.post._id}
+                    />
+                  ))}
               </div>
             </>
           )}
@@ -252,7 +257,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-8 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className=" font-semibold md:font-normal">
                   Top Communities
                 </div>
@@ -265,8 +270,8 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start md:ml-6">
-                {topCommunities.slice(0, 3).map((community) => (
+              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                {topCommunities.slice(0, isMobile ? 3 : 4).map((community) => (
                   <CommunityCardShort
                     key={community._id}
                     id={community._id}

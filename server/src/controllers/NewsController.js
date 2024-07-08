@@ -2,7 +2,6 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import "../services/newsUpdater.js";
-import { get } from "mongoose";
 
 const getTopComment = async (commentIds) => {
   try {
@@ -96,26 +95,7 @@ const sendMostReacted = async (username, res, skip, pageSize) => {
 };
 
 const sendNews = async (req, res) => {
-  let trending, daily;
-
-  daily = await Post.find(
-    { category: "Nation" },
-    {
-      title: 1,
-      image: 1,
-      publishedAt: 1,
-      source: 1,
-      category: 1,
-      comments: 1,
-      upvotes: 1,
-      downvotes: 1,
-    }
-  )
-    .sort({ publishedAt: -1 })
-    .limit(3)
-    .lean();
-
-  await enrichPostsWithTopComment(daily);
+  let trending;
 
   trending = await Post.find(
     { category: "General" },
@@ -136,7 +116,7 @@ const sendNews = async (req, res) => {
 
   await enrichPostsWithTopComment(trending);
 
-  res.status(200).send({ trendingArticles: trending, dailyArticles: daily });
+  res.status(200).send({ trendingArticles: trending });
 };
 
 const sendNewsDetails = async (req, res) => {

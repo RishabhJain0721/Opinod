@@ -94,7 +94,7 @@ const Communities = () => {
           ) : (
             <>
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal mb-3">
+                <div className="font-semibold md:font-normal">
                   Joined Communities
                 </div>
                 <div>
@@ -107,7 +107,7 @@ const Communities = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap justify-start mx-5 md:ml-6 ">
+              <div className="flex flex-wrap justify-start ml-3 md:ml-8 mt-4 md:mt-8 mr-5">
                 {joined.slice(0, 3).map((community) => (
                   <CommunityCard
                     key={community._id}
@@ -137,8 +137,8 @@ const Communities = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-start md:ml-6 ">
-                  {main.slice(0, 3).map((community) => (
+                <div className="flex flex-wrap justify-start">
+                  {main.slice(0, isMobile ? 3 : 5).map((community) => (
                     <CommunityCardShort
                       key={community._id}
                       id={community._id}
@@ -162,8 +162,8 @@ const Communities = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-start md:ml-6 ">
-                  {special.slice(0, 3).map((community) => (
+                <div className="flex flex-wrap justify-start">
+                  {special.slice(0, isMobile ? 3 : 5).map((community) => (
                     <CommunityCardShort
                       key={community._id}
                       id={community._id}

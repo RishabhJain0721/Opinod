@@ -110,28 +110,30 @@ const CommunitiesIndividual = () => {
               </div>
 
               <div className="flex flex-wrap justify-start mx-5 md:ml-6">
-                {subcategories.slice(0, 3).map((subcategory, index) => {
-                  return (
-                    <SubcategoryCard
-                      key={index}
-                      name={subcategory.name}
-                      image={subcategory.image}
-                    />
-                  );
-                })}
+                {subcategories
+                  .slice(0, isMobile ? 3 : 5)
+                  .map((subcategory, index) => {
+                    return (
+                      <SubcategoryCard
+                        key={index}
+                        name={subcategory.name}
+                        image={subcategory.image}
+                      />
+                    );
+                  })}
               </div>
 
               {/* Top Posts */}
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+                <div className="font-semibold md:font-normal">Posts</div>
+              </div>
               <div className="flex flex-wrap justify-start mx-5 md:ml-6">
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
               </div>
 
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">Posts</div>
-              </div>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
                 <div className="font-semibold md:font-normal mb-3">
                   Create New Post
                 </div>

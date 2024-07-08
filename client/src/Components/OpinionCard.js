@@ -206,7 +206,7 @@ const OpinionCard = ({
         </div>
       </div>
       {/* Divider */}
-      <div className="border-b border-gray-300 mt-4 w-20 mx-auto "></div>
+      <div className="border-b border-gray-300 mt-4 w-20 mx-auto"></div>
     </div>
   );
 };

@@ -24,6 +24,29 @@ const topCommunityPosts = async (id, numberOfPosts) => {
   }
 };
 
+const topSubcategoryPosts = async (subcategory, skip) => {
+  try {
+    const topPosts = await CommunityPost.aggregate([
+      { $match: { subCategory: subcategory } },
+      { $addFields: { score: { $add: ["$upvotes", "$downvotes"] } } },
+      { $sort: { score: -1 } },
+      { $skip: skip },
+      { $limit: 9 },
+    ]);
+    for (const post of topPosts) {
+      const username = post.author;
+      const profilePic = await User.findOne(
+        { username },
+        { profilePicture: 1 }
+      ).exec();
+      post.profilePicture = profilePic ? profilePic.profilePicture : null;
+    }
+    return topPosts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const sendCommunities = async (req, res) => {
   try {
     const communities = await Community.find({});
@@ -45,6 +68,19 @@ const sendCommunityData = async (req, res) => {
   }
 };
 
+const sendTopPosts = async (req, res) => {
+  const { subcategory, page } = req.body;
+  console.log(subcategory, page);
+  const skip = (page - 1) * 9;
+  try {
+    const topPosts = await topSubcategoryPosts(subcategory, skip);
+    console.log(topPosts);
+    res.status(200).send({ topPosts });
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to fetch" });
+  }
+};
+
 const addPost = async (req, res) => {
   const { title, description, communityId, selectedSubcategory, username } =
     req.body;
@@ -63,4 +99,4 @@ const addPost = async (req, res) => {
   }
 };
 
-export { sendCommunities, sendCommunityData, addPost, topCommunityPosts };
+export { sendCommunities, sendCommunityData, addPost, sendTopPosts };

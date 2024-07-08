@@ -43,7 +43,7 @@ const CommunityCard = ({ id, name, description, image, subscribers }) => {
   };
 
   return (
-    <div className="bg-white w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit md:rounded-lg md:border md:border-gray-300 md:shadow-sm mb-2 cursor-pointer">
+    <div className="bg-white w-96 sm:w-80 m-2 lg:w-80 xl:w-96 max-w-md duration-150 h-fit mb-2 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex mb-2">
         <img

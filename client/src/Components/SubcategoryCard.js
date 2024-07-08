@@ -5,12 +5,11 @@ const SubcategoryCard = ({ name, image }) => {
   const navigate = useNavigate();
 
   const handleGoToSubcategory = () => {
-    console.log("Go to this subcategory");
-    // navigate to the subcategory page
+    navigate(`subcategory/${name.replace(/\s/g, "-")}`);
   };
 
   return (
-    <div className="bg-white flex-wrap w-1/3 md:rounded-lg md:border md:border-gray-300 md:shadow-sm mb-2 mt-2 cursor-pointer">
+    <div className="bg-white flex-wrap w-1/3 md:w-1/5 py-4 mb-2 mt-2 cursor-pointer">
       <div className="flex flex-col items-center mb-2">
         <img
           src={image}

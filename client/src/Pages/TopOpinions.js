@@ -16,10 +16,8 @@ const TopOpinions = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const fetchOpinions = useCallback(async () => {
-    console.log("Fetching opinions");
     try {
       const res = await getPopularOpinions(9, page);
-      console.log(res);
       if (res.length > 0) {
         setPopularOpinions((prevOpinions) => {
           return [...prevOpinions, ...res].filter(
@@ -96,8 +94,8 @@ const TopOpinions = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-8 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal">
+              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-5 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="text-xl font-semibold text-gray-800 w-auto">
                   Popular Opinions
                 </div>
               </div>

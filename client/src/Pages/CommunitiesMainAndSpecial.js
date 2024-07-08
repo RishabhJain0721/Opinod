@@ -75,7 +75,7 @@ const CommunitiesMain = () => {
                 </div>
 
                 {/* Main Topics */}
-                <div className="flex flex-wrap justify-start md:ml-6 ">
+                <div className="flex flex-wrap justify-start">
                   {communities.map((community) => (
                     <CommunityCardShort
                       key={community._id}
@@ -164,7 +164,7 @@ const CommunitiesSpecial = () => {
                 </div>
 
                 {/* Main Topics */}
-                <div className="flex flex-wrap justify-start md:ml-6 ">
+                <div className="flex flex-wrap justify-start">
                   {communities.map((community) => (
                     <CommunityCardShort
                       key={community._id}

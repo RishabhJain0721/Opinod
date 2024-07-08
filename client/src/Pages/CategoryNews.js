@@ -47,8 +47,8 @@ const CategoryNews = () => {
 
     const handleScroll = async () => {
       if (
-        window.innerHeight + Math.round(window.scrollY) !==
-          document.body.offsetHeight - 1 ||
+        window.innerHeight + Math.round(window.scrollY) <=
+          document.body.offsetHeight - 2 ||
         isArticleLoading ||
         !hasMore
       )
@@ -126,7 +126,21 @@ const CategoryNews = () => {
                   />
                 ))}
               </div>
-
+              {hasMore && (
+                <div className="flex items-center justify-center w-full h-24">
+                  <MutatingDots
+                    visible={true}
+                    height="50"
+                    width="50"
+                    color="#2196F3"
+                    secondaryColor="#2196F3"
+                    radius="7.5"
+                    ariaLabel="mutating-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </div>
+              )}
               {!hasMore && (
                 <div className="flex items-center justify-center w-full h-24 text-gray-600">
                   No more articles available

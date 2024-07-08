@@ -200,7 +200,10 @@ const Navbar = () => {
       <div className="fixed left-0 top-16 h-screen w-60 overflow-auto font-League bg-blue-600 border-r-2 border-gray-300 p-2.5 shadow-sm no-scrollbar">
         {/* Home */}
         <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
-          <div className="flex justify-between items-center mr-4 cursor-pointer">
+          <div
+            className="flex justify-between items-center mr-4 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             <div>
               <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home
             </div>

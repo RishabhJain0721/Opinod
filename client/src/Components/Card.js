@@ -221,7 +221,7 @@ const Card = ({
       <div className="flex items-center mb-2" onClick={handleClick}>
         <img
           src={profilePhoto}
-          alt="Profile"
+          alt="Main"
           className="h-20 w-20 rounded-lg mr-2"
         />
         <div className=" w-full justify-between">
@@ -244,7 +244,10 @@ const Card = ({
         </div>
       </div>
       {isMobile && (
-        <button className=" text-xs w-full rounded-full bg-gray-100 p-0.5">
+        <button
+          className=" text-xs w-full rounded-full bg-gray-100 p-0.5"
+          onClick={handleClick}
+        >
           See opinions
         </button>
       )}
@@ -395,7 +398,10 @@ const Card = ({
               </div>
             </div>
           ) : (
-            <div className="flex items-center flex-row justify-between">
+            <div
+              className="flex items-center flex-row justify-between h-20 m-1"
+              onClick={handleClick}
+            >
               <div className="text-gray-600">
                 No opinions yet. Be the first.
               </div>

@@ -21,6 +21,7 @@ import {
 import CommunitiesJoined from "./Pages/CommunitiesJoined";
 import CommunitiesIndividual from "./Pages/CommunitiesIndividual";
 import CommunitySubcategories from "./Pages/CommunitySubcategories";
+import SubcategoryIndividual from "./Pages/SubcategoryIndividual";
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
         <Route
           path="/community/:id/subcategories"
           element={<CommunitySubcategories />}
+        />
+        <Route
+          path="/community/:id/subcategory/:subcategory"
+          element={<SubcategoryIndividual />}
         />
       </Routes>
     </Router>
