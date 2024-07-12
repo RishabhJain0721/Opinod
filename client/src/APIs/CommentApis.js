@@ -33,9 +33,36 @@ export const addTopComment = async (postId, text, author) => {
   }
 };
 
+export const addTopCommunityComment = async (postId, text, author) => {
+  try {
+    const response = await axios.post("/api/comment/addTopCommunityComment", {
+      postId,
+      text,
+      author,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addReply = async (parentId, postId, text, author) => {
   try {
     const response = await axios.post("/api/comment/addReply", {
+      parentId,
+      postId,
+      text,
+      author,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addCommunityReply = async (parentId, postId, text, author) => {
+  try {
+    const response = await axios.post("/api/comment/addCommunityReply", {
       parentId,
       postId,
       text,

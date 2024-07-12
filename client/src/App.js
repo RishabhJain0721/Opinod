@@ -21,7 +21,10 @@ import {
 import CommunitiesJoined from "./Pages/CommunitiesJoined";
 import CommunitiesIndividual from "./Pages/CommunitiesIndividual";
 import CommunitySubcategories from "./Pages/CommunitySubcategories";
+import CommunityPosts from "./Pages/CommunityPosts";
 import SubcategoryIndividual from "./Pages/SubcategoryIndividual";
+import CommunityPostDetails from "./Pages/CommunityPostDetails";
+import CommunityReply from "./Pages/CommunityReply";
 
 function App() {
   return (
@@ -49,9 +52,15 @@ function App() {
           path="/community/:id/subcategories"
           element={<CommunitySubcategories />}
         />
+        <Route path="/community/:id/posts" element={<CommunityPosts />} />
         <Route
           path="/subcategory/:subcategory"
           element={<SubcategoryIndividual />}
+        />
+        <Route path="/cpostdetails/:id" element={<CommunityPostDetails />} />
+        <Route
+          path="/cpostdetails/:id/reply/:commentId"
+          element={<CommunityReply />}
         />
       </Routes>
     </Router>

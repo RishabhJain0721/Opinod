@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
+import CommunityPost from "../models/CommunityPost.js";
 
 const addDislike = async (req, res) => {
   const { username, postId } = req.body;
@@ -68,4 +69,43 @@ const removeCommentDislike = async (req, res) => {
   }
 };
 
-export { addDislike, removeDislike, addCommentDislike, removeCommentDislike };
+const addCommunityPostDislike = async (req, res) => {
+  const { username, postId } = req.body;
+
+  try {
+    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    user.dislikedPosts.push(postId);
+    await user.save();
+    const post = await CommunityPost.findById(postId, { downvotes: 1 });
+    post.downvotes++;
+    await post.save();
+    res.status(200).send({ message: "Disike added successfully" });
+  } catch (error) {
+    res.status(404).send({ message: "Failed to dislike" });
+  }
+};
+
+const removeCommunityPostDislike = async (req, res) => {
+  const { username, postId } = req.body;
+
+  try {
+    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    user.dislikedPosts = user.dislikedPosts.filter((post) => post !== postId);
+    await user.save();
+    const post = await CommunityPost.findById(postId, { downvotes: 1 });
+    post.downvotes--;
+    await post.save();
+    res.status(200).send({ message: "Disike removed successfully" });
+  } catch (error) {
+    res.status(404).send({ message: "Failed to remove dislike" });
+  }
+};
+
+export {
+  addDislike,
+  removeDislike,
+  addCommentDislike,
+  removeCommentDislike,
+  addCommunityPostDislike,
+  removeCommunityPostDislike,
+};

@@ -2,33 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
+import MobileSearch from "../Components/MobileSearch";
 import CommunityPostCard from "../Components/CommunityPostCard";
-import { getSubcategoryPosts } from "../APIs/CommunityApis";
+import { getCommunityPosts } from "../APIs/CommunityApis";
 import { MutatingDots } from "react-loader-spinner";
 
-const SubcategoryIndividual = () => {
+const CommunityPosts = () => {
   const location = useLocation();
-  const subWithDash = location.pathname.split("/")[2];
-  const subcategory = subWithDash.replaceAll("-", " ");
-  console.log(subcategory);
+  const communityId = location.pathname.split("/")[2];
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
-  const [topPosts, setTopPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchSubcategoryData = async () => {
+    const fetchPosts = async () => {
       try {
-        const res = await getSubcategoryPosts(subcategory, 1);
+        const res = await getCommunityPosts(communityId, page);
         console.log(res);
-        setTopPosts(res.topPosts);
+        setPosts(res);
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchSubcategoryData();
+    fetchPosts();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -45,7 +45,7 @@ const SubcategoryIndividual = () => {
     <div>
       <Topbar />
 
-      {/* {isMobile && <MobileSearch />} */}
+      {isMobile && <MobileSearch />}
 
       {!isMobile && <Navbar />}
 
@@ -72,7 +72,7 @@ const SubcategoryIndividual = () => {
                 <div className="font-semibold md:font-normal">Posts</div>
               </div>
               <div className="flex flex-wrap justify-start mx-5 md:ml-6">
-                {topPosts.map((post, index) => {
+                {posts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
               </div>
@@ -84,4 +84,4 @@ const SubcategoryIndividual = () => {
   );
 };
 
-export default SubcategoryIndividual;
+export default CommunityPosts;

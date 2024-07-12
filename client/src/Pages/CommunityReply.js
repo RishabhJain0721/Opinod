@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
-import SingleReply from "../Components/SingleReply";
+import CommunitySingleReply from "../Components/CommunitySingleReply";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import { fetchCommentAndReplies } from "../APIs/CommentApis";
 import { addCommunityReply } from "../APIs/CommentApis";
@@ -29,7 +29,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
 
-const Reply = () => {
+const CommunityReply = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const commentId = location.pathname.split("/")[4];
@@ -54,29 +54,27 @@ const Reply = () => {
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetchCommentAndReplies(commentId);
-        console.log(res);
-        setIsCommentLiked(
-          likedComments.includes(res.comment._id) ? true : false
-        );
-        setIsCommentDisliked(
-          dislikedComments.includes(res.comment._id) ? true : false
-        );
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchCommentAndReplies(commentId);
+      console.log(res);
+      setIsCommentLiked(likedComments.includes(res.comment._id) ? true : false);
+      setIsCommentDisliked(
+        dislikedComments.includes(res.comment._id) ? true : false
+      );
 
-        setCommentLikes(res.comment.upvotes);
-        setCommentDislikes(res.comment.downvotes);
-        setComment(res.comment);
-        setReplies(res.replies);
-      } catch (error) {
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      setCommentLikes(res.comment.upvotes);
+      setCommentDislikes(res.comment.downvotes);
+      setComment(res.comment);
+      setReplies(res.replies);
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
 
     const handleResize = () => {
@@ -103,6 +101,7 @@ const Reply = () => {
       throw error;
     }
     setReplyText("");
+    fetchData();
   };
 
   const handleCommentLike = async () => {
@@ -169,15 +168,15 @@ const Reply = () => {
       <Topbar />
       {!isMobile && <Navbar />}
       <div className="flex flex-col mt-16 md:ml-60">
-        {/* <div
+        <div
           className="cursor-pointer ml-3 mt-5"
           onClick={() => {
-            navigate(`/details/${postId}`);
+            navigate(`/cpostdetails/${postId}`);
           }}
         >
           <FontAwesomeIcon icon={faArrowLeft} className="text-sm" /> Go to
           original post
-        </div> */}
+        </div>
         {isLoading ? (
           <div className="flex items-center justify-center h-96">
             <MutatingDots
@@ -278,9 +277,11 @@ const Reply = () => {
             </div>
             <div>
               <div className="text-lg ml-5">Replies :</div>
-              <div className=" mb-6">
+              <div className="mb-24">
                 {replies.map((reply) => {
-                  return <SingleReply key={reply._id} comment={reply} />;
+                  return (
+                    <CommunitySingleReply key={reply._id} comment={reply} />
+                  );
                 })}
               </div>
               {/* <ReplyModal
@@ -314,4 +315,4 @@ const Reply = () => {
   );
 };
 
-export default Reply;
+export default CommunityReply;

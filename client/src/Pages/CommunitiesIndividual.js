@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
+import MobileSearch from "../Components/MobileSearch";
 import CommunityPostCard from "../Components/CommunityPostCard";
 import { getCommunityData, addCommunityPost } from "../APIs/CommunityApis";
-import { MutatingDots } from "react-loader-spinner";
+import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import SubcategoryCard from "../Components/SubcategoryCard";
 import { useSelector } from "react-redux";
 
@@ -17,11 +18,13 @@ const CommunitiesIndividual = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
+  const [name, setName] = useState("");
   const [topPosts, setTopPosts] = useState([]);
 
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchCommunityData = async () => {
@@ -29,6 +32,7 @@ const CommunitiesIndividual = () => {
         const res = await getCommunityData(communityId);
         console.log(res);
         setSubcategories(res.subcategories);
+        setName(res.name);
         setTopPosts(res.topPosts);
       } catch (error) {
         console.log(error);
@@ -50,7 +54,14 @@ const CommunitiesIndividual = () => {
   }, []);
 
   const handleSubmitPost = async () => {
+    if (
+      (subcategories.length > 0 && !selectedSubcategory) ||
+      !title ||
+      !description
+    )
+      return alert("Please fill all the fields");
     try {
+      setIsSubmitting(true);
       const res = await addCommunityPost({
         title,
         description,
@@ -59,9 +70,18 @@ const CommunitiesIndividual = () => {
         username,
       });
       console.log(res);
+      setTitle("");
+      setDescription("");
+      setSelectedSubcategory("");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const handleViewPosts = () => {
+    navigate(`/community/${communityId}/posts`);
   };
 
   const handleViewAllSubcategories = () => {
@@ -72,7 +92,7 @@ const CommunitiesIndividual = () => {
     <div>
       <Topbar />
 
-      {/* {isMobile && <MobileSearch />} */}
+      {isMobile && <MobileSearch />}
 
       {!isMobile && <Navbar />}
 
@@ -94,38 +114,54 @@ const CommunitiesIndividual = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                {/* Subcategories */}
-                <div className=" font-semibold md:font-normal mb-3">
-                  Explore sub-categories
-                </div>
+              <div className="text-2xl font-semibold ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                {/* Name */}
+                <div className=" font-semibold md:font-normal mb-3">{name}</div>
+              </div>
+              {subcategories.length > 0 && (
+                <>
+                  <div className="text-xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                    {/* Subcategories */}
+                    <div className=" font-semibold md:font-normal">
+                      Explore sub-categories
+                    </div>
+                    <div>
+                      <button
+                        className="text-xs md:text-lg text-gray-600 px-2"
+                        onClick={handleViewAllSubcategories}
+                      >
+                        See all
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                    {subcategories
+                      .slice(0, isMobile ? 3 : 5)
+                      .map((subcategory, index) => {
+                        return (
+                          <SubcategoryCard
+                            key={index}
+                            name={subcategory.name}
+                            image={subcategory.image}
+                          />
+                        );
+                      })}
+                  </div>
+                </>
+              )}
+
+              {/* Top Posts */}
+              <div className="text-xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-semibold md:font-normal">Posts</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
-                    onClick={handleViewAllSubcategories}
+                    onClick={handleViewPosts}
                   >
                     See all
                   </button>
                 </div>
-              </div>
-
-              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
-                {subcategories
-                  .slice(0, isMobile ? 3 : 5)
-                  .map((subcategory, index) => {
-                    return (
-                      <SubcategoryCard
-                        key={index}
-                        name={subcategory.name}
-                        image={subcategory.image}
-                      />
-                    );
-                  })}
-              </div>
-
-              {/* Top Posts */}
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">Posts</div>
               </div>
               <div className="flex flex-wrap justify-start mx-5 md:ml-6">
                 {topPosts.map((post, index) => {
@@ -133,28 +169,30 @@ const CommunitiesIndividual = () => {
                 })}
               </div>
 
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
+              <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
                 <div className="font-semibold md:font-normal mb-3">
                   Create New Post
                 </div>
                 <div className=" w-full py-5 px-5 border border-blue-200 rounded-xl ">
                   <div className="flex flex-col space-y-4">
                     {/* Dropdown to select subcategory */}
-                    <select
-                      name="subcategory"
-                      id="subcategory"
-                      onChange={(e) => setSelectedSubcategory(e.target.value)}
-                      className="text-sm text-gray-600 focus:outline-none w-1/2 md:w-1/3"
-                    >
-                      <option value="">Choose Subcategory</option>
-                      {subcategories.map((category, index) => {
-                        return (
-                          <option key={index} value={category._id}>
-                            {category.name}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    {subcategories.length > 0 && (
+                      <select
+                        name="subcategory"
+                        id="subcategory"
+                        onChange={(e) => setSelectedSubcategory(e.target.value)}
+                        className="text-sm text-gray-600 focus:outline-none w-1/2 md:w-1/3"
+                      >
+                        <option value="">Choose Subcategory</option>
+                        {subcategories.map((category, index) => {
+                          return (
+                            <option key={index} value={category._id}>
+                              {category.name}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    )}
                     {/* Write a title  */}
                     <input
                       type="text"
@@ -171,12 +209,28 @@ const CommunitiesIndividual = () => {
                     />
                   </div>
 
-                  <button
-                    onClick={handleSubmitPost}
-                    className="text-white bg-blue-500 w-full py-2 mt-4 rounded-l-full rounded-r-full text-base"
-                  >
-                    Submit for review
-                  </button>
+                  {isSubmitting ? (
+                    <div className="flex justify-center">
+                      <ThreeDots
+                        visible={true}
+                        height="50"
+                        width="40"
+                        color="#2196F3"
+                        secondaryColor="#2196F3"
+                        radius="5"
+                        ariaLabel="mutating-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleSubmitPost}
+                      className="text-white bg-blue-500 w-full py-2 mt-4 rounded-l-full rounded-r-full text-base"
+                    >
+                      Submit for review
+                    </button>
+                  )}
                 </div>
               </div>
             </>

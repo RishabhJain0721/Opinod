@@ -1,4 +1,5 @@
 import Comment from "../models/Comment.js";
+import CommunityPost from "../models/CommunityPost.js";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 
@@ -17,6 +18,28 @@ const addTopComment = async (req, res) => {
 
   // Update the post with the new comment in posts collection
   const post = await Post.findById(postId);
+  post.comments.push(newComment._id);
+  post.totalComments++;
+  await post.save();
+
+  res.send({ message: "Comment Added successfully" });
+};
+
+const addTopCommunityComment = async (req, res) => {
+  const { postId, text, author } = req.body;
+
+  // Updating the comment in comments collection
+  const newComment = new Comment({
+    postId,
+    parentId: postId,
+    text,
+    author,
+  });
+
+  await newComment.save();
+
+  // Update the post with the new comment in posts collection
+  const post = await CommunityPost.findById(postId);
   post.comments.push(newComment._id);
   post.totalComments++;
   await post.save();
@@ -43,6 +66,32 @@ const addReply = async (req, res) => {
   await parentComment.save();
 
   const post = await Post.findById(postId, { totalComments: 1 });
+  post.totalComments++;
+  await post.save();
+
+  res.send({ message: "Reply Added successfully" });
+};
+
+const addCommunityReply = async (req, res) => {
+  const { postId, parentId, text, author } = req.body;
+  console.log("hahahahhaa", postId, parentId, text, author);
+
+  // Updating the comment in comments collection
+  const newComment = new Comment({
+    postId,
+    parentId,
+    text,
+    author,
+  });
+
+  await newComment.save();
+
+  //Update the parent comment with the new reply in comments collection
+  const parentComment = await Comment.findById(parentId);
+  parentComment.children.push(newComment._id);
+  await parentComment.save();
+
+  const post = await CommunityPost.findById(postId, { totalComments: 1 });
   post.totalComments++;
   await post.save();
 
@@ -127,7 +176,9 @@ const sendCommentAndReplies = async (req, res) => {
 
 export {
   addTopComment,
+  addTopCommunityComment,
   addReply,
+  addCommunityReply,
   sendComments,
   sendCommentAndReplies,
   sendTopComments,

@@ -85,3 +85,51 @@ export const removeCommentDislike = async (username, commentId) => {
     throw error;
   }
 };
+
+export const addCommunityPostLike = async (username, postId) => {
+  try {
+    const response = await axios.post("/api/like/communityPost/add", {
+      username,
+      postId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeCommunityPostLike = async (username, postId) => {
+  try {
+    const response = await axios.post("/api/like/communityPost/remove", {
+      username,
+      postId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addCommunityPostDislike = async (username, postId) => {
+  try {
+    const response = await axios.post("/api/dislike/communityPost/add", {
+      username,
+      postId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const removeCommunityPostDislike = async (username, postId) => {
+  try {
+    const response = await axios.post("/api/dislike/communityPost/remove", {
+      username,
+      postId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

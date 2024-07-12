@@ -30,6 +30,36 @@ export const getSubcategoryPosts = async (subcategory, page) => {
   }
 };
 
+export const getCommunityPosts = async (id, page) => {
+  try {
+    const response = await axios.post("/api/community/communityPosts", {
+      id,
+      page,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCommunityPostDetails = async (id) => {
+  try {
+    const response = await axios.post("/api/community/postDetails", { id });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCommunityPostComments = async (id) => {
+  try {
+    const response = await axios.post("/api/community/postComments", { id });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addCommunityPost = async (data) => {
   try {
     const response = await axios.post("/api/community/post", data);

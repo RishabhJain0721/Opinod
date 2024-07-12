@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { ThreeDots } from "react-loader-spinner";
-import { addReply } from "../APIs/CommentApis";
+import { addCommunityReply } from "../APIs/CommentApis";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likeComment,
@@ -55,7 +55,7 @@ const Comment = ({ opinion }) => {
 
   const handleSubmitReply = async () => {
     try {
-      const res = await addReply(
+      const res = await addCommunityReply(
         opinion._id,
         opinion.postId,
         replyText,
@@ -212,7 +212,9 @@ const Comment = ({ opinion }) => {
       {opinion.children.length > 0 && (
         <div
           className="flex items-center text-gray-500 text-xs ml-8"
-          onClick={() => navigate(`/details/${postId}/reply/${opinion._id}`)}
+          onClick={() =>
+            navigate(`/cpostdetails/${postId}/reply/${opinion._id}`)
+          }
         >
           See replies ({opinion.children.length})
         </div>
