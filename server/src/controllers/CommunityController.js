@@ -122,6 +122,13 @@ const addPost = async (req, res) => {
     subCategory: selectedSubcategory,
     author: username,
   });
+
+  const user = await User.findOneAndUpdate(
+    { username },
+    { $inc: { points: 50 } },
+    { new: true }
+  );
+
   try {
     await newPost.save();
     res.status(200).send(newPost);

@@ -22,6 +22,12 @@ const addTopComment = async (req, res) => {
   post.totalComments++;
   await post.save();
 
+  const user = await User.findOneAndUpdate(
+    { username: author },
+    { $inc: { points: 20 } },
+    { new: true }
+  );
+
   res.send({ message: "Comment Added successfully" });
 };
 
@@ -43,6 +49,12 @@ const addTopCommunityComment = async (req, res) => {
   post.comments.push(newComment._id);
   post.totalComments++;
   await post.save();
+
+  const user = await User.findOneAndUpdate(
+    { username: author },
+    { $inc: { points: 20 } },
+    { new: true }
+  );
 
   res.send({ message: "Comment Added successfully" });
 };
@@ -69,12 +81,17 @@ const addReply = async (req, res) => {
   post.totalComments++;
   await post.save();
 
+  const user = await User.findOneAndUpdate(
+    { username: author },
+    { $inc: { points: 20 } },
+    { new: true }
+  );
+
   res.send({ message: "Reply Added successfully" });
 };
 
 const addCommunityReply = async (req, res) => {
   const { postId, parentId, text, author } = req.body;
-  console.log("hahahahhaa", postId, parentId, text, author);
 
   // Updating the comment in comments collection
   const newComment = new Comment({
@@ -94,6 +111,12 @@ const addCommunityReply = async (req, res) => {
   const post = await CommunityPost.findById(postId, { totalComments: 1 });
   post.totalComments++;
   await post.save();
+
+  const user = await User.findOneAndUpdate(
+    { username: author },
+    { $inc: { points: 20 } },
+    { new: true }
+  );
 
   res.send({ message: "Reply Added successfully" });
 };

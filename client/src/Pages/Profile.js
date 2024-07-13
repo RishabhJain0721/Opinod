@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import BadgeCard from "../Components/BadgeCard";
+import AchievementsCard from "../Components/AchievementsCard";
+import TopCommunityMemberCard from "../Components/TopCommunityMemberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import {
 //   faInstagram,
@@ -11,10 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //   faReddit,
 //   faLinkedin,
 // } from "@fortawesome/free-brands-svg-icons";
-import { useDispatch } from "react-redux";
 import { logout } from "../Actions/actions";
-import { faFilter, faFire, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { calculateAchievements, calculateLevel } from "../APIs/UserDetailsApis";
+import { MutatingDots } from "react-loader-spinner";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -23,12 +26,45 @@ const ProfilePage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [filter, setFilter] = useState("All");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [achievements, setAchievements] = useState({});
+  const [level, setLevel] = useState();
+  const [isAchievementsList, setIsAchievementsList] = useState(false);
+  const [isLevel, setIsLevel] = useState(false);
 
   const base64Image = user.profilePicture.buffer;
   const imageType = user.profilePicture.mimetype;
   const src = `data:${imageType};base64,${base64Image}`;
 
+  const fetchAchievements = async () => {
+    try {
+      setIsAchievementsList(false);
+      const res = await calculateAchievements(user.username);
+      setAchievements(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsAchievementsList(true);
+    }
+  };
+
+  const fetchLevel = async () => {
+    try {
+      setIsLevel(false);
+      const res = await calculateLevel(user.username);
+      setLevel(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLevel(true);
+    }
+  };
+
   useEffect(() => {
+    fetchLevel();
+    fetchAchievements();
+
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
@@ -108,11 +144,11 @@ const ProfilePage = () => {
             </div> */}
 
             {/* Fourth Row: Description */}
-            <div className="text-gray-600 text-sm md:text-base mb-3">
+            <div className="text-gray-600 text-sm md:text-base">
               {user.description}
             </div>
 
-            <BadgeCard />
+            {isLevel && <BadgeCard info={level} />}
 
             {/* Social Media Links */}
             {/* <div className="flex justify-start mb-6">
@@ -224,9 +260,36 @@ const ProfilePage = () => {
 
             {/* Achievements */}
             <div className="text-lg font-medium mb-2 mt-5">Achievements</div>
-            <div className="flex flex-col">
-              <BadgeCard />
-            </div>
+            {isAchievementsList ? (
+              <div className="flex flex-col">
+                {Object.entries(achievements).map(([key, value]) => {
+                  return (
+                    <AchievementsCard key={key} badge={key} status={value} />
+                  );
+                })}
+                {achievements["Top Community Member"].stats.Current.map(
+                  (community, index) => {
+                    return (
+                      <TopCommunityMemberCard key={index} name={community} />
+                    );
+                  }
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-4/5">
+                <MutatingDots
+                  visible={true}
+                  height="100"
+                  width="100"
+                  color="#2196F3"
+                  secondaryColor="#2196F3"
+                  radius="12.5"
+                  ariaLabel="mutating-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            )}
 
             {/* Edit Profile and Logout Buttons */}
 

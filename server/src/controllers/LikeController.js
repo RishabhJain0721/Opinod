@@ -7,7 +7,8 @@ const addLike = async (req, res) => {
   const { username, postId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { likedPosts: 1 });
+    const user = await User.findOne({ username }, { likedPosts: 1, points: 1 });
+    user.points += 5;
     user.likedPosts.push(postId);
     await user.save();
     const post = await Post.findById(postId, { upvotes: 1 });
@@ -24,7 +25,8 @@ const removeLike = async (req, res) => {
   console.log(req.body);
 
   try {
-    const user = await User.findOne({ username }, { likedPosts: 1 });
+    const user = await User.findOne({ username }, { likedPosts: 1, points: 1 });
+    user.points -= 5;
     user.likedPosts = user.likedPosts.filter((post) => post !== postId);
     await user.save();
     const post = await Post.findById(postId, { upvotes: 1 });
@@ -40,7 +42,11 @@ const addCommentLike = async (req, res) => {
   const { username, commentId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { likedComments: 1 });
+    const user = await User.findOne(
+      { username },
+      { likedComments: 1, points: 1 }
+    );
+    user.points += 5;
     user.likedComments.push(commentId);
     await user.save();
     const comment = await Comment.findById(commentId, { upvotes: 1 });
@@ -56,7 +62,11 @@ const removeCommentLike = async (req, res) => {
   const { username, commentId } = req.body;
   console.log(req.body);
   try {
-    const user = await User.findOne({ username }, { likedComments: 1 });
+    const user = await User.findOne(
+      { username },
+      { likedComments: 1, points: 1 }
+    );
+    user.points -= 5;
     user.likedComments = user.likedComments.filter(
       (comment) => comment !== commentId
     );
@@ -77,7 +87,8 @@ const addCommunityPostLike = async (req, res) => {
     const community = await CommunityPost.findById(postId, { upvotes: 1 });
     community.upvotes++;
     await community.save();
-    const user = await User.findOne({ username }, { likedPosts: 1 });
+    const user = await User.findOne({ username }, { likedPosts: 1, points: 1 });
+    user.points += 5;
     user.likedPosts.push(postId);
     await user.save();
     res.status(200).send({ message: "Like added successfully" });
@@ -93,7 +104,8 @@ const removeCommunityPostLike = async (req, res) => {
     const community = await CommunityPost.findById(postId, { upvotes: 1 });
     community.upvotes--;
     await community.save();
-    const user = await User.findOne({ username }, { likedPosts: 1 });
+    const user = await User.findOne({ username }, { likedPosts: 1, points: 1 });
+    user.points -= 5;
     user.likedPosts = user.likedPosts.filter((post) => post !== postId);
     await user.save();
     res.status(200).send({ message: "Like removed successfully" });

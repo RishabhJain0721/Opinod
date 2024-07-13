@@ -7,7 +7,11 @@ const addDislike = async (req, res) => {
   const { username, postId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedPosts: 1, points: 1 }
+    );
+    user.points += 5;
     user.dislikedPosts.push(postId);
     await user.save();
     const post = await Post.findById(postId, { downvotes: 1 });
@@ -23,7 +27,11 @@ const removeDislike = async (req, res) => {
   const { username, postId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedPosts: 1, points: 1 }
+    );
+    user.points -= 5;
     user.dislikedPosts = user.dislikedPosts.filter((post) => post !== postId);
     await user.save();
     const post = await Post.findById(postId, { downvotes: 1 });
@@ -39,7 +47,11 @@ const addCommentDislike = async (req, res) => {
   const { username, commentId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedComments: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedComments: 1, points: 1 }
+    );
+    user.points += 5;
     user.dislikedComments.push(commentId);
     await user.save();
     const comment = await Comment.findById(commentId, { downvotes: 1 });
@@ -55,7 +67,11 @@ const removeCommentDislike = async (req, res) => {
   const { username, commentId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedComments: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedComments: 1, points: 1 }
+    );
+    user.points -= 5;
     user.dislikedComments = user.dislikedComments.filter(
       (comment) => comment !== commentId
     );
@@ -73,7 +89,11 @@ const addCommunityPostDislike = async (req, res) => {
   const { username, postId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedPosts: 1, points: 1 }
+    );
+    user.points += 5;
     user.dislikedPosts.push(postId);
     await user.save();
     const post = await CommunityPost.findById(postId, { downvotes: 1 });
@@ -89,7 +109,11 @@ const removeCommunityPostDislike = async (req, res) => {
   const { username, postId } = req.body;
 
   try {
-    const user = await User.findOne({ username }, { dislikedPosts: 1 });
+    const user = await User.findOne(
+      { username },
+      { dislikedPosts: 1, points: 1 }
+    );
+    user.points -= 5;
     user.dislikedPosts = user.dislikedPosts.filter((post) => post !== postId);
     await user.save();
     const post = await CommunityPost.findById(postId, { downvotes: 1 });

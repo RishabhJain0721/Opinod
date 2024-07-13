@@ -44,3 +44,21 @@ export const leaveCommunity = async (username, communityId) => {
     throw error;
   }
 };
+
+export const calculateAchievements = async (username) => {
+  try {
+    const response = await axios.post("/api/user/achievements", { username });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const calculateLevel = async (username) => {
+  try {
+    const response = await axios.post("/api/user/level", { username });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
