@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "../Store/configureStore";
+import { addPoints } from "../Actions/actions";
 
 export const getCommunities = async () => {
   try {
@@ -62,6 +64,7 @@ export const getCommunityPostComments = async (id) => {
 
 export const addCommunityPost = async (data) => {
   try {
+    store.dispatch(addPoints(50));
     const response = await axios.post("/api/community/post", data);
     return response.data;
   } catch (error) {

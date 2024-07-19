@@ -46,7 +46,7 @@ const AchievementsCard = (props) => {
   };
 
   return (
-    <div className="flex items-center mt-5 h-36" onClick={handleCardClick}>
+    <div className="flex items-center mt-2 h-36" onClick={handleCardClick}>
       <div className={`flip-card ${isFlipped ? "flipped" : ""}`}>
         <div className="flip-card-inner">
           <div className="flip-card-front">
@@ -82,7 +82,8 @@ const AchievementsCard = (props) => {
                       style={{
                         width:
                           status.Message === false
-                            ? (status.stats.Current / status.stats.Goal) * 100
+                            ? (status.stats.Current / status.stats.Goal) * 100 +
+                              "%"
                             : "100%",
                       }}
                     ></div>

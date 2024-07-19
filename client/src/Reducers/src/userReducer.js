@@ -14,11 +14,13 @@ const initialState = {
   reddit: null,
   linkedin: null,
   twitter: null,
+  points: null,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
+      console.log("Action", action.payload);
       return {
         ...state,
         token: action.payload.token,
@@ -36,6 +38,7 @@ const userReducer = (state = initialState, action) => {
         reddit: action.payload.reddit,
         linkedin: action.payload.linkedin,
         twitter: action.payload.twitter,
+        points: action.payload.points,
       };
     case "LOGOUT":
       return {
@@ -54,6 +57,7 @@ const userReducer = (state = initialState, action) => {
         reddit: null,
         linkedin: null,
         twitter: null,
+        points: null,
       };
     case "UPDATE_CATEGORIES":
       return {
@@ -66,7 +70,6 @@ const userReducer = (state = initialState, action) => {
         joinedCommunities: [...state.joinedCommunities, action.payload],
       };
     case "UPDATE_REMOVE_COMMUNITY":
-      console.log(state.joinedCommunities);
       return {
         ...state,
         joinedCommunities: state.joinedCommunities.filter(
@@ -122,6 +125,11 @@ const userReducer = (state = initialState, action) => {
         dislikedComments: state.dislikedComments.filter(
           (commentId) => commentId !== action.payload
         ),
+      };
+    case "ADD_POINTS":
+      return {
+        ...state,
+        points: state.points + action.payload,
       };
 
     default:

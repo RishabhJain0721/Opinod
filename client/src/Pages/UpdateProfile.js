@@ -59,12 +59,14 @@ const UpdateProfile = () => {
     }
 
     const res = await updateProfile(formData);
+    console.log(res);
     dispatch(
       loginToStore(
         res.token,
         res.username,
         res.email,
         res.selectedCategories,
+        res.joinedCommunities,
         res.profilePicture,
         res.description,
         res.likedPosts,
@@ -74,7 +76,8 @@ const UpdateProfile = () => {
         res.instagram,
         res.reddit,
         res.linkedin,
-        res.twitter
+        res.twitter,
+        res.points
       )
     );
     console.log(res);

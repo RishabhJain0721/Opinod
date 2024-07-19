@@ -10,8 +10,9 @@ import Reply from "./Pages/Reply";
 import UpdateProfile from "./Pages/UpdateProfile";
 import Details from "./Pages/Details";
 import TopOpinions from "./Pages/TopOpinions";
-import Notifications from "./Pages/Notifications";
 import SelectCategories from "./Pages/SelectCategories";
+import Achievements from "./Pages/Achievements";
+import Recents from "./Pages/Recents";
 import CategoryNews from "./Pages/CategoryNews";
 import Communities from "./Pages/Communities";
 import {
@@ -41,8 +42,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/details/:id/reply/:commentId" element={<Reply />} />
         <Route path="/updateProfile" element={<UpdateProfile />} />
-        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/achievements" element={<Achievements />} />
         <Route path="/selectCategories" element={<SelectCategories />} />
+        <Route path="/recents" element={<Recents />} />
         <Route path="/communities" element={<Communities />} />
         <Route path="/communities/main" element={<CommunitiesMain />} />
         <Route path="/communities/special" element={<CommunitiesSpecial />} />

@@ -20,7 +20,8 @@ export const loginToStore = (
   instagram,
   reddit,
   linkedin,
-  twitter
+  twitter,
+  points
 ) => {
   return {
     type: "LOGIN",
@@ -40,6 +41,7 @@ export const loginToStore = (
       reddit: reddit,
       linkedin: linkedin,
       twitter: twitter,
+      points: points,
     },
   };
 };
@@ -124,5 +126,12 @@ export const dislikeComRemove = (commentId) => {
   return {
     type: "DISLIKE_COMMENT_REMOVE",
     payload: commentId,
+  };
+};
+
+export const addPoints = (points) => {
+  return {
+    type: "ADD_POINTS",
+    payload: points,
   };
 };

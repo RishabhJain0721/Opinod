@@ -2,6 +2,7 @@ import Comment from "../models/Comment.js";
 import CommunityPost from "../models/CommunityPost.js";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import Recent from "../models/Recent.js";
 
 const addTopComment = async (req, res) => {
   const { postId, text, author } = req.body;
@@ -26,6 +27,11 @@ const addTopComment = async (req, res) => {
     { username: author },
     { $inc: { points: 20 } },
     { new: true }
+  );
+
+  await Recent.findOneAndUpdate(
+    {},
+    { $push: { all: { type: "comment", postId, author } } }
   );
 
   res.send({ message: "Comment Added successfully" });
@@ -54,6 +60,11 @@ const addTopCommunityComment = async (req, res) => {
     { username: author },
     { $inc: { points: 20 } },
     { new: true }
+  );
+
+  await Recent.findOneAndUpdate(
+    {},
+    { $push: { all: { type: "communityComment", postId, author } } }
   );
 
   res.send({ message: "Comment Added successfully" });
@@ -87,6 +98,11 @@ const addReply = async (req, res) => {
     { new: true }
   );
 
+  await Recent.findOneAndUpdate(
+    {},
+    { $push: { all: { type: "reply", postId, username } } }
+  );
+
   res.send({ message: "Reply Added successfully" });
 };
 
@@ -116,6 +132,11 @@ const addCommunityReply = async (req, res) => {
     { username: author },
     { $inc: { points: 20 } },
     { new: true }
+  );
+
+  await Recent.findOneAndUpdate(
+    {},
+    { $push: { all: { type: "communityReply", postId, author } } }
   );
 
   res.send({ message: "Reply Added successfully" });

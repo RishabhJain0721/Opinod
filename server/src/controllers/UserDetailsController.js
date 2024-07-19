@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Community from "../models/Community.js";
+import Recent from "../models/Recent.js";
 import multer from "multer";
 
 // Create a multer instance with the storage configuration
@@ -71,7 +72,6 @@ const updateProfile = async (req, res) => {
 
 const joinCommunity = async (req, res) => {
   const { username, communityId } = req.body;
-  console.log(username, communityId);
   try {
     const user = await User.findOne({ username });
     user.joinedCommunities.push(communityId);
@@ -106,4 +106,42 @@ const leaveCommunity = async (req, res) => {
   }
 };
 
-export { addCategories, updateProfile, joinCommunity, leaveCommunity };
+const sendRecent = async (req, res) => {
+  const { username } = req.body;
+  console.log(username);
+  let recent;
+  try {
+    if (username) {
+      const array = await Recent.aggregate([
+        {
+          $project: {
+            all: {
+              $filter: {
+                input: "$all",
+                as: "item",
+                cond: {
+                  $or: [
+                    { $eq: ["$$item.username", username] },
+                    { $eq: ["$$item.author", username] },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ]);
+      recent = array[0];
+    } else recent = await Recent.findOne({}, { all: { $slice: -5 } });
+    res.status(200).send(recent.all.reverse());
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to fetch" });
+  }
+};
+
+export {
+  addCategories,
+  updateProfile,
+  joinCommunity,
+  leaveCommunity,
+  sendRecent,
+};

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { addPoints } from "../Actions/actions";
+import store from "../Store/configureStore";
 
 export const getComments = async (postId) => {
   try {
@@ -22,6 +24,7 @@ export const fetchCommentAndReplies = async (commentId) => {
 
 export const addTopComment = async (postId, text, author) => {
   try {
+    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addTopComment", {
       postId,
       text,
@@ -35,6 +38,7 @@ export const addTopComment = async (postId, text, author) => {
 
 export const addTopCommunityComment = async (postId, text, author) => {
   try {
+    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addTopCommunityComment", {
       postId,
       text,
@@ -48,6 +52,7 @@ export const addTopCommunityComment = async (postId, text, author) => {
 
 export const addReply = async (parentId, postId, text, author) => {
   try {
+    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addReply", {
       parentId,
       postId,
@@ -62,6 +67,7 @@ export const addReply = async (parentId, postId, text, author) => {
 
 export const addCommunityReply = async (parentId, postId, text, author) => {
   try {
+    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addCommunityReply", {
       parentId,
       postId,

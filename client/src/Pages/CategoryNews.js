@@ -6,10 +6,12 @@ import { getNewsByCategory } from "../APIs/NewsApis";
 import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import MobileSearch from "../Components/MobileSearch";
+import { calculateUpgrade } from "../APIs/UserDetailsApis";
 
 const CategoryNews = () => {
   const category = useSelector((state) => state.category.category);
   const username = useSelector((state) => state.user.username);
+  const points = useSelector((state) => state.user.points);
   let isArticleLoading = false;
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -35,8 +37,21 @@ const CategoryNews = () => {
     }
   }, [category, username, page, isLoading, hasMore]);
 
+  const fetchUpgrade = async () => {
+    try {
+      const res = await calculateUpgrade(username, points);
+      console.log(res);
+      if (res.status) {
+        alert("Congratulations! You have been upgraded to the next level.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchNews();
+    fetchUpgrade();
   }, []);
 
   useEffect(() => {

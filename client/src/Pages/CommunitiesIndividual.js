@@ -8,12 +8,14 @@ import { getCommunityData, addCommunityPost } from "../APIs/CommunityApis";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import SubcategoryCard from "../Components/SubcategoryCard";
 import { useSelector } from "react-redux";
+import { calculateUpgrade } from "../APIs/UserDetailsApis";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const communityId = location.pathname.split("/")[2];
   const username = useSelector((state) => state.user.username);
+  const points = useSelector((state) => state.user.points);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +27,18 @@ const CommunitiesIndividual = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchUpgrade = async () => {
+    try {
+      const res = await calculateUpgrade(username, points);
+      console.log(res);
+      if (res.status) {
+        alert("Congratulations! You have been upgraded to the next level.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchCommunityData = async () => {
@@ -41,6 +55,7 @@ const CommunitiesIndividual = () => {
       }
     };
     fetchCommunityData();
+    fetchUpgrade();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;

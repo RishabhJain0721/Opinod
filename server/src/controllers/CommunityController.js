@@ -2,6 +2,7 @@ import Community from "../models/Community.js";
 import Comment from "../models/Comment.js";
 import CommunityPost from "../models/CommunityPost.js";
 import User from "../models/User.js";
+import Recent from "../models/Recent.js";
 
 const topCommunityPosts = async (id, numberOfPosts) => {
   try {
@@ -130,7 +131,13 @@ const addPost = async (req, res) => {
   );
 
   try {
-    await newPost.save();
+    const np = await newPost.save();
+    const postId = np._id;
+    console.log(postId);
+    await Recent.findOneAndUpdate(
+      {},
+      { $push: { all: { type: "post", postId, username } } }
+    );
     res.status(200).send(newPost);
   } catch (error) {
     res.status(400).send(error);

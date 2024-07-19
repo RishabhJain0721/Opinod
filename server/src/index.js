@@ -389,6 +389,7 @@ app.use("/api", routes);
 
 //   for (let title of titlesToDelete) {
 //     const deleteResult = await Post.deleteOne({ title: title });
+//     console.log("Deleted: ", deleteResult);
 //   }
 // };
 

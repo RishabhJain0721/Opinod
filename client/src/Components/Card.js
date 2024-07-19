@@ -216,9 +216,9 @@ const Card = ({
   };
 
   return (
-    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit  md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mb-2 cursor-pointer">
+    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit  md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mb-0 cursor-pointer">
       {/* Profile photo and name */}
-      <div className="flex items-center mb-2" onClick={handleClick}>
+      <div className="flex items-center mb-1" onClick={handleClick}>
         <img
           src={profilePhoto}
           alt="Main"

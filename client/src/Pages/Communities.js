@@ -8,16 +8,31 @@ import CommunityCard from "../Components/CommunityCard";
 import { useSelector } from "react-redux";
 import { getCommunities } from "../APIs/CommunityApis";
 import { MutatingDots } from "react-loader-spinner";
+import { calculateUpgrade } from "../APIs/UserDetailsApis";
 
 const Communities = () => {
   const navigate = useNavigate();
   const joinedFromStore = useSelector((state) => state.user.joinedCommunities);
+  const username = useSelector((state) => state.user.username);
+  const points = useSelector((state) => state.user.points);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
   const [joined, setJoined] = useState([]);
   const [main, setMain] = useState([]);
   const [special, setSpecial] = useState([]);
+
+  const fetchUpgrade = async () => {
+    try {
+      const res = await calculateUpgrade(username, points);
+      console.log(res);
+      if (res.status) {
+        alert("Congratulations! You have been upgraded to the next level.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchCommunities = async () => {
@@ -43,6 +58,8 @@ const Communities = () => {
       }
     };
     fetchCommunities();
+
+    fetchUpgrade();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;

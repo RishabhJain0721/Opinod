@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { calculateUpgrade } from "../APIs/UserDetailsApis";
 
 const Details = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const Details = () => {
   const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const username = useSelector((state) => state.user.username);
+  const points = useSelector((state) => state.user.points);
 
   const fetchDetails = async () => {
     try {
@@ -44,9 +46,22 @@ const Details = () => {
     }
   };
 
+  const fetchUpgrade = async () => {
+    try {
+      const res = await calculateUpgrade(username, points);
+      console.log(res);
+      if (res.status) {
+        alert("Congratulations! You have been upgraded to the next level.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchDetails();
     fetchComments();
+    fetchUpgrade();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
