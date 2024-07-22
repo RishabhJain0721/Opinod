@@ -100,7 +100,7 @@ const addReply = async (req, res) => {
 
   await Recent.findOneAndUpdate(
     {},
-    { $push: { all: { type: "reply", postId, username } } }
+    { $push: { all: { type: "reply", postId, author } } }
   );
 
   res.send({ message: "Reply Added successfully" });
