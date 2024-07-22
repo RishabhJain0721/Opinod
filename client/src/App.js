@@ -26,6 +26,7 @@ import CommunityPosts from "./Pages/CommunityPosts";
 import SubcategoryIndividual from "./Pages/SubcategoryIndividual";
 import CommunityPostDetails from "./Pages/CommunityPostDetails";
 import CommunityReply from "./Pages/CommunityReply";
+import Search from "./Pages/Search";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           path="/cpostdetails/:id/reply/:commentId"
           element={<CommunityReply />}
         />
+        <Route path="/search/:searchText" element={<Search />} />
       </Routes>
     </Router>
   );

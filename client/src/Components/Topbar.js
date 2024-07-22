@@ -49,6 +49,8 @@ const Topbar = () => {
   const username = useSelector((state) => state.user.username);
   let categories = useSelector((state) => state.user.categories);
 
+  const [searchText, setSearchText] = useState("");
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -200,6 +202,10 @@ const Topbar = () => {
     setShowSpecialInterestGroups(!showSpecialInterestGroups);
   };
 
+  const handleSearch = async () => {
+    navigate(`/search/${searchText}`);
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       <div className="flex items-center justify-between ">
@@ -222,8 +228,13 @@ const Topbar = () => {
               type="text"
               className="w-32 sm:w-auto px-3 sm:px-4 py-1 sm:py-1.5 border border-gray-300 rounded-l-full focus:outline-none focus:border-blue-500"
               placeholder="Search news"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
-            <button className="px-4 bg-blue-500 rounded-r-full text-white">
+            <button
+              className="px-4 bg-blue-500 rounded-r-full text-white"
+              onClick={handleSearch}
+            >
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>

@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { ThreeDots } from "react-loader-spinner";
-import { addCommunityReply } from "../APIs/CommentApis";
+import { addCommunityReply, addReply } from "../APIs/CommentApis";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likeComment,
@@ -31,6 +31,7 @@ const Comment = ({ opinion }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const postId = location.pathname.split("/")[2];
+  const type = location.pathname.split("/")[1];
 
   const username = useSelector((state) => state.user.username);
   const likedComments = useSelector((state) => state.user.likedComments);
@@ -55,13 +56,17 @@ const Comment = ({ opinion }) => {
 
   const handleSubmitReply = async () => {
     try {
-      const res = await addCommunityReply(
-        opinion._id,
-        opinion.postId,
-        replyText,
-        username
-      );
+      const res =
+        type === "cpostdetails"
+          ? await addCommunityReply(
+              opinion._id,
+              opinion.postId,
+              replyText,
+              username
+            )
+          : await addReply(opinion._id, opinion.postId, replyText, username);
       console.log(res);
+      window.location.reload();
     } catch (error) {
       throw error;
     }
@@ -212,9 +217,11 @@ const Comment = ({ opinion }) => {
       {opinion.children.length > 0 && (
         <div
           className="flex items-center text-gray-500 text-xs ml-8"
-          onClick={() =>
-            navigate(`/cpostdetails/${postId}/reply/${opinion._id}`)
-          }
+          onClick={() => {
+            type === "cpostdetails"
+              ? navigate(`/cpostdetails/${postId}/reply/${opinion._id}`)
+              : navigate(`/details/${postId}/reply/${opinion._id}`);
+          }}
         >
           See replies ({opinion.children.length})
         </div>

@@ -13,7 +13,7 @@ import Navbar from "../Components/Navbar";
 import SingleReply from "../Components/SingleReply";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import { fetchCommentAndReplies } from "../APIs/CommentApis";
-import { addCommunityReply } from "../APIs/CommentApis";
+import { addReply } from "../APIs/CommentApis";
 import {
   likeComment,
   dislikeComment,
@@ -34,6 +34,7 @@ const Reply = () => {
   const location = useLocation();
   const commentId = location.pathname.split("/")[4];
   const postId = location.pathname.split("/")[2];
+  const type = location.pathname.split("/")[1];
   const navigate = useNavigate();
 
   const username = useSelector((state) => state.user.username);
@@ -92,13 +93,14 @@ const Reply = () => {
 
   const handleSubmitReply = async () => {
     try {
-      const res = await addCommunityReply(
+      const res = await addReply(
         comment._id,
         comment.postId,
         replyText,
         username
       );
       console.log(res);
+      window.location.reload();
     } catch (error) {
       throw error;
     }
@@ -169,7 +171,7 @@ const Reply = () => {
       <Topbar />
       {!isMobile && <Navbar />}
       <div className="flex flex-col mt-16 md:ml-60">
-        {/* <div
+        <div
           className="cursor-pointer ml-3 mt-5"
           onClick={() => {
             navigate(`/details/${postId}`);
@@ -177,7 +179,7 @@ const Reply = () => {
         >
           <FontAwesomeIcon icon={faArrowLeft} className="text-sm" /> Go to
           original post
-        </div> */}
+        </div>
         {isLoading ? (
           <div className="flex items-center justify-center h-96">
             <MutatingDots
@@ -278,7 +280,7 @@ const Reply = () => {
             </div>
             <div>
               <div className="text-lg ml-5">Replies :</div>
-              <div className=" mb-6">
+              <div className=" mb-28">
                 {replies.map((reply) => {
                   return <SingleReply key={reply._id} comment={reply} />;
                 })}

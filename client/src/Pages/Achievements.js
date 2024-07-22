@@ -54,7 +54,7 @@ const Achievements = () => {
               Achievements
             </div>
             {isAchievementsList ? (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-wrap items-center ml-5 mt-10 gap-x-8">
                 {Object.entries(achievements).map(([key, value]) => {
                   return (
                     <AchievementsCard key={key} badge={key} status={value} />
