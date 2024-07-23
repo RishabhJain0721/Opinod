@@ -202,7 +202,15 @@ const sendComments = async (req, res) => {
   const post = await Post.findById(postId);
   const postComments = post.comments;
 
-  const comments = await Comment.find({ _id: { $in: postComments } });
+  const comments = await Comment.find({ _id: { $in: postComments } }).lean();
+
+  for (const comment of comments) {
+    const author = await User.findOne(
+      { username: comment.author },
+      { profilePicture: 1, _id: 0 }
+    ).lean();
+    comment.profilePicture = author.profilePicture;
+  }
 
   res.send(comments);
 };
@@ -210,8 +218,22 @@ const sendComments = async (req, res) => {
 const sendCommentAndReplies = async (req, res) => {
   const { commentId } = req.body;
   try {
-    const comment = await Comment.findById(commentId);
-    const replies = await Comment.find({ _id: { $in: comment.children } });
+    const comment = await Comment.findById(commentId).lean();
+    const author = await User.findOne(
+      { username: comment.author },
+      { profilePicture: 1, _id: 0 }
+    ).lean();
+    comment.profilePicture = author.profilePicture;
+    const replies = await Comment.find({
+      _id: { $in: comment.children },
+    }).lean();
+    for (const reply of replies) {
+      const author = await User.findOne(
+        { username: reply.author },
+        { profilePicture: 1, _id: 0 }
+      ).lean();
+      reply.profilePicture = author.profilePicture;
+    }
     res.status(200).send({ comment, replies });
   } catch (error) {
     res.status(404).send({ message: "Comment not found", error });

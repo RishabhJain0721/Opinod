@@ -18,6 +18,7 @@ const TopOpinions = () => {
   const fetchOpinions = useCallback(async () => {
     try {
       const res = await getPopularOpinions(9, page);
+      console.log(res);
       if (res.length > 0) {
         setPopularOpinions((prevOpinions) => {
           return [...prevOpinions, ...res].filter(
@@ -77,7 +78,7 @@ const TopOpinions = () => {
       {!isMobile && <Navbar />}
 
       <div className="flex mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="md:ml-60 mt-11 md:mt-0 w-full">
           {opinionsLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -99,25 +100,28 @@ const TopOpinions = () => {
                   Popular Opinions
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions.map((opinion) => (
-                  <OpinionCard
-                    key={opinion._id}
-                    id={opinion._id}
-                    category={opinion.post.category}
-                    profilePhoto={opinion.authorPicture.profilePicture}
-                    author={opinion.author}
-                    datePosted={formatDistanceToNow(
-                      new Date(opinion.createdAt),
-                      { addSuffix: true }
-                    )}
-                    title={opinion.post.title}
-                    text={opinion.text}
-                    upvotes={opinion.upvotes}
-                    downvotes={opinion.downvotes}
-                    postId={opinion.post._id}
-                  />
-                ))}
+              <div className="flex flex-wrap md:ml-6">
+                {popularOpinions.map(
+                  (opinion) =>
+                    opinion.post && (
+                      <OpinionCard
+                        key={opinion._id}
+                        id={opinion._id}
+                        category={opinion.post.category}
+                        profilePhoto={opinion.authorPicture.profilePicture}
+                        author={opinion.author}
+                        datePosted={formatDistanceToNow(
+                          new Date(opinion.createdAt),
+                          { addSuffix: true }
+                        )}
+                        title={opinion.post.title}
+                        text={opinion.text}
+                        upvotes={opinion.upvotes}
+                        downvotes={opinion.downvotes}
+                        postId={opinion.post._id}
+                      />
+                    )
+                )}
 
                 {hasMore && (
                   <div className="flex items-center justify-center w-full h-24">

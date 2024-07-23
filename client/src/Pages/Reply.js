@@ -43,6 +43,10 @@ const Reply = () => {
 
   const [replyText, setReplyText] = useState("");
   const [comment, setComment] = useState({});
+
+  const [base64Image, setBase64Image] = useState("");
+  const [mimetype, setMimetype] = useState("");
+
   const [replies, setReplies] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +75,8 @@ const Reply = () => {
         setCommentLikes(res.comment.upvotes);
         setCommentDislikes(res.comment.downvotes);
         setComment(res.comment);
+        setBase64Image(res.comment.profilePicture.buffer);
+        setMimetype(res.comment.profilePicture.mimetype);
         setReplies(res.replies);
       } catch (error) {
         throw error;
@@ -199,7 +205,7 @@ const Reply = () => {
             <div className="flex items-start flex-col p-4 bg-blue-100 rounded-lg shadow-md mt-3 mx-3 mb-4">
               <div className="flex items-center justify-center mb-2">
                 <img
-                  src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
+                  src={`data:${mimetype};base64,${base64Image}`}
                   alt="Profile"
                   className="w-6 h-6 rounded-full mr-2"
                 />

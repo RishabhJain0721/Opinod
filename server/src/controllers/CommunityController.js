@@ -165,8 +165,16 @@ const sendPostComments = async (req, res) => {
   try {
     const post = await CommunityPost.findById(id);
     const postComments = post.comments;
-    const comments = await Comment.find({ _id: { $in: postComments } });
-    console.log(comments);
+    const comments = await Comment.find({ _id: { $in: postComments } }).lean();
+
+    for (const comment of comments) {
+      const author = await User.findOne(
+        { username: comment.author },
+        { profilePicture: 1, _id: 0 }
+      ).lean();
+      comment.profilePicture = author.profilePicture;
+    }
+
     res.status(200).send(comments);
   } catch (error) {
     res.status(400).send(error);

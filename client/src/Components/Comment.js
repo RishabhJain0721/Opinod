@@ -33,6 +33,10 @@ const Comment = ({ opinion }) => {
   const postId = location.pathname.split("/")[2];
   const type = location.pathname.split("/")[1];
 
+  const base64Image = opinion.profilePicture.buffer;
+  const imageType = opinion.profilePicture.mimetype;
+  const src = `data:${imageType};base64,${base64Image}`;
+
   const username = useSelector((state) => state.user.username);
   const likedComments = useSelector((state) => state.user.likedComments);
   const dislikedComments = useSelector((state) => state.user.dislikedComments);
@@ -139,11 +143,7 @@ const Comment = ({ opinion }) => {
   return (
     <div className="flex items-start flex-col w-full p-4 pb-2 bg-white rounded-lg mb-0">
       <div className="flex items-center justify-center mb-2">
-        <img
-          src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
-          alt="Profile"
-          className="w-6 h-6 rounded-full mr-2"
-        />
+        <img src={src} alt="Profile" className="w-6 h-6 rounded-full mr-2" />
         <div className="flex flex-row items-baseline">
           <div className="text-sm font-semibold">{opinion.author}</div>
           <div className="text-xs text-gray-500 ml-2">

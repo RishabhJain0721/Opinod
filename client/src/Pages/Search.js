@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import MobileSearch from "../Components/MobileSearch";
-import Card from "../Components/Card";
-import OpinionCard from "../Components/OpinionCard";
-import CommunityCardShort from "../Components/CommunityCardShort";
 import { search } from "../APIs/SearchApis";
-import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
-import { formatDistanceToNow, set } from "date-fns";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { formatDistanceToNow } from "date-fns";
 import CommunityPostCard from "../Components/CommunityPostCard";
 import CardSmall from "../Components/CardSmall";
 
 const Search = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const searchText = location.pathname.split("/")[2];
-  const username = useSelector((state) => state.user.username);
 
   const [isLoading, setIsLoading] = useState(false);
   const [news, setNews] = useState(true);
@@ -132,6 +124,11 @@ const Search = () => {
                       downvotes={news.downvotes}
                     />
                   ))}
+                  {newsData.length === 0 && (
+                    <div className="text-gray-600 text-sm md:text-lg text-center mx-auto mt-20">
+                      No News Articles Found
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -140,6 +137,11 @@ const Search = () => {
                   {communityData.map((community) => (
                     <CommunityPostCard key={community.id} post={community} />
                   ))}
+                  {communityData.length === 0 && (
+                    <div className="text-gray-600 text-sm md:text-lg text-center mx-auto mt-20">
+                      No Community Posts Found
+                    </div>
+                  )}
                 </div>
               )}
             </>

@@ -169,8 +169,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal">Trending</div>
+              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium md:font-normal">Trending</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -182,7 +182,7 @@ const Home = () => {
               </div>
               {isMobile && (
                 <div className="flex items-center ml-6">
-                  <span className="text-sm text-gray-500">General</span>
+                  <span className="text-xs text-gray-500">General</span>
                 </div>
               )}
 
@@ -237,8 +237,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-8 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal">
+              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-3 md:mt-5 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium md:font-normal w-2/3">
                   Popular Opinions
                 </div>
                 <div>
@@ -291,8 +291,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal">
+              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium md:font-normal w-2/3">
                   Top Communities
                 </div>
                 <div>
@@ -321,13 +321,13 @@ const Home = () => {
             <></>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className=" font-semibold md:font-normal mb-2">
+              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium md:font-normal w-2/3 mb-2">
                   Recent Activities
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start mx-5 md:ml-10 text-gray-600 mb-10">
-                <div>
+              <div className="flex flex-wrap justify-start text-xs md:text-base mx-5 md:ml-10 text-gray-600 mb-10">
+                <div className=" w-full">
                   {recent.map((ele, index) => {
                     if (ele.type === "like" || ele.type === "communityLike") {
                       return (

@@ -16,7 +16,6 @@ import CommPostDetails from "../Components/CommPostDetails";
 
 const CommunityPostDetails = () => {
   const { id } = useParams();
-  console.log(id);
   const [details, setDetails] = useState();
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
@@ -30,7 +29,6 @@ const CommunityPostDetails = () => {
     try {
       setIsLoadingDetails(true);
       const res = await getCommunityPostDetails(id);
-      console.log(res);
       setDetails(res);
       setIsLoadingDetails(false);
     } catch (error) {
@@ -41,7 +39,6 @@ const CommunityPostDetails = () => {
   const fetchComments = async () => {
     try {
       const res = await getCommunityPostComments(id);
-      console.log(res);
       setComments(res);
       setIsLoadingComments(false);
     } catch (error) {
