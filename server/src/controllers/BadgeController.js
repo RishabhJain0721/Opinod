@@ -327,10 +327,6 @@ const calculateAchievements = async (req, res) => {
   });
 };
 
-// const calcLevels = async (req, res) => {
-//   const { username } = req.body;
-//   const user = await User.findOne
-
 const calculateLevel = async (req, res) => {
   const { username } = req.body;
   try {
@@ -386,61 +382,61 @@ const calculateLevel = async (req, res) => {
   }
 };
 
-const checkUpgrade = async (req, res) => {
-  const { username, points } = req.body;
-  let data;
-  try {
-    const user = await User.findOne({ username }, { points: 1, _id: 0 }).lean();
-    const oldPoints = user.points;
-    if (oldPoints < 500) {
-      if (points >= 500 && points < 1000) {
-        //bronze to silver
-        data = { status: true, level: 2, badge: "silver" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else if (oldPoints < 1000) {
-      if (points >= 1000 && points < 1500) {
-        //silver to gold
-        data = { status: true, level: 3, badge: "gold" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else if (oldPoints < 1500) {
-      if (points >= 1500 && points < 2000) {
-        //gold to platinum
-        data = { status: true, level: 4, badge: "platinum" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else if (oldPoints < 2000) {
-      if (points >= 2000 && points < 2500) {
-        //platinum to emerald
-        data = { status: true, level: 5, badge: "emrald" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else if (oldPoints < 2500) {
-      if (points >= 2500 && points < 3000) {
-        //emerald to ruby
-        data = { status: true, level: 6, badge: "ruby" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else if (oldPoints < 3000) {
-      if (points >= 3000 && points < 3500) {
-        //ruby to diamond
-        data = { status: true, level: 7, badge: "diamond" };
-      } else {
-        data = { status: false, message: "Not upgraded" };
-      }
-    } else {
-      data = { status: false, message: "Already at max level" };
-    }
-    res.status(200).send(data);
-  } catch (error) {
-    res.status(400).send("Failed to check level");
-  }
-};
+// const checkUpgrade = async (req, res) => {
+//   const { username, points } = req.body;
+//   let data;
+//   try {
+//     const user = await User.findOne({ username }, { points: 1, _id: 0 }).lean();
+//     const oldPoints = user.points;
+//     if (oldPoints < 500) {
+//       if (points >= 500 && points < 1000) {
+//         //bronze to silver
+//         data = { status: true, level: 2, badge: "silver" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else if (oldPoints < 1000) {
+//       if (points >= 1000 && points < 1500) {
+//         //silver to gold
+//         data = { status: true, level: 3, badge: "gold" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else if (oldPoints < 1500) {
+//       if (points >= 1500 && points < 2000) {
+//         //gold to platinum
+//         data = { status: true, level: 4, badge: "platinum" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else if (oldPoints < 2000) {
+//       if (points >= 2000 && points < 2500) {
+//         //platinum to emerald
+//         data = { status: true, level: 5, badge: "emrald" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else if (oldPoints < 2500) {
+//       if (points >= 2500 && points < 3000) {
+//         //emerald to ruby
+//         data = { status: true, level: 6, badge: "ruby" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else if (oldPoints < 3000) {
+//       if (points >= 3000 && points < 3500) {
+//         //ruby to diamond
+//         data = { status: true, level: 7, badge: "diamond" };
+//       } else {
+//         data = { status: false, message: "Not upgraded" };
+//       }
+//     } else {
+//       data = { status: false, message: "Already at max level" };
+//     }
+//     res.status(200).send(data);
+//   } catch (error) {
+//     res.status(400).send("Failed to check level");
+//   }
+// };
 
-export { calculateAchievements, calculateLevel, checkUpgrade };
+export { calculateAchievements, calculateLevel };

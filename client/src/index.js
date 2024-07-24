@@ -3,9 +3,11 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import store, { persistor } from "./Store/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 import "./index.css";
 import App from "./App";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = "https://opinod.onrender.com";
 // axios.defaults.baseURL = "http://localhost:3001";
@@ -17,6 +19,18 @@ root.render(
     <PersistGate persistor={persistor}>
       <div className="font-League">
         <App />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </PersistGate>
   </Provider>

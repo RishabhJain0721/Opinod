@@ -9,7 +9,7 @@ import {
 import {
   calculateAchievements,
   calculateLevel,
-  checkUpgrade,
+  // checkUpgrade,
 } from "../../controllers/BadgeController.js";
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.post("/joinCommunity", joinCommunity);
 router.post("/leaveCommunity", leaveCommunity);
 router.post("/achievements", calculateAchievements);
 router.post("/level", calculateLevel);
-router.post("/upgrade", checkUpgrade);
+// router.post("/upgrade", checkUpgrade);
 router.post("/recent", sendRecent);
 
 export default router;

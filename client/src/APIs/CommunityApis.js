@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "../Store/configureStore";
 import { addPoints } from "../Actions/actions";
+import { checkUpgrade } from "../Assets/functions/checkUpgrade";
 
 export const getCommunities = async () => {
   try {
@@ -64,8 +65,11 @@ export const getCommunityPostComments = async (id) => {
 
 export const addCommunityPost = async (data) => {
   try {
-    store.dispatch(addPoints(50));
     const response = await axios.post("/api/community/post", data);
+    const state = store.getState();
+    const oldPoints = state.user.points;
+    store.dispatch(addPoints(50));
+    checkUpgrade(oldPoints, oldPoints + 50);
     return response.data;
   } catch (error) {
     throw error;

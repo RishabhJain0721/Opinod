@@ -13,7 +13,7 @@ import { selectCategory } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
 import { getCommunities } from "../APIs/CommunityApis";
-import { calculateUpgrade, getRecent } from "../APIs/UserDetailsApis";
+import { getRecent } from "../APIs/UserDetailsApis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 
@@ -21,7 +21,6 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-  const points = useSelector((state) => state.user.points);
 
   const [trending, setTrending] = useState([]);
   const [popularOpinions, setPopularOpinions] = useState([]);
@@ -86,24 +85,11 @@ const Home = () => {
     }
   };
 
-  const fetchUpgrade = async () => {
-    try {
-      const res = await calculateUpgrade(username, points);
-      console.log(res);
-      if (res.status) {
-        alert("Congratulations! You have been upgraded to the next level.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     fetchNews();
     fetchOpinions();
     fetchCommunities();
     fetchRecent();
-    fetchUpgrade();
 
     const handleResize = () => {
       const mobile = window.innerWidth < 768;

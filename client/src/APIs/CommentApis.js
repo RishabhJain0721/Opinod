@@ -1,6 +1,7 @@
 import axios from "axios";
 import { addPoints } from "../Actions/actions";
 import store from "../Store/configureStore";
+import { checkUpgrade } from "../Assets/functions/checkUpgrade";
 
 export const getComments = async (postId) => {
   try {
@@ -24,12 +25,15 @@ export const fetchCommentAndReplies = async (commentId) => {
 
 export const addTopComment = async (postId, text, author) => {
   try {
-    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addTopComment", {
       postId,
       text,
       author,
     });
+    const state = store.getState();
+    const oldPoints = state.user.points;
+    store.dispatch(addPoints(20));
+    checkUpgrade(oldPoints, oldPoints + 5);
     return response.data;
   } catch (error) {
     throw error;
@@ -38,12 +42,15 @@ export const addTopComment = async (postId, text, author) => {
 
 export const addTopCommunityComment = async (postId, text, author) => {
   try {
-    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addTopCommunityComment", {
       postId,
       text,
       author,
     });
+    const state = store.getState();
+    const oldPoints = state.user.points;
+    store.dispatch(addPoints(20));
+    checkUpgrade(oldPoints, oldPoints + 5);
     return response.data;
   } catch (error) {
     throw error;
@@ -52,13 +59,16 @@ export const addTopCommunityComment = async (postId, text, author) => {
 
 export const addReply = async (parentId, postId, text, author) => {
   try {
-    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addReply", {
       parentId,
       postId,
       text,
       author,
     });
+    const state = store.getState();
+    const oldPoints = state.user.points;
+    store.dispatch(addPoints(20));
+    checkUpgrade(oldPoints, oldPoints + 5);
     return response.data;
   } catch (error) {
     throw error;
@@ -67,13 +77,16 @@ export const addReply = async (parentId, postId, text, author) => {
 
 export const addCommunityReply = async (parentId, postId, text, author) => {
   try {
-    store.dispatch(addPoints(20));
     const response = await axios.post("/api/comment/addCommunityReply", {
       parentId,
       postId,
       text,
       author,
     });
+    const state = store.getState();
+    const oldPoints = state.user.points;
+    store.dispatch(addPoints(20));
+    checkUpgrade(oldPoints, oldPoints + 5);
     return response.data;
   } catch (error) {
     throw error;

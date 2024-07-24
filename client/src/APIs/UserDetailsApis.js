@@ -63,18 +63,6 @@ export const calculateLevel = async (username) => {
   }
 };
 
-export const calculateUpgrade = async (username, points) => {
-  try {
-    const response = await axios.post("/api/user/upgrade", {
-      username,
-      points,
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const getRecent = async (username) => {
   try {
     const response = await axios.post("/api/user/recent", { username });
