@@ -11,6 +11,7 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis";
+import { report } from "../APIs/CommentApis";
 import {
   likeCom,
   dislikeCom,
@@ -24,6 +25,7 @@ import {
   faCommentDots,
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
+import { toast } from "react-toastify";
 
 const SingleReply = (props) => {
   const comment = props.comment;
@@ -140,6 +142,16 @@ const SingleReply = (props) => {
     setCommentDislikeToggle(false);
   };
 
+  const handleReport = async () => {
+    try {
+      const res = await report(comment._id);
+      console.log(res);
+      toast.error("Comment Reported");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col">
@@ -219,7 +231,7 @@ const SingleReply = (props) => {
             >
               <FontAwesomeIcon icon={faCommentDots} className="mr-1" />{" "}
             </button>
-            <button className="flex items-center mr-4">
+            <button className="flex items-center mr-4" onClick={handleReport}>
               <FontAwesomeIcon icon={faFlag} className="mr-1" />
             </button>
 

@@ -371,29 +371,29 @@ app.use("/api", routes);
 
 // del();
 
-const launch = async () => {
-  const duplicates = await Post.aggregate([
-    {
-      $group: {
-        _id: "$title",
-        count: { $sum: 1 },
-      },
-    },
-  ]);
+// const launch = async () => {
+//   const duplicates = await Post.aggregate([
+//     {
+//       $group: {
+//         _id: "$title",
+//         count: { $sum: 1 },
+//       },
+//     },
+//   ]);
 
-  const titlesToDelete = duplicates
-    .filter((doc) => doc.count > 1)
-    .map((doc) => doc._id);
+//   const titlesToDelete = duplicates
+//     .filter((doc) => doc.count > 1)
+//     .map((doc) => doc._id);
 
-  console.log(titlesToDelete.length);
+//   console.log(titlesToDelete.length);
 
-  for (let title of titlesToDelete) {
-    const deleteResult = await Post.deleteOne({ title: title });
-    console.log("Deleted: ", deleteResult);
-  }
-};
+//   for (let title of titlesToDelete) {
+//     const deleteResult = await Post.deleteOne({ title: title });
+//     console.log("Deleted: ", deleteResult);
+//   }
+// };
 
-launch();
+// launch();
 
 //delete comments with no post
 // const launch = async () => {

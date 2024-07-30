@@ -114,12 +114,6 @@ const ProfilePage = () => {
       });
       console.log(a);
       setRecent(a);
-    } else if (filter === "Likes") {
-      const a = recents.filter((ele) => {
-        return ele.type === "like" || ele.type === "communityLike";
-      });
-      console.log(a);
-      setRecent(a);
     }
   }, [filter]);
 
@@ -215,7 +209,7 @@ const ProfilePage = () => {
 
             {/* Recent Activities */}
             <div className=" text-base font-medium mb-1">
-              <div className="flex items-center justify-between text-lg font-medium mt-5">
+              <div className="flex items-center justify-between text-lg font-medium">
                 <span>
                   Recent Activities{" "}
                   <button
@@ -256,12 +250,6 @@ const ProfilePage = () => {
                   >
                     Opinions
                   </div>
-                  <div
-                    onClick={() => selectFilter("Likes")}
-                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
-                  >
-                    Likes
-                  </div>
                 </div>
               )}
             </div>
@@ -270,30 +258,7 @@ const ProfilePage = () => {
                 <></>
               ) : (
                 recent.slice(0, 5).map((ele, index) => {
-                  if (ele.type === "like" || ele.type === "communityLike") {
-                    return (
-                      <div key={index}>
-                        <FontAwesomeIcon
-                          icon={faSquare}
-                          className="  mr-2 text-xs md:text-sm text-blue-500"
-                        />
-                        Liked{" "}
-                        <span
-                          onClick={() => {
-                            if (ele.type === "like") {
-                              navigate(`/details/${ele.postId}`);
-                            } else if (ele.type === "communityLike") {
-                              navigate(`/cpostdetails/${ele.postId}`);
-                            }
-                          }}
-                          className="text-blue-500 cursor-pointer"
-                        >
-                          this
-                        </span>{" "}
-                        post
-                      </div>
-                    );
-                  } else if (
+                  if (
                     ele.type === "comment" ||
                     ele.type === "communityComment"
                   ) {
@@ -303,7 +268,7 @@ const ProfilePage = () => {
                           icon={faSquare}
                           className="  mr-2 text-xs md:text-sm text-blue-500"
                         />
-                        Commented on{" "}
+                        Shared opinion on{" "}
                         <span
                           onClick={() => {
                             if (ele.type === "comment") {
@@ -350,7 +315,7 @@ const ProfilePage = () => {
                       <div key={index}>
                         <FontAwesomeIcon
                           icon={faSquare}
-                          className="  mr-2 text-xs md:text-sm text-blue-500"
+                          className="mr-2 text-xs md:text-sm text-blue-500"
                         />
                         Posted a new{" "}
                         <span
@@ -371,7 +336,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Achievements */}
-            <div className="flex items-center justify-between text-lg font-medium mb-6 mt-5">
+            <div className="flex items-center justify-between text-lg font-medium mt-2">
               <span>Achievements</span>
               <button
                 className="px-2 font-normal text-gray-600 text-xs md:text-base"
@@ -382,12 +347,18 @@ const ProfilePage = () => {
             </div>
 
             {isAchievementsList ? (
-              <div className="flex flex-col">
+              <div className="flex flex-col text-gray-700">
                 {Object.entries(achievements)
                   .slice(0, 3)
                   .map(([key, value]) => {
                     return (
-                      <AchievementsCard key={key} badge={key} status={value} />
+                      <div key={key}>
+                        <FontAwesomeIcon
+                          icon={faSquare}
+                          className="  mr-2 text-xs md:text-sm text-blue-500"
+                        />
+                        {key}
+                      </div>
                     );
                   })}
                 {achievements["Top Community Member"].stats.Current.map(

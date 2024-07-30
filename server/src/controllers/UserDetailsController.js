@@ -1,5 +1,7 @@
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 import Community from "../models/Community.js";
+import CommunityPost from "../models/CommunityPost.js";
 import Recent from "../models/Recent.js";
 import multer from "multer";
 
@@ -138,10 +140,81 @@ const sendRecent = async (req, res) => {
   }
 };
 
+const sendUserDetails = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const user = await User.findById(id);
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to fetch" });
+  }
+};
+
+const sendUserPosts = async (req, res) => {
+  const { id } = req.body;
+  console.log(id);
+  try {
+    const user = await User.findById(id, { username: 1, _id: 0 }).lean();
+    const name = user.username;
+    const posts = await CommunityPost.find({ author: name }).sort({
+      createdAt: -1,
+    });
+    res.status(200).send(posts);
+  } catch (error) {
+    res.status(400).send("Failed to fetch posts");
+  }
+};
+
+const sendUserComments = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const user = await User.findById(id, { username: 1, _id: 0 }).lean();
+    const name = user.username;
+    console.log(name);
+    const comments = await Comment.find({ author: name }).sort({
+      createdAt: -1,
+    });
+    // .sort({ createdAt: -1 })
+    // .limit(20);
+    res.status(200).send(comments);
+  } catch (error) {
+    res.status(400).send("Failed to fetch comments");
+  }
+};
+
+const followUser = async (req, res) => {
+  console.log("Hello");
+  const { username, followId: id } = req.body;
+  console.log(username, id);
+  try {
+    await User.updateOne({ _id: id }, { $push: { followers: username } });
+    await User.updateOne({ username }, { $push: { following: id } });
+    res.status(200).send("Followed User");
+  } catch (error) {
+    res.status(400).send("Failed to follow");
+  }
+};
+
+const unfollowUser = async (req, res) => {
+  const { username, followId: id } = req.body;
+  try {
+    await User.updateOne({ _id: id }, { $pull: { followers: username } });
+    await User.updateOne({ username }, { $pull: { following: id } });
+    res.status(200).send("Unfollowed User");
+  } catch (error) {
+    res.status(400).send("Failed to unfollow");
+  }
+};
+
 export {
   addCategories,
   updateProfile,
   joinCommunity,
   leaveCommunity,
   sendRecent,
+  sendUserDetails,
+  sendUserPosts,
+  sendUserComments,
+  followUser,
+  unfollowUser,
 };

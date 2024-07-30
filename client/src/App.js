@@ -33,9 +33,21 @@ import CommunityPostDetails from "./Pages/CommunityPostDetails";
 import CommunityReply from "./Pages/CommunityReply";
 import Search from "./Pages/Search";
 import { useSelector } from "react-redux";
+import AdminLogin from "./Pages/Admin/AdminLogin";
+import VerifyPosts from "./Pages/Admin/VerifyPosts";
+import Reports from "./Pages/Admin/Reports";
+import Feedbacks from "./Pages/Admin/Feedbacks";
+import Rewards from "./Pages/Admin/Rewards";
+import PostDetails from "./Pages/Admin/PostDetails";
+import FeedbackDetails from "./Pages/Admin/FeedbackDetails";
+import ProfileOthers from "./Pages/ProfileOthers";
 
 function App() {
   const username = useSelector((state) => state.user.username);
+  const admin = useSelector((state) => state.admin);
+  const IsAdmin = ({ children }) => {
+    return admin ? children : <Navigate to="/admin" />;
+  };
   const RequireAuth = ({ children }) => {
     return username ? children : <Navigate to="/login" />;
   };
@@ -206,6 +218,23 @@ function App() {
             <RequireAuth>
               <Search />
             </RequireAuth>
+          }
+        />
+        <Route path="/profile/:id" element={<ProfileOthers />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route
+          path="/admin/*"
+          element={
+            <IsAdmin>
+              <Routes>
+                <Route path="verifyPosts" element={<VerifyPosts />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="feedbacks" element={<Feedbacks />} />
+                <Route path="rewards" element={<Rewards />} />
+                <Route path="post/:id" element={<PostDetails />} />
+                <Route path="feedback/:id" element={<FeedbackDetails />} />
+              </Routes>
+            </IsAdmin>
           }
         />
       </Routes>

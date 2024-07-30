@@ -15,6 +15,8 @@ const initialState = {
   linkedin: null,
   twitter: null,
   points: null,
+  followers: [],
+  following: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -39,6 +41,8 @@ const userReducer = (state = initialState, action) => {
         linkedin: action.payload.linkedin,
         twitter: action.payload.twitter,
         points: action.payload.points,
+        followers: action.payload.followers,
+        following: action.payload.following,
       };
     case "LOGOUT":
       return {
@@ -58,6 +62,8 @@ const userReducer = (state = initialState, action) => {
         linkedin: null,
         twitter: null,
         points: null,
+        followers: [],
+        following: [],
       };
     case "UPDATE_CATEGORIES":
       return {
@@ -130,6 +136,19 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         points: state.points + action.payload,
+      };
+    case "FOLLOW":
+      return {
+        ...state,
+        following: [...state.following, action.payload],
+      };
+
+    case "UNFOLLOW":
+      return {
+        ...state,
+        following: state.following.filter(
+          (userId) => userId !== action.payload
+        ),
       };
 
     default:

@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
-import Recent from "../models/Recent.js";
 import CommunityPost from "../models/CommunityPost.js";
 
 const addLike = async (req, res) => {
@@ -12,10 +11,6 @@ const addLike = async (req, res) => {
     user.points += 5;
     user.likedPosts.push(postId);
     await user.save();
-    await Recent.findOneAndUpdate(
-      {},
-      { $push: { all: { type: "like", postId, username } } }
-    );
     const post = await Post.findById(postId, { upvotes: 1 });
     post.upvotes++;
     await post.save();
@@ -96,10 +91,6 @@ const addCommunityPostLike = async (req, res) => {
     user.points += 5;
     user.likedPosts.push(postId);
     await user.save();
-    await Recent.findOneAndUpdate(
-      {},
-      { $push: { all: { type: "communityLike", postId, username } } }
-    );
     res.status(200).send({ message: "Like added successfully" });
   } catch (error) {
     res.status(404).send({ message: "Failed to like" });

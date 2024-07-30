@@ -240,6 +240,42 @@ const sendCommentAndReplies = async (req, res) => {
   }
 };
 
+const reportComment = async (req, res) => {
+  const { commentId } = req.body;
+  console.log(commentId);
+
+  try {
+    const a = await Comment.findByIdAndUpdate(commentId, { reported: true });
+    console.log(a);
+    res.send({ message: "Comment reported successfully" });
+  } catch (error) {
+    res.status(404).send({ message: "Comment not found", error });
+  }
+};
+
+const sendReportedComments = async (req, res) => {
+  try {
+    const reportedComments = await Comment.find({ reported: true }).lean();
+    res.status(200).send(reportedComments);
+  } catch (error) {
+    res.status(404).send({ message: "No reported comments found", error });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  const { commentId } = req.body;
+  console.log(commentId);
+
+  try {
+    const comment = await Comment.deleteOne({ _id: commentId });
+    console.log(comment);
+    // const parentComment = await Comment.findById(comment.parentId);
+    res.status(200).send({ message: "Comment deleted successfully" });
+  } catch (error) {
+    res.status(404).send({ message: "Comment not found", error });
+  }
+};
+
 export {
   addTopComment,
   addTopCommunityComment,
@@ -248,4 +284,7 @@ export {
   sendComments,
   sendCommentAndReplies,
   sendTopComments,
+  reportComment,
+  sendReportedComments,
+  deleteComment,
 };

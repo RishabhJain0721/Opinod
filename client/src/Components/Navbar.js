@@ -361,7 +361,7 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Quizzes and Challenges */}
+        {/* Quizzes and Challenges
         <h2 className="text-lg mb-2 ml-5 text-white mt-5">
           <div className="flex justify-between items-center mr-4">
             <div className="cursor-pointer">
@@ -373,7 +373,7 @@ const Navbar = () => {
               className="text-xs ml-3 cursor-pointer"
             />
           </div>
-        </h2>
+        </h2> */}
 
         {/* Settings */}
         <h2

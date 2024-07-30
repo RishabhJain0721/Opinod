@@ -24,7 +24,7 @@ const enrichPostsWithTopComment = async (posts) => {
       post.opinionId = topComment._id;
       post.opinion = topComment.text;
       post.opinionAuthorPhoto =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQivPo5rKZdrbIIjkfi-z9TAyZWGGyN2DHIA&s";
+        "https://as1.ftcdn.net/v2/jpg/07/07/74/98/1000_F_707749874_RN9BR4Z3SsqVPlR7grenMIegMFfXGacE.jpg";
       post.opinionAuthorName = topComment.author;
       post.opinionDate = topComment.createdAt;
       post.commentUpvotes = topComment.upvotes;

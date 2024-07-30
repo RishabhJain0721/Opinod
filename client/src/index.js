@@ -9,9 +9,9 @@ import App from "./App";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
-axios.defaults.baseURL = "https://opinod.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3001";
-// axios.defaults.baseURL = "http://192.168.16.181:3001";
+// axios.defaults.baseURL = "https://opinod.onrender.com";
+axios.defaults.baseURL = "http://localhost:3001";
+// axios.defaults.baseURL = "http://192.168.189.181:3001";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,8 +20,14 @@ root.render(
       <div className="font-League">
         <App />
         <ToastContainer
+          style={{
+            width: "auto",
+            marginTop: "4rem",
+            marginLeft: "2rem",
+            marginRight: "2rem",
+          }}
           position="top-center"
-          autoClose={5000}
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

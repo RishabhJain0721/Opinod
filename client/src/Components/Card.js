@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faShareNodes } from "@fortawesome/free-solid-svg-icons";
-import { faThumbsDown, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import {
+  faFlag,
+  faThumbsDown,
+  faThumbsUp,
+} from "@fortawesome/free-regular-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -14,6 +18,7 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis.js";
+import { report } from "../APIs/CommentApis";
 import {
   like,
   dislike,
@@ -26,6 +31,7 @@ import {
 } from "../Actions/actions.js";
 import { ThreeDots } from "react-loader-spinner";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { toast } from "react-toastify";
 
 const Card = ({
   id,
@@ -215,6 +221,16 @@ const Card = ({
     setCommentDislikeToggle(false);
   };
 
+  const handleReport = async () => {
+    try {
+      const res = await report(opinionId);
+      console.log(res);
+      toast.error("Comment Reported");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mt-1 md:mt-3 mb-0 cursor-pointer">
       {/* Profile photo and name */}
@@ -326,7 +342,7 @@ const Card = ({
                 <img
                   src={opinionAuthorPhoto}
                   alt="Opinion Author"
-                  className="w-6 h-6 rounded-full mr-2"
+                  className="w-5 h-5 rounded-full mr-2"
                 />
                 <div className="text-sm font-medium text-gray-700 flex-grow">
                   {opinionAuthorName}
@@ -390,9 +406,11 @@ const Card = ({
                       {commentDislikes} Disagrees
                     </button>
                   )}
-                  <button className="text-xs text-gray-500 flex items-center">
-                    <FontAwesomeIcon icon={faShareNodes} className="mr-1" />{" "}
-                    Share
+                  <button
+                    className="text-xs text-gray-500 flex items-center"
+                    onClick={handleReport}
+                  >
+                    <FontAwesomeIcon icon={faFlag} className="mr-1" /> Report
                   </button>
                 </div>
               </div>

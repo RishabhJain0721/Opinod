@@ -5,6 +5,11 @@ import {
   joinCommunity,
   leaveCommunity,
   sendRecent,
+  sendUserDetails,
+  sendUserPosts,
+  sendUserComments,
+  followUser,
+  unfollowUser,
 } from "../../controllers/UserDetailsController.js";
 import {
   calculateAchievements,
@@ -22,5 +27,10 @@ router.post("/achievements", calculateAchievements);
 router.post("/level", calculateLevel);
 // router.post("/upgrade", checkUpgrade);
 router.post("/recent", sendRecent);
+router.post("/getDetails", sendUserDetails);
+router.post("/getPosts", sendUserPosts);
+router.post("/getComments", sendUserComments);
+router.post("/followUser", followUser);
+router.post("/unfollowUser", unfollowUser);
 
 export default router;

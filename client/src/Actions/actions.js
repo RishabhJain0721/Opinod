@@ -21,7 +21,9 @@ export const loginToStore = (
   reddit,
   linkedin,
   twitter,
-  points
+  points,
+  followers,
+  following
 ) => {
   return {
     type: "LOGIN",
@@ -42,6 +44,8 @@ export const loginToStore = (
       linkedin: linkedin,
       twitter: twitter,
       points: points,
+      followers: followers,
+      following: following,
     },
   };
 };
@@ -133,5 +137,26 @@ export const addPoints = (points) => {
   return {
     type: "ADD_POINTS",
     payload: points,
+  };
+};
+
+export const adminLoginToStore = (username) => {
+  return {
+    type: "ADMIN_LOGIN",
+    payload: username,
+  };
+};
+
+export const follow = (userId) => {
+  return {
+    type: "FOLLOW",
+    payload: userId,
+  };
+};
+
+export const unfollow = (userId) => {
+  return {
+    type: "UNFOLLOW",
+    payload: userId,
   };
 };

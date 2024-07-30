@@ -7,7 +7,7 @@ import Recent from "../models/Recent.js";
 const topCommunityPosts = async (id, numberOfPosts) => {
   try {
     const topPosts = await CommunityPost.aggregate([
-      { $match: { community: id } },
+      { $match: { community: id, isVerified: true } },
       { $addFields: { score: { $add: ["$upvotes", "$downvotes"] } } },
       { $sort: { score: -1 } },
       { $limit: numberOfPosts },
@@ -29,7 +29,7 @@ const topCommunityPosts = async (id, numberOfPosts) => {
 const topSubcategoryPosts = async (subcategory, skip) => {
   try {
     const topPosts = await CommunityPost.aggregate([
-      { $match: { subCategory: subcategory } },
+      { $match: { subCategory: subcategory, isVerified: true } },
       { $addFields: { score: { $add: ["$upvotes", "$downvotes"] } } },
       { $sort: { score: -1 } },
       { $skip: skip },
@@ -76,11 +76,9 @@ const sendCommunityData = async (req, res) => {
 
 const sendTopPosts = async (req, res) => {
   const { subcategory, page } = req.body;
-  console.log(subcategory, page);
   const skip = (page - 1) * 9;
   try {
     const topPosts = await topSubcategoryPosts(subcategory, skip);
-    console.log(topPosts);
     res.status(200).send({ topPosts });
   } catch (error) {
     res.status(400).send({ Message: "Failed to fetch" });
@@ -90,10 +88,9 @@ const sendTopPosts = async (req, res) => {
 const sendCommunityPosts = async (req, res) => {
   const { id, page } = req.body;
   const skip = (page - 1) * 9;
-  console.log(id, page);
   try {
     const posts = await CommunityPost.aggregate([
-      { $match: { community: id } },
+      { $match: { community: id, isVerified: true } },
       { $addFields: { score: { $add: ["$upvotes", "$downvotes"] } } },
       { $sort: { score: -1 } },
       { $skip: skip },
@@ -116,31 +113,74 @@ const sendCommunityPosts = async (req, res) => {
 const addPost = async (req, res) => {
   const { title, description, communityId, selectedSubcategory, username } =
     req.body;
-  const newPost = new CommunityPost({
-    title,
-    description,
-    community: communityId,
-    subCategory: selectedSubcategory,
-    author: username,
-  });
+  try {
+    const newPost = new CommunityPost({
+      title,
+      description,
+      community: communityId,
+      subCategory: selectedSubcategory,
+      author: username,
+    });
+    await newPost.save();
+    res.status(200).send("Post sent for verification");
+  } catch (error) {
+    res.status(400).send("Failed to send post for verification");
+  }
+};
 
-  const user = await User.findOneAndUpdate(
-    { username },
-    { $inc: { points: 50 } },
-    { new: true }
-  );
+const verifyPost = async (req, res) => {
+  const { id } = req.body;
 
   try {
-    const np = await newPost.save();
-    const postId = np._id;
-    console.log(postId);
+    const newPost = await CommunityPost.findById(id);
+    newPost.isVerified = true;
+    await newPost.save();
+
+    const user = await User.findOneAndUpdate(
+      { username: newPost.author },
+      { $inc: { points: 50 } },
+      { new: true }
+    );
+
+    const postId = newPost._id;
+    const username = newPost.author;
     await Recent.findOneAndUpdate(
       {},
       { $push: { all: { type: "post", postId, username } } }
     );
-    res.status(200).send(newPost);
+    res.status(200).send({ Message: "Post verified", newPost });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ Message: "Failed to verify post", error });
+  }
+};
+
+const discardPost = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    await CommunityPost.deleteOne({ _id: id });
+    res.status(200).send({ Message: "Post discarded" });
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to discard post" });
+  }
+};
+
+const getUnverifiedPosts = async (req, res) => {
+  try {
+    const unverifiedPosts = await CommunityPost.find({ isVerified: false });
+    res.status(200).send(unverifiedPosts);
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to fetch unverified posts" });
+  }
+};
+
+const sendUnverifiedPostDetails = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const post = await CommunityPost.findById(id);
+    res.status(200).send(post);
+  } catch (error) {
+    res.status(400).send({ Message: "Failed to fetch post details" });
   }
 };
 
@@ -161,7 +201,6 @@ const sendPostDetails = async (req, res) => {
 
 const sendPostComments = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   try {
     const post = await CommunityPost.findById(id);
     const postComments = post.comments;
@@ -189,4 +228,8 @@ export {
   sendCommunityPosts,
   sendPostDetails,
   sendPostComments,
+  verifyPost,
+  discardPost,
+  getUnverifiedPosts,
+  sendUnverifiedPostDetails,
 };

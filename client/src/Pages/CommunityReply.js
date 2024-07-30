@@ -12,7 +12,7 @@ import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import CommunitySingleReply from "../Components/CommunitySingleReply";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
-import { fetchCommentAndReplies } from "../APIs/CommentApis";
+import { fetchCommentAndReplies, report } from "../APIs/CommentApis";
 import { addCommunityReply } from "../APIs/CommentApis";
 import {
   likeComment,
@@ -28,6 +28,7 @@ import {
 } from "../Actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "react-toastify";
 
 const CommunityReply = () => {
   const dispatch = useDispatch();
@@ -163,6 +164,16 @@ const CommunityReply = () => {
     setCommentDislikeToggle(false);
   };
 
+  const handleReport = async () => {
+    try {
+      const res = await report(commentId);
+      console.log(res);
+      toast.error("Comment Reported");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Topbar />
@@ -270,7 +281,10 @@ const CommunityReply = () => {
                   <FontAwesomeIcon icon={faCommentDots} className="mr-1" />{" "}
                   {replies.length}
                 </button>
-                <button className="flex items-center mr-4">
+                <button
+                  className="flex items-center mr-4"
+                  onClick={handleReport}
+                >
                   <FontAwesomeIcon icon={faFlag} className="mr-1" />
                 </button>
               </div>

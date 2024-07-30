@@ -7,6 +7,7 @@ import dislikeRoutes from "./src/dislikeRoutes.js";
 import commentRoutes from "./src/commentRoutes.js";
 import communityRoutes from "./src/communityRoutes.js";
 import searchRoutes from "./src/searchRoutes.js";
+import feedbackRoutes from "./src/feedbackRoutes.js";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/dislike", dislikeRoutes);
 router.use("/comment", commentRoutes);
 router.use("/community", communityRoutes);
 router.use("/search", searchRoutes);
+router.use("/feedbacks", feedbackRoutes);
 
 export default router;

@@ -29,6 +29,10 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    reported: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

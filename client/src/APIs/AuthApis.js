@@ -26,3 +26,12 @@ export const login = async (userData) => {
     throw error;
   }
 };
+
+export const adminLogin = async (userData) => {
+  try {
+    const response = await axios.post("/api/auth/adminLogin", userData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -45,7 +45,7 @@ const BadgeCard = (props) => {
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <div className="flip-card-inner">
-        <div className="flip-card-front flex items-center mb-5">
+        <div className="flip-card-front flex items-center">
           <div className="bg-white px-4 pb-2 rounded-lg border-blue-200 border shadow-md flex items-center space-x-4 w-full">
             <div className="flex flex-col items-center">
               <div>
@@ -86,7 +86,7 @@ const BadgeCard = (props) => {
             </div>
           </div>
         </div>
-        <div className="flip-card-back flex items-center mb-5">
+        <div className="flip-card-back flex items-center">
           <div className="bg-white px-4 pb-2 rounded-lg border-blue-200 border shadow-md flex items-center space-x-4 w-full">
             <div className="flex flex-col mx-auto">
               <div className="font-bold text-gray-900 text-center mt-2">

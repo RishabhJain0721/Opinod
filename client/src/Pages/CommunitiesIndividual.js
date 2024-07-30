@@ -8,6 +8,9 @@ import { getCommunityData, addCommunityPost } from "../APIs/CommunityApis";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import SubcategoryCard from "../Components/SubcategoryCard";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import FeedbackModal from "../Components/FeedbackModal";
+import { addFeedback } from "../APIs/FeedbackApis";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
@@ -17,6 +20,8 @@ const CommunitiesIndividual = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
   const [subcategories, setSubcategories] = useState([]);
   const [name, setName] = useState("");
   const [topPosts, setTopPosts] = useState([]);
@@ -62,22 +67,35 @@ const CommunitiesIndividual = () => {
       return alert("Please fill all the fields");
     try {
       setIsSubmitting(true);
-      const res = await addCommunityPost({
+      await addCommunityPost({
         title,
         description,
         communityId,
         selectedSubcategory,
         username,
       });
-      console.log(res);
+      toast.info("Post submitted for review");
       setTitle("");
       setDescription("");
       setSelectedSubcategory("");
+      setIsModalOpen(true);
     } catch (error) {
       console.log(error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleSubmitFeedback = async () => {
+    if (!feedbackText) {
+      return toast.error("Please write a reply");
+    }
+    try {
+      await addFeedback({ feedbackText, username });
+      toast.success("Feedback submitted successfully");
+      setFeedbackText("");
+      setIsModalOpen(false);
+    } catch (error) {}
   };
 
   const handleViewPosts = () => {
@@ -180,6 +198,7 @@ const CommunitiesIndividual = () => {
                       <select
                         name="subcategory"
                         id="subcategory"
+                        value={selectedSubcategory}
                         onChange={(e) => setSelectedSubcategory(e.target.value)}
                         className="text-sm text-gray-600 focus:outline-none w-1/2 md:w-1/3"
                       >
@@ -197,6 +216,7 @@ const CommunitiesIndividual = () => {
                     <input
                       type="text"
                       onChange={(e) => setTitle(e.target.value)}
+                      value={title}
                       placeholder="Write a title for your post"
                       className="text-base text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
@@ -204,6 +224,7 @@ const CommunitiesIndividual = () => {
                     <input
                       type="text"
                       onChange={(e) => setDescription(e.target.value)}
+                      value={description}
                       placeholder="Add description"
                       className="text-2xl text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
@@ -233,6 +254,25 @@ const CommunitiesIndividual = () => {
                   )}
                 </div>
               </div>
+              <FeedbackModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+              >
+                <div className="flex flex-col">
+                  <textarea
+                    className="border rounded text-xs md:text-sm p-2 mb-2"
+                    value={feedbackText}
+                    onChange={(e) => setFeedbackText(e.target.value)}
+                    placeholder="Please write a feedback. Helps us improve!"
+                  />
+                  <button
+                    onClick={handleSubmitFeedback}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Submit Feedback
+                  </button>
+                </div>
+              </FeedbackModal>
             </>
           )}
         </div>

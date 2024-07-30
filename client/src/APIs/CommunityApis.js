@@ -75,3 +75,40 @@ export const addCommunityPost = async (data) => {
     throw error;
   }
 };
+
+export const getUnverifiedPosts = async () => {
+  try {
+    const response = await axios.get("/api/community/unverifiedPosts");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUnverifiedPostDetails = async (id) => {
+  try {
+    const response = await axios.post("/api/community/unverifiedPostDetails", {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const verifyPost = async (id) => {
+  try {
+    const response = await axios.post("/api/community/verifyPost", { id });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const discardPost = async (id) => {
+  try {
+    const response = await axios.post("/api/community/discardPost", { id });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

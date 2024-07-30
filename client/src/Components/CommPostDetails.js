@@ -207,11 +207,6 @@ const CommPostDetails = (props) => {
           </button>
           <div className="ml-0 md:ml-2">{details.totalComments}</div>
         </div>
-        <div className="flex flex-row items-center ml-5">
-          <button className="px-1">
-            <FontAwesomeIcon icon={faFlag} />
-          </button>
-        </div>
       </div>
       {/* Divider */}
       {/* <div className="border-b-2 border-blue-300 mb-4"></div> */}

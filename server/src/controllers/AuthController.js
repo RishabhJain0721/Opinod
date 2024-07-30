@@ -34,6 +34,13 @@ const signup = async (req, res) => {
 
   // Check if a user with the same email already exists
   const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    console.log("User already exists");
+    return res.status(400).send({
+      message: "User already exists. Please login.",
+      errorName: "User already exists",
+    });
+  }
 
   const hashedPassword = hashPassword(password);
   console.log("Password", hashedPassword);
@@ -160,4 +167,29 @@ const login = async (req, res) => {
   });
 };
 
-export { signup, verifyEmail, login };
+const adminLogin = async (req, res) => {
+  const { username, password } = req.body;
+  let message;
+
+  try {
+    if (username === process.env.ADMIN_USERNAME) {
+      const checkPassword = bcrypt.compareSync(
+        password,
+        process.env.ADMIN_PASS
+      );
+      if (checkPassword) {
+        message = "Admin login successful";
+      } else {
+        message = "Wrong credentials !";
+      }
+    } else {
+      message = "Wrong credentials !";
+    }
+
+    res.status(200).send({ message, username });
+  } catch (error) {
+    res.status(400).send("Admin login failed !");
+  }
+};
+
+export { signup, verifyEmail, login, adminLogin };

@@ -55,7 +55,9 @@ const Login = () => {
           res.reddit,
           res.linkedin,
           res.twitter,
-          res.points
+          res.points,
+          res.followers,
+          res.following
         )
       );
       navigate("/");

@@ -104,3 +104,30 @@ export const getPopularOpinions = async (numberOfOpinions, page) => {
     throw error;
   }
 };
+
+export const report = async (commentId) => {
+  try {
+    const response = await axios.post("/api/comment/report", { commentId });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getReportedComments = async () => {
+  try {
+    const response = await axios.get("/api/comment/reportedComments");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteComment = async (commentId) => {
+  try {
+    const response = await axios.post("/api/comment/delete", { commentId });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

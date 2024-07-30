@@ -5,6 +5,8 @@ import Platinum from "../platinum.png";
 import Emrald from "../emrald.png";
 import Ruby from "../ruby.png";
 import Diamond from "../diamond.png";
+import anim from "../anim1.gif";
+import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 
 const badgeImages = {
   Silver: Silver,
@@ -16,9 +18,21 @@ const badgeImages = {
 };
 
 const Msg = ({ closeToast, toastProps, badge }) => (
+  <div className="flex flex-col items-center justify-center p-5 md:p-10">
+    <img
+      className="h-32 w-32 md:h-48 md:w-48"
+      src={badgeImages[badge]}
+      alt="badge"
+    />
+    <div className="text-base text-center mt-3 md:mt-5">
+      Congrats! level upgraded to {badge}
+    </div>
+  </div>
+);
+
+const Pre = ({ closeToast, toastProps, badge }) => (
   <div className="flex items-center justify-center">
-    <img className="h-8 w-8 mr-3" src={badgeImages[badge]} alt="gold" />
-    <div className=" text-sm">Congrats! level upgraded to {badge}</div>
+    <img src={anim} className=" w-78 h-78" alt="unlocked" />
   </div>
 );
 
@@ -31,8 +45,12 @@ export const checkUpgrade = (oldPoints, newPoints) => {
   } else if (oldPoints < 1000) {
     if (newPoints >= 1000 && newPoints < 1500) {
       //silver to gold
-      //   toast.success("Congrats! Level upgraded to Gold");
-      toast(<Msg badge="Gold" />);
+      toast(<Pre badge="Gold" />, {
+        onClose: () => toast(<Msg badge="Gold" />, { transition: Flip }),
+        transition: Flip,
+      });
+      // toast(<Msg badge="Gold" />);
+      // toast(<Msg badge="Gold" />);
     }
   } else if (oldPoints < 1500) {
     if (newPoints >= 1500 && newPoints < 2000) {
