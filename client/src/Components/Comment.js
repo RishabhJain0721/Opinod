@@ -27,6 +27,7 @@ import {
 } from "../Actions/actions";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
+import UploadImage from "./UploadImage";
 
 const Comment = ({ opinion }) => {
   const navigate = useNavigate();
@@ -56,6 +57,9 @@ const Comment = ({ opinion }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
 
+  const [image, setImage] = useState("");
+  const [triggerRerender, setTriggerRerender] = useState(false);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -68,9 +72,16 @@ const Comment = ({ opinion }) => {
               opinion._id,
               opinion.postId,
               replyText,
+              image,
               username
             )
-          : await addReply(opinion._id, opinion.postId, replyText, username);
+          : await addReply(
+              opinion._id,
+              opinion.postId,
+              replyText,
+              image,
+              username
+            );
       console.log(res);
       window.location.reload();
     } catch (error) {
@@ -78,6 +89,7 @@ const Comment = ({ opinion }) => {
     }
     setIsModalOpen(false);
     setReplyText("");
+    setImage("");
 
     //this has to optimised later to avoid reloading and fetching only the updated comment(no. of replies)
     window.location.reload();
@@ -150,6 +162,17 @@ const Comment = ({ opinion }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const imageurl = (url) => {
+    console.log(url);
+    setImage(url);
+  };
+
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
   };
 
   return (
@@ -256,6 +279,16 @@ const Comment = ({ opinion }) => {
             onChange={(e) => setReplyText(e.target.value)}
             placeholder="Write your reply..."
           />
+          <div
+            className="text-lg md:text-xl text-gray-600 mt-auto mb-auto mr-4"
+            key={triggerRerender}
+          >
+            <UploadImage
+              ongettingurl={imageurl}
+              cancel={removeImage}
+              triggerRerender={triggerRerender}
+            />
+          </div>
           <button
             onClick={handleSubmitReply}
             className="bg-blue-500 text-white px-4 py-2 rounded"

@@ -41,11 +41,12 @@ export const addTopComment = async (postId, text, image, author) => {
   }
 };
 
-export const addTopCommunityComment = async (postId, text, author) => {
+export const addTopCommunityComment = async (postId, text, image, author) => {
   try {
     const response = await axios.post("/api/comment/addTopCommunityComment", {
       postId,
       text,
+      image,
       author,
     });
     const state = store.getState();
@@ -58,12 +59,13 @@ export const addTopCommunityComment = async (postId, text, author) => {
   }
 };
 
-export const addReply = async (parentId, postId, text, author) => {
+export const addReply = async (parentId, postId, text, image, author) => {
   try {
     const response = await axios.post("/api/comment/addReply", {
       parentId,
       postId,
       text,
+      image,
       author,
     });
     const state = store.getState();
@@ -76,12 +78,19 @@ export const addReply = async (parentId, postId, text, author) => {
   }
 };
 
-export const addCommunityReply = async (parentId, postId, text, author) => {
+export const addCommunityReply = async (
+  parentId,
+  postId,
+  text,
+  image,
+  author
+) => {
   try {
     const response = await axios.post("/api/comment/addCommunityReply", {
       parentId,
       postId,
       text,
+      image,
       author,
     });
     const state = store.getState();

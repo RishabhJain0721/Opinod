@@ -40,13 +40,14 @@ const addTopComment = async (req, res) => {
 };
 
 const addTopCommunityComment = async (req, res) => {
-  const { postId, text, author } = req.body;
+  const { postId, text, image, author } = req.body;
 
   // Updating the comment in comments collection
   const newComment = new Comment({
     postId,
     parentId: postId,
     text,
+    image,
     author,
   });
 
@@ -73,13 +74,14 @@ const addTopCommunityComment = async (req, res) => {
 };
 
 const addReply = async (req, res) => {
-  const { postId, parentId, text, author } = req.body;
+  const { postId, parentId, text, image, author } = req.body;
 
   // Updating the comment in comments collection
   const newComment = new Comment({
     postId,
     parentId,
     text,
+    image,
     author,
   });
 
@@ -109,13 +111,14 @@ const addReply = async (req, res) => {
 };
 
 const addCommunityReply = async (req, res) => {
-  const { postId, parentId, text, author } = req.body;
+  const { postId, parentId, text, image, author } = req.body;
 
   // Updating the comment in comments collection
   const newComment = new Comment({
     postId,
     parentId,
     text,
+    image,
     author,
   });
 

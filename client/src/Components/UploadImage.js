@@ -5,8 +5,9 @@ import {
   faLinkSlash,
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
-const UploadImage = ({ ongettingurl }) => {
+const UploadImage = ({ ongettingurl, cancel }) => {
   //   const api_key = "336342327162494";
 
   const [isUploaded, setIsUploaded] = useState(false);
@@ -28,6 +29,7 @@ const UploadImage = ({ ongettingurl }) => {
         if (result.event === "success") {
           ongettingurl(result.info.secure_url);
           setIsUploaded(true);
+          toast.success("Image Attached");
         }
       }
     );
@@ -41,7 +43,7 @@ const UploadImage = ({ ongettingurl }) => {
           <FontAwesomeIcon icon={faPaperclip} />
         </button>
       ) : (
-        <FontAwesomeIcon icon={faLinkSlash} />
+        <FontAwesomeIcon icon={faLinkSlash} onClick={() => cancel()} />
       )}
     </div>
   );

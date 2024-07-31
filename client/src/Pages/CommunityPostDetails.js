@@ -13,6 +13,8 @@ import { MutatingDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import CommPostDetails from "../Components/CommPostDetails";
+import UploadImage from "../Components/UploadImage";
+import { toast } from "react-toastify";
 
 const CommunityPostDetails = () => {
   const { id } = useParams();
@@ -22,6 +24,8 @@ const CommunityPostDetails = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
+  const [image, setImage] = useState("");
+  const [triggerRerender, setTriggerRerender] = useState(false);
 
   const username = useSelector((state) => state.user.username);
 
@@ -69,12 +73,24 @@ const CommunityPostDetails = () => {
 
     try {
       setIsLoadingComments(true);
-      await addTopCommunityComment(id, newReply, username);
+      await addTopCommunityComment(id, newReply, image, username);
       await fetchComments();
       setNewReply("");
+      setImage("");
     } catch (err) {
       throw err;
     }
+  };
+
+  const imageurl = (url) => {
+    console.log(url);
+    setImage(url);
+  };
+
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
   };
 
   return (
@@ -105,9 +121,19 @@ const CommunityPostDetails = () => {
                   type="text"
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  className="border border-gray-800 rounded w-4/5 p-3 mr-3"
+                  className="border border-gray-800 rounded w-3/4 p-3 mr-3"
                   placeholder="Add a reply..."
                 />
+                <div
+                  className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                  key={triggerRerender}
+                >
+                  <UploadImage
+                    ongettingurl={imageurl}
+                    cancel={removeImage}
+                    triggerRerender={triggerRerender}
+                  />
+                </div>
                 <button
                   onClick={handleAddTopComment}
                   className="bg-blue-500 text-white px-4 py-2 rounded-full"

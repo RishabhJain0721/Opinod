@@ -11,16 +11,17 @@ import { MutatingDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../Components/UploadImage";
+import { toast } from "react-toastify";
 
 const Details = () => {
   const { id } = useParams();
   const [details, setDetails] = useState();
-  const [image, setImage] = useState("");
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
+  const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
 
   const username = useSelector((state) => state.user.username);
@@ -86,6 +87,12 @@ const Details = () => {
     setImage(url);
   };
 
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
+  };
+
   return (
     <div>
       <Topbar />
@@ -123,6 +130,7 @@ const Details = () => {
                 >
                   <UploadImage
                     ongettingurl={imageurl}
+                    cancel={removeImage}
                     triggerRerender={triggerRerender}
                   />
                 </div>

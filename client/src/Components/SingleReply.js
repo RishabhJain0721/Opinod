@@ -26,6 +26,7 @@ import {
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
+import UploadImage from "./UploadImage";
 
 const SingleReply = (props) => {
   const comment = props.comment;
@@ -54,6 +55,9 @@ const SingleReply = (props) => {
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
 
+  const [image, setImage] = useState("");
+  const [triggerRerender, setTriggerRerender] = useState(false);
+
   useEffect(() => {
     setIsCommentLiked(
       username ? (likedComments.includes(comment._id) ? true : false) : false
@@ -73,6 +77,7 @@ const SingleReply = (props) => {
         comment._id,
         comment.postId,
         commentText,
+        image,
         username
       );
       console.log(res);
@@ -81,6 +86,7 @@ const SingleReply = (props) => {
     }
     setIsModalOpen(false);
     setCommentText("");
+    setImage("");
   };
 
   const handleCommentLike = async () => {
@@ -152,6 +158,17 @@ const SingleReply = (props) => {
     }
   };
 
+  const imageurl = (url) => {
+    console.log(url);
+    setImage(url);
+  };
+
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
+  };
+
   return (
     <div>
       <div className="flex flex-col">
@@ -174,6 +191,15 @@ const SingleReply = (props) => {
             </div>
           </div>
           <div className="text-sm mb-2 ml-8">{comment.text}</div>
+          {comment.image && (
+            <div className=" ml-8 mb-2 ">
+              <img
+                src={comment.image}
+                alt="Failed to load"
+                className=" max-h-48 max-w-56 md:max-w-96"
+              />
+            </div>
+          )}
           <div className="flex items-center text-gray-500 text-xs ml-8">
             {commentLikeToggle ? (
               <ThreeDots
@@ -246,6 +272,16 @@ const SingleReply = (props) => {
                   onChange={(e) => setCommentText(e.target.value)}
                   placeholder="Write your reply..."
                 />
+                <div
+                  className="text-lg md:text-xl text-gray-600 mt-auto mb-auto mr-4"
+                  key={triggerRerender}
+                >
+                  <UploadImage
+                    ongettingurl={imageurl}
+                    cancel={removeImage}
+                    triggerRerender={triggerRerender}
+                  />
+                </div>
                 <button
                   onClick={handleSubmitReply}
                   className="bg-blue-500 text-white px-4 py-2 rounded"

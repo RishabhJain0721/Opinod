@@ -29,6 +29,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
+import UploadImage from "../Components/UploadImage";
 
 const Reply = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,8 @@ const Reply = () => {
 
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
+  const [image, setImage] = useState("");
+  const [triggerRerender, setTriggerRerender] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,6 +107,7 @@ const Reply = () => {
         comment._id,
         comment.postId,
         replyText,
+        image,
         username
       );
       console.log(res);
@@ -112,6 +116,7 @@ const Reply = () => {
       throw error;
     }
     setReplyText("");
+    setImage("");
   };
 
   const handleCommentLike = async () => {
@@ -181,6 +186,17 @@ const Reply = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const imageurl = (url) => {
+    console.log(url);
+    setImage(url);
+  };
+
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
   };
 
   return (
@@ -314,11 +330,21 @@ const Reply = () => {
                 <div className="flex bg-white border border-t-2 p-5">
                   <input
                     type="text"
-                    className="border border-gray-800 rounded w-4/5 p-3 mr-3"
+                    className="border border-gray-800 rounded w-3/4 p-3 mr-3"
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your reply..."
                   />
+                  <div
+                    className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                    key={triggerRerender}
+                  >
+                    <UploadImage
+                      ongettingurl={imageurl}
+                      cancel={removeImage}
+                      triggerRerender={triggerRerender}
+                    />
+                  </div>
                   <button
                     onClick={handleSubmitReply}
                     className="bg-blue-500 text-white px-4 py-2 rounded-full"
