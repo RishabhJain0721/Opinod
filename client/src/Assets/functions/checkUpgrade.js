@@ -49,28 +49,41 @@ export const checkUpgrade = (oldPoints, newPoints) => {
         onClose: () => toast(<Msg badge="Gold" />, { transition: Flip }),
         transition: Flip,
       });
-      // toast(<Msg badge="Gold" />);
-      // toast(<Msg badge="Gold" />);
     }
   } else if (oldPoints < 1500) {
     if (newPoints >= 1500 && newPoints < 2000) {
       //gold to platinum
-      toast(<Msg badge="Platinum" />);
+      toast(<Pre badge="Platinum" />, {
+        onClose: () => toast(<Msg badge="Platinum" />, { transition: Flip }),
+        transition: Flip,
+      });
     }
   } else if (oldPoints < 2000) {
     if (newPoints >= 2000 && newPoints < 2500) {
       //platinum to emerald
-      toast(<Msg badge="Emrald" />);
+      toast(<Pre badge="Emrald" />, {
+        onClose: () => toast(<Msg badge="Emrald" />, { transition: Flip }),
+        transition: Flip,
+      });
+      // toast(<Msg badge="Emrald" />);
     }
   } else if (oldPoints < 2500) {
     if (newPoints >= 2500 && newPoints < 3000) {
       //emerald to ruby
-      toast(<Msg badge="Ruby" />);
+      toast(<Pre badge="Ruby" />, {
+        onClose: () => toast(<Msg badge="Ruby" />, { transition: Flip }),
+        transition: Flip,
+      });
+      // toast(<Msg badge="Ruby" />);
     }
   } else if (oldPoints < 3000) {
     if (newPoints >= 3000 && newPoints < 3500) {
       //ruby to diamond
-      toast(<Msg badge="Diamond" />);
+      toast(<Pre badge="Diamond" />, {
+        onClose: () => toast(<Msg badge="Diamond" />, { transition: Flip }),
+        transition: Flip,
+      });
+      // toast(<Msg badge="Diamond" />);
     }
   }
 };

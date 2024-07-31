@@ -35,3 +35,21 @@ export const adminLogin = async (userData) => {
     throw error;
   }
 };
+
+export const forgotUsername = async (email) => {
+  try {
+    const response = await axios.post("/api/auth/forgot-username", { email });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post("/api/auth/forgot-password", { email });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

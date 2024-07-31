@@ -12,7 +12,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Added loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +38,7 @@ const Login = () => {
     setIsLoading(true); // Start loading
     try {
       const res = await login({ username, password });
-      console.log("Response : ", res);
+      console.log("Response : ", res.message);
       dispatch(
         loginToStore(
           res.token,
@@ -62,6 +63,7 @@ const Login = () => {
       );
       navigate("/");
     } catch (error) {
+      setError(error.response.data.errorName);
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
@@ -126,6 +128,9 @@ const Login = () => {
                   required
                 />
               </div>
+              {error && (
+                <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
               <div className="mt-2 text-sm font-medium">
                 Don't have an account?
                 <button
@@ -141,6 +146,24 @@ const Login = () => {
               >
                 Login
               </button>
+
+              <div className="mt-2 text-sm text-center font-medium">
+                Forgot
+                <button
+                  className="text-blue-500 ml-1"
+                  onClick={() => navigate("/forgotUsername")}
+                >
+                  Username
+                </button>{" "}
+                /
+                <button
+                  className="text-blue-500 ml-1"
+                  onClick={() => navigate("/forgotPassword")}
+                >
+                  Password
+                </button>{" "}
+                ?
+              </div>
             </form>
           </div>
           <div className=" h-96">

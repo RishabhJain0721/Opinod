@@ -41,6 +41,8 @@ import Rewards from "./Pages/Admin/Rewards";
 import PostDetails from "./Pages/Admin/PostDetails";
 import FeedbackDetails from "./Pages/Admin/FeedbackDetails";
 import ProfileOthers from "./Pages/ProfileOthers";
+import ForgotUsername from "./Pages/ForgotUsername";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 function App() {
   const username = useSelector((state) => state.user.username);
@@ -58,6 +60,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgotUsername" element={<ForgotUsername />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route

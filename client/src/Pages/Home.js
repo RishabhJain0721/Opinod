@@ -237,7 +237,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions
+                {/* {popularOpinions
                   .slice(0, smallScreen ? 2 : 3)
                   .map((opinion) => (
                     <OpinionCard
@@ -256,7 +256,7 @@ const Home = () => {
                       downvotes={opinion.downvotes}
                       postId={opinion.post._id}
                     />
-                  ))}
+                  ))} */}
               </div>
             </>
           )}

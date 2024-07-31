@@ -4,6 +4,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config.js";
 import { sendVerificationMail } from "../services/mailer.js";
+import { sendResetMail } from "../services/resetMailer.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import path from "path";
 
 const isEmailValid = async (email) => {
   const emailParts = email.split("@");
@@ -192,4 +196,187 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { signup, verifyEmail, login, adminLogin };
+const forgotUsername = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const user = await User.findOne({ email });
+
+    const baseUrl = process.env.BASE_URL;
+    const resetButtonLink = `${baseUrl}/api/auth/reset-username-page?id=${user._id}`;
+
+    console.log("Reset Button Link : ", resetButtonLink);
+
+    const mailOptions = {
+      from: process.env.ADMIN_EMAIL,
+      to: email,
+      subject: "Reset your username",
+      html: `
+          <div style="font-family: Arial, sans-serif;">
+            <p style="color: #666;">Please reset your username by clicking the link below:</p>
+            <p><a href="${resetButtonLink}" target="_blank" style="display: inline-block; background-color: #D32F2F; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Reset Username</a></p>
+            <p style="color: #666;">Thank you!</p>
+          </div>
+        `,
+    };
+
+    await sendResetMail(email, mailOptions);
+
+    res.status(200).send({
+      status: 200,
+      message: "Username reset link sent to your email.",
+    });
+  } catch (error) {
+    res.status(400).send({
+      status: 400,
+      message: "Username reset failed. Please try again later.",
+    });
+  }
+};
+
+const resetUsernamePage = async (req, res) => {
+  const { id } = req.query;
+  console.log(id);
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  try {
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      res.sendFile(path.join(__dirname, "..", "public", "resetUsername.html"));
+    } else {
+      res.status(400).send({
+        status: 400,
+        message: "Invalid Id. Password reset failed.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: "Password reset failed.",
+    });
+  }
+};
+
+const resetUsername = async (req, res) => {
+  const { id, username } = req.body;
+
+  try {
+    const user = await User.findOne({ _id: id });
+
+    if (user) {
+      user.username = username;
+      await user.save();
+      res.status(200).send({
+        status: 200,
+        message: "Username reset successful.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: "Username reset failed.",
+    });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const user = await User.findOne({
+      email,
+    });
+
+    const baseUrl = process.env.BASE_URL;
+    const resetButtonLink = `${baseUrl}/api/auth/reset-password-page?id=${user._id}`;
+
+    console.log("Reset Button Link : ", resetButtonLink);
+
+    const mailOptions = {
+      from: process.env.ADMIN_EMAIL,
+      to: email,
+      subject: "Reset your password",
+      html: `
+          <div style="font-family: Arial, sans-serif;">
+            <p style="color: #666;">Please reset your password by clicking the link below:</p>
+            <p><a href="${resetButtonLink}" target="_blank" style="display: inline-block; background-color: #D32F2F; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Reset Password</a></p>
+            <p style="color: #666;">Thank you!</p>
+          </div>
+        `,
+    };
+
+    await sendResetMail(email, mailOptions);
+
+    res.status(200).send({
+      status: 200,
+      message: "Password reset link sent to your email.",
+    });
+  } catch (error) {
+    res.status(400).send({
+      status: 400,
+      message: "Password reset failed. Please try again later.",
+    });
+  }
+};
+
+const resetPasswordPage = async (req, res) => {
+  const { id } = req.query;
+  console.log(id);
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  try {
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      res.sendFile(path.join(__dirname, "..", "public", "resetPassword.html"));
+    } else {
+      res.status(400).send({
+        status: 400,
+        message: "Invalid Id. Password reset failed.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: "Password reset failed.",
+    });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { id, password } = req.body;
+
+  try {
+    const user = await User.findOne({ _id: id });
+
+    if (user) {
+      user.password = hashPassword(password);
+      await user.save();
+      res.status(200).send({
+        status: 200,
+        message: "Password reset successful.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: "Password reset failed.",
+    });
+  }
+};
+
+export {
+  signup,
+  verifyEmail,
+  login,
+  adminLogin,
+  forgotUsername,
+  resetUsernamePage,
+  resetUsername,
+  forgotPassword,
+  resetPasswordPage,
+  resetPassword,
+};
