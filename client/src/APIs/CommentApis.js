@@ -23,11 +23,12 @@ export const fetchCommentAndReplies = async (commentId) => {
   }
 };
 
-export const addTopComment = async (postId, text, author) => {
+export const addTopComment = async (postId, text, image, author) => {
   try {
     const response = await axios.post("/api/comment/addTopComment", {
       postId,
       text,
+      image,
       author,
     });
     const state = store.getState();

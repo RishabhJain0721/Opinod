@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import BadgeCard from "../Components/BadgeCard";
-import AchievementsCard from "../Components/AchievementsCard";
-import TopCommunityMemberCard from "../Components/TopCommunityMemberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import {
 //   faInstagram,
@@ -37,7 +35,6 @@ const ProfilePage = () => {
   const [isAchievementsList, setIsAchievementsList] = useState(false);
   const [isLevel, setIsLevel] = useState(false);
   const [recentLoading, setRecentLoading] = useState(false);
-  let Recents = [];
 
   const base64Image = user.profilePicture.buffer;
   const imageType = user.profilePicture.mimetype;
@@ -361,13 +358,20 @@ const ProfilePage = () => {
                       </div>
                     );
                   })}
-                {achievements["Top Community Member"].stats.Current.map(
-                  (community, index) => {
-                    return (
-                      <TopCommunityMemberCard key={index} name={community} />
-                    );
-                  }
-                )}
+                {achievements["Top Community Member"].stats.Current.slice(
+                  0,
+                  2
+                ).map((community, index) => {
+                  return (
+                    <div key={index}>
+                      <FontAwesomeIcon
+                        icon={faSquare}
+                        className="  mr-2 text-xs md:text-sm text-blue-500"
+                      />
+                      Top {community} member
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="flex items-center justify-center h-4/5">

@@ -5,13 +5,15 @@ import User from "../models/User.js";
 import Recent from "../models/Recent.js";
 
 const addTopComment = async (req, res) => {
-  const { postId, text, author } = req.body;
+  const { postId, text, image, author } = req.body;
+  console.log(image, text);
 
   // Updating the comment in comments collection
   const newComment = new Comment({
     postId,
     parentId: postId,
     text,
+    image,
     author,
   });
 
@@ -23,7 +25,7 @@ const addTopComment = async (req, res) => {
   post.totalComments++;
   await post.save();
 
-  const user = await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { username: author },
     { $inc: { points: 20 } },
     { new: true }

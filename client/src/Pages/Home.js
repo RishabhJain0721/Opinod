@@ -354,7 +354,7 @@ const Home = () => {
                           <span className="text-gray-800 font-medium">
                             {ele.author}
                           </span>{" "}
-                          commented on{" "}
+                          shared opinion on{" "}
                           <span
                             onClick={() => {
                               if (ele.type === "comment") {

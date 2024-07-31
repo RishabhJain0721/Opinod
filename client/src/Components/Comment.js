@@ -166,6 +166,15 @@ const Comment = ({ opinion }) => {
         </div>
       </div>
       <div className="text-sm md:text-sm mb-1 ml-8">{opinion.text}</div>
+      {opinion.image && (
+        <div className=" ml-8 mb-2 ">
+          <img
+            src={opinion.image}
+            alt="Failed to load"
+            className=" max-h-48 max-w-56 md:max-w-96"
+          />
+        </div>
+      )}
       <div className="flex items-center text-gray-500 text-xs ml-8 mb-2">
         {commentLikeToggle ? (
           <ThreeDots

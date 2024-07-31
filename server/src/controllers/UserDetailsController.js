@@ -206,6 +206,48 @@ const unfollowUser = async (req, res) => {
   }
 };
 
+const tester = async (req, res) => {
+  console.log("hello");
+  upload.single("image")(req, res, async (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).send({ message: "Image upload failed." });
+    }
+
+    const { username, description } = req.body;
+    const image = req.file;
+
+    console.log(username, description, image);
+
+    try {
+      // const user = await User.findOne({ username });
+      // user.description = description;
+      // user.instagram = instagram;
+      // user.reddit = reddit;
+      // user.linkedin = linkedin;
+      // user.twitter = twitter;
+      // if (image) {
+      //   user.profilePicture = image;
+      // }
+      // await user.save();
+      // const updatedUser = await User.findOne({ username }).lean();
+      // const {
+      //   password: pass,
+      //   isVerified,
+      //   createdAt,
+      //   updatedAt,
+      //   ...userWithoutExtraFields
+      // } = updatedUser;
+      // res.status(200).send({
+      //   message: "Profile updated successfully.",
+      //   ...userWithoutExtraFields,
+      // });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).send({ message: "Internal server error." });
+    }
+  });
+};
 export {
   addCategories,
   updateProfile,
@@ -217,4 +259,5 @@ export {
   sendUserComments,
   followUser,
   unfollowUser,
+  tester,
 };

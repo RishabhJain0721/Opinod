@@ -123,3 +123,12 @@ export const unfollowUser = async (username, followId) => {
     throw error;
   }
 };
+
+export const test = async (formData) => {
+  try {
+    const response = await axios.post("/api/user/test", formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

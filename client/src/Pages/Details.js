@@ -10,15 +10,18 @@ import { useSelector } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import UploadImage from "../Components/UploadImage";
 
 const Details = () => {
   const { id } = useParams();
   const [details, setDetails] = useState();
+  const [image, setImage] = useState("");
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
+  const [triggerRerender, setTriggerRerender] = useState(false);
 
   const username = useSelector((state) => state.user.username);
 
@@ -67,12 +70,20 @@ const Details = () => {
 
     try {
       setIsLoadingComments(true);
-      await addTopComment(id, newReply, username);
+      await addTopComment(id, newReply, image, username);
       await fetchComments();
-      setNewReply("");
+      setTriggerRerender((prev) => !prev);
     } catch (err) {
       throw err;
+    } finally {
+      setNewReply("");
+      setImage("");
     }
+  };
+
+  const imageurl = (url) => {
+    console.log(url);
+    setImage(url);
   };
 
   return (
@@ -103,9 +114,18 @@ const Details = () => {
                   type="text"
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  className="border border-gray-800 rounded w-4/5 p-3 mr-3"
+                  className="border border-gray-800 rounded w-3/4 p-3 mr-3"
                   placeholder="Add a reply..."
                 />
+                <div
+                  className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                  key={triggerRerender}
+                >
+                  <UploadImage
+                    ongettingurl={imageurl}
+                    triggerRerender={triggerRerender}
+                  />
+                </div>
                 <button
                   onClick={handleAddTopComment}
                   className="bg-blue-500 text-white px-4 py-2 rounded-full"

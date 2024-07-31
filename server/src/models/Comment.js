@@ -17,6 +17,9 @@ const commentSchema = new mongoose.Schema(
     text: {
       type: String,
     },
+    image: {
+      type: String,
+    },
     upvotes: {
       type: Number,
       default: 0,
