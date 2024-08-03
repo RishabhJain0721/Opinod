@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         League: ["League Spartan", "sans-serif"],
+        Poppins: ["Poppins"],
       },
     },
   },

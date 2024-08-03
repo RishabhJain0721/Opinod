@@ -77,6 +77,7 @@ const CommunityPostDetails = () => {
       await fetchComments();
       setNewReply("");
       setImage("");
+      setTriggerRerender((prev) => !prev);
     } catch (err) {
       throw err;
     }

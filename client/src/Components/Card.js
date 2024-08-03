@@ -50,6 +50,7 @@ const Card = ({
   opinionUpvotes,
   opinionDownvotes,
 }) => {
+  console.log(opinionDate);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -243,13 +244,14 @@ const Card = ({
         <div className=" w-full justify-between">
           {/* <div className=" text-xs text-gray-500">{cat}</div> */}
           {/* Title */}
-          <div className="text-sm md:text-base font-medium text-gray-700 mb-1">
-            {title.length > 70 ? title.slice(0, 70) + "..." : title}
+          <div className="text-sm md:text-base font-medium text-gray-700 mb-1 leading-relaxed">
+            {title.length > 50 ? title.slice(0, 50) + "..." : title}
           </div>
-          <div className="text-xs flex justify-between text-gray-700 ">
+
+          <div className="text-xs flex justify-between font-semibold text-gray-700 ">
             {name.length > 15 ? name.slice(0, 15) + "..." : name}
 
-            <div className="text-gray-500 flex items-center">
+            <div className="text-gray-500 text-xs flex items-center font-normal">
               <FontAwesomeIcon
                 icon={faClock}
                 className="text-gray-500 ml-3 mr-1"

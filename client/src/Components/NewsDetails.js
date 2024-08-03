@@ -97,10 +97,10 @@ const NewsDetails = (props) => {
   };
 
   return (
-    <div className="p-2">
+    <div>
       {/* Profile photo and name */}
-      <div className="flex items-center mb-2 text-gray-700 p-5 pb-0">
-        <div className="text-sm md:text-base font-semibold">
+      <div className="flex items-center text-gray-700 p-3 pb-1 mt-2">
+        <div className="text-xs md:text-base font-semibold">
           {details.source}
         </div>
         <div className="ml-auto text-xs md:text-sm text-gray-500 flex items-center">
@@ -117,32 +117,32 @@ const NewsDetails = (props) => {
       </div>
 
       {/* Image */}
-      <div className="mb-5 mx-5">
+      <div className="mb-5 mx-2">
         <img src={details.image} alt="News" className="w-full rounded-lg" />
       </div>
 
       {/* Shift Buttons */}
-      <div className="flex items-center justify-between">
-        <button className="bg-white p-2 text-xl md:text-2xl rounded-full ">
-          <FontAwesomeIcon icon={faAngleLeft} />
-        </button>
-        <button className="bg-white p-2 text-xl md:text-2xl rounded-full ">
-          <FontAwesomeIcon icon={faAngleRight} />
-        </button>
-      </div>
+      {/* <div className=" top-1/2 flex justify-between w-full"> */}
+      <button className="fixed top-1/3 md:top-1/2 left-1 md:left-64 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50">
+        <FontAwesomeIcon icon={faAngleLeft} />
+      </button>
+      <button className="fixed top-1/3 md:top-1/2 right-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50">
+        <FontAwesomeIcon icon={faAngleRight} />
+      </button>
+      {/* </div> */}
 
       {/* Category */}
-      <div className="text-xs md:text-sm text-gray-500 mb-2 mx-5">
+      <div className="text-xs md:text-sm text-gray-500 mb-2 mx-2">
         {details.category}
       </div>
 
       {/* Title */}
-      <div className="text-base md:text-2xl font-medium mb-7 md:mb-5 text-gray-800 mx-5">
+      <div className="text-base md:text-2xl font-medium mb-3 md:mb-5 text-gray-800 mx-2">
         {details.title}
       </div>
       {/* Content with gradient blur */}
       <div
-        className={`relative overflow-hidden mx-5 text-xs sm:text-sm md:text-lg font-normal mb-4 text-gray-600 ${
+        className={`relative overflow-hidden mx-2 text-sm sm:text-sm md:text-lg font-normal mb-4 text-gray-600 ${
           isBlur ? "max-h-24" : ""
         }`}
         style={{

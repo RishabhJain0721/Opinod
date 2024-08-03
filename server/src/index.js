@@ -395,16 +395,16 @@ app.use("/api", routes);
 
 // launch();
 
-//delete comments with no post
-// const launch = async () => {
-//   const comments = await Comment.find({});
+// delete comments with no post
+const launch = async () => {
+  const comments = await Comment.find({});
 
-//   for (let comment of comments) {
-//     const post = await Post.findById(comment.postId);
-//     if (!post) {
-//       await Comment.deleteOne({ _id: comment._id });
-//     }
-//   }
-// };
+  for (let comment of comments) {
+    const post = await Post.findById(comment.postId);
+    if (!post) {
+      await Comment.deleteOne({ _id: comment._id });
+    }
+  }
+};
 
-// launch();
+launch();

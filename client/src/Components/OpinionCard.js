@@ -117,25 +117,25 @@ const OpinionCard = ({
 
   return (
     <div className="p-2 mx-4 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md">
-      <div className="flex items-center mb-1">
-        <span className="text-sm text-gray-500">{category}</span>
+      <div className="flex items-center">
+        <span className="text-xs font-medium text-gray-500">{category}</span>
       </div>
-      <h2
-        className="text-xs md:text-base font-normal mb-2"
+      <div
+        className="text-sm md:text-base font-medium mb-2"
         onClick={() => {
           navigate(`/details/${postId}`);
         }}
       >
         {title.length > 70 ? title.slice(0, 70) + "..." : title}
-      </h2>
+      </div>
       <div className="flex items-center mb-1">
         <img
           src={src}
           alt={`${author}'s profile`}
-          className="w-7 h-7 rounded-full mr-3"
+          className="w-7 h-7 rounded-full mr-2"
         />
-        <div className="flex justify-between w-full pr-2">
-          <p className="font-medium text-sm">{author}</p>
+        <div className="flex justify-between w-full">
+          <p className="font-medium text-xs">{author}</p>
           <p className="text-xs text-gray-500">
             <FontAwesomeIcon icon={faClock} className="text-gray-500 mr-1" />
             {datePosted}

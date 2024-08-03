@@ -116,12 +116,12 @@ const Details = () => {
           <div className="w-full md:ml-60 md:mt-0">
             {/* Comment box */}
             <div className="w-screen fixed bottom-0 z-40">
-              <div className="flex bg-white border border-t-2 p-5">
+              <div className="flex bg-white border border-t-2 p-3">
                 <input
                   type="text"
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  className="border border-gray-800 rounded w-3/4 p-3 mr-3"
+                  className="border border-gray-800 rounded w-3/4 text-sm p-3 mr-3"
                   placeholder="Add a reply..."
                 />
                 <div

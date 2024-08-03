@@ -9,15 +9,15 @@ import App from "./App";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
-axios.defaults.baseURL = "https://opinod.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3001";
-// axios.defaults.baseURL = "http://192.168.176.181:3001";
+// axios.defaults.baseURL = "https://opinod.onrender.com";
+axios.defaults.baseURL = "http://localhost:3001";
+// axios.defaults.baseURL = "http://192.168.189.181:3001";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <div className="font-League">
+      <div className=" font-Poppins bg-white">
         <App />
         <ToastContainer
           style={{

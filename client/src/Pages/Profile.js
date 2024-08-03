@@ -134,7 +134,7 @@ const ProfilePage = () => {
       {!isMobile && <Navbar />}
       <div className="flex mt-16">
         <div className="md:ml-60 p-4 w-full">
-          <div className="bg-white p-4 md:p-4 md:m-4 h-fit">
+          <div className="bg-white pt-4 md:p-4 md:m-4 h-fit">
             {/* First Row: Profile pic, Followers, Following, Category */}
             <div className="flex items-center justify-start mb-2 md:mb-4">
               <img

@@ -155,8 +155,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal">Trending</div>
+              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium md:font-normal mb-2">Trending</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -166,11 +166,11 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              {isMobile && (
-                <div className="flex items-center ml-6">
+              {/* {isMobile && (
+                <div className="flex items-center ml-5">
                   <span className="text-xs text-gray-500">General</span>
                 </div>
-              )}
+              )} */}
 
               <div className="flex flex-wrap justify-start md:ml-6 ">
                 {trending.slice(0, smallScreen ? 2 : 3).map((article) => (
@@ -182,7 +182,7 @@ const Home = () => {
                     name={article.source}
                     datePosted={formatDistanceToNow(
                       new Date(article.publishedAt),
-                      { addSuffix: true }
+                      { addSuffix: false, includeSeconds: false }
                     )}
                     title={article.title}
                     upvotes={article.upvotes}
@@ -197,7 +197,7 @@ const Home = () => {
                           ? article.opinionDate
                           : article.publishedAt
                       ),
-                      { addSuffix: true }
+                      { addSuffix: false, includeSeconds: false }
                     )}
                     opinionUpvotes={article.commentUpvotes}
                     opinionDownvotes={article.commentDownvotes}
@@ -224,7 +224,7 @@ const Home = () => {
           ) : (
             <>
               <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-3 md:mt-5 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal w-2/3">
+                <div className="font-medium md:font-normal w-2/3 mb-2 mt-4">
                   Popular Opinions
                 </div>
                 <div>
@@ -237,7 +237,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start md:ml-6">
-                {/* {popularOpinions
+                {popularOpinions
                   .slice(0, smallScreen ? 2 : 3)
                   .map((opinion) => (
                     <OpinionCard
@@ -256,7 +256,7 @@ const Home = () => {
                       downvotes={opinion.downvotes}
                       postId={opinion.post._id}
                     />
-                  ))} */}
+                  ))}
               </div>
             </>
           )}
@@ -278,7 +278,7 @@ const Home = () => {
           ) : (
             <>
               <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal w-2/3">
+                <div className="font-medium md:font-normal w-2/3 mb-2">
                   Top Communities
                 </div>
                 <div>
@@ -312,7 +312,7 @@ const Home = () => {
                   Recent Activities
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start text-xs md:text-base mx-5 md:ml-10 text-gray-600 mb-10">
+              <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 text-gray-600 mb-10">
                 <div className=" w-full">
                   {recent.map((ele, index) => {
                     if (ele.type === "like" || ele.type === "communityLike") {

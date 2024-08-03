@@ -1,4 +1,8 @@
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
+import CommunityPost from "../models/CommunityPost.js";
+import Feedback from "../models/Feedback.js";
+import Recent from "../models/Recent.js";
 import dns from "dns";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -264,6 +268,25 @@ const resetUsername = async (req, res) => {
 
   try {
     const user = await User.findOne({ _id: id });
+
+    await Comment.updateMany(
+      { author: user.username },
+      { $set: { author: username } }
+    );
+    await CommunityPost.updateMany(
+      { author: user.username },
+      { $set: { author: username } }
+    );
+    await Feedback.updateMany(
+      { username: username },
+      { $set: { username: user.username } }
+    );
+    const filter = { "all.author": user.username }; // Filter to find the document containing the user
+    const update = { $set: { "all.$.username": username } }; // Update operation using positional $ operator
+    const options = { new: true }; // Options: return the updated document
+
+    const result = await Recent.findOneAndUpdate(filter, update, options);
+    console.log(result);
 
     if (user) {
       user.username = username;
