@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import Community from "../models/Community.js";
 import CommunityPost from "../models/CommunityPost.js";
+import Post from "../models/Post.js";
 import Recent from "../models/Recent.js";
 import multer from "multer";
 
@@ -134,6 +135,36 @@ const sendRecent = async (req, res) => {
       ]);
       recent = array[0];
     } else recent = await Recent.findOne({}, { all: { $slice: -5 } });
+
+    console.log(recent.all);
+
+    for (const item of recent.all) {
+      if (item.type === "comment") {
+        const post = await Post.findOne(
+          { _id: item.postId },
+          { title: 1 }
+        ).lean();
+        item.title = post.title;
+      } else if (item.type === "communityComment") {
+        const cPost = await CommunityPost.findOne(
+          { _id: item.postId },
+          { title: 1 }
+        ).lean();
+        item.title = cPost.title;
+      } else if (item.type === "reply") {
+        const post = await Post.findOne(
+          { _id: item.postId },
+          { title: 1 }
+        ).lean();
+        item.title = post.title;
+      } else if (item.type === "communityReply") {
+        const cPost = await CommunityPost.findOne(
+          { _id: item.postId },
+          { title: 1 }
+        ).lean();
+        item.title = cPost.title;
+      }
+    }
     res.status(200).send(recent.all.reverse());
   } catch (error) {
     res.status(400).send({ Message: "Failed to fetch" });

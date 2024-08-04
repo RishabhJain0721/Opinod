@@ -315,7 +315,8 @@ const Home = () => {
               <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 text-gray-600 mb-10">
                 <div className=" w-full">
                   {recent.map((ele, index) => {
-                    if (ele.type === "like" || ele.type === "communityLike") {
+                    {
+                      /* if (ele.type === "like" || ele.type === "communityLike") {
                       return (
                         <div key={index}>
                           <FontAwesomeIcon
@@ -341,7 +342,9 @@ const Home = () => {
                           post
                         </div>
                       );
-                    } else if (
+                    } else */
+                    }
+                    if (
                       ele.type === "comment" ||
                       ele.type === "communityComment"
                     ) {
@@ -365,9 +368,10 @@ const Home = () => {
                             }}
                             className="text-blue-500 cursor-pointer"
                           >
-                            this
-                          </span>{" "}
-                          post
+                            {ele.title.length > 25
+                              ? ele.title.slice(0, 25) + "..."
+                              : ele.title}
+                          </span>
                         </div>
                       );
                     } else if (
@@ -394,7 +398,9 @@ const Home = () => {
                             }}
                             className="text-blue-500 cursor-pointer"
                           >
-                            this
+                            {ele.title.length > 25
+                              ? ele.title.slice(0, 25) + "..."
+                              : ele.title}
                           </span>{" "}
                           post
                         </div>

@@ -206,8 +206,8 @@ const forgotUsername = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    const baseUrl = process.env.BASE_URL;
-    const resetButtonLink = `${baseUrl}/api/auth/reset-username-page?id=${user._id}`;
+    const serverUrl = process.env.SERVER_URL;
+    const resetButtonLink = `${serverUrl}/api/auth/reset-username-page?id=${user._id}`;
 
     console.log("Reset Button Link : ", resetButtonLink);
 
@@ -282,12 +282,24 @@ const resetUsername = async (req, res) => {
       { $set: { username: user.username } }
     );
     const filter = { "all.author": user.username }; // Filter to find the document containing the user
-    const update = { $set: { "all.$.username": username } }; // Update operation using positional $ operator
-    const options = { new: true }; // Options: return the updated document
+    // const update = { $set: { "all.$.username": username } }; // Update operation using positional $ operator
+    // const options = { new: true }; // Options: return the updated document
+    // const result = await Recent.findOne(filter);
+    // const result = await Recent.findOneAndUpdate(filter, update, options);
 
-    const result = await Recent.findOneAndUpdate(filter, update, options);
+    const result = await Recent.updateOne(
+      {},
+      {
+        $set: {
+          "all.$[elem].author": username,
+        },
+      },
+      {
+        arrayFilters: [{ "elem.author": user.username }],
+      }
+    );
+
     console.log(result);
-
     if (user) {
       user.username = username;
       await user.save();
@@ -312,8 +324,8 @@ const forgotPassword = async (req, res) => {
       email,
     });
 
-    const baseUrl = process.env.BASE_URL;
-    const resetButtonLink = `${baseUrl}/api/auth/reset-password-page?id=${user._id}`;
+    const serverUrl = process.env.SERVER_URL;
+    const resetButtonLink = `${serverUrl}/api/auth/reset-password-page?id=${user._id}`;
 
     console.log("Reset Button Link : ", resetButtonLink);
 

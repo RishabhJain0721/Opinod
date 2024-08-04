@@ -50,7 +50,6 @@ const Card = ({
   opinionUpvotes,
   opinionDownvotes,
 }) => {
-  console.log(opinionDate);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
