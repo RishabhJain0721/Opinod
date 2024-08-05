@@ -143,22 +143,26 @@ const ProfilePage = () => {
                 className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
               />
               <div className="flex flex-col text-center ml-2 md:ml-5">
-                <span className="text-lg md:text-xl font-semibold">{308}</span>
-                <span className="text-base md:text-lg font-normal text-gray-500">
+                <span className="text-base md:text-xl font-semibold">
+                  {308}
+                </span>
+                <span className="text-sm md:text-lg font-normal text-gray-500">
                   Followers
                 </span>
               </div>
               <div className="flex flex-col text-center ml-5">
-                <span className="text-lg md:text-xl font-semibold">{100}</span>
-                <span className="text-base md:text-lg font-normal text-gray-500">
+                <span className="text-base md:text-xl font-semibold">
+                  {100}
+                </span>
+                <span className="text-sm md:text-lg font-normal text-gray-500">
                   Following
                 </span>
               </div>
               <div className="flex flex-col text-center ml-5">
-                <span className="text-lg md:text-xl font-semibold">
+                <span className="text-base md:text-xl font-semibold">
                   {user.categories.length}
                 </span>
-                <span className="text-base md:text-lg font-normal text-gray-500">
+                <span className="text-sm md:text-lg font-normal text-gray-500">
                   Badges
                 </span>
               </div>
@@ -167,9 +171,11 @@ const ProfilePage = () => {
             {/* Second Row: Name and Edit button */}
 
             <div className="flex items-center">
-              <div className="text-lg font-medium">{user.username}</div>
+              <div className="text-base md:text-lg font-medium">
+                {user.username}
+              </div>
               <button
-                className="px-2 py-1 rounded text-blue-600 duration-100 ml-1 text-sm md:text-base"
+                className="px-2 py-1 rounded text-blue-600 duration-100 ml-1 text-xs md:text-base"
                 onClick={() => navigate("/updateProfile")}
               >
                 Edit profile
@@ -250,7 +256,7 @@ const ProfilePage = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col text-gray-600">
+            <div className="flex flex-col text-gray-600 text-sm">
               {recentLoading ? (
                 <></>
               ) : (
@@ -263,7 +269,7 @@ const ProfilePage = () => {
                       <div key={index}>
                         <FontAwesomeIcon
                           icon={faSquare}
-                          className="  mr-2 text-xs md:text-sm text-blue-500"
+                          className="  mr-2  text-blue-500"
                         />
                         Shared opinion on{" "}
                         <span
@@ -289,7 +295,7 @@ const ProfilePage = () => {
                       <div key={index}>
                         <FontAwesomeIcon
                           icon={faSquare}
-                          className="  mr-2 text-xs md:text-sm text-blue-500"
+                          className="  mr-2  text-blue-500"
                         />
                         Replied to{" "}
                         <span
@@ -312,7 +318,7 @@ const ProfilePage = () => {
                       <div key={index}>
                         <FontAwesomeIcon
                           icon={faSquare}
-                          className="mr-2 text-xs md:text-sm text-blue-500"
+                          className="mr-2 text-blue-500"
                         />
                         Posted a new{" "}
                         <span
@@ -344,7 +350,7 @@ const ProfilePage = () => {
             </div>
 
             {isAchievementsList ? (
-              <div className="flex flex-col text-gray-700">
+              <div className="flex flex-col text-gray-700 text-sm">
                 {Object.entries(achievements)
                   .slice(0, 3)
                   .map(([key, value]) => {
@@ -352,7 +358,7 @@ const ProfilePage = () => {
                       <div key={key}>
                         <FontAwesomeIcon
                           icon={faSquare}
-                          className="  mr-2 text-xs md:text-sm text-blue-500"
+                          className="mr-2 text-blue-500"
                         />
                         {key}
                       </div>
@@ -363,10 +369,10 @@ const ProfilePage = () => {
                   2
                 ).map((community, index) => {
                   return (
-                    <div key={index}>
+                    <div key={index} className="text-sm">
                       <FontAwesomeIcon
                         icon={faSquare}
-                        className="  mr-2 text-xs md:text-sm text-blue-500"
+                        className="mr-2 text-blue-500"
                       />
                       Top {community} member
                     </div>

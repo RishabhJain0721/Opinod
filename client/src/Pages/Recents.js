@@ -132,12 +132,13 @@ const Recents = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col text-gray-600">
+            <div className="flex flex-col text-gray-600 text-sm">
               {recentLoading ? (
                 <></>
               ) : (
                 recent.map((ele, index) => {
-                  if (ele.type === "like" || ele.type === "communityLike") {
+                  {
+                    /* if (ele.type === "like" || ele.type === "communityLike") {
                     return (
                       <div key={index}>
                         <FontAwesomeIcon
@@ -160,7 +161,9 @@ const Recents = () => {
                         post
                       </div>
                     );
-                  } else if (
+                  } */
+                  }
+                  if (
                     ele.type === "comment" ||
                     ele.type === "communityComment"
                   ) {
@@ -170,7 +173,7 @@ const Recents = () => {
                           icon={faSquare}
                           className="  mr-2 text-xs md:text-sm text-blue-500"
                         />
-                        Commented on{" "}
+                        Shared opinion on{" "}
                         <span
                           onClick={() => {
                             if (ele.type === "comment") {
@@ -181,9 +184,10 @@ const Recents = () => {
                           }}
                           className="text-blue-500 cursor-pointer"
                         >
-                          this
+                          {ele.title.length > 25
+                            ? ele.title.slice(0, 25) + "..."
+                            : ele.title}
                         </span>{" "}
-                        post
                       </div>
                     );
                   } else if (
