@@ -6,11 +6,11 @@ import routes from "./routes/index.js";
 // import Community from "./models/Community.js";
 import Comment from "./models/Comment.js";
 import Post from "./models/Post.js";
+import { updateBadges } from "./services/badgeUpdater.js";
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
 // Middleware to add a custom header to all responses
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

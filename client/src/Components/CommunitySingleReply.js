@@ -27,8 +27,13 @@ import {
 import { toast } from "react-toastify";
 import UploadImage from "./UploadImage";
 
-const SingleReply = (props) => {
+const CommunitySingleReply = (props) => {
   const comment = props.comment;
+
+  const base64Image = comment.profilePicture.buffer;
+  const imageType = comment.profilePicture.mimetype;
+  const src = `data:${imageType};base64,${base64Image}`;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -169,7 +174,7 @@ const SingleReply = (props) => {
         <div className="flex items-start flex-col p-2 mt-1 mx-3">
           <div className="flex items-center justify-center mb-2">
             <img
-              src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
+              src={src}
               alt="Profile"
               className="w-6 h-6 rounded-full mr-2"
             />
@@ -302,4 +307,4 @@ const SingleReply = (props) => {
   );
 };
 
-export default SingleReply;
+export default CommunitySingleReply;

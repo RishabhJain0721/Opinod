@@ -237,6 +237,30 @@ const unfollowUser = async (req, res) => {
   }
 };
 
+const sendBadges = async (req, res) => {
+  const { username } = req.body;
+  console.log(username);
+  try {
+    const user = await User.findOne({ username }, { badges: 1 });
+    res.status(200).send(user.badges);
+  } catch (error) {
+    res.status(400).send("Failed to unfollow");
+  }
+};
+
+const updateBadges = async (req, res) => {
+  const { achievements, username } = req.body;
+  console.log(achievements, username);
+  try {
+    const user = await User.findOne({ username }, { badges: 1 });
+    user.badges = achievements;
+    await user.save();
+    res.status(200).send("Badges updated successfully");
+  } catch (error) {
+    res.status(400).send("Badge updation failed");
+  }
+};
+
 export {
   addCategories,
   updateProfile,
@@ -248,4 +272,6 @@ export {
   sendUserComments,
   followUser,
   unfollowUser,
+  sendBadges,
+  updateBadges,
 };

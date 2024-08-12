@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Topbar from "../Components/Topbar";
 import { MutatingDots } from "react-loader-spinner";
 import { forgotUsername } from "../APIs/AuthApis";
+import { toast } from "react-toastify";
 
 const ForgotUsername = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,7 +11,7 @@ const ForgotUsername = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
     setIsLoading(true); // Start loading

@@ -21,6 +21,7 @@ import {
   removeCommentDislike,
 } from "../APIs/LikeApis";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const OpinionCard = ({
   id,
@@ -83,7 +84,7 @@ const OpinionCard = ({
 
   const handleToggleCommentLike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info("Please login to like/dislike this comment.");
       return;
     }
     setCommentLikeToggle(true);
@@ -100,7 +101,7 @@ const OpinionCard = ({
 
   const handleToggleCommentDislike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info("Please login to like/dislike this comment.");
       return;
     }
     setCommentDislikeToggle(true);
@@ -123,12 +124,21 @@ const OpinionCard = ({
       <div
         className="text-sm md:text-base font-medium mb-2"
         onClick={() => {
-          navigate(`/details/${postId}`);
+          username
+            ? navigate(`/details/${postId}`)
+            : toast.info("Please login to view more!");
         }}
       >
         {title.length > 70 ? title.slice(0, 70) + "..." : title}
       </div>
-      <div className="flex items-center mb-1">
+      <div
+        className="flex items-center mb-1"
+        onClick={() => {
+          username
+            ? navigate(`/details/${postId}`)
+            : toast.info("Please login to view more!");
+        }}
+      >
         <img
           src={src}
           alt={`${author}'s profile`}
@@ -142,7 +152,14 @@ const OpinionCard = ({
           </p>
         </div>
       </div>
-      <p className="text-gray-600 mb-2 text-xs md:text-sm font-normal">
+      <p
+        className="text-gray-600 mb-2 text-xs md:text-sm font-normal"
+        onClick={() => {
+          username
+            ? navigate(`/details/${postId}`)
+            : toast.info("Please login to view more!");
+        }}
+      >
         {text.length > 70 ? text.slice(0, 70) + "..." : text}
       </p>
       <div className="flex items-center text-gray-700 space-x-6">
@@ -199,7 +216,9 @@ const OpinionCard = ({
         <div
           className="flex items-center text-xs text-gray-500"
           onClick={() => {
-            navigate(`/details/${postId}`);
+            username
+              ? navigate(`/details/${postId}`)
+              : toast.info("Please login to view more!");
           }}
         >
           <FontAwesomeIcon icon={faCommentDots} />

@@ -22,6 +22,7 @@ import {
   likeRemove,
   dislikeRemove,
 } from "../Actions/actions.js";
+import { toast } from "react-toastify";
 
 const CommunityPostCard = (props) => {
   const {
@@ -48,8 +49,12 @@ const CommunityPostCard = (props) => {
 
   const [likes, setLikes] = useState(upvotes);
   const [dislikes, setDislikes] = useState(downvotes);
-  const [isLiked, setIsLiked] = useState(likedPosts.includes(_id));
-  const [isDisliked, setIsDisiked] = useState(dislikedPosts.includes(_id));
+  const [isLiked, setIsLiked] = useState(
+    username ? likedPosts.includes(_id) : false
+  );
+  const [isDisliked, setIsDisiked] = useState(
+    username ? dislikedPosts.includes(_id) : false
+  );
   const [likeToggle, setLikeToggle] = useState(false);
   const [dislikeToggle, setDislikeToggle] = useState(false);
 
@@ -82,6 +87,10 @@ const CommunityPostCard = (props) => {
   };
 
   const handleToggleLike = async () => {
+    if (!username) {
+      toast.info("Please login to like/dislike!");
+      return;
+    }
     setLikeToggle(true);
     if (isLiked) {
       await handleRemoveLike();
@@ -95,6 +104,10 @@ const CommunityPostCard = (props) => {
   };
 
   const handleToggleDislike = async () => {
+    if (!username) {
+      toast.info("Please login to like/dislike!");
+      return;
+    }
     setDislikeToggle(true);
     if (isDisliked) {
       await handleRemoveDislike();
@@ -109,21 +122,25 @@ const CommunityPostCard = (props) => {
 
   return (
     <div className="p-2 mb-2 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md">
-      <div className="flex items-center">
-        <span className="text-sm text-gray-500">{subCategory}</span>
+      <div className="flex items-center mb-1">
+        <span className="text-xs text-gray-500">{subCategory}</span>
       </div>
       <h2
-        className="text-lg md:text-base font-normal"
+        className="text-sm md:text-base mb-1 font-medium text-gray-700"
         onClick={() => {
-          navigate(`/cpostdetails/${_id}`);
+          username
+            ? navigate(`/cpostdetails/${_id}`)
+            : toast.info("Please login to view more");
         }}
       >
         {title.length > 70 ? title.slice(0, 70) + "..." : title}
       </h2>
       <p
-        className="text-gray-600 mb-2 text-sm md:text-sm font-normal"
+        className="text-gray-600 mb-2 text-xs md:text-sm font-normal"
         onClick={() => {
-          navigate(`/cpostdetails/${_id}`);
+          username
+            ? navigate(`/cpostdetails/${_id}`)
+            : toast.info("Please login to view more");
         }}
       >
         {description.length > 70
@@ -133,19 +150,21 @@ const CommunityPostCard = (props) => {
       <div
         className="flex items-center mb-1"
         onClick={() => {
-          navigate(`/cpostdetails/${_id}`);
+          username
+            ? navigate(`/cpostdetails/${_id}`)
+            : toast.info("Please login to view more");
         }}
       >
         <img
           src={src}
           alt={`${author}'s profile`}
-          className="w-7 h-7 rounded-full mr-3"
+          className="w-7 h-7 rounded-full mr-2"
         />
-        <div className="flex justify-between w-full pr-2">
-          <p className=" font-medium text-sm">{author}</p>
+        <div className="flex justify-between w-full pr-0">
+          <p className=" font-medium text-xs">{author}</p>
           <p className="text-xs text-gray-500">
             <FontAwesomeIcon icon={faClock} className="text-gray-500 mr-1" />
-            {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            {formatDistanceToNow(new Date(createdAt), { addSuffix: false })}
           </p>
         </div>
       </div>

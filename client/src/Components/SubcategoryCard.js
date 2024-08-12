@@ -1,10 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const SubcategoryCard = ({ name, image }) => {
   const navigate = useNavigate();
+  const username = useSelector((state) => state.user.username);
 
   const handleGoToSubcategory = () => {
+    if (!username) {
+      return toast.info("Please login to view more!");
+    }
     navigate(`/subcategory/${name.replace(/\s/g, "-")}`);
   };
 

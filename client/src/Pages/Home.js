@@ -16,6 +16,7 @@ import { getCommunities } from "../APIs/CommunityApis";
 import { getRecent } from "../APIs/UserDetailsApis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -105,27 +106,27 @@ const Home = () => {
   }, []);
 
   const handleViewTrending = () => {
-    if (!username) {
-      alert("Please login to view more articles.");
-      return;
-    }
+    // if (!username) {
+    //   alert("Please login to view more articles.");
+    //   return;
+    // }
     dispatch(selectCategory("Trending"));
     navigate("/category/Trending");
   };
 
   const handleViewPopularOpinions = () => {
-    if (!username) {
-      alert("Please login to view more articles.");
-      return;
-    }
+    // if (!username) {
+    //   alert("Please login to view more articles.");
+    //   return;
+    // }
     navigate("/topOpinions");
   };
 
   const handleViewTopCommunities = () => {
-    if (!username) {
-      alert("Please login to view more articles.");
-      return;
-    }
+    // if (!username) {
+    //   alert("Please login to view more articles.");
+    //   return;
+    // }
     navigate("/communities");
   };
 
@@ -155,8 +156,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal mb-2">Trending</div>
+              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 mb-2">Trending</div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -223,8 +224,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-3 md:mt-5 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal w-2/3 mb-2 mt-4">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-3 md:mt-5 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2 mt-4">
                   Popular Opinions
                 </div>
                 <div>
@@ -248,7 +249,7 @@ const Home = () => {
                       author={opinion.author}
                       datePosted={formatDistanceToNow(
                         new Date(opinion.createdAt),
-                        { addSuffix: true }
+                        { addSuffix: false }
                       )}
                       title={opinion.post.title}
                       text={opinion.text}
@@ -277,8 +278,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal w-2/3 mb-2">
+              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2">
                   Top Communities
                 </div>
                 <div>
@@ -307,8 +308,8 @@ const Home = () => {
             <></>
           ) : (
             <>
-              <div className="text-sm md:text-4xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium md:font-normal w-2/3 mb-2">
+              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2">
                   Recent Activities
                 </div>
               </div>
@@ -360,6 +361,9 @@ const Home = () => {
                           shared opinion on{" "}
                           <span
                             onClick={() => {
+                              if (!username) {
+                                return toast.info("Please login to view more!");
+                              }
                               if (ele.type === "comment") {
                                 navigate(`/details/${ele.postId}`);
                               } else if (ele.type === "communityComment") {
@@ -390,6 +394,9 @@ const Home = () => {
                           replied to{" "}
                           <span
                             onClick={() => {
+                              if (!username) {
+                                return toast.info("Please login to view more!");
+                              }
                               if (ele.type === "reply") {
                                 navigate(`/details/${ele.postId}`);
                               } else if (ele.type === "communityReply") {
@@ -417,9 +424,12 @@ const Home = () => {
                           </span>{" "}
                           posted a new{" "}
                           <span
-                            onClick={() =>
-                              navigate(`/cpostdetails/${ele.postId}`)
-                            }
+                            onClick={() => {
+                              if (!username) {
+                                return toast.info("Please login to view more!");
+                              }
+                              navigate(`/cpostdetails/${ele.postId}`);
+                            }}
                             className="text-blue-500 cursor-pointer"
                           >
                             article

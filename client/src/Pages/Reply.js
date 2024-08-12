@@ -251,6 +251,15 @@ const Reply = () => {
                 </div>
               </div>
               <div className="text-sm mb-2 ml-8">{comment.text}</div>
+              {comment.image && (
+                <div className=" ml-8 mb-2 ">
+                  <img
+                    src={comment.image}
+                    alt="Failed to load"
+                    className=" max-h-48 max-w-56 md:max-w-96"
+                  />
+                </div>
+              )}
               <div className="flex items-center text-gray-500 text-xs ml-8">
                 {commentLikeToggle ? (
                   <ThreeDots

@@ -93,13 +93,13 @@ const Communities = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700">
                   Joined Communities
                 </div>
                 <div>
                   <button
-                    className="text-xs md:text-lg text-gray-600 px-2"
+                    className="text-xs md:text-sm text-gray-600 px-2"
                     onClick={handleViewJoined}
                   >
                     See all
@@ -108,29 +108,37 @@ const Communities = () => {
               </div>
 
               <div className="flex flex-wrap justify-start ml-3 md:ml-8 mt-4 md:mt-8 mr-5">
-                {joined.slice(0, 3).map((community) => (
-                  <CommunityCard
-                    key={community._id}
-                    id={community._id}
-                    name={community.name}
-                    description={community.description}
-                    image={community.image}
-                    subscribers={community.subscriberCount}
-                  />
-                ))}
+                {joined.length ? (
+                  joined
+                    .slice(0, 3)
+                    .map((community) => (
+                      <CommunityCard
+                        key={community._id}
+                        id={community._id}
+                        name={community.name}
+                        description={community.description}
+                        image={community.image}
+                        subscribers={community.subscriberCount}
+                      />
+                    ))
+                ) : (
+                  <div className=" text-gray-600 ml-auto mr-auto text-xs md:text-sm">
+                    No communities joined
+                  </div>
+                )}
               </div>
 
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">Explore</div>
+              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700">Explore</div>
 
                 {/* Main Topics */}
                 <div className="flex justify-between items-center">
-                  <div className=" font-normal text-sm md:text-xl text-gray-600">
+                  <div className="font-normal text-sm md:text-lg text-gray-600">
                     Main Topics
                   </div>
                   <div>
                     <button
-                      className="text-xs md:text-lg text-gray-600 px-2"
+                      className="text-xs md:text-sm text-gray-600 px-2"
                       onClick={handleViewMain}
                     >
                       See all
@@ -150,12 +158,12 @@ const Communities = () => {
 
                 {/* Special Interest Groups */}
                 <div className="flex justify-between items-center">
-                  <div className=" font-normal text-sm md:text-xl text-gray-600">
+                  <div className="font-normal text-sm md:text-lg text-gray-600">
                     Special Interest Groups
                   </div>
                   <div>
                     <button
-                      className="text-xs md:text-lg text-gray-600 px-2"
+                      className="text-xs md:text-sm text-gray-600 px-2"
                       onClick={handleViewSpecial}
                     >
                       See all

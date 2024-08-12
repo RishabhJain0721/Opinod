@@ -127,6 +127,7 @@ const sendNewsDetails = async (req, res) => {
 
 const sendNewsByCategory = async (req, res) => {
   const { category, username, page } = req.body;
+  console.log(category, username, page);
   const pageSize = 9; // Number of posts per page
 
   // Calculate the number of posts to skip based on the page number
@@ -134,14 +135,14 @@ const sendNewsByCategory = async (req, res) => {
 
   let news;
 
-  if (category == "Most Commented") {
-    sendMostCommented(username, res, skip, pageSize);
-    return;
-  }
-  if (category == "Most Reacted") {
-    sendMostReacted(username, res, skip, pageSize);
-    return;
-  }
+  // if (category == "Most Commented") {
+  //   sendMostCommented(username, res, skip, pageSize);
+  //   return;
+  // }
+  // if (category == "Most Reacted") {
+  //   sendMostReacted(username, res, skip, pageSize);
+  //   return;
+  // }
 
   if (category == "Trending") {
     const posts = await Post.find(

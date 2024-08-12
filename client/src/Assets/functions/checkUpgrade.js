@@ -6,7 +6,7 @@ import Emrald from "../emrald.png";
 import Ruby from "../ruby.png";
 import Diamond from "../diamond.png";
 import anim from "../anim1.gif";
-import { Slide, Zoom, Flip, Bounce } from "react-toastify";
+import { Flip } from "react-toastify";
 
 const badgeImages = {
   Silver: Silver,

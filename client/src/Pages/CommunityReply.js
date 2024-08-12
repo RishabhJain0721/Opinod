@@ -48,6 +48,9 @@ const CommunityReply = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [base64Image, setBase64Image] = useState("");
+  const [mimetype, setMimetype] = useState("");
+
   const [commentLikes, setCommentLikes] = useState(comment.upvotes);
   const [commentDislikes, setCommentDislikes] = useState(comment.downvotes);
   const [isCommentLiked, setIsCommentLiked] = useState(false);
@@ -72,6 +75,8 @@ const CommunityReply = () => {
       setCommentLikes(res.comment.upvotes);
       setCommentDislikes(res.comment.downvotes);
       setComment(res.comment);
+      setBase64Image(res.comment.profilePicture.buffer);
+      setMimetype(res.comment.profilePicture.mimetype);
       setReplies(res.replies);
     } catch (error) {
       throw error;
@@ -99,6 +104,7 @@ const CommunityReply = () => {
         comment._id,
         comment.postId,
         replyText,
+        image,
         username
       );
       console.log(res);
@@ -137,7 +143,7 @@ const CommunityReply = () => {
 
   const handleToggleCommentLike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info("Please login to like/dislike this comment.");
       return;
     }
     setCommentLikeToggle(true);
@@ -154,7 +160,7 @@ const CommunityReply = () => {
 
   const handleToggleCommentDislike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info("Please login to like/dislike this comment.");
       return;
     }
     setCommentDislikeToggle(true);
@@ -223,7 +229,7 @@ const CommunityReply = () => {
             <div className="flex items-start flex-col p-4 bg-blue-100 rounded-lg shadow-md mt-3 mx-3 mb-4">
               <div className="flex items-center justify-center mb-2">
                 <img
-                  src="https://preview.redd.it/which-is-your-favourite-guys-v0-tzkw8381746d1.jpeg?width=1080&crop=smart&auto=webp&s=a445827dffe761320c9b0f36c6898e621389acc3"
+                  src={`data:${mimetype};base64,${base64Image}`}
                   alt="Profile"
                   className="w-6 h-6 rounded-full mr-2"
                 />
@@ -242,6 +248,15 @@ const CommunityReply = () => {
                 </div>
               </div>
               <div className="text-sm mb-2 ml-8">{comment.text}</div>
+              {comment.image && (
+                <div className=" ml-8 mb-2 ">
+                  <img
+                    src={comment.image}
+                    alt="Failed to load"
+                    className=" max-h-48 max-w-56 md:max-w-96"
+                  />
+                </div>
+              )}
               <div className="flex items-center text-gray-500 text-xs ml-8">
                 {commentLikeToggle ? (
                   <ThreeDots

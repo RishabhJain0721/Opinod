@@ -1,30 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faShareNodes } from "@fortawesome/free-solid-svg-icons";
-import { faThumbsDown, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  likePost,
-  dislikePost,
-  removeLike,
-  removeDislike,
-  likeComment,
-  dislikeComment,
-  removeCommentLike,
-  removeCommentDislike,
-} from "../APIs/LikeApis.js";
-import {
-  like,
-  dislike,
-  likeRemove,
-  dislikeRemove,
-  likeCom,
-  dislikeCom,
-  likeComRemove,
-  dislikeComRemove,
-} from "../Actions/actions.js";
-import { ThreeDots } from "react-loader-spinner";
+import { useSelector } from "react-redux";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const CardSmall = ({
@@ -45,36 +22,8 @@ const CardSmall = ({
   opinionDownvotes,
 }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const username = useSelector((state) => state.user.username);
-  const category = useSelector((state) => state.category.category);
-  const likedPosts = useSelector((state) => state.user.likedPosts);
-  const dislikedPosts = useSelector((state) => state.user.dislikedPosts);
-  const likedComments = useSelector((state) => state.user.likedComments);
-  const dislikedComments = useSelector((state) => state.user.dislikedComments);
-
-  const [likes, setLikes] = useState(upvotes);
-  const [dislikes, setDislikes] = useState(downvotes);
-  const [isLiked, setIsLiked] = useState(
-    username ? (likedPosts.includes(id) ? true : false) : false
-  );
-  const [isDisliked, setIsDisiked] = useState(
-    username ? (dislikedPosts.includes(id) ? true : false) : false
-  );
-  const [likeToggle, setLikeToggle] = useState(false);
-  const [dislikeToggle, setDislikeToggle] = useState(false);
-
-  const [commentLikes, setCommentLikes] = useState(opinionUpvotes);
-  const [commentDislikes, setCommentDislikes] = useState(opinionDownvotes);
-  const [isCommentLiked, setIsCommentLiked] = useState(
-    username ? (likedComments.includes(opinionId) ? true : false) : false
-  );
-  const [isCommentDisliked, setIsCommentDisliked] = useState(
-    username ? (dislikedComments.includes(opinionId) ? true : false) : false
-  );
-  const [commentLikeToggle, setCommentLikeToggle] = useState(false);
-  const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -95,124 +44,6 @@ const CardSmall = ({
       return;
     }
     navigate(`/details/${id}`);
-  };
-
-  const handleLike = async () => {
-    await likePost(username, id);
-    dispatch(like(id));
-    setIsLiked(true);
-    setLikes(likes + 1);
-  };
-  const handleRemoveLike = async () => {
-    await removeLike(username, id);
-    dispatch(likeRemove(id));
-    setIsLiked(false);
-    setLikes(likes - 1);
-  };
-  const handleDislike = async () => {
-    await dislikePost(username, id);
-    dispatch(dislike(id));
-    setIsDisiked(true);
-    setDislikes(dislikes + 1);
-  };
-  const handleRemoveDislike = async () => {
-    await removeDislike(username, id);
-    dispatch(dislikeRemove(id));
-    setIsDisiked(false);
-    setDislikes(dislikes - 1);
-  };
-
-  const handleToggleLike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this article.");
-      return;
-    }
-    setLikeToggle(true);
-    if (isLiked) {
-      await handleRemoveLike();
-    } else {
-      if (isDisliked) {
-        await handleRemoveDislike();
-      }
-      await handleLike();
-    }
-    setLikeToggle(false);
-  };
-
-  const handleToggleDislike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this article.");
-      return;
-    }
-    setDislikeToggle(true);
-    if (isDisliked) {
-      await handleRemoveDislike();
-    } else {
-      if (isLiked) {
-        await handleRemoveLike();
-      }
-      await handleDislike();
-    }
-    setDislikeToggle(false);
-  };
-
-  const handleCommentLike = async () => {
-    await likeComment(username, opinionId);
-    dispatch(likeCom(opinionId));
-    setIsCommentLiked(true);
-    setCommentLikes(commentLikes + 1);
-  };
-  const handleRemoveCommentLike = async () => {
-    await removeCommentLike(username, opinionId);
-    dispatch(likeComRemove(opinionId));
-    setIsCommentLiked(false);
-    setCommentLikes(commentLikes - 1);
-  };
-  const handleCommentDislike = async () => {
-    await dislikeComment(username, opinionId);
-    dispatch(dislikeCom(opinionId));
-    setIsCommentDisliked(true);
-    setCommentDislikes(commentDislikes + 1);
-  };
-  const handleRemoveCommentDislike = async () => {
-    await removeCommentDislike(username, opinionId);
-    dispatch(dislikeComRemove(opinionId));
-    setIsCommentDisliked(false);
-    setCommentDislikes(commentDislikes - 1);
-  };
-
-  const handleToggleCommentLike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this comment.");
-      return;
-    }
-    setCommentLikeToggle(true);
-    if (isCommentLiked) {
-      await handleRemoveCommentLike();
-    } else {
-      if (isCommentDisliked) {
-        await handleRemoveCommentDislike();
-      }
-      await handleCommentLike();
-    }
-    setCommentLikeToggle(false);
-  };
-
-  const handleToggleCommentDislike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this comment.");
-      return;
-    }
-    setCommentDislikeToggle(true);
-    if (isCommentDisliked) {
-      await handleRemoveCommentDislike();
-    } else {
-      if (isCommentLiked) {
-        await handleRemoveCommentLike();
-      }
-      await handleCommentDislike();
-    }
-    setCommentDislikeToggle(false);
   };
 
   return (

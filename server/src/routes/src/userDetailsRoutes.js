@@ -10,6 +10,8 @@ import {
   sendUserComments,
   followUser,
   unfollowUser,
+  sendBadges,
+  updateBadges,
 } from "../../controllers/UserDetailsController.js";
 import {
   calculateAchievements,
@@ -32,5 +34,7 @@ router.post("/getPosts", sendUserPosts);
 router.post("/getComments", sendUserComments);
 router.post("/followUser", followUser);
 router.post("/unfollowUser", unfollowUser);
+router.post("/badges", sendBadges);
+router.post("/updateBadges", updateBadges);
 
 export default router;

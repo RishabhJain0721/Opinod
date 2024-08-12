@@ -132,3 +132,24 @@ export const test = async (formData) => {
     throw error;
   }
 };
+
+export const getBadges = async (username) => {
+  try {
+    const response = await axios.post("/api/user/badges", { username });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateAchievements = async (achievements, username) => {
+  try {
+    const response = await axios.post("/api/user/updateBadges", {
+      achievements,
+      username,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

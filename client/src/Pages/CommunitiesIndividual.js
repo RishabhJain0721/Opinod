@@ -59,12 +59,15 @@ const CommunitiesIndividual = () => {
   }, []);
 
   const handleSubmitPost = async () => {
+    if (!username) {
+      return toast.info("Please login to add a post!");
+    }
     if (
       (subcategories.length > 0 && !selectedSubcategory) ||
       !title ||
       !description
     )
-      return alert("Please fill all the fields");
+      return toast.error("Please fill all the fields");
     try {
       setIsSubmitting(true);
       await addCommunityPost({
@@ -99,10 +102,16 @@ const CommunitiesIndividual = () => {
   };
 
   const handleViewPosts = () => {
+    if (!username) {
+      return toast.info("Please login to see more posts!");
+    }
     navigate(`/community/${communityId}/posts`);
   };
 
   const handleViewAllSubcategories = () => {
+    if (!username) {
+      return toast.info("Please login to view more!");
+    }
     navigate(`/community/${communityId}/subcategories`);
   };
 
@@ -145,7 +154,7 @@ const CommunitiesIndividual = () => {
                     </div>
                     <div>
                       <button
-                        className="text-xs md:text-lg text-gray-600 px-2"
+                        className="text-xs md:text-sm text-gray-600 px-2"
                         onClick={handleViewAllSubcategories}
                       >
                         See all
@@ -174,7 +183,7 @@ const CommunitiesIndividual = () => {
                 <div className="font-semibold md:font-normal">Posts</div>
                 <div>
                   <button
-                    className="text-xs md:text-lg text-gray-600 px-2"
+                    className="text-xs md:text-sm text-gray-600 px-2"
                     onClick={handleViewPosts}
                   >
                     See all

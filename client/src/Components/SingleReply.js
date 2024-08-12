@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faReply } from "@fortawesome/free-solid-svg-icons";
 import ReplyModal from "./ReplyModal";
 import { useSelector, useDispatch } from "react-redux";
 import { addReply } from "../APIs/CommentApis";
@@ -11,13 +10,13 @@ import {
   removeCommentLike,
   removeCommentDislike,
 } from "../APIs/LikeApis";
-import { report } from "../APIs/CommentApis";
 import {
   likeCom,
   dislikeCom,
   likeComRemove,
   dislikeComRemove,
 } from "../Actions/actions";
+import { report } from "../APIs/CommentApis";
 import { ThreeDots } from "react-loader-spinner";
 import {
   faThumbsDown,

@@ -65,7 +65,7 @@ const Details = () => {
 
   const handleAddTopComment = async () => {
     if (!newReply) {
-      alert("Please write something.");
+      toast.error("Please write something.");
       return;
     }
 

@@ -4,6 +4,7 @@ import { joinCommunity, leaveCommunity } from "../APIs/UserDetailsApis";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCommunities, updateRemoveCommunity } from "../Actions/actions";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const CommunityCardShort = ({ id, name, image }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ const CommunityCardShort = ({ id, name, image }) => {
   };
 
   const handleJoinCommunity = async () => {
+    if (!username) {
+      toast.info("Please login to join community!");
+    }
     try {
       await joinCommunity(username, id);
       setLoading(true);

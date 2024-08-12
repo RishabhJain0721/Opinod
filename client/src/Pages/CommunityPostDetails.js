@@ -43,6 +43,7 @@ const CommunityPostDetails = () => {
   const fetchComments = async () => {
     try {
       const res = await getCommunityPostComments(id);
+      console.log(res);
       setComments(res);
       setIsLoadingComments(false);
     } catch (error) {
@@ -67,7 +68,7 @@ const CommunityPostDetails = () => {
 
   const handleAddTopComment = async () => {
     if (!newReply) {
-      alert("Please write something.");
+      toast.error("Please write something.");
       return;
     }
 

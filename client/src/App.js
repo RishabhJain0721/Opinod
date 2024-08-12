@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useParams,
 } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -44,6 +45,16 @@ import ProfileOthers from "./Pages/ProfileOthers";
 import ForgotUsername from "./Pages/ForgotUsername";
 import ForgotPassword from "./Pages/ForgotPassword";
 
+const CategoryNewsWrapper = () => {
+  const { category } = useParams();
+  return <CategoryNews key={category} category={category} />;
+};
+
+const CommunityPostsWrapper = () => {
+  const { id } = useParams();
+  return <CommunityPosts key={id} />;
+};
+
 function App() {
   const username = useSelector((state) => state.user.username);
   const admin = useSelector((state) => state.admin);
@@ -72,22 +83,8 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/category/:category"
-          element={
-            <RequireAuth>
-              <CategoryNews />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/topOpinions"
-          element={
-            <RequireAuth>
-              <TopOpinions />
-            </RequireAuth>
-          }
-        />
+        <Route path="/category/:category" element={<CategoryNewsWrapper />} />
+        <Route path="/topOpinions" element={<TopOpinions />} />
         <Route
           path="/profile"
           element={
@@ -136,30 +133,9 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/communities"
-          element={
-            <RequireAuth>
-              <Communities />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/communities/main"
-          element={
-            <RequireAuth>
-              <CommunitiesMain />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/communities/special"
-          element={
-            <RequireAuth>
-              <CommunitiesSpecial />
-            </RequireAuth>
-          }
-        />
+        <Route path="/communities" element={<Communities />} />
+        <Route path="/communities/main" element={<CommunitiesMain />} />
+        <Route path="/communities/special" element={<CommunitiesSpecial />} />
         <Route
           path="/communities/joined"
           element={
@@ -168,37 +144,18 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/community/:id"
-          element={
-            <RequireAuth>
-              <CommunitiesIndividual />
-            </RequireAuth>
-          }
-        />
+        <Route path="/community/:id" element={<CommunitiesIndividual />} />
         <Route
           path="/community/:id/subcategories"
-          element={
-            <RequireAuth>
-              <CommunitySubcategories />
-            </RequireAuth>
-          }
+          element={<CommunitySubcategories />}
         />
         <Route
           path="/community/:id/posts"
-          element={
-            <RequireAuth>
-              <CommunityPosts />
-            </RequireAuth>
-          }
+          element={<CommunityPostsWrapper />}
         />
         <Route
           path="/subcategory/:subcategory"
-          element={
-            <RequireAuth>
-              <SubcategoryIndividual />
-            </RequireAuth>
-          }
+          element={<SubcategoryIndividual />}
         />
         <Route
           path="/cpostdetails/:id"
@@ -216,14 +173,7 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/search/:searchText"
-          element={
-            <RequireAuth>
-              <Search />
-            </RequireAuth>
-          }
-        />
+        <Route path="/search/:searchText" element={<Search />} />
         <Route path="/profile/:id" element={<ProfileOthers />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route
@@ -234,7 +184,7 @@ function App() {
                 <Route path="verifyPosts" element={<VerifyPosts />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="feedbacks" element={<Feedbacks />} />
-                <Route path="rewards" element={<Rewards />} />
+                {/* <Route path="rewards" element={<Rewards />} /> */}
                 <Route path="post/:id" element={<PostDetails />} />
                 <Route path="feedback/:id" element={<FeedbackDetails />} />
               </Routes>

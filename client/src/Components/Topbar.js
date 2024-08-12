@@ -47,8 +47,16 @@ const Topbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-  let categories = useSelector((state) => state.user.categories);
-
+  let categories = [
+    "General",
+    "Entertainment",
+    "Technology",
+    "Science",
+    "Health",
+    "Business",
+    "Sports",
+    "World",
+  ];
   const [searchText, setSearchText] = useState("");
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -77,64 +85,51 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  if (!username) {
-    //Default categories before login
-    categories = [
-      "General",
-      "Entertainment",
-      "Technology",
-      "Science",
-      "Health",
-      "Business",
-      "Sports",
-      "World",
-    ];
-  }
-
   const mainTopics = [
-    "World News",
-    "Politics",
-    "Business",
-    "Technology",
-    "Science",
-    "Health",
-    "Environment",
-    "Sports",
-    "Entertainment",
+    { "World News": "6687e1617a839bf9ff5c6553" },
+    { Politics: "6687e1617a839bf9ff5c6554" },
+    { Business: "6687e1617a839bf9ff5c6555" },
+    { Technology: "6687e1617a839bf9ff5c6556" },
+    { Science: "6687e1617a839bf9ff5c6557" },
+    { Health: "6687e1617a839bf9ff5c6558" },
+    { Environment: "6687e1617a839bf9ff5c6559" },
+    { Sports: "6687e1617a839bf9ff5c655a" },
+    { Entertainment: "6687e1617a839bf9ff5c655b" },
   ];
 
   const specialIntrestGroups = [
-    "Expert Opinions",
-    "Educational Resources",
-    "Book and Article Reviews",
-    "Quiz Discussions",
+    { "Expert Opinions": "66858c5444d20fd45e533bbe" },
+    { "Educational Resources": "66858c5444d20fd45e533bbf" },
+    { "Book & Article Reviews": "66858c5444d20fd45e533bc0" },
+    { "Quiz Discussions": "66858c5444d20fd45e533bc1" },
   ];
 
   const handleCategorySelect = (category) => {
-    if (!username) {
-      alert("Please login first to view more");
-      return;
-    }
+    // if (!username) {
+    //   alert("Please login first to view more");
+    //   return;
+    // }
     setSelectedCategory(category);
     dispatch(selectCategory(category));
-    if (category === "Most Commented") {
-      navigate("/category/MostCommented");
-      return;
-    }
-    if (category === "Most Reacted") {
-      navigate("/category/MostReacted");
-      return;
-    }
+    // if (category === "Most Commented") {
+    //   navigate("/category/MostCommented");
+    //   return;
+    // }
+    // if (category === "Most Reacted") {
+    //   navigate("/category/MostReacted");
+    //   return;
+    // }
     navigate(`/category/${category}`);
+    window.location.reload();
   };
 
-  const handleAddCategory = () => {
-    if (!username) {
-      alert("Please login first to add category");
-      return;
-    }
-    navigate("/selectCategories");
-  };
+  // const handleAddCategory = () => {
+  //   if (!username) {
+  //     alert("Please login first to add category");
+  //     return;
+  //   }
+  //   navigate("/selectCategories");
+  // };
 
   const selectIcon = (category) => {
     switch (category) {
@@ -304,12 +299,12 @@ const Topbar = () => {
                           </button>
                         </div>
                       ))}
-                      <button
+                      {/* <button
                         className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
                         onClick={handleAddCategory}
                       >
                         Add Category
-                      </button>
+                      </button> */}
                     </div>
                   )}
 
@@ -360,18 +355,25 @@ const Topbar = () => {
                         </button>
                         {showMainTopics && (
                           <ul className="ml-10 mt-2 space-y-2 text-white">
-                            {mainTopics.map((topic) => {
+                            {mainTopics.map((topic, index) => {
+                              const [name, communityId] =
+                                Object.entries(topic)[0];
+
                               return (
-                                <div key={topic}>
+                                <div key={name}>
                                   <button
-                                    onClick={() => {}}
+                                    onClick={() => {
+                                      navigate(
+                                        `/community/${communityId}/posts`
+                                      );
+                                    }}
                                     className="flex justify-start"
                                   >
                                     <FontAwesomeIcon
-                                      icon={selectIcon(topic)}
+                                      icon={selectIcon(name)}
                                       className="mr-2"
                                     />
-                                    {topic}
+                                    {name}
                                   </button>
                                 </div>
                               );
@@ -407,18 +409,25 @@ const Topbar = () => {
                         </button>
                         {showSpecialInterestGroups && (
                           <ul className="ml-10 mt-2 space-y-2 text-white">
-                            {specialIntrestGroups.map((topic) => {
+                            {specialIntrestGroups.map((topic, index) => {
+                              const [name, communityId] =
+                                Object.entries(topic)[0];
+
                               return (
-                                <div key={topic}>
+                                <div key={name}>
                                   <button
-                                    onClick={() => {}}
+                                    onClick={() => {
+                                      navigate(
+                                        `/community/${communityId}/posts`
+                                      );
+                                    }}
                                     className="flex justify-start"
                                   >
                                     <FontAwesomeIcon
-                                      icon={selectIcon(topic)}
+                                      icon={selectIcon(name)}
                                       className="mr-2"
                                     />
-                                    {topic}
+                                    {name}
                                   </button>
                                 </div>
                               );

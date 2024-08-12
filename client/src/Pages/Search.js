@@ -117,7 +117,7 @@ const Search = () => {
                       name={news.source}
                       datePosted={formatDistanceToNow(
                         new Date(news.publishedAt),
-                        { addSuffix: true }
+                        { addSuffix: false }
                       )}
                       title={news.title}
                       upvotes={news.upvotes}

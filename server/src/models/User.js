@@ -93,6 +93,25 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: 0,
   },
+  badges: {
+    type: Array,
+    default: [
+      { name: "Active Contributor", unlocked: false, displayed: false },
+      { name: "Subject Expert", unlocked: false, displayed: false },
+      { name: "Knowledge Contributor", unlocked: false, displayed: false },
+      { name: "Active Commenter", unlocked: false, displayed: false },
+      { name: "Lively Debater", unlocked: false, displayed: false },
+      { name: "Popular Post", unlocked: false, displayed: false },
+      { name: "Insightful Analyst", unlocked: false, displayed: false },
+      { name: "Top Contributor", unlocked: false, displayed: false },
+      { name: "Community Leader", unlocked: false, displayed: false },
+      { name: "Top Community Member", unlocked: false, displayed: false },
+      { name: "Mentor", unlocked: false, displayed: false },
+      { name: "Century Posts", unlocked: false, displayed: false },
+      { name: "Active Engager", unlocked: false, displayed: false },
+      { name: "Anniversary", unlocked: false, displayed: false },
+    ],
+  },
 });
 
 // Create the User model using the schema
