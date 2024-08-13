@@ -330,10 +330,6 @@ const Reply = () => {
                   return <SingleReply key={reply._id} comment={reply} />;
                 })}
               </div>
-              {/* <ReplyModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              > */}
 
               <div className="w-screen fixed bottom-0 z-40">
                 <div className="flex bg-white border border-t-2 p-5">
@@ -342,7 +338,7 @@ const Reply = () => {
                     className="border border-gray-800 rounded w-3/4 p-3 mr-3"
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
-                    placeholder="Write your reply..."
+                    placeholder="Give your opinion"
                   />
                   <div
                     className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
@@ -362,7 +358,6 @@ const Reply = () => {
                   </button>
                 </div>
               </div>
-              {/* </ReplyModal> */}
             </div>
           </div>
         )}

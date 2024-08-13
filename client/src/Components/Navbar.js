@@ -379,7 +379,7 @@ const Navbar = () => {
         </h2> */}
 
         {/* Settings */}
-        <h2
+        {/* <h2
           className="text-lg mb-2 ml-5 text-white mt-5"
           onClick={handleToggleSettings}
         >
@@ -410,7 +410,7 @@ const Navbar = () => {
               Help
             </button>
           </>
-        )}
+        )} */}
 
         {/* Profile */}
         <h2 className="text-lg mb-2 ml-5 text-white mt-5">

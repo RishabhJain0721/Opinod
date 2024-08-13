@@ -17,6 +17,7 @@ import { getRecent } from "../APIs/UserDetailsApis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
+import CommunityCard from "../Components/CommunityCard";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -106,29 +107,30 @@ const Home = () => {
   }, []);
 
   const handleViewTrending = () => {
-    // if (!username) {
-    //   alert("Please login to view more articles.");
-    //   return;
-    // }
     dispatch(selectCategory("Trending"));
     navigate("/category/Trending");
   };
 
   const handleViewPopularOpinions = () => {
-    // if (!username) {
-    //   alert("Please login to view more articles.");
-    //   return;
-    // }
     navigate("/topOpinions");
   };
 
   const handleViewTopCommunities = () => {
-    // if (!username) {
-    //   alert("Please login to view more articles.");
-    //   return;
-    // }
     navigate("/communities");
   };
+
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to view more!
+    </div>
+  );
 
   return (
     <div>
@@ -291,13 +293,15 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+              <div className="flex flex-wrap justify-start mx-5 md:ml-10">
                 {topCommunities.slice(0, isMobile ? 3 : 4).map((community) => (
-                  <CommunityCardShort
+                  <CommunityCard
                     key={community._id}
                     id={community._id}
                     name={community.name}
+                    description={community.description}
                     image={community.image}
+                    subscribers={community.subscriberCount}
                   />
                 ))}
               </div>
@@ -362,7 +366,7 @@ const Home = () => {
                           <span
                             onClick={() => {
                               if (!username) {
-                                return toast.info("Please login to view more!");
+                                return toast.info(<Msg />);
                               }
                               if (ele.type === "comment") {
                                 navigate(`/details/${ele.postId}`);
@@ -395,7 +399,7 @@ const Home = () => {
                           <span
                             onClick={() => {
                               if (!username) {
-                                return toast.info("Please login to view more!");
+                                return toast.info(<Msg />);
                               }
                               if (ele.type === "reply") {
                                 navigate(`/details/${ele.postId}`);
@@ -426,7 +430,7 @@ const Home = () => {
                           <span
                             onClick={() => {
                               if (!username) {
-                                return toast.info("Please login to view more!");
+                                return toast.info(<Msg />);
                               }
                               navigate(`/cpostdetails/${ele.postId}`);
                             }}

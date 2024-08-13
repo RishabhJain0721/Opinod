@@ -62,11 +62,9 @@ const Search = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
-
       {!isMobile && <Navbar />}
 
-      <div className="flex mt-16">
+      <div className="flex mt-4 md:mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
@@ -85,7 +83,8 @@ const Search = () => {
           ) : (
             <>
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 font-medium md:font-normal text-gray-800">
-                Search Results for : {searchText}
+                {newsData.length + communityData.length} search results for :{" "}
+                {searchText}
               </div>
               <div className="flex w-full justify-around text-gray-800 font-medium md:text-xl mt-2 p-1 cursor-pointer">
                 <div

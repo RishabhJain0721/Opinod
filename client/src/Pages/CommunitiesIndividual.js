@@ -89,6 +89,19 @@ const CommunitiesIndividual = () => {
     }
   };
 
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to view more!
+    </div>
+  );
+
   const handleSubmitFeedback = async () => {
     if (!feedbackText) {
       return toast.error("Please write a reply");
@@ -103,14 +116,14 @@ const CommunitiesIndividual = () => {
 
   const handleViewPosts = () => {
     if (!username) {
-      return toast.info("Please login to see more posts!");
+      return toast.info(<Msg />);
     }
     navigate(`/community/${communityId}/posts`);
   };
 
   const handleViewAllSubcategories = () => {
     if (!username) {
-      return toast.info("Please login to view more!");
+      return toast.info(<Msg />);
     }
     navigate(`/community/${communityId}/subcategories`);
   };
@@ -119,11 +132,9 @@ const CommunitiesIndividual = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
-
       {!isMobile && <Navbar />}
 
-      <div className="flex mt-16">
+      <div className="flex mt-4 md:mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">

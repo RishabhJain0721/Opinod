@@ -269,7 +269,7 @@ const SingleReply = (props) => {
                   className="border rounded text-xs md:text-sm p-2 mb-2"
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Write your reply..."
+                  placeholder="Write your opinion..."
                 />
                 <div
                   className="text-lg md:text-xl text-gray-600 mt-auto mb-auto mr-4"
@@ -285,7 +285,7 @@ const SingleReply = (props) => {
                   onClick={handleSubmitReply}
                   className="bg-blue-500 text-white px-4 py-2 rounded"
                 >
-                  Submit Reply
+                  Submit Opinion
                 </button>
               </div>
             </ReplyModal>

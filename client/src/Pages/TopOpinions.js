@@ -73,8 +73,6 @@ const TopOpinions = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
-
       {!isMobile && <Navbar />}
 
       <div className="flex mt-16">

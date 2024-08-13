@@ -69,9 +69,8 @@ const CategoryNews = () => {
   return (
     <div>
       <Topbar />
-      {isMobile && <MobileSearch />}
       {!isMobile && <Navbar />}
-      <div className="flex mt-16">
+      <div className="flex mt-4 md:mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-7 font-medium text-gray-700 w-auto">
             {category}

@@ -122,7 +122,7 @@ const Details = () => {
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
                   className="border border-gray-800 rounded w-3/4 text-sm p-3 mr-3"
-                  placeholder="Add a reply..."
+                  placeholder="Give your opinion"
                 />
                 <div
                   className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
@@ -152,7 +152,7 @@ const Details = () => {
                 <div className="flex items-start flex-col w-full pl-2">
                   {/* Heading */}
                   <div className="text-base sm:text-lg md:text-xl font-medium mb-2 w-full">
-                    Replies :
+                    Opinions :
                   </div>
 
                   {isLoadingComments ? (

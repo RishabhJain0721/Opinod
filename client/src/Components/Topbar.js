@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Opinod from "../Assets/opinodLogo.png";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { selectCategory, logout } from "../Actions/actions";
@@ -42,8 +42,10 @@ import {
   faScaleBalanced,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
+import MobileSearch from "./MobileSearch";
 
 const Topbar = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
@@ -57,6 +59,10 @@ const Topbar = () => {
     "Sports",
     "World",
   ];
+  const [isHome, setIsHome] = useState(
+    location.pathname === "/" ? true : false
+  );
+  const [isAtTop, setIsAtTop] = useState(true);
   const [searchText, setSearchText] = useState("");
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -75,9 +81,17 @@ const Topbar = () => {
       setIsMobile(mobile);
     };
 
+    const handleScroll = async () => {
+      if (window.scrollY > 75) setIsAtTop(false);
+      else setIsAtTop(true);
+    };
+
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -105,31 +119,11 @@ const Topbar = () => {
   ];
 
   const handleCategorySelect = (category) => {
-    // if (!username) {
-    //   alert("Please login first to view more");
-    //   return;
-    // }
     setSelectedCategory(category);
     dispatch(selectCategory(category));
-    // if (category === "Most Commented") {
-    //   navigate("/category/MostCommented");
-    //   return;
-    // }
-    // if (category === "Most Reacted") {
-    //   navigate("/category/MostReacted");
-    //   return;
-    // }
     navigate(`/category/${category}`);
     window.location.reload();
   };
-
-  // const handleAddCategory = () => {
-  //   if (!username) {
-  //     alert("Please login first to add category");
-  //     return;
-  //   }
-  //   navigate("/selectCategories");
-  // };
 
   const selectIcon = (category) => {
     switch (category) {
@@ -202,7 +196,7 @@ const Topbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
+    <div className=" fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       <div className="flex items-center justify-between ">
         <div className="flex items-center justify-start">
           <img
@@ -214,25 +208,76 @@ const Topbar = () => {
               dispatch(selectCategory(null));
             }}
           />
-          <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col">
-            <div className="text-2xl font-semibold">Opinod</div>
-            <div className="text-xs text-gray-500">Share Learn Grow</div>
-          </h1>
-          <div className="md:w-1/4 relative hidden md:flex">
-            <input
-              type="text"
-              className="w-32 sm:w-auto px-3 sm:px-4 py-1 sm:py-1.5 border border-gray-300 rounded-l-full focus:outline-none focus:border-blue-500"
-              placeholder="Search news"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <button
-              className="px-4 bg-blue-500 rounded-r-full text-white"
-              onClick={handleSearch}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
+          {isHome && isAtTop && isMobile && (
+            <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
+              <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
+              <div className="text-xs text-gray-500 ml-3 md:ml-0">
+                Share Learn Grow
+              </div>
+            </h1>
+          )}
+          {!isMobile && (
+            <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
+              <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
+              <div className="text-xs text-gray-500 ml-3 md:ml-0">
+                Share Learn Grow
+              </div>
+            </h1>
+          )}
+
+          {isMobile && !isHome && (
+            <div className="md:w-1/4 flex">
+              <input
+                type="text"
+                className=" w-52 text-xs px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                placeholder="Search news/community posts"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button
+                className="px-4 border border-gray-300 bg-blue-500 border-l-0 rounded-r-full text-white"
+                onClick={handleSearch}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          )}
+
+          {isMobile && isHome && !isAtTop && (
+            <div className="md:w-1/4 flex">
+              <input
+                type="text"
+                className=" w-52 text-xs px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                placeholder="Search news/community posts"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button
+                className="px-4 border border-gray-300 bg-blue-500 border-l-0 rounded-r-full text-white"
+                onClick={handleSearch}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          )}
+
+          {!isMobile && (
+            <div className="md:w-1/4 flex">
+              <input
+                type="text"
+                className=" w-52 md:w-auto text-sm md:text-sm px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                placeholder="Search news/community posts"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button
+                className="px-4 border border-gray-300 bg-blue-500 border-l-0 rounded-r-full text-white"
+                onClick={handleSearch}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          )}
         </div>
 
         {isMobile ? (

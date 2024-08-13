@@ -41,3 +41,16 @@ export const updateNews = async (postId) => {
     throw error;
   }
 };
+
+export const getNextArticle = async (type, time, cat) => {
+  try {
+    const response = await axios.post("/api/news/nextId", {
+      type,
+      time,
+      cat,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

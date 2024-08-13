@@ -124,7 +124,7 @@ const CommunityPostDetails = () => {
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
                   className="border border-gray-800 rounded w-3/4 p-3 mr-3"
-                  placeholder="Add a reply..."
+                  placeholder="Give your opinion"
                 />
                 <div
                   className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"

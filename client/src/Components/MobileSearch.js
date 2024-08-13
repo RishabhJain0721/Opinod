@@ -15,13 +15,13 @@ const MobileSearch = () => {
     <div className="relative top-24 flex mx-3 text-sm">
       <input
         type="text"
-        className="w-full px-4 py-2 border border-gray-900 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
-        placeholder="Search news"
+        className=" w-full text-sm md:text-base px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+        placeholder="Search news/community posts"
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
       <button
-        className="px-4 border border-gray-900 border-l-0 rounded-r-full text-gray-400"
+        className="px-4 border border-gray-300 bg-blue-500 border-l-0 rounded-r-full text-white"
         onClick={handleSearch}
       >
         <FontAwesomeIcon icon={faSearch} />

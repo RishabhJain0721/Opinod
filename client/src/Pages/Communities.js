@@ -71,11 +71,9 @@ const Communities = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
-
       {!isMobile && <Navbar />}
 
-      <div className="flex mt-16">
+      <div className="flex mt-4 md:mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">

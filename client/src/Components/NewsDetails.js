@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ThreeDots } from "react-loader-spinner";
+import { ThreeDots, TailSpin, Vortex } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import {
   likePost,
@@ -8,6 +9,7 @@ import {
   removeLike,
   removeDislike,
 } from "../APIs/LikeApis.js";
+import { getNextArticle } from "../APIs/NewsApis.js";
 import {
   like,
   dislike,
@@ -23,12 +25,16 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "react-toastify";
 
 const NewsDetails = (props) => {
+  const navigate = useNavigate();
   const details = props.details;
   const dispatch = useDispatch();
 
   const username = useSelector((state) => state.user.username);
+  const category = useSelector((state) => state.category.category);
+  const userCategories = useSelector((state) => state.user.categories);
   const likedPosts = useSelector((state) => state.user.likedPosts);
   const dislikedPosts = useSelector((state) => state.user.dislikedPosts);
 
@@ -41,6 +47,8 @@ const NewsDetails = (props) => {
   const [likeToggle, setLikeToggle] = useState(false);
   const [dislikeToggle, setDislikeToggle] = useState(false);
   const [isBlur, setIsBlur] = useState(true);
+  const [isLeftLoading, setIsLeftLoading] = useState(false);
+  const [isRightLoading, setIsRightLoading] = useState(false);
 
   const handleLike = async () => {
     await likePost(username, details._id);
@@ -96,6 +104,62 @@ const NewsDetails = (props) => {
     setDislikeToggle(false);
   };
 
+  const handleLeft = async () => {
+    try {
+      setIsLeftLoading(true);
+      if (!category || category === "Trending") {
+        const newId = await getNextArticle(
+          "left",
+          details.publishedAt,
+          userCategories
+        );
+        console.log(newId);
+        navigate(`/details/${newId}`);
+      } else {
+        const newId = await getNextArticle(
+          "left",
+          details.publishedAt,
+          category
+        );
+        console.log(newId);
+        navigate(`/details/${newId}`);
+      }
+    } catch (error) {
+      toast.info("No new articles yet!");
+      console.log(error);
+    } finally {
+      setIsLeftLoading(false);
+    }
+  };
+
+  const handleRight = async () => {
+    try {
+      setIsRightLoading(true);
+      if (!category) {
+        const newId = await getNextArticle(
+          "right",
+          details.publishedAt,
+          userCategories
+        );
+        console.log(newId);
+        navigate(`/details/${newId}`);
+      } else {
+        const newId = await getNextArticle(
+          "right",
+          details.publishedAt,
+          category
+        );
+        console.log(newId);
+        navigate(`/details/${newId}`);
+      }
+    } catch (error) {
+      toast.info("No new articles yet!");
+      console.log(error);
+    } finally {
+      setIsRightLoading(false);
+    }
+  };
+
   return (
     <div>
       {/* Profile photo and name */}
@@ -123,11 +187,41 @@ const NewsDetails = (props) => {
 
       {/* Shift Buttons */}
       {/* <div className=" top-1/2 flex justify-between w-full"> */}
-      <button className="fixed top-1/3 md:top-1/2 left-1 md:left-64 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50">
-        <FontAwesomeIcon icon={faAngleLeft} />
+      <button
+        onClick={handleLeft}
+        className="fixed top-1/3 md:top-1/2 left-1 md:left-64 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50"
+      >
+        {isLeftLoading ? (
+          <Vortex
+            visible={true}
+            height="35"
+            width="20"
+            ariaLabel="vortex-loading"
+            wrapperStyle={{}}
+            wrapperClass="vortex-wrapper"
+            colors={[]}
+          />
+        ) : (
+          <FontAwesomeIcon icon={faAngleLeft} />
+        )}
       </button>
-      <button className="fixed top-1/3 md:top-1/2 right-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50">
-        <FontAwesomeIcon icon={faAngleRight} />
+      <button
+        onClick={handleRight}
+        className="fixed top-1/3 md:top-1/2 right-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50"
+      >
+        {isRightLoading ? (
+          <Vortex
+            visible={true}
+            height="35"
+            width="20"
+            ariaLabel="vortex-loading"
+            wrapperStyle={{}}
+            wrapperClass="vortex-wrapper"
+            colors={[]}
+          />
+        ) : (
+          <FontAwesomeIcon icon={faAngleRight} />
+        )}
       </button>
       {/* </div> */}
 

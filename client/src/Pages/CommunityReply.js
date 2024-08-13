@@ -143,7 +143,7 @@ const CommunityReply = () => {
 
   const handleToggleCommentLike = async () => {
     if (!username) {
-      toast.info("Please login to like/dislike this comment.");
+      toast.info(<Msg />);
       return;
     }
     setCommentLikeToggle(true);
@@ -158,9 +158,22 @@ const CommunityReply = () => {
     setCommentLikeToggle(false);
   };
 
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to like/dislike!
+    </div>
+  );
+
   const handleToggleCommentDislike = async () => {
     if (!username) {
-      toast.info("Please login to like/dislike this comment.");
+      toast.info(<Msg />);
       return;
     }
     setCommentDislikeToggle(true);
@@ -341,7 +354,7 @@ const CommunityReply = () => {
                     className="border border-gray-800 rounded w-3/4 p-3 mr-3"
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
-                    placeholder="Write your reply..."
+                    placeholder="Write your opinion..."
                   />
                   <div
                     className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
