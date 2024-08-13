@@ -220,10 +220,45 @@ const sendUpdatedNews = async (req, res) => {
   }
 };
 
+const sendNextId = async (req, res) => {
+  const { type, time, cat } = req.body;
+  console.log(type, time, cat);
+  let nextId;
+  try {
+    if (Array.isArray(cat)) {
+      const query = {
+        publishedAt: type === "left" ? { $gt: time } : { $lt: time },
+        category: { $in: cat },
+      };
+
+      nextId = await Post.find(query, { _id: 1 })
+        .sort({ _id: type === "left" ? 1 : -1 })
+        .limit(1);
+
+      console.log(nextId[0]._id);
+    } else {
+      const query = {
+        publishedAt: type === "left" ? { $gt: time } : { $lt: time },
+        category: { $eq: cat },
+      };
+
+      nextId = await Post.find(query, { _id: 1 })
+        .sort({ _id: type === "left" ? 1 : -1 })
+        .limit(1);
+      console.log(nextId[0]._id);
+    }
+
+    res.status(200).send(nextId[0]._id);
+  } catch (error) {
+    res.status(400).send("Failed to fetch");
+  }
+};
+
 export {
   sendNews,
   sendNewsDetails,
   sendNewsByCategory,
   sendMostCommented,
   sendUpdatedNews,
+  sendNextId,
 };

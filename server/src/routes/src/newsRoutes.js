@@ -5,6 +5,7 @@ import {
   sendNewsByCategory,
   sendMostCommented,
   sendUpdatedNews,
+  sendNextId,
 } from "../../controllers/NewsController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/byId", sendNewsDetails);
 router.post("/byCategory", sendNewsByCategory);
 router.post("/mostCommented", sendMostCommented);
 router.post("/update", sendUpdatedNews);
+router.post("/nextId", sendNextId);
 
 export default router;
