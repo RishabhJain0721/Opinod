@@ -4,6 +4,7 @@ import Topbar from "../Components/Topbar";
 import Image from "../Assets/pic.jpg";
 import { signup } from "../APIs/AuthApis";
 import { MutatingDots } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Signup = () => {
         setUsername(value);
         break;
       case "email":
-        setEmail(value);
+        setEmail(value.toLowerCase());
         break;
       case "password":
         setPassword(value);
@@ -33,9 +34,14 @@ const Signup = () => {
     e.preventDefault();
     // Placeholder for form validation
     if (!username || !email || !password) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
+    if (username.includes(" ") || /[A-Z]/.test(username)) {
+      toast.error("Username can't contain spaces and capital letters");
+      return;
+    }
+
     setIsLoading(true); // Start loading
     try {
       await signup({ username, email, password }).then((res) => {

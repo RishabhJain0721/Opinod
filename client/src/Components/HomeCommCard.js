@@ -6,7 +6,7 @@ import { updateCommunities, updateRemoveCommunity } from "../Actions/actions";
 import { ThreeDots } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-const CommunityCard = ({ id, name, description, image, subscribers }) => {
+const HomeCommCard = ({ id, name, description, image, subscribers }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const username = useSelector((state) => state.user.username);
@@ -61,32 +61,35 @@ const CommunityCard = ({ id, name, description, image, subscribers }) => {
   );
 
   return (
-    <div className="bg-white w-96 sm:w-80 m-2 lg:w-80 xl:w-96 max-w-md duration-150 h-fit mb-2 cursor-pointer">
+    <div className=" h-52 md:h-40 w-5/12 md:w-64 border border-gray-300 rounded-xl mb-2 m-2 cursor-pointer">
       {/* Profile photo and name */}
-      <div className="flex mb-2">
-        <img
+      <div className="flex mb-2 h-28">
+        {/* <img
           src={image}
           alt="Profile"
           className="h-16 w-16 rounded-md mr-2"
           onClick={handleGoToCommunity}
-        />
-        <div className="w-full flex items-center justify-between">
-          <div className="w-3/4" onClick={handleGoToCommunity}>
+        /> */}
+        <div className="flex flex-col items-center justify-around">
+          <div className="m-3" onClick={handleGoToCommunity}>
             {/* Title */}
-            <div className="text-base font-medium text-gray-700 mb-1">
+            <div className="text-base font-medium text-gray-700 mb-1 border-b border-gray-300 pb-1">
               {name}
-              <span className="text-blue-500 ml-2 text-sm">{subscribers}</span>
             </div>
-            <div className="text-xs flex justify-between text-gray-700 ">
+
+            <div className="text-xs flex justify-between text-gray-700 mt-1 ">
               {description.length > 60
                 ? description.slice(0, 60) + "..."
                 : description}
             </div>
+            <div className="text-xs text-blue-500 mt-2">
+              {subscribers} subscribers
+            </div>
           </div>
-          <div className="flex w-1/4 justify-end">
+          <div className="flex w-4/5 justify-end">
             {joinedCommunitiesStore.includes(id) ? (
               <button
-                className="text-center text-blue-500 border border-blue-500 rounded-l-full rounded-r-full text-sm py-0.5 w-20 px-2"
+                className="text-center text-blue-500 border border-blue-500 rounded-l-full rounded-r-full text-sm py-0.5 w-full px-2"
                 onClick={handleLeaveCommunity}
               >
                 {loading ? (
@@ -104,7 +107,7 @@ const CommunityCard = ({ id, name, description, image, subscribers }) => {
               </button>
             ) : (
               <button
-                className="text-center bg-blue-500 text-white rounded-l-full rounded-r-full text-sm py-0.5 w-20 px-2"
+                className="text-center bg-blue-500 text-white rounded-l-full rounded-r-full text-sm py-0.5 w-full px-2"
                 onClick={handleJoinCommunity}
               >
                 {loading ? (
@@ -123,4 +126,4 @@ const CommunityCard = ({ id, name, description, image, subscribers }) => {
   );
 };
 
-export default CommunityCard;
+export default HomeCommCard;

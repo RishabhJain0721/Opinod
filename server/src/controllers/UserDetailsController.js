@@ -208,9 +208,7 @@ const sendUserComments = async (req, res) => {
 };
 
 const followUser = async (req, res) => {
-  console.log("Hello");
   const { username, name } = req.body;
-  console.log(username, name);
   try {
     await User.updateOne(
       { username: name },
@@ -224,10 +222,13 @@ const followUser = async (req, res) => {
 };
 
 const unfollowUser = async (req, res) => {
-  const { username, followId: id } = req.body;
+  const { username, name } = req.body;
   try {
-    await User.updateOne({ _id: id }, { $pull: { followers: username } });
-    await User.updateOne({ username }, { $pull: { following: id } });
+    await User.updateOne(
+      { username: name },
+      { $pull: { followers: username } }
+    );
+    await User.updateOne({ username }, { $pull: { following: name } });
     res.status(200).send("Unfollowed User");
   } catch (error) {
     res.status(400).send("Failed to unfollow");

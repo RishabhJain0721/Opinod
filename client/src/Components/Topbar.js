@@ -43,6 +43,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 import MobileSearch from "./MobileSearch";
+import { toast } from "react-toastify";
 
 const Topbar = () => {
   const location = useLocation();
@@ -70,7 +71,7 @@ const Topbar = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [toggleCategory, setToggleCategory] = useState(false);
   const [toggleCommunity, setToggleCommunity] = useState(false);
-  const [toggleSettings, setToggleSettings] = useState(false);
+  // const [toggleSettings, setToggleSettings] = useState(false);
   const [showMainTopics, setShowMainTopics] = useState(false);
   const [showSpecialInterestGroups, setShowSpecialInterestGroups] =
     useState(false);
@@ -179,9 +180,9 @@ const Topbar = () => {
     setToggleCommunity(!toggleCommunity);
   };
 
-  const handleToggleSettings = () => {
-    setToggleSettings(!toggleSettings);
-  };
+  // const handleToggleSettings = () => {
+  //   setToggleSettings(!toggleSettings);
+  // };
 
   const toggleMainTopics = () => {
     setShowMainTopics(!showMainTopics);
@@ -193,6 +194,44 @@ const Topbar = () => {
 
   const handleSearch = async () => {
     navigate(`/search/${searchText}`);
+  };
+
+  const handleSettings = () => {
+    toast.info(<DropDown />, {
+      autoClose: false,
+      closeOnClick: true,
+      draggable: true,
+      icon: false,
+    });
+  };
+
+  const DropDown = () => {
+    return (
+      <div className="w-64 rounded-md ">
+        <ul className="list-none p-0 m-0">
+          <li
+            className="p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100"
+            onClick={() => navigate("/updateProfile")}
+          >
+            Edit Profile
+          </li>
+          <li
+            className="p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100"
+            onClick={() => navigate("/selectCategories")}
+          >
+            Change Categories
+          </li>
+          <li
+            className="p-2 cursor-pointer hover:bg-gray-100"
+            onClick={() => {
+              toast.info("Please mail us at abs@gmail.com");
+            }}
+          >
+            Help and Support
+          </li>
+        </ul>
+      </div>
+    );
   };
 
   return (
@@ -282,9 +321,19 @@ const Topbar = () => {
 
         {isMobile ? (
           <div>
-            <button className="md:hidden" onClick={toggleMenu}>
-              <FontAwesomeIcon icon={faBars} />{" "}
-            </button>
+            {location.pathname === "/profile" ? (
+              <button
+                className="md:hidden text-gray-800"
+                onClick={handleSettings}
+              >
+                <FontAwesomeIcon icon={faGear} />{" "}
+              </button>
+            ) : (
+              <button className="md:hidden" onClick={toggleMenu}>
+                <FontAwesomeIcon icon={faBars} />{" "}
+              </button>
+            )}
+
             {menuOpen && (
               <div>
                 <div className="absolute right-0 top-0 h-screen w-64 overflow-auto font-League bg-blue-500 border-l-2 border-gray-300 p-2.5 shadow-sm">
@@ -405,12 +454,10 @@ const Topbar = () => {
                                 Object.entries(topic)[0];
 
                               return (
-                                <div key={name}>
+                                <div key={communityId}>
                                   <button
                                     onClick={() => {
-                                      navigate(
-                                        `/community/${communityId}/posts`
-                                      );
+                                      navigate(`/community/${communityId}`);
                                     }}
                                     className="flex justify-start"
                                   >
@@ -462,9 +509,7 @@ const Topbar = () => {
                                 <div key={name}>
                                   <button
                                     onClick={() => {
-                                      navigate(
-                                        `/community/${communityId}/posts`
-                                      );
+                                      navigate(`/community/${communityId}`);
                                     }}
                                     className="flex justify-start"
                                   >
@@ -498,7 +543,7 @@ const Topbar = () => {
                   </h2> */}
 
                   {/* Settings */}
-                  <h2
+                  {/* <h2
                     className="text-lg mb-2 ml-5 text-white mt-5"
                     onClick={handleToggleSettings}
                   >
@@ -536,7 +581,7 @@ const Topbar = () => {
                         Help
                       </button>
                     </>
-                  )}
+                  )} */}
 
                   {/* Profile */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">
@@ -580,14 +625,23 @@ const Topbar = () => {
         ) : username ? (
           <div className="flex items-center">
             <div className="flex items-center space-x-4 text-gray-800">
-              <button className="text-xl sm:px-2 px-1">
+              {/* <button className="text-xl sm:px-2 px-1">
                 <FontAwesomeIcon
                   icon={faBell}
                   onClick={() => {
                     navigate("/notifications");
                   }}
                 />
-              </button>
+              </button> */}
+              {location.pathname === "/profile" && (
+                <button
+                  className="text-xl sm:px-2 px-1 text-gray-800"
+                  onClick={handleSettings}
+                >
+                  <FontAwesomeIcon icon={faGear} />{" "}
+                </button>
+              )}
+
               <button className="text-xl sm:px-2 px-1">
                 <FontAwesomeIcon
                   icon={faUser}

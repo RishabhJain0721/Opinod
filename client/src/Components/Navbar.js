@@ -298,7 +298,7 @@ const Navbar = () => {
                       <div key={name}>
                         <button
                           onClick={() => {
-                            navigate(`/community/${communityId}/posts`);
+                            navigate(`/community/${communityId}`);
                           }}
                           className="flex justify-start"
                         >
@@ -345,7 +345,7 @@ const Navbar = () => {
                       <div key={name}>
                         <button
                           onClick={() => {
-                            navigate(`/community/${communityId}/posts`);
+                            navigate(`/community/${communityId}`);
                           }}
                           className="flex justify-start"
                         >

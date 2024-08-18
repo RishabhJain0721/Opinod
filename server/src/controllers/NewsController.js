@@ -95,27 +95,56 @@ const sendMostReacted = async (username, res, skip, pageSize) => {
 };
 
 const sendNews = async (req, res) => {
-  let trending;
+  const { categories } = req.body;
+  console.log(categories);
 
-  trending = await Post.find(
-    { category: "General" },
-    {
-      title: 1,
-      image: 1,
-      publishedAt: 1,
-      source: 1,
-      category: 1,
-      comments: 1,
-      upvotes: 1,
-      downvotes: 1,
-    }
-  )
-    .sort({ publishedAt: -1 })
-    .limit(3)
-    .lean();
+  let trending = [];
+
+  const reqFields = {
+    title: 1,
+    image: 1,
+    publishedAt: 1,
+    source: 1,
+    category: 1,
+    comments: 1,
+    upvotes: 1,
+    downvotes: 1,
+  };
+
+  if (categories.length >= 3) {
+    [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+      .limit(1)
+      .lean();
+    [trending[1]] = await Post.find({ category: categories[1] }, reqFields)
+      .limit(1)
+      .lean();
+    [trending[2]] = await Post.find({ category: categories[2] }, reqFields)
+      .limit(1)
+      .lean();
+  } else if (categories.length === 2) {
+    [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+      .limit(1)
+      .lean();
+    [trending[1]] = await Post.find({ category: categories[0] }, reqFields)
+      .limit(1)
+      .lean();
+    [trending[2]] = await Post.find({ category: categories[1] }, reqFields)
+      .limit(1)
+      .lean();
+  } else if (categories.length === 1) {
+    trending = await Post.find({ category: categories[0] }, reqFields)
+      .limit(3)
+      .lean();
+  } else {
+    trending = await Post.find({ category: "General" }, reqFields)
+      .limit(3)
+      .lean();
+  }
+  // trending = await Post.find({ category: { $in: categories } }).limit(3);
 
   await enrichPostsWithTopComment(trending);
 
+  console.log(trending);
   res.status(200).send({ trendingArticles: trending });
 };
 

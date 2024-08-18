@@ -18,11 +18,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import CommunityCard from "../Components/CommunityCard";
+import HomeCommCard from "../Components/HomeCommCard";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
+  const categories = useSelector((state) => state.user.categories);
 
   const [trending, setTrending] = useState([]);
   const [popularOpinions, setPopularOpinions] = useState([]);
@@ -38,7 +40,7 @@ const Home = () => {
   const fetchNews = async () => {
     try {
       setIsLoading(true);
-      const res = await getNews();
+      const res = await getNews(categories);
       console.log(res);
       setTrending(res.trendingArticles);
     } catch (error) {
@@ -294,8 +296,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-start mx-5 md:ml-10">
-                {topCommunities.slice(0, isMobile ? 3 : 4).map((community) => (
-                  <CommunityCard
+                {topCommunities.slice(0, isMobile ? 2 : 4).map((community) => (
+                  <HomeCommCard
                     key={community._id}
                     id={community._id}
                     name={community.name}

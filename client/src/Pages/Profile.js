@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //   faReddit,
 //   faLinkedin,
 // } from "@fortawesome/free-brands-svg-icons";
+import { getUserDetails } from "../APIs/UserDetailsApis";
 import { logout } from "../Actions/actions";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
@@ -26,6 +27,8 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [followers, setFollowers] = useState();
+  const [following, setFollowing] = useState();
   const [filter, setFilter] = useState("All");
   const [recent, setRecent] = useState([]);
   const [recents, setRecents] = useState([]);
@@ -39,6 +42,17 @@ const ProfilePage = () => {
   const base64Image = user.profilePicture.buffer;
   const imageType = user.profilePicture.mimetype;
   const src = `data:${imageType};base64,${base64Image}`;
+
+  const fetchUser = async () => {
+    try {
+      const res = await getUserDetails(user.username);
+      console.log(res.followers, res.following);
+      setFollowers(res.followers);
+      setFollowing(res.following);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchAchievements = async () => {
     try {
@@ -81,6 +95,7 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
+    fetchUser();
     fetchLevel();
     fetchAchievements();
     fetchRecent();
@@ -144,7 +159,7 @@ const ProfilePage = () => {
               />
               <div className="flex flex-col text-center ml-2 md:ml-5">
                 <span className="text-base md:text-xl font-semibold">
-                  {308}
+                  {followers ? followers.length : 0}
                 </span>
                 <span className="text-sm md:text-lg font-normal text-gray-500">
                   Followers
@@ -152,7 +167,7 @@ const ProfilePage = () => {
               </div>
               <div className="flex flex-col text-center ml-5">
                 <span className="text-base md:text-xl font-semibold">
-                  {100}
+                  {following ? following.length : 0}
                 </span>
                 <span className="text-sm md:text-lg font-normal text-gray-500">
                   Following

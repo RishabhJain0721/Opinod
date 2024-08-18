@@ -19,7 +19,7 @@ const Login = () => {
     const { name, value } = e.target;
     switch (name) {
       case "username":
-        setUsername(value);
+        setUsername(value.toLowerCase());
         break;
       case "password":
         setPassword(value);

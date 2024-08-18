@@ -55,6 +55,11 @@ const CommunityPostsWrapper = () => {
   return <CommunityPosts key={id} />;
 };
 
+const CommunitiesIndividualWrapper = () => {
+  const { id } = useParams();
+  return <CommunitiesIndividual key={id} />;
+};
+
 function App() {
   const username = useSelector((state) => state.user.username);
   const admin = useSelector((state) => state.admin);
@@ -144,7 +149,10 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/community/:id" element={<CommunitiesIndividual />} />
+        <Route
+          path="/community/:id"
+          element={<CommunitiesIndividualWrapper />}
+        />
         <Route
           path="/community/:id/subcategories"
           element={<CommunitySubcategories />}

@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", sendNews);
+router.post("/", sendNews);
 router.post("/byId", sendNewsDetails);
 router.post("/byCategory", sendNewsByCategory);
 router.post("/mostCommented", sendMostCommented);

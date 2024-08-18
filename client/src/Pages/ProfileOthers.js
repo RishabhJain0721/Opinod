@@ -179,7 +179,7 @@ const ProfileOthers = () => {
                 />
                 <div className="flex flex-col text-center ml-2 md:ml-5">
                   <span className="text-lg md:text-xl font-semibold">
-                    {308}
+                    {user.followers ? user.followers.length : 0}
                   </span>
                   <span className="text-base md:text-lg font-normal text-gray-500">
                     Followers
@@ -187,7 +187,7 @@ const ProfileOthers = () => {
                 </div>
                 <div className="flex flex-col text-center ml-5">
                   <span className="text-lg md:text-xl font-semibold">
-                    {100}
+                    {user.following ? user.following.length : 0}
                   </span>
                   <span className="text-base md:text-lg font-normal text-gray-500">
                     Following
