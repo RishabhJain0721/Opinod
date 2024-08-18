@@ -73,38 +73,38 @@ export const getRecent = async (username) => {
   }
 };
 
-export const getUserDetails = async (id) => {
+export const getUserDetails = async (name) => {
   try {
-    const response = await axios.post("/api/user/getDetails", { id });
+    const response = await axios.post("/api/user/getDetails", { name });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getUserPosts = async (id) => {
+export const getUserPosts = async (name) => {
   try {
-    const response = await axios.post("/api/user/getPosts", { id });
+    const response = await axios.post("/api/user/getPosts", { name });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getUserComments = async (id) => {
+export const getUserComments = async (name) => {
   try {
-    const response = await axios.post("/api/user/getComments", { id });
+    const response = await axios.post("/api/user/getComments", { name });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const followUser = async (username, followId) => {
+export const followUser = async (username, name) => {
   try {
     const response = await axios.post("/api/user/followUser", {
       username,
-      followId,
+      name,
     });
     return response.data;
   } catch (error) {
@@ -112,11 +112,11 @@ export const followUser = async (username, followId) => {
   }
 };
 
-export const unfollowUser = async (username, followId) => {
+export const unfollowUser = async (username, name) => {
   try {
     const response = await axios.post("/api/user/unfollowUser", {
       username,
-      followId,
+      name,
     });
     return response.data;
   } catch (error) {

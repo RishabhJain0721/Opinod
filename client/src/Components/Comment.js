@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { faReply, faUser } from "@fortawesome/free-solid-svg-icons";
 import {
   faThumbsUp,
   faThumbsDown,
@@ -36,8 +36,12 @@ const Comment = ({ opinion }) => {
   const postId = location.pathname.split("/")[2];
   const type = location.pathname.split("/")[1];
 
-  const base64Image = opinion.profilePicture.buffer;
-  const imageType = opinion.profilePicture.mimetype;
+  const base64Image = opinion.profilePicture
+    ? opinion.profilePicture.buffer
+    : "";
+  const imageType = opinion.profilePicture
+    ? opinion.profilePicture.mimetype
+    : "";
   const src = `data:${imageType};base64,${base64Image}`;
 
   const username = useSelector((state) => state.user.username);
@@ -178,9 +182,21 @@ const Comment = ({ opinion }) => {
   return (
     <div className="flex items-start flex-col w-full p-4 pb-2 bg-white rounded-lg mb-0">
       <div className="flex items-center justify-center mb-2">
-        <img src={src} alt="Profile" className="w-6 h-6 rounded-full mr-2" />
+        {imageType === "" ? (
+          <FontAwesomeIcon
+            icon={faUser}
+            className=" bg-gray-800 mr-2.5 text-xs text-white rounded-full p-1.5"
+          />
+        ) : (
+          <img src={src} alt="Profile" className="w-6 h-6 rounded-full mr-2" />
+        )}
         <div className="flex flex-row items-baseline">
-          <div className="text-sm font-semibold">{opinion.author}</div>
+          <div
+            className="text-sm font-semibold"
+            onClick={() => navigate(`/profile/${opinion.author}`)}
+          >
+            {opinion.author}
+          </div>
           <div className="text-xs text-gray-500 ml-2">
             {formatDistanceToNow(new Date(opinion.createdAt), {
               addSuffix: true,

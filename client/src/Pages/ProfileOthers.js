@@ -19,7 +19,7 @@ import { follow, unfollow } from "../Actions/actions";
 const ProfileOthers = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const id = location.pathname.split("/")[2];
+  const name = location.pathname.split("/")[2];
   const username = useSelector((state) => state.user.username);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [userLoading, setUserLoading] = useState(false);
@@ -34,7 +34,7 @@ const ProfileOthers = () => {
 
   const following = useSelector((state) => state.user.following);
   const [isFollowing, setIsFollowing] = useState(
-    following.includes(id) ? true : false
+    following.includes(name) ? true : false
   );
 
   const [base64Image, setBase64Image] = useState("");
@@ -44,7 +44,7 @@ const ProfileOthers = () => {
   const fetchUser = async () => {
     try {
       setUserLoading(true);
-      const res = await getUserDetails(id);
+      const res = await getUserDetails(name);
       console.log(res);
       setUser(res);
       setBase64Image(res.profilePicture.buffer);
@@ -59,7 +59,7 @@ const ProfileOthers = () => {
   const fetchPosts = async () => {
     try {
       setPostsLoading(true);
-      const res = await getUserPosts(id);
+      const res = await getUserPosts(name);
       console.log(res);
       setPosts(res);
     } catch (error) {
@@ -72,7 +72,7 @@ const ProfileOthers = () => {
   const fetchComments = async () => {
     try {
       setCommentsLoading(true);
-      const res = await getUserComments(id);
+      const res = await getUserComments(name);
       console.log(res);
       setComments(res);
     } catch (error) {
@@ -120,8 +120,8 @@ const ProfileOthers = () => {
 
   const handleFollow = async () => {
     try {
-      await followUser(username, id);
-      dispatch(follow(id));
+      await followUser(username, name);
+      dispatch(follow(name));
       setIsFollowing(true);
     } catch (error) {
       console.log(error);
@@ -130,8 +130,8 @@ const ProfileOthers = () => {
 
   const handleUnfollow = async () => {
     try {
-      await unfollowUser(username, id);
-      dispatch(unfollow(id));
+      await unfollowUser(username, name);
+      dispatch(unfollow(name));
       setIsFollowing(false);
     } catch (error) {
       console.log(error);

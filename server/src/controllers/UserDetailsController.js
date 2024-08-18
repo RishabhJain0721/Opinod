@@ -172,9 +172,9 @@ const sendRecent = async (req, res) => {
 };
 
 const sendUserDetails = async (req, res) => {
-  const { id } = req.body;
+  const { name } = req.body;
   try {
-    const user = await User.findById(id);
+    const user = await User.findOne({ username: name });
     res.status(200).send(user);
   } catch (error) {
     res.status(400).send({ Message: "Failed to fetch" });
@@ -182,11 +182,8 @@ const sendUserDetails = async (req, res) => {
 };
 
 const sendUserPosts = async (req, res) => {
-  const { id } = req.body;
-  console.log(id);
+  const { name } = req.body;
   try {
-    const user = await User.findById(id, { username: 1, _id: 0 }).lean();
-    const name = user.username;
     const posts = await CommunityPost.find({ author: name }).sort({
       createdAt: -1,
     });
@@ -197,11 +194,8 @@ const sendUserPosts = async (req, res) => {
 };
 
 const sendUserComments = async (req, res) => {
-  const { id } = req.body;
+  const { name } = req.body;
   try {
-    const user = await User.findById(id, { username: 1, _id: 0 }).lean();
-    const name = user.username;
-    console.log(name);
     const comments = await Comment.find({ author: name }).sort({
       createdAt: -1,
     });
@@ -215,11 +209,14 @@ const sendUserComments = async (req, res) => {
 
 const followUser = async (req, res) => {
   console.log("Hello");
-  const { username, followId: id } = req.body;
-  console.log(username, id);
+  const { username, name } = req.body;
+  console.log(username, name);
   try {
-    await User.updateOne({ _id: id }, { $push: { followers: username } });
-    await User.updateOne({ username }, { $push: { following: id } });
+    await User.updateOne(
+      { username: name },
+      { $push: { followers: username } }
+    );
+    await User.updateOne({ username }, { $push: { following: name } });
     res.status(200).send("Followed User");
   } catch (error) {
     res.status(400).send("Failed to follow");

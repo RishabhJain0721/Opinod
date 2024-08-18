@@ -179,7 +179,12 @@ const SingleReply = (props) => {
               className="w-6 h-6 rounded-full mr-2"
             />
             <div className="flex flex-row items-baseline">
-              <div className="text-sm font-semibold">{comment.author}</div>
+              <div
+                className="text-sm font-semibold"
+                onClick={() => navigate(`/profile/${comment.author}`)}
+              >
+                {comment.author}
+              </div>
               <div className="text-xs text-gray-500 ml-2">
                 {new Date(comment.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",

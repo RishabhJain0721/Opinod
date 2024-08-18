@@ -23,7 +23,11 @@ import {
   faCommentDots,
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faShareNodes,
+} from "@fortawesome/free-solid-svg-icons";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 
@@ -158,6 +162,11 @@ const NewsDetails = (props) => {
     } finally {
       setIsRightLoading(false);
     }
+  };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.info("Link copied to clipboard");
   };
 
   return (
@@ -322,6 +331,12 @@ const NewsDetails = (props) => {
           </button>
           <div className="ml-0 md:ml-2">{details.totalComments}</div>
         </div>
+        <button
+          className=" text-gray-700 flex items-center ml-5"
+          onClick={handleShare}
+        >
+          <FontAwesomeIcon icon={faShareNodes} className="mr-1" />
+        </button>
       </div>
 
       {/* Divider */}

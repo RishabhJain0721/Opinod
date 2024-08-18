@@ -359,7 +359,10 @@ const Home = () => {
                             icon={faSquare}
                             className="  mr-2 text-xs md:text-sm text-blue-500"
                           />
-                          <span className="text-gray-800 font-medium">
+                          <span
+                            className="text-gray-800 font-medium"
+                            onClick={() => navigate(`/profile/${ele.author}`)}
+                          >
                             {ele.author}
                           </span>{" "}
                           shared opinion on{" "}
@@ -392,7 +395,10 @@ const Home = () => {
                             icon={faSquare}
                             className="  mr-2 text-xs md:text-sm text-blue-500"
                           />
-                          <span className="text-gray-800 font-medium">
+                          <span
+                            className="text-gray-800 font-medium"
+                            onClick={() => navigate(`/profile/${ele.author}`)}
+                          >
                             {ele.author}
                           </span>{" "}
                           replied to{" "}
@@ -423,7 +429,10 @@ const Home = () => {
                             icon={faSquare}
                             className="  mr-2 text-xs md:text-sm text-blue-500"
                           />
-                          <span className="text-gray-800 font-medium">
+                          <span
+                            className="text-gray-800 font-medium"
+                            onClick={() => navigate(`/profile/${ele.author}`)}
+                          >
                             {ele.username}
                           </span>{" "}
                           posted a new{" "}

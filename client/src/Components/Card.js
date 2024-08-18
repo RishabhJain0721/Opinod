@@ -130,7 +130,7 @@ const Card = ({
 
   const handleToggleLike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this article.");
+      toast.info(<Msg />);
       return;
     }
     setLikeToggle(true);
@@ -147,7 +147,7 @@ const Card = ({
 
   const handleToggleDislike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this article.");
+      toast.info(<Msg />);
       return;
     }
     setDislikeToggle(true);
@@ -189,7 +189,7 @@ const Card = ({
 
   const handleToggleCommentLike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info(<Msg />);
       return;
     }
     setCommentLikeToggle(true);
@@ -206,7 +206,7 @@ const Card = ({
 
   const handleToggleCommentDislike = async () => {
     if (!username) {
-      alert("Please login to like/dislike this comment.");
+      toast.info(<Msg />);
       return;
     }
     setCommentDislikeToggle(true);
@@ -222,6 +222,10 @@ const Card = ({
   };
 
   const handleReport = async () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
     try {
       const res = await report(opinionId);
       console.log(res);
@@ -229,6 +233,24 @@ const Card = ({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to to perform action!
+    </div>
+  );
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.info("Link copied to clipboard");
   };
 
   return (
@@ -321,7 +343,7 @@ const Card = ({
             )}
             <button
               className="text-xs text-gray-500 flex items-center"
-              onClick={handleClick}
+              onClick={handleShare}
             >
               <FontAwesomeIcon icon={faShareNodes} className="mr-1" /> Share
             </button>
@@ -332,23 +354,38 @@ const Card = ({
           {opinion ? (
             <div
               className="flex items-start flex-col mb-2"
-              onClick={() => {
-                if (!username) {
-                  alert("Pease login first");
-                  return;
-                }
-              }}
+              // onClick={() => {
+              //   if (!username) {
+              // alert("Pease login first");
+              //     return;
+              //   }
+              // }}
             >
               <div className="flex items-center w-full">
                 <img
                   src={opinionAuthorPhoto}
                   alt="Opinion Author"
                   className="w-5 h-5 rounded-full mr-2"
+                  onClick={() => {
+                    username
+                      ? navigate(`/profile/${opinionAuthorName}`)
+                      : alert("Pease login first");
+                  }}
                 />
-                <div className="text-sm font-medium text-gray-700 flex-grow">
+                <div
+                  className="text-sm font-medium text-gray-700 flex-grow"
+                  onClick={() => {
+                    username
+                      ? navigate(`/profile/${opinionAuthorName}`)
+                      : alert("Pease login first");
+                  }}
+                >
                   {opinionAuthorName}
                 </div>
-                <div className="text-xs ml-auto text-gray-500">
+                <div
+                  className="text-xs ml-auto text-gray-500"
+                  onClick={handleClick}
+                >
                   <FontAwesomeIcon
                     icon={faClock}
                     className="text-gray-500 mr-1"
@@ -357,7 +394,7 @@ const Card = ({
                 </div>
               </div>
               <div className="flex items-start flex-col w-full">
-                <div className="mt-2 mb-1 text-gray-600">
+                <div className="mt-2 mb-1 text-gray-600" onClick={handleClick}>
                   {opinion.length > 50 ? opinion.slice(0, 50) + "..." : opinion}
                 </div>
                 <div className="flex justify-between items-center w-full">
