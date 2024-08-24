@@ -39,14 +39,14 @@ const ProfilePage = () => {
   const [isLevel, setIsLevel] = useState(false);
   const [recentLoading, setRecentLoading] = useState(false);
 
-  const base64Image = user.profilePicture.buffer;
-  const imageType = user.profilePicture.mimetype;
-  const src = `data:${imageType};base64,${base64Image}`;
+  const [base64Image, setBase64Image] = useState(user.profilePicture.buffer);
+  const [imageType, setImageType] = useState(user.profilePicture.mimetype);
 
   const fetchUser = async () => {
     try {
       const res = await getUserDetails(user.username);
-      console.log(res.followers, res.following);
+      setBase64Image(res.profilePicture.buffer);
+      setImageType(res.profilePicture.mimetype);
       setFollowers(res.followers);
       setFollowing(res.following);
     } catch (error) {
@@ -83,7 +83,7 @@ const ProfilePage = () => {
   const fetchRecent = async () => {
     try {
       setRecentLoading(true);
-      const res = await getRecent(user.username);
+      const res = await getRecent(user.username, 5);
       console.log(res);
       setRecents(res);
       setRecent(res);
@@ -153,7 +153,7 @@ const ProfilePage = () => {
             {/* First Row: Profile pic, Followers, Following, Category */}
             <div className="flex items-center justify-start mb-2 md:mb-4">
               <img
-                src={src}
+                src={`data:${imageType};base64,${base64Image}`}
                 alt="Profile"
                 className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
               />

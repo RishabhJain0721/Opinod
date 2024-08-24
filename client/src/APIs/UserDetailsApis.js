@@ -64,9 +64,9 @@ export const calculateLevel = async (username) => {
   }
 };
 
-export const getRecent = async (username) => {
+export const getRecent = async (username, number) => {
   try {
-    const response = await axios.post("/api/user/recent", { username });
+    const response = await axios.post("/api/user/recent", { username, number });
     return response.data;
   } catch (error) {
     throw error;

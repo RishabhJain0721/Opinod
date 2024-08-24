@@ -241,12 +241,12 @@ const CommunitiesIndividual = () => {
                       className="text-base text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
                     {/* Write a description */}
-                    <input
+                    <textarea
                       type="text"
                       onChange={(e) => setDescription(e.target.value)}
                       value={description}
                       placeholder="Add description"
-                      className="text-2xl text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
+                      className="text-xl h-20 text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
                   </div>
 

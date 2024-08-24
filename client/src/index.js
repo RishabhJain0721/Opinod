@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = "https://opinod.onrender.com";
 // axios.defaults.baseURL = "http://localhost:3001";
-// axios.defaults.baseURL = "http://192.168.187.181:3001";
+// axios.defaults.baseURL = "http://192.168.31.51:3001";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

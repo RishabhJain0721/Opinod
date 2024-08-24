@@ -144,7 +144,7 @@ const sendNews = async (req, res) => {
 
   await enrichPostsWithTopComment(trending);
 
-  console.log(trending);
+  // console.log(trending);
   res.status(200).send({ trendingArticles: trending });
 };
 

@@ -110,8 +110,8 @@ const leaveCommunity = async (req, res) => {
 };
 
 const sendRecent = async (req, res) => {
-  const { username } = req.body;
-  console.log(username);
+  const { username, number } = req.body;
+  console.log(username, number);
   let recent;
   try {
     if (username) {
@@ -130,6 +130,11 @@ const sendRecent = async (req, res) => {
                 },
               },
             },
+          },
+        },
+        {
+          $addFields: {
+            all: { $slice: ["$all", -5] },
           },
         },
       ]);
