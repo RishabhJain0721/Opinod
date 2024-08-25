@@ -22,14 +22,16 @@ import {
   faFlag,
 } from "@fortawesome/free-regular-svg-icons";
 import { formatDistanceToNow } from "date-fns";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const CommPostDetails = (props) => {
   const details = props.details;
   console.log(details);
 
-  const buffer = details.profilePic.buffer;
-  const mimetype = details.profilePic.mimetype;
-  const src = `data:${mimetype};base64,${buffer}`;
+  const base64Image = details.profilePic ? details.profilePic.buffer : "";
+  const imageType = details.profilePic ? details.profilePic.mimetype : "";
+
+  const src = `data:${imageType};base64,${base64Image}`;
 
   const dispatch = useDispatch();
 
@@ -106,7 +108,18 @@ const CommPostDetails = (props) => {
       <div className="flex items-center justify-center mb-2 text-gray-700 p-5 pb-0">
         {/* Image */}
         <div>
-          <img src={src} alt="News" className="w-7 h-7 rounded-full" />
+          {imageType ? (
+            <img
+              src={src}
+              alt="Profile"
+              className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              className="text-3xl mr-0 text-gray-800"
+            />
+          )}
         </div>
         <div className="text-sm md:text-base font-semibold ml-1">
           {details.author}
