@@ -11,12 +11,14 @@
       <input
         type="text"
         name="username"
+        id="username"
         placeholder="Enter your new Username"
         required
       />
       <input
         type="text"
         name="confirmUsername"
+        id="confirmUsername"
         placeholder="Confirm your new Username"
         required
       />
@@ -31,6 +33,17 @@
         console.log("Id:", id);
 
         const form = document.getElementById("resetForm");
+        const usernameInput = document.getElementById("username");
+        const confirmUsernameInput = document.getElementById("confirmUsername");
+
+        // Convert to lowercase as the user types
+        usernameInput.addEventListener("input", () => {
+          usernameInput.value = usernameInput.value.toLowerCase();
+        });
+
+        confirmUsernameInput.addEventListener("input", () => {
+          confirmUsernameInput.value = confirmUsernameInput.value.toLowerCase();
+        });
 
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
@@ -39,6 +52,10 @@
 
           if (formData.get("username") !== formData.get("confirmUsername")) {
             alert("Usernames are not matching");
+            return;
+          }
+          if (formData.get("username").includes(" ")) {
+            alert("Spaces are not allowed");
             return;
           }
 
@@ -61,7 +78,7 @@
             if (response.ok) {
               const result = await response.json();
               alert("Username reset successfully");
-              console.log("Username reset successful:", result);
+              window.location.href = "https://opinod.vercel.app/login";
             } else {
               alert("Error resetting Username");
               console.error("Error resetting Username:", response.statusText);

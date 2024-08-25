@@ -96,7 +96,6 @@ const sendMostReacted = async (username, res, skip, pageSize) => {
 
 const sendNews = async (req, res) => {
   const { categories } = req.body;
-  console.log(categories);
 
   let trending = [];
 
@@ -144,7 +143,6 @@ const sendNews = async (req, res) => {
 
   await enrichPostsWithTopComment(trending);
 
-  // console.log(trending);
   res.status(200).send({ trendingArticles: trending });
 };
 
@@ -156,7 +154,6 @@ const sendNewsDetails = async (req, res) => {
 
 const sendNewsByCategory = async (req, res) => {
   const { category, username, page } = req.body;
-  console.log(category, username, page);
   const pageSize = 9; // Number of posts per page
 
   // Calculate the number of posts to skip based on the page number
@@ -244,14 +241,12 @@ const sendUpdatedNews = async (req, res) => {
     }
     res.status(200).send(updatedNews);
   } catch (error) {
-    console.error("Error fetching updated news:", error);
     res.status(500).send("Failed to fetch updated news");
   }
 };
 
 const sendNextId = async (req, res) => {
   const { type, time, cat } = req.body;
-  console.log(type, time, cat);
   let nextId;
   try {
     if (Array.isArray(cat)) {
@@ -263,8 +258,6 @@ const sendNextId = async (req, res) => {
       nextId = await Post.find(query, { _id: 1 })
         .sort({ _id: type === "left" ? 1 : -1 })
         .limit(1);
-
-      console.log(nextId[0]._id);
     } else {
       const query = {
         publishedAt: type === "left" ? { $gt: time } : { $lt: time },
@@ -274,7 +267,6 @@ const sendNextId = async (req, res) => {
       nextId = await Post.find(query, { _id: 1 })
         .sort({ _id: type === "left" ? 1 : -1 })
         .limit(1);
-      console.log(nextId[0]._id);
     }
 
     res.status(200).send(nextId[0]._id);

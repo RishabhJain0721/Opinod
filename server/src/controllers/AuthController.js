@@ -28,12 +28,10 @@ const hashPassword = (pass) => {
 };
 
 const signup = async (req, res) => {
-  console.log(req.body);
   const { username, email, password } = req.body;
 
   // Check if the email is valid
   if (!isEmailValid(email)) {
-    console.log("Email domain does not exist or cannot receive emails.");
     return res.status(401).send({
       message: "Email domain does not exist or cannot receive emails.",
       errorName: "Invalid email",
@@ -43,7 +41,6 @@ const signup = async (req, res) => {
   // Check if a user with the same email already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    console.log("User already exists");
     return res.status(400).send({
       message: "User already exists. Please login.",
       errorName: "User already exists",
@@ -51,14 +48,11 @@ const signup = async (req, res) => {
   }
 
   const hashedPassword = hashPassword(password);
-  console.log("Password", hashedPassword);
 
   // Generate a verification token
   const verificationToken = jwt.sign({ email }, process.env.SECRET_KEY, {
     expiresIn: "1d", // Token expires in 1 day
   });
-
-  console.log(verificationToken);
 
   // Create a new user with the verification token
   const newUser = new User({
@@ -86,17 +80,14 @@ const signup = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { token } = req.query;
-  // console.log("Token is :", token);
 
   try {
     // Verify the token and find the user
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    // console.log("decoded", decoded);
     const user = await User.findOne({ email: decoded.email });
     if (user) {
       user.isVerified = true;
       await user.save();
-      console.log("User verified", user);
       res.status(200).send({
         message: "Email verification successful.",
         token: user.verificationToken,
@@ -116,7 +107,6 @@ const verifyEmail = async (req, res) => {
         .send({ message: "Invalid token. Email verification failed." });
     }
   } catch (error) {
-    console.error(error);
     res.status(500).send({ message: "Email verification failed." });
   }
 };
@@ -128,7 +118,6 @@ const login = async (req, res) => {
 
   if (!existingUser) {
     // No such user found
-    console.log("User does not exist");
     return res.status(400).send({
       message: "User does not exist. Please signup.",
       errorName: "User does not exist",
@@ -137,7 +126,6 @@ const login = async (req, res) => {
 
   if (!existingUser.isVerified) {
     // Unverified user
-    console.log("User is not verified");
     return res.status(400).send({
       message: "User is not verified. Please verify.",
       errorName: "User is not verified",
@@ -148,7 +136,6 @@ const login = async (req, res) => {
 
   if (!checkPassword) {
     // Incorrect password
-    console.log("Password is incorrect");
     return res.status(400).send({
       message: "Password is incorrect. Please try again.",
       errorName: "Password is incorrect",
@@ -156,8 +143,6 @@ const login = async (req, res) => {
   }
 
   // Login successful
-  console.log("Login successful");
-  // console.log(existingUser);
 
   const {
     password: pass,
@@ -166,8 +151,6 @@ const login = async (req, res) => {
     updatedAt,
     ...userWithoutExtraFields
   } = existingUser;
-
-  console.log(userWithoutExtraFields);
 
   res.status(200).send({
     message: "Login successful.",
@@ -202,14 +185,11 @@ const adminLogin = async (req, res) => {
 
 const forgotUsername = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
   try {
     const user = await User.findOne({ email });
 
     const serverUrl = process.env.SERVER_URL;
     const resetButtonLink = `${serverUrl}/api/auth/reset-username-page?id=${user._id}`;
-
-    console.log("Reset Button Link : ", resetButtonLink);
 
     const mailOptions = {
       from: process.env.ADMIN_EMAIL,
@@ -240,7 +220,6 @@ const forgotUsername = async (req, res) => {
 
 const resetUsernamePage = async (req, res) => {
   const { id } = req.query;
-  console.log(id);
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
@@ -287,7 +266,7 @@ const resetUsername = async (req, res) => {
     // const result = await Recent.findOne(filter);
     // const result = await Recent.findOneAndUpdate(filter, update, options);
 
-    const result = await Recent.updateOne(
+    await Recent.updateOne(
       {},
       {
         $set: {
@@ -298,8 +277,18 @@ const resetUsername = async (req, res) => {
         arrayFilters: [{ "elem.author": user.username }],
       }
     );
+    await Recent.updateOne(
+      {},
+      {
+        $set: {
+          "all.$[elem].username": username,
+        },
+      },
+      {
+        arrayFilters: [{ "elem.username": user.username }],
+      }
+    );
 
-    console.log(result);
     if (user) {
       user.username = username;
       await user.save();
@@ -318,7 +307,6 @@ const resetUsername = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
   try {
     const user = await User.findOne({
       email,
@@ -326,8 +314,6 @@ const forgotPassword = async (req, res) => {
 
     const serverUrl = process.env.SERVER_URL;
     const resetButtonLink = `${serverUrl}/api/auth/reset-password-page?id=${user._id}`;
-
-    console.log("Reset Button Link : ", resetButtonLink);
 
     const mailOptions = {
       from: process.env.ADMIN_EMAIL,
@@ -358,7 +344,6 @@ const forgotPassword = async (req, res) => {
 
 const resetPasswordPage = async (req, res) => {
   const { id } = req.query;
-  console.log(id);
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);

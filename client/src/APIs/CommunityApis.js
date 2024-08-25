@@ -12,6 +12,15 @@ export const getCommunities = async () => {
   }
 };
 
+export const getHomeCommunities = async () => {
+  try {
+    const response = await axios.get("/api/community/home");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCommunityData = async (id) => {
   try {
     const response = await axios.post("/api/community/individual", { id });

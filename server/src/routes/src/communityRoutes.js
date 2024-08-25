@@ -1,6 +1,7 @@
 import express from "express";
 import {
   sendCommunities,
+  sendHomeCommunities,
   sendCommunityData,
   sendTopPosts,
   sendCommunityPosts,
@@ -16,6 +17,7 @@ import {
 const router = express.Router();
 
 router.get("/", sendCommunities);
+router.get("/home", sendHomeCommunities);
 router.post("/individual", sendCommunityData);
 router.post("/subcategory", sendTopPosts);
 router.post("/communityPosts", sendCommunityPosts);

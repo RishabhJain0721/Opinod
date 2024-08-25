@@ -4,7 +4,6 @@ import User from "../models/User.js";
 
 const search = async (req, res) => {
   const { searchText } = req.body;
-  console.log(searchText);
   try {
     const posts = await Post.find(
       { title: { $regex: searchText, $options: "i" } } // 'i' makes the search case-insensitive
@@ -21,8 +20,6 @@ const search = async (req, res) => {
       ).lean();
       post.profilePicture = pp.profilePicture;
     }
-
-    console.log(communityPosts);
 
     res.send({ posts, communityPosts });
   } catch (error) {

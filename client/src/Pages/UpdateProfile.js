@@ -16,10 +16,6 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState(user.email);
   const [description, setDescription] = useState(user.description);
   const [image, setImage] = useState(user.profilePicture);
-  const [instagram, setInstagram] = useState(user.instagram);
-  const [reddit, setReddit] = useState(user.reddit);
-  const [linkedin, setLinkedin] = useState(user.linkedin);
-  const [twitter, setTwitter] = useState(user.twitter);
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,10 +46,6 @@ const UpdateProfile = () => {
     const formData = new FormData();
     formData.append("username", username);
     formData.append("description", description);
-    formData.append("instagram", instagram);
-    formData.append("reddit", reddit);
-    formData.append("linkedin", linkedin);
-    formData.append("twitter", twitter);
     if (image) {
       formData.append("image", image);
     }
@@ -73,10 +65,6 @@ const UpdateProfile = () => {
         res.dislikedPosts,
         res.likedComments,
         res.dislikedComments,
-        res.instagram,
-        res.reddit,
-        res.linkedin,
-        res.twitter,
         res.points
       )
     );
@@ -157,71 +145,6 @@ const UpdateProfile = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="instagram"
-                >
-                  Instagram Link
-                </label>
-                <input
-                  type="url"
-                  name="instagram"
-                  id="instagram"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="reddit"
-                >
-                  Reddit Link
-                </label>
-                <input
-                  type="url"
-                  name="reddit"
-                  id="reddit"
-                  value={reddit}
-                  onChange={(e) => setReddit(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="linkedin"
-                >
-                  LinkedIn Link
-                </label>
-                <input
-                  type="url"
-                  name="linkedin"
-                  id="linkedin"
-                  value={linkedin}
-                  onChange={(e) => setLinkedin(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="twitter"
-                >
-                  Twitter Link
-                </label>
-                <input
-                  type="url"
-                  name="twitter"
-                  id="twitter"
-                  value={twitter}
-                  onChange={(e) => setTwitter(e.target.value)}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-
               <div className="flex justify-start space-x-4">
                 <button
                   type="submit"

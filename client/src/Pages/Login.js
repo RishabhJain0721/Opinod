@@ -52,10 +52,6 @@ const Login = () => {
           res.dislikedPosts,
           res.likedComments,
           res.dislikedComments,
-          res.instagram,
-          res.reddit,
-          res.linkedin,
-          res.twitter,
           res.points,
           res.followers,
           res.following

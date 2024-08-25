@@ -205,6 +205,11 @@ const CommunitiesIndividual = () => {
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
+                {topPosts.length === 0 && (
+                  <div className=" text-xs md:text-sm text-gray-500 ml-auto mr-auto p-4">
+                    No posts to display in this community
+                  </div>
+                )}
               </div>
 
               <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
@@ -238,7 +243,7 @@ const CommunitiesIndividual = () => {
                       onChange={(e) => setTitle(e.target.value)}
                       value={title}
                       placeholder="Write a title for your post"
-                      className="text-base text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
+                      className="text-sm md:text-base text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
                     {/* Write a description */}
                     <textarea
@@ -246,7 +251,7 @@ const CommunitiesIndividual = () => {
                       onChange={(e) => setDescription(e.target.value)}
                       value={description}
                       placeholder="Add description"
-                      className="text-xl h-20 text-gray-800 focus:outline-none ml-1 w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
+                      className="text-base md:text-xl min-h-48 text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
                     />
                   </div>
 

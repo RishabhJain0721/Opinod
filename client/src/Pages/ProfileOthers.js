@@ -15,6 +15,8 @@ import UserPostCard from "../Components/UserPostCard";
 import UserComment from "../Components/UserComment";
 import { toast } from "react-toastify";
 import { follow, unfollow } from "../Actions/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileOthers = () => {
   const dispatch = useDispatch();
@@ -172,11 +174,18 @@ const ProfileOthers = () => {
             <div className="bg-white p-4 md:p-4 md:m-4 h-fit">
               {/* First Row: Profile pic, Followers, Following, Category */}
               <div className="flex items-center justify-start mb-2 md:mb-4">
-                <img
-                  src={`data:${imageType};base64,${base64Image}`}
-                  alt="Profile"
-                  className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
-                />
+                {imageType ? (
+                  <img
+                    src={`data:${imageType};base64,${base64Image}`}
+                    alt="Profile"
+                    className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faCircleUser}
+                    className="text-6xl mr-4 text-gray-800"
+                  />
+                )}
                 <div className="flex flex-col text-center ml-2 md:ml-5">
                   <span className="text-lg md:text-xl font-semibold">
                     {user.followers ? user.followers.length : 0}
@@ -208,7 +217,13 @@ const ProfileOthers = () => {
 
               {/* Fourth Row: Description */}
               <div className="text-gray-600 text-sm md:text-base">
-                {user.description}
+                {user.description !== "undefined" ? (
+                  user.description
+                ) : (
+                  <div className="italic text-gray-400">
+                    No description added
+                  </div>
+                )}
               </div>
 
               {/* Follow button */}
@@ -268,6 +283,11 @@ const ProfileOthers = () => {
               {posts.map((post, index) => {
                 return <UserPostCard key={index} post={post} />;
               })}
+              {posts.length === 0 && (
+                <div className=" ml-auto mr-auto text-gray-500 italic mt-10">
+                  No posts available
+                </div>
+              )}
             </div>
           )
         )}
@@ -291,6 +311,11 @@ const ProfileOthers = () => {
               {comments.map((comment, index) => {
                 return <UserComment key={index} opinion={comment} />;
               })}
+              {comments.length === 0 && (
+                <div className=" ml-auto mr-auto text-gray-500 italic mt-10">
+                  No comments available
+                </div>
+              )}
             </div>
           )
         )}

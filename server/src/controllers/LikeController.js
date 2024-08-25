@@ -22,7 +22,6 @@ const addLike = async (req, res) => {
 
 const removeLike = async (req, res) => {
   const { username, postId } = req.body;
-  console.log(req.body);
 
   try {
     const user = await User.findOne({ username }, { likedPosts: 1, points: 1 });
@@ -60,7 +59,6 @@ const addCommentLike = async (req, res) => {
 
 const removeCommentLike = async (req, res) => {
   const { username, commentId } = req.body;
-  console.log(req.body);
   try {
     const user = await User.findOne(
       { username },

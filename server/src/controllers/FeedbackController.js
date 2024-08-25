@@ -10,7 +10,6 @@ const sendFeedbacks = async (req, res) => {
 };
 
 const addFeedback = async (req, res) => {
-  console.log(req.body);
   const { feedbackText, username } = req.body;
 
   try {

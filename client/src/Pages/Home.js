@@ -5,19 +5,17 @@ import Navbar from "../Components/Navbar";
 import MobileSearch from "../Components/MobileSearch";
 import Card from "../Components/Card";
 import OpinionCard from "../Components/OpinionCard";
-import CommunityCardShort from "../Components/CommunityCardShort";
 import { getNews } from "../APIs/NewsApis";
 import { getPopularOpinions } from "../APIs/CommentApis";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCategory } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
-import { getCommunities } from "../APIs/CommunityApis";
+import { getHomeCommunities } from "../APIs/CommunityApis";
 import { getRecent } from "../APIs/UserDetailsApis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
-import CommunityCard from "../Components/CommunityCard";
 import HomeCommCard from "../Components/HomeCommCard";
 
 const Home = () => {
@@ -66,7 +64,7 @@ const Home = () => {
   const fetchCommunities = async () => {
     try {
       setCommunitiesLoading(true);
-      const res = await getCommunities();
+      const res = await getHomeCommunities();
       console.log(res);
       setTopCommunities(res.communities);
     } catch (error) {
@@ -301,9 +299,9 @@ const Home = () => {
                     key={community._id}
                     id={community._id}
                     name={community.name}
-                    description={community.description}
-                    image={community.image}
                     subscribers={community.subscriberCount}
+                    posts={community.postCount}
+                    topPostTitle={community.topPostTitle}
                   />
                 ))}
               </div>

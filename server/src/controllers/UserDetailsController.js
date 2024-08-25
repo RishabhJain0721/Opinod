@@ -31,7 +31,6 @@ const addCategories = async (req, res) => {
 const updateProfile = async (req, res) => {
   upload.single("image")(req, res, async (err) => {
     if (err) {
-      console.log(err);
       return res.status(400).send({ message: "Image upload failed." });
     }
 
@@ -67,7 +66,6 @@ const updateProfile = async (req, res) => {
         ...userWithoutExtraFields,
       });
     } catch (error) {
-      console.error("Error updating profile:", error);
       res.status(500).send({ message: "Internal server error." });
     }
   });
@@ -111,7 +109,6 @@ const leaveCommunity = async (req, res) => {
 
 const sendRecent = async (req, res) => {
   const { username, number } = req.body;
-  console.log(username, number);
   let recent;
   try {
     if (username) {
@@ -140,8 +137,6 @@ const sendRecent = async (req, res) => {
       ]);
       recent = array[0];
     } else recent = await Recent.findOne({}, { all: { $slice: -5 } });
-
-    console.log(recent.all);
 
     for (const item of recent.all) {
       if (item.type === "comment") {
@@ -242,7 +237,6 @@ const unfollowUser = async (req, res) => {
 
 const sendBadges = async (req, res) => {
   const { username } = req.body;
-  console.log(username);
   try {
     const user = await User.findOne({ username }, { badges: 1 });
     res.status(200).send(user.badges);
@@ -253,7 +247,6 @@ const sendBadges = async (req, res) => {
 
 const updateBadges = async (req, res) => {
   const { achievements, username } = req.body;
-  console.log(achievements, username);
   try {
     const user = await User.findOne({ username }, { badges: 1 });
     user.badges = achievements;

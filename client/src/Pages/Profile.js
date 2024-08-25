@@ -13,7 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // } from "@fortawesome/free-brands-svg-icons";
 import { getUserDetails } from "../APIs/UserDetailsApis";
 import { logout } from "../Actions/actions";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleUser,
+  faFilter,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import {
   calculateAchievements,
@@ -39,14 +43,20 @@ const ProfilePage = () => {
   const [isLevel, setIsLevel] = useState(false);
   const [recentLoading, setRecentLoading] = useState(false);
 
-  const [base64Image, setBase64Image] = useState(user.profilePicture.buffer);
-  const [imageType, setImageType] = useState(user.profilePicture.mimetype);
+  const [base64Image, setBase64Image] = useState(
+    user.profilePicture ? user.profilePicture.buffer : ""
+  );
+  const [imageType, setImageType] = useState(
+    user.profilePicture ? user.profilePicture.mimetype : ""
+  );
 
   const fetchUser = async () => {
     try {
       const res = await getUserDetails(user.username);
-      setBase64Image(res.profilePicture.buffer);
-      setImageType(res.profilePicture.mimetype);
+      if (res.profilePicture) {
+        setBase64Image(res.profilePicture.buffer);
+        setImageType(res.profilePicture.mimetype);
+      }
       setFollowers(res.followers);
       setFollowing(res.following);
     } catch (error) {
@@ -59,7 +69,6 @@ const ProfilePage = () => {
       setIsAchievementsList(false);
       const res = await calculateAchievements(user.username);
       setAchievements(res);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {
@@ -72,7 +81,6 @@ const ProfilePage = () => {
       setIsLevel(false);
       const res = await calculateLevel(user.username);
       setLevel(res);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {
@@ -84,7 +92,6 @@ const ProfilePage = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username, 5);
-      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {
@@ -118,13 +125,11 @@ const ProfilePage = () => {
       const a = recents.filter((ele) => {
         return ele.type === "post";
       });
-      console.log(a);
       setRecent(a);
     } else if (filter === "Opinions") {
       const a = recents.filter((ele) => {
         return ele.type === "comment" || ele.type === "communityComment";
       });
-      console.log(a);
       setRecent(a);
     }
   }, [filter]);
@@ -152,11 +157,18 @@ const ProfilePage = () => {
           <div className="bg-white pt-4 md:p-4 md:m-4 h-fit">
             {/* First Row: Profile pic, Followers, Following, Category */}
             <div className="flex items-center justify-start mb-2 md:mb-4">
-              <img
-                src={`data:${imageType};base64,${base64Image}`}
-                alt="Profile"
-                className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
-              />
+              {imageType ? (
+                <img
+                  src={`data:${imageType};base64,${base64Image}`}
+                  alt="Profile"
+                  className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  className="text-6xl mr-4 text-gray-800"
+                />
+              )}
               <div className="flex flex-col text-center ml-2 md:ml-5">
                 <span className="text-base md:text-xl font-semibold">
                   {followers ? followers.length : 0}
@@ -204,7 +216,11 @@ const ProfilePage = () => {
 
             {/* Fourth Row: Description */}
             <div className="text-gray-600 text-sm md:text-base">
-              {user.description}
+              {user.description !== "undefined" ? (
+                user.description
+              ) : (
+                <div className="italic text-gray-400">No description added</div>
+              )}
             </div>
 
             {isLevel && <BadgeCard info={level} />}

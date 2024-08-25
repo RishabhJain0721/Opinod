@@ -6,9 +6,10 @@ import { updateCommunities, updateRemoveCommunity } from "../Actions/actions";
 import { ThreeDots } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-const HomeCommCard = ({ id, name, description, image, subscribers }) => {
+const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const username = useSelector((state) => state.user.username);
   const joinedCommunitiesStore = useSelector(
     (state) => state.user.joinedCommunities
@@ -61,7 +62,7 @@ const HomeCommCard = ({ id, name, description, image, subscribers }) => {
   );
 
   return (
-    <div className=" h-52 md:h-40 w-5/12 md:w-64 border border-gray-300 rounded-xl mb-2 m-2 cursor-pointer">
+    <div className="h-44 w-5/12 md:w-64 border border-blue-300 rounded-xl mb-2 mr-6 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex mb-2 h-28">
         {/* <img
@@ -70,19 +71,21 @@ const HomeCommCard = ({ id, name, description, image, subscribers }) => {
           className="h-16 w-16 rounded-md mr-2"
           onClick={handleGoToCommunity}
         /> */}
-        <div className="flex flex-col items-center justify-around">
-          <div className="m-3" onClick={handleGoToCommunity}>
+        <div className="flex flex-col items-center justify-around w-full">
+          <div className="m-3 w-full" onClick={handleGoToCommunity}>
             {/* Title */}
-            <div className="text-base font-medium text-gray-700 mb-1 border-b border-gray-300 pb-1">
+            <div className="text-base font-medium text-gray-700 mb-1 pb-1 px-3">
               {name}
             </div>
+            <hr className="h-px border-0 dark:bg-blue-300 " />
 
-            <div className="text-xs flex justify-between text-gray-700 mt-1 ">
-              {description.length > 60
-                ? description.slice(0, 60) + "..."
-                : description}
+            <div className="text-base  md:text-xl font-medium flex justify-between text-gray-700 mt-1 px-3">
+              {String(topPostTitle).length > 10
+                ? String(topPostTitle).slice(0, 10) + "..."
+                : topPostTitle}
             </div>
-            <div className="text-xs text-blue-500 mt-2">
+            <div className="text-xs text-gray-500 mt-2 px-3">{posts} posts</div>
+            <div className="text-xs text-gray-500 mt-2 px-3">
               {subscribers} subscribers
             </div>
           </div>
@@ -115,7 +118,7 @@ const HomeCommCard = ({ id, name, description, image, subscribers }) => {
                     <ThreeDots height="10" width="20" radius="1" color="#fff" />
                   </div>
                 ) : (
-                  "Join"
+                  "Join Conversation"
                 )}
               </button>
             )}

@@ -6,7 +6,6 @@ import Recent from "../models/Recent.js";
 
 const addTopComment = async (req, res) => {
   const { postId, text, image, author } = req.body;
-  console.log(image, text);
 
   // Updating the comment in comments collection
   const newComment = new Comment({
@@ -149,11 +148,9 @@ const addCommunityReply = async (req, res) => {
 
 const sendTopComments = async (req, res) => {
   const { numberOfOpinions, page } = req.body;
-  console.log(numberOfOpinions, page);
 
   // Calculate the number of posts to skip based on the page number
   const skip = (page - 1) * numberOfOpinions;
-  console.log(skip);
 
   try {
     const topComments = await Comment.aggregate([
@@ -178,8 +175,6 @@ const sendTopComments = async (req, res) => {
         $limit: numberOfOpinions,
       },
     ]).exec();
-
-    topComments.forEach((comment) => console.log(comment._id));
 
     //Adding post data to top comments
     for (let i = 0; i < topComments.length; i++) {
@@ -247,11 +242,9 @@ const sendCommentAndReplies = async (req, res) => {
 
 const reportComment = async (req, res) => {
   const { commentId } = req.body;
-  console.log(commentId);
 
   try {
     const a = await Comment.findByIdAndUpdate(commentId, { reported: true });
-    console.log(a);
     res.send({ message: "Comment reported successfully" });
   } catch (error) {
     res.status(404).send({ message: "Comment not found", error });
@@ -269,12 +262,9 @@ const sendReportedComments = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   const { commentId } = req.body;
-  console.log(commentId);
 
   try {
-    const comment = await Comment.deleteOne({ _id: commentId });
-    console.log(comment);
-    // const parentComment = await Comment.findById(comment.parentId);
+    await Comment.deleteOne({ _id: commentId });
     res.status(200).send({ message: "Comment deleted successfully" });
   } catch (error) {
     res.status(404).send({ message: "Comment not found", error });
