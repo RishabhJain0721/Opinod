@@ -38,7 +38,7 @@ const Login = () => {
     setIsLoading(true); // Start loading
     try {
       const res = await login({ username, password });
-      console.log("Response : ", res.message);
+      console.log("Response : ", res);
       dispatch(
         loginToStore(
           res.token,

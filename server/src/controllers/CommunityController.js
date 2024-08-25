@@ -239,10 +239,13 @@ const sendPostDetails = async (req, res) => {
 
 const sendPostComments = async (req, res) => {
   const { id } = req.body;
+  console.log(id);
   try {
     const post = await CommunityPost.findById(id);
     const postComments = post.comments;
+    console.log(post.comments);
     const comments = await Comment.find({ _id: { $in: postComments } }).lean();
+    console.log(comments);
 
     for (const comment of comments) {
       const author = await User.findOne(
