@@ -293,7 +293,7 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start mx-5 md:ml-10">
+              <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10">
                 {topCommunities.slice(0, isMobile ? 2 : 4).map((community) => (
                   <HomeCommCard
                     key={community._id}

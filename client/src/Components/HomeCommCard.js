@@ -11,9 +11,9 @@ const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
   const navigate = useNavigate();
 
   const username = useSelector((state) => state.user.username);
-  const joinedCommunitiesStore = useSelector(
-    (state) => state.user.joinedCommunities
-  );
+  // const joinedCommunitiesStore = useSelector(
+  //   (state) => state.user.joinedCommunities
+  // );
   const [loading, setLoading] = useState(false);
 
   const handleGoToCommunity = () => {
@@ -62,7 +62,7 @@ const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
   );
 
   return (
-    <div className="h-44 w-5/12 md:w-64 border border-blue-300 rounded-xl mb-2 mr-6 cursor-pointer">
+    <div className="h-40 md:h-44 w-36 md:w-64 border border-blue-300 rounded-xl mb-2 md:mr-6 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex mb-2 h-28">
         {/* <img
@@ -74,25 +74,25 @@ const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
         <div className="flex flex-col items-center justify-around w-full">
           <div className="m-3 w-full" onClick={handleGoToCommunity}>
             {/* Title */}
-            <div className="text-base font-medium text-gray-700 mb-1 pb-1 px-3">
+            <div className="text-base font-semibold text-gray-900 pb-1 px-2">
               {name}
             </div>
             <hr className="h-px border-0 dark:bg-blue-300 " />
 
-            <div className="text-base  md:text-xl font-medium flex justify-between text-gray-700 mt-1 px-3">
+            <div className="text-base  md:text-xl font-medium flex justify-between text-gray-900 mt-1 px-2">
               {String(topPostTitle).length > 10
                 ? String(topPostTitle).slice(0, 10) + "..."
                 : topPostTitle}
             </div>
-            <div className="text-xs text-gray-500 mt-2 px-3">{posts} posts</div>
-            <div className="text-xs text-gray-500 mt-2 px-3">
+            <div className="text-xs text-gray-500 px-2">{posts} posts</div>
+            <div className="text-xs text-gray-500 px-2">
               {subscribers} subscribers
             </div>
           </div>
-          <div className="flex w-4/5 justify-end">
-            {joinedCommunitiesStore.includes(id) ? (
+          <div className="flex w-full justify-end mt-1">
+            {/* {joinedCommunitiesStore.includes(id) ? (
               <button
-                className="text-center text-blue-500 border border-blue-500 rounded-l-full rounded-r-full text-sm py-0.5 w-full px-2"
+                className="text-center text-blue-500 border border-blue-500 rounded-l-full rounded-r-full text-xs md:text-sm py-1 w-full px-2 mx-3"
                 onClick={handleLeaveCommunity}
               >
                 {loading ? (
@@ -108,20 +108,21 @@ const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
                   "Joined"
                 )}
               </button>
-            ) : (
-              <button
-                className="text-center bg-blue-500 text-white rounded-l-full rounded-r-full text-sm py-0.5 w-full px-2"
-                onClick={handleJoinCommunity}
-              >
-                {loading ? (
-                  <div className="p-1 flex items-center justify-center">
-                    <ThreeDots height="10" width="20" radius="1" color="#fff" />
-                  </div>
-                ) : (
-                  "Join Conversation"
-                )}
-              </button>
-            )}
+            ) : ( */}
+            <button
+              className="text-center bg-blue-500 text-white rounded-l-full rounded-r-full text-xs md:text-sm py-1.5 w-full px-2 mx-2"
+              // onClick={handleJoinCommunity}
+              onClick={handleGoToCommunity}
+            >
+              {loading ? (
+                <div className="p-1 flex items-center justify-center">
+                  <ThreeDots height="10" width="20" radius="1" color="#fff" />
+                </div>
+              ) : (
+                "Join Conversation"
+              )}
+            </button>
+            {/* )} */}
           </div>
         </div>
       </div>

@@ -251,7 +251,7 @@ const Topbar = () => {
             <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
               <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
               <div className="text-xs text-gray-500 ml-3 md:ml-0">
-                Share Learn Grow
+                Engage Learn Grow
               </div>
             </h1>
           )}
@@ -259,7 +259,7 @@ const Topbar = () => {
             <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
               <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
               <div className="text-xs text-gray-500 ml-3 md:ml-0">
-                Share Learn Grow
+                Engage Learn Grow
               </div>
             </h1>
           )}
@@ -286,7 +286,7 @@ const Topbar = () => {
             <div className="md:w-1/4 flex">
               <input
                 type="text"
-                className=" w-52 text-xs px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                className="w-52 text-xs pl-3 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
                 placeholder="Search news/community posts"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
