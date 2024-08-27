@@ -73,6 +73,11 @@ const SubcategoryIndividual = () => {
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
+                {topPosts.length === 0 && (
+                  <div className="ml-auto mr-auto mt-8 italic text-gray-600 text-sm md:text-base">
+                    No posts to show here
+                  </div>
+                )}
               </div>
             </>
           )}

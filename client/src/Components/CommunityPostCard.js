@@ -23,6 +23,7 @@ import {
   dislikeRemove,
 } from "../Actions/actions.js";
 import { toast } from "react-toastify";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const CommunityPostCard = (props) => {
   const {
@@ -37,8 +38,12 @@ const CommunityPostCard = (props) => {
     downvotes,
   } = props.post;
   const navigate = useNavigate();
-  const base64Image = profilePicture.buffer;
-  const imageType = profilePicture.mimetype;
+
+  let base64Image, imageType;
+  if (profilePicture) {
+    base64Image = profilePicture.buffer;
+    imageType = profilePicture.mimetype;
+  }
   const src = `data:${imageType};base64,${base64Image}`;
 
   const dispatch = useDispatch();
@@ -155,11 +160,18 @@ const CommunityPostCard = (props) => {
             : toast.info("Please login to view more");
         }}
       >
-        <img
-          src={src}
-          alt={`${author}'s profile`}
-          className="w-7 h-7 rounded-full mr-2"
-        />
+        {imageType ? (
+          <img
+            src={src}
+            alt={`${author}'s profile`}
+            className="w-7 h-7 rounded-full mr-2"
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faCircleUser}
+            className="text-2xl mr-2 text-gray-800"
+          />
+        )}
         <div className="flex justify-between w-full pr-0">
           <p className=" font-medium text-xs">{author}</p>
           <p className="text-xs text-gray-500">

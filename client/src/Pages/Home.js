@@ -431,7 +431,7 @@ const Home = () => {
                           />
                           <span
                             className="text-gray-800 font-medium"
-                            onClick={() => navigate(`/profile/${ele.author}`)}
+                            onClick={() => navigate(`/profile/${ele.username}`)}
                           >
                             {ele.username}
                           </span>{" "}

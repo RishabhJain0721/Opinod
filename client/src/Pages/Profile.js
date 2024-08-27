@@ -92,6 +92,7 @@ const ProfilePage = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username, 5);
+      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {
@@ -294,7 +295,9 @@ const ProfilePage = () => {
                 recent.slice(0, 5).map((ele, index) => {
                   if (
                     ele.type === "comment" ||
-                    ele.type === "communityComment"
+                    ele.type === "communityComment" ||
+                    ele.type === "reply" ||
+                    ele.type === "communityReply"
                   ) {
                     return (
                       <div key={index}>
@@ -313,35 +316,8 @@ const ProfilePage = () => {
                           }}
                           className="text-blue-500 cursor-pointer"
                         >
-                          this
-                        </span>{" "}
-                        post
-                      </div>
-                    );
-                  } else if (
-                    ele.type === "reply" ||
-                    ele.type === "communityReply"
-                  ) {
-                    return (
-                      <div key={index}>
-                        <FontAwesomeIcon
-                          icon={faSquare}
-                          className="  mr-2  text-blue-500"
-                        />
-                        Replied to{" "}
-                        <span
-                          onClick={() => {
-                            if (ele.type === "reply") {
-                              navigate(`/details/${ele.postId}`);
-                            } else if (ele.type === "communityReply") {
-                              navigate(`/cpostdetails/${ele.postId}`);
-                            }
-                          }}
-                          className="text-blue-500 cursor-pointer"
-                        >
-                          this
-                        </span>{" "}
-                        post
+                          {ele.title}
+                        </span>
                       </div>
                     );
                   } else if (ele.type === "post") {
@@ -383,7 +359,8 @@ const ProfilePage = () => {
             {isAchievementsList ? (
               <div className="flex flex-col text-gray-700 text-sm">
                 {Object.entries(achievements)
-                  .slice(0, 3)
+                  .filter(([key, value]) => value.Message === true)
+                  .slice(0, 2)
                   .map(([key, value]) => {
                     return (
                       <div key={key}>

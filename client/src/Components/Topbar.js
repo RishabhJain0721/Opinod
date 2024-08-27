@@ -301,10 +301,10 @@ const Topbar = () => {
           )}
 
           {!isMobile && (
-            <div className="md:w-1/4 flex">
+            <div className=" flex">
               <input
                 type="text"
-                className=" w-52 md:w-auto text-sm md:text-sm px-4 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                className=" w-52 text-xs pl-3 pr-2 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
                 placeholder="Search news/community posts"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}

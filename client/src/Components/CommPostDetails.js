@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThreeDots } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,6 +26,7 @@ import { formatDistanceToNow } from "date-fns";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const CommPostDetails = (props) => {
+  const navigate = useNavigate();
   const details = props.details;
   console.log(details);
 
@@ -107,7 +109,7 @@ const CommPostDetails = (props) => {
       {/* Profile photo and name */}
       <div className="flex items-center justify-center mb-2 text-gray-700 p-5 pb-0">
         {/* Image */}
-        <div>
+        <div onClick={() => navigate(`/profile/${details.author}`)}>
           {imageType ? (
             <img
               src={src}
@@ -121,7 +123,10 @@ const CommPostDetails = (props) => {
             />
           )}
         </div>
-        <div className="text-sm md:text-base font-semibold ml-1">
+        <div
+          className="text-sm md:text-base font-semibold ml-1"
+          onClick={() => navigate(`/profile/${details.author}`)}
+        >
           {details.author}
         </div>
         <div className="ml-auto text-xs md:text-sm text-gray-500 flex items-center">

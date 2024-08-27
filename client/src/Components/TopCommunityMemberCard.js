@@ -30,7 +30,7 @@ const TopCommunityMemberCard = (props) => {
                 </div>
               </div>
               <div className="flex-grow">
-                <div className="font-medium text-gray-500 text-start">
+                <div className="text-sm font-medium text-gray-500 text-start">
                   Top {community} Member
                 </div>
                 <div className="flex items-center text-right">
@@ -50,7 +50,7 @@ const TopCommunityMemberCard = (props) => {
                   </div>
                 </div>
                 <div className="text-xs text-gray-500 mt-1 text-start">
-                  Tap to view achievement info
+                  Tap to view info
                 </div>
               </div>
             </div>
