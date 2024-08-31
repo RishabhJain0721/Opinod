@@ -254,20 +254,30 @@ const Card = ({
   };
 
   return (
-    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mt-1 md:mt-3 mb-0 cursor-pointer">
+    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-72 2xl:w-96 max-w-md duration-150 h-fit md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mt-1 md:mt-3 mb-0 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex items-center mb-1" onClick={handleClick}>
         <img
           src={profilePhoto}
           alt="Main"
-          className="h-20 w-20 rounded-lg mr-2"
+          className="h-20 w-20 md:h-16 md:w-16 rounded-lg mr-2"
         />
         <div className=" w-full justify-between">
           {/* <div className=" text-xs text-gray-500">{cat}</div> */}
           {/* Title */}
-          <div className="text-sm md:text-base font-medium text-gray-700 mb-1 leading-relaxed">
-            {title.length > 50 ? title.slice(0, 50) + "..." : title}
+          <div className="text-sm font-medium text-gray-700 mb-1 leading-relaxed">
+            {window.innerWidth >= 1350
+              ? title.length > 50
+                ? title.slice(0, 50) + "..."
+                : title
+              : window.innerWidth >= 768
+                ? title.length > 40
+                  ? title.slice(0, 40) + "..."
+                  : title
+
+                : title}
           </div>
+
 
           <div className="text-xs flex justify-between font-semibold text-gray-700 ">
             {name.length > 15 ? name.slice(0, 15) + "..." : name}
@@ -308,9 +318,8 @@ const Card = ({
               />
             ) : (
               <button
-                className={`text-xs text-gray-500 flex items-center ${
-                  isLiked ? "text-green-500" : ""
-                }`}
+                className={`text-xs text-gray-500 flex items-center ${isLiked ? "text-green-500" : ""
+                  }`}
                 onClick={handleToggleLike}
                 disabled={dislikeToggle}
               >
@@ -331,9 +340,8 @@ const Card = ({
               />
             ) : (
               <button
-                className={`text-xs text-gray-500 flex items-center ${
-                  isDisliked ? "text-red-500" : ""
-                }`}
+                className={`text-xs text-gray-500 flex items-center ${isDisliked ? "text-red-500" : ""
+                  }`}
                 onClick={handleToggleDislike}
                 disabled={likeToggle}
               >
@@ -352,15 +360,7 @@ const Card = ({
           <div className="border-b-2 border-gray-200 mb-2"></div>
           {/* Opinion */}
           {opinion ? (
-            <div
-              className="flex items-start flex-col mb-2"
-              // onClick={() => {
-              //   if (!username) {
-              // alert("Pease login first");
-              //     return;
-              //   }
-              // }}
-            >
+            <div className="flex items-start flex-col mb-2 h-16">
               <div className="flex items-center w-full">
                 <img
                   src={opinionAuthorPhoto}
@@ -373,7 +373,7 @@ const Card = ({
                   }}
                 />
                 <div
-                  className="text-sm font-medium text-gray-700 flex-grow"
+                  className="text-xs font-medium text-gray-700 flex-grow"
                   onClick={() => {
                     username
                       ? navigate(`/profile/${opinionAuthorName}`)
@@ -394,8 +394,20 @@ const Card = ({
                 </div>
               </div>
               <div className="flex items-start flex-col w-full">
-                <div className="mt-2 mb-1 text-gray-600" onClick={handleClick}>
-                  {opinion.length > 50 ? opinion.slice(0, 50) + "..." : opinion}
+                <div
+                  className="mt-1 mb-1 text-sm text-gray-600"
+                  onClick={handleClick}
+                >
+                  {window.innerWidth >= 1350
+                    ? opinion.length > 35
+                      ? opinion.slice(0, 35) + "..."
+                      : opinion
+                    : window.innerWidth >= 1250
+                      ? opinion.length > 25
+                        ? opinion.slice(0, 25) + "..." : opinion
+                      : opinion
+
+                  }
                 </div>
                 <div className="flex justify-between items-center w-full">
                   {commentLikeToggle ? (
@@ -411,9 +423,8 @@ const Card = ({
                     />
                   ) : (
                     <button
-                      className={`text-xs text-gray-500 flex items-center ${
-                        isCommentLiked ? "text-green-500" : ""
-                      }`}
+                      className={`text-xs text-gray-500 flex items-center ${isCommentLiked ? "text-green-500" : ""
+                        }`}
                       onClick={handleToggleCommentLike}
                       disabled={commentDislikeToggle}
                     >
@@ -434,9 +445,8 @@ const Card = ({
                     />
                   ) : (
                     <button
-                      className={`text-xs text-gray-500 flex items-center ${
-                        isCommentDisliked ? "text-red-500" : ""
-                      }`}
+                      className={`text-xs text-gray-500 flex items-center ${isCommentDisliked ? "text-red-500" : ""
+                        }`}
                       onClick={handleToggleCommentDislike}
                       disabled={commentLikeToggle}
                     >
@@ -455,10 +465,10 @@ const Card = ({
             </div>
           ) : (
             <div
-              className="flex items-center flex-row justify-between h-20 m-1"
+              className="flex items-center flex-row justify-between h-16 m-1"
               onClick={handleClick}
             >
-              <div className="text-gray-600">
+              <div className="text-gray-600 text-sm">
                 No opinions yet. Be the first.
               </div>
               <FontAwesomeIcon icon={faArrowRight} className="mr-2" />

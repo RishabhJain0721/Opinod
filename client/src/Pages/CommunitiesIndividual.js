@@ -111,7 +111,7 @@ const CommunitiesIndividual = () => {
       toast.success("Feedback submitted successfully");
       setFeedbackText("");
       setIsModalOpen(false);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleViewPosts = () => {
@@ -243,15 +243,15 @@ const CommunitiesIndividual = () => {
                       onChange={(e) => setTitle(e.target.value)}
                       value={title}
                       placeholder="Write a title for your post"
-                      className="text-sm md:text-base text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
+                      className="text-sm md:text-base text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-300 mb-1 placeholder-gray-400"
                     />
                     {/* Write a description */}
                     <textarea
                       type="text"
                       onChange={(e) => setDescription(e.target.value)}
                       value={description}
-                      placeholder="Add description"
-                      className="text-base md:text-xl min-h-48 text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-400 mb-1 placeholder-gray-600"
+                      placeholder="Share your invaluable thoughts in detail"
+                      className="text-base md:text-xl min-h-80 text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border p-1 rounded-sm border-gray-300 mb-1 placeholder-gray-400"
                     />
                   </div>
 

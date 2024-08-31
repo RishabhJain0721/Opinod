@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const MobileSearch = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = async () => {
+    if (!searchText) {
+      toast.error("Please enter something");
+      return;
+    }
     navigate(`/search/${searchText}`);
   };
 

@@ -193,6 +193,10 @@ const Topbar = () => {
   };
 
   const handleSearch = async () => {
+    if (!searchText) {
+      toast.error("Please enter something");
+      return;
+    }
     navigate(`/search/${searchText}`);
   };
 
@@ -237,7 +241,7 @@ const Topbar = () => {
   return (
     <div className=" fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       <div className="flex items-center justify-between ">
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start w-full">
           <img
             src={Opinod}
             alt="Logo"
@@ -301,10 +305,10 @@ const Topbar = () => {
           )}
 
           {!isMobile && (
-            <div className=" flex">
+            <div className=" flex w-4/6">
               <input
                 type="text"
-                className=" w-52 text-xs pl-3 pr-2 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
+                className=" w-full  text-xs pl-3 pr-2 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-blue-500"
                 placeholder="Search news/community posts"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}

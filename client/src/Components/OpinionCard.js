@@ -38,9 +38,14 @@ const OpinionCard = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const base64Image = profilePhoto.buffer;
-  const imageType = profilePhoto.mimetype;
-  const src = `data:${imageType};base64,${base64Image}`;
+  const base64Image = profilePhoto ? profilePhoto.buffer : "";
+  const imageType = profilePhoto ? profilePhoto.mimetype : "";
+  let src;
+  if (imageType !== "") {
+    src = `data:${imageType};base64,${base64Image}`;
+  } else
+    src =
+      "https://as1.ftcdn.net/v2/jpg/07/07/74/98/1000_F_707749874_RN9BR4Z3SsqVPlR7grenMIegMFfXGacE.jpg";
 
   const username = useSelector((state) => state.user.username);
   const likedComments = useSelector((state) => state.user.likedComments);
@@ -117,7 +122,7 @@ const OpinionCard = ({
   };
 
   return (
-    <div className="p-2 mx-4 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md">
+    <div className="p-2 mx-4 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg w-96 sm:w-80 lg:w-80 xl:w-72 2xl:w-96 max-w-md">
       <div className="flex items-center">
         <span className="text-xs font-medium text-gray-500">{category}</span>
       </div>
@@ -177,9 +182,8 @@ const OpinionCard = ({
             />
           ) : (
             <button
-              className={`text-xs text-gray-500 flex items-center ${
-                isCommentLiked ? "text-green-500" : ""
-              }`}
+              className={`text-xs text-gray-500 flex items-center ${isCommentLiked ? "text-green-500" : ""
+                }`}
               onClick={handleToggleCommentLike}
               disabled={commentDislikeToggle}
             >
@@ -202,9 +206,8 @@ const OpinionCard = ({
             />
           ) : (
             <button
-              className={`text-xs text-gray-500 flex items-center ${
-                isCommentDisliked ? "text-red-500" : ""
-              }`}
+              className={`text-xs text-gray-500 flex items-center ${isCommentDisliked ? "text-red-500" : ""
+                }`}
               onClick={handleToggleCommentDislike}
               disabled={commentLikeToggle}
             >

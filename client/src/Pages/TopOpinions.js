@@ -76,7 +76,7 @@ const TopOpinions = () => {
       {!isMobile && <Navbar />}
 
       <div className="flex mt-16">
-        <div className="md:ml-60 mt-11 md:mt-0 w-full">
+        <div className="md:ml-60 md:mt-0 w-full">
           {opinionsLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
