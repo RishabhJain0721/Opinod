@@ -61,7 +61,7 @@ const Topbar = () => {
     "World",
   ];
   const [isHome, setIsHome] = useState(
-    location.pathname === "/" ? true : false
+    location.pathname === "/home" ? true : false
   );
   const [isAtTop, setIsAtTop] = useState(true);
   const [searchText, setSearchText] = useState("");
