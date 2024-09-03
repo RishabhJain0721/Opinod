@@ -227,8 +227,7 @@ const Card = ({
       return;
     }
     try {
-      const res = await report(opinionId);
-      console.log(res);
+      await report(opinionId);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -271,16 +270,14 @@ const Card = ({
                 ? title.slice(0, 50) + "..."
                 : title
               : window.innerWidth >= 768
-                ? title.length > 40
-                  ? title.slice(0, 40) + "..."
-                  : title
-
-                : title}
+              ? title.length > 40
+                ? title.slice(0, 40) + "..."
+                : title
+              : title}
           </div>
 
-
           <div className="text-xs flex justify-between font-semibold text-gray-700 ">
-            {name.length > 15 ? name.slice(0, 15) + "..." : name}
+            {name.length > 8 ? name.slice(0, 8) + "..." : name}
 
             <div className="text-gray-500 text-xs flex items-center font-normal">
               <FontAwesomeIcon
@@ -318,8 +315,9 @@ const Card = ({
               />
             ) : (
               <button
-                className={`text-xs text-gray-500 flex items-center ${isLiked ? "text-green-500" : ""
-                  }`}
+                className={`text-xs text-gray-500 flex items-center ${
+                  isLiked ? "text-green-500" : ""
+                }`}
                 onClick={handleToggleLike}
                 disabled={dislikeToggle}
               >
@@ -340,8 +338,9 @@ const Card = ({
               />
             ) : (
               <button
-                className={`text-xs text-gray-500 flex items-center ${isDisliked ? "text-red-500" : ""
-                  }`}
+                className={`text-xs text-gray-500 flex items-center ${
+                  isDisliked ? "text-red-500" : ""
+                }`}
                 onClick={handleToggleDislike}
                 disabled={likeToggle}
               >
@@ -403,11 +402,10 @@ const Card = ({
                       ? opinion.slice(0, 35) + "..."
                       : opinion
                     : window.innerWidth >= 1250
-                      ? opinion.length > 25
-                        ? opinion.slice(0, 25) + "..." : opinion
+                    ? opinion.length > 25
+                      ? opinion.slice(0, 25) + "..."
                       : opinion
-
-                  }
+                    : opinion}
                 </div>
                 <div className="flex justify-between items-center w-full">
                   {commentLikeToggle ? (
@@ -423,8 +421,9 @@ const Card = ({
                     />
                   ) : (
                     <button
-                      className={`text-xs text-gray-500 flex items-center ${isCommentLiked ? "text-green-500" : ""
-                        }`}
+                      className={`text-xs text-gray-500 flex items-center ${
+                        isCommentLiked ? "text-green-500" : ""
+                      }`}
                       onClick={handleToggleCommentLike}
                       disabled={commentDislikeToggle}
                     >
@@ -445,8 +444,9 @@ const Card = ({
                     />
                   ) : (
                     <button
-                      className={`text-xs text-gray-500 flex items-center ${isCommentDisliked ? "text-red-500" : ""
-                        }`}
+                      className={`text-xs text-gray-500 flex items-center ${
+                        isCommentDisliked ? "text-red-500" : ""
+                      }`}
                       onClick={handleToggleCommentDislike}
                       disabled={commentLikeToggle}
                     >

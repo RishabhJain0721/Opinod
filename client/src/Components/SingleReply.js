@@ -79,7 +79,6 @@ const SingleReply = (props) => {
         image,
         username
       );
-      console.log(res);
     } catch (error) {
       throw error;
     }
@@ -149,8 +148,7 @@ const SingleReply = (props) => {
 
   const handleReport = async () => {
     try {
-      const res = await report(comment._id);
-      console.log(res);
+      await report(comment._id);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -158,7 +156,6 @@ const SingleReply = (props) => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

@@ -10,7 +10,6 @@ const Reports = () => {
   const fetchReportedComments = async () => {
     try {
       const comments = await getReportedComments();
-      console.log(comments);
       setComments(comments);
     } catch (error) {
       console.log(error);
@@ -25,7 +24,6 @@ const Reports = () => {
 
   const handleDelete = async (commentId) => {
     try {
-      console.log(commentId);
       await deleteComment(commentId);
       toast.success("Comment deleted successfully");
     } catch (error) {

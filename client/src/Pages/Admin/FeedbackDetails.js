@@ -16,7 +16,6 @@ const FeedbackDetails = () => {
     try {
       setIsLoadingDetails(true);
       const res = await getSingleFeedback(id);
-      console.log(res);
       setDetails(res);
       setIsLoadingDetails(false);
     } catch (error) {

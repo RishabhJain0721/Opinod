@@ -24,7 +24,6 @@ const PostDetails = () => {
     try {
       setIsLoadingDetails(true);
       const res = await getUnverifiedPostDetails(id);
-      console.log(res);
       setDetails(res);
       setIsLoadingDetails(false);
     } catch (error) {

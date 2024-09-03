@@ -86,7 +86,6 @@ const Comment = ({ opinion }) => {
               image,
               username
             );
-      console.log(res);
       window.location.reload();
     } catch (error) {
       throw error;
@@ -160,8 +159,7 @@ const Comment = ({ opinion }) => {
 
   const handleReport = async () => {
     try {
-      const res = await report(opinion._id);
-      console.log(res);
+      await report(opinion._id);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -169,7 +167,6 @@ const Comment = ({ opinion }) => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

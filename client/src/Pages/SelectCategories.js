@@ -32,8 +32,7 @@ const SelectCategories = () => {
     }
 
     try {
-      const res = await selectCategories(username, categories);
-      console.log("Response : ", res);
+      await selectCategories(username, categories);
 
       // Update the categories in the Redux store after converting the object to an array
       const categoriesArray = Object.keys(categories).filter(
@@ -48,7 +47,6 @@ const SelectCategories = () => {
   };
 
   const toggleSelection = (category) => {
-    console.log("Category : ", categories);
     setCategories({
       ...categories,
       [category]: !categories[category],

@@ -19,7 +19,6 @@ const CommunitiesMain = () => {
     const fetchCommunities = async () => {
       try {
         const res = await getCommunities();
-        console.log(res);
         res.communities.forEach((ele) => {
           if (ele.parent === type) {
             setCommunities((prev) => [...prev, ele]);
@@ -107,7 +106,6 @@ const CommunitiesSpecial = () => {
     const fetchCommunities = async () => {
       try {
         const res = await getCommunities();
-        console.log(res);
         res.communities.forEach((ele) => {
           if (ele.parent === type) {
             setCommunities((prev) => [...prev, ele]);

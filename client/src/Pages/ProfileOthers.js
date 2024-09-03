@@ -47,7 +47,6 @@ const ProfileOthers = () => {
     try {
       setUserLoading(true);
       const res = await getUserDetails(name);
-      console.log(res);
       setUser(res);
       setBase64Image(res.profilePicture.buffer);
       setImageType(res.profilePicture.mimetype);
@@ -62,7 +61,6 @@ const ProfileOthers = () => {
     try {
       setPostsLoading(true);
       const res = await getUserPosts(name);
-      console.log(res);
       setPosts(res);
     } catch (error) {
       console.log(error);
@@ -75,7 +73,6 @@ const ProfileOthers = () => {
     try {
       setCommentsLoading(true);
       const res = await getUserComments(name);
-      console.log(res);
       setComments(res);
     } catch (error) {
       console.log(error);

@@ -23,7 +23,6 @@ const Communities = () => {
     const fetchCommunities = async () => {
       try {
         const res = await getCommunities();
-        console.log(res);
         res.communities.forEach((ele) => {
           if (ele.parent === "main") {
             setMain((prev) => [...prev, ele]);
@@ -35,7 +34,6 @@ const Communities = () => {
             setJoined((prev) => [...prev, ele]);
           }
         });
-        console.log(res);
       } catch (error) {
         console.log(error);
       } finally {

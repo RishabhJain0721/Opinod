@@ -20,7 +20,6 @@ const Achievements = () => {
       setIsAchievementsList(false);
       const res = await calculateAchievements(user.username);
       setAchievements(res);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {

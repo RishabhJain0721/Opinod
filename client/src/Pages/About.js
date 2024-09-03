@@ -2,15 +2,7 @@ import React from "react";
 import UploadImage from "../Components/UploadImage";
 
 const About = () => {
-  const imageurl = (url) => {
-    console.log(url);
-  };
-
-  return (
-    <div className="mb-4">
-      <UploadImage ongettingurl={imageurl} />
-    </div>
-  );
+  return <div className="mb-4"></div>;
 };
 
 export default About;

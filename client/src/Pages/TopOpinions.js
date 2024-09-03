@@ -18,7 +18,6 @@ const TopOpinions = () => {
   const fetchOpinions = useCallback(async () => {
     try {
       const res = await getPopularOpinions(9, page);
-      console.log(res);
       if (res.length > 0) {
         setPopularOpinions((prevOpinions) => {
           return [...prevOpinions, ...res].filter(

@@ -57,7 +57,7 @@ const Login = () => {
           res.following
         )
       );
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setError(error.response.data.errorName);
       console.error("Error:", error);

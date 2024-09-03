@@ -28,7 +28,6 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 const CommPostDetails = (props) => {
   const navigate = useNavigate();
   const details = props.details;
-  console.log(details);
 
   const base64Image = details.profilePic ? details.profilePic.buffer : "";
   const imageType = details.profilePic ? details.profilePic.mimetype : "";

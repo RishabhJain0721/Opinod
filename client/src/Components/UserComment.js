@@ -67,7 +67,6 @@ const UserComment = ({ opinion }) => {
               username
             )
           : await addReply(opinion._id, opinion.postId, replyText, username);
-      console.log(res);
       window.location.reload();
     } catch (error) {
       throw error;

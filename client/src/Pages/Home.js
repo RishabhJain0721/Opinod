@@ -39,7 +39,6 @@ const Home = () => {
     try {
       setIsLoading(true);
       const res = await getNews(categories);
-      console.log(res);
       setTrending(res.trendingArticles);
     } catch (error) {
       console.log(error);
@@ -52,7 +51,6 @@ const Home = () => {
     try {
       setOpinionsLoading(true);
       const res = await getPopularOpinions(isMobile ? 2 : 3, 1);
-      console.log(res);
       setPopularOpinions(res);
     } catch (error) {
       console.log(error);
@@ -65,7 +63,6 @@ const Home = () => {
     try {
       setCommunitiesLoading(true);
       const res = await getHomeCommunities();
-      console.log(res);
       setTopCommunities(res.communities);
     } catch (error) {
       console.log(error);
@@ -78,7 +75,6 @@ const Home = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(null);
-      console.log(res);
       setRecent(res);
     } catch (error) {
       console.log(error);

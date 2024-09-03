@@ -16,8 +16,6 @@ const pointsMiddleware = (store) => (next) => (action) => {
   // Assuming points is nested under user in state
   const currentPoints = state.user.points;
 
-  console.log(currentPoints, prevPoints);
-
   if (
     Math.floor(prevPoints / 60) !== Math.floor(currentPoints / 60) &&
     currentPoints &&
@@ -29,15 +27,13 @@ const pointsMiddleware = (store) => (next) => (action) => {
       (async function checkAndRun() {
         try {
           const res = await getBadges(state.user.username);
-          console.log(res);
           res.forEach((achi) => {
             if (achi.unlocked === true && achi.displayed === false) {
               badgeAnim(achi.name);
               achi.displayed = true;
             }
           });
-          const updates = await updateAchievements(res, state.user.username);
-          console.log(updates);
+          await updateAchievements(res, state.user.username);
         } catch (error) {
           console.log(error);
         }

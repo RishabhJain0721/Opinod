@@ -16,8 +16,7 @@ const ForgotUsername = () => {
     }
     setIsLoading(true); // Start loading
     try {
-      const res = await forgotUsername(email);
-      console.log(res);
+      await forgotUsername(email);
       alert("Username reset email sent.");
       setIsLoading(false); // Stop loading
     } catch (error) {

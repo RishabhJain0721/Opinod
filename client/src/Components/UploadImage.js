@@ -33,7 +33,6 @@ const UploadImage = ({ ongettingurl, cancel }) => {
         }
       }
     );
-    // console.log("Cloudinary", cloudinaryRef.current);
   }, []);
 
   return (

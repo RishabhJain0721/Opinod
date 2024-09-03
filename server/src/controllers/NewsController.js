@@ -112,30 +112,38 @@ const sendNews = async (req, res) => {
 
   if (categories.length >= 3) {
     [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
     [trending[1]] = await Post.find({ category: categories[1] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
     [trending[2]] = await Post.find({ category: categories[2] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
   } else if (categories.length === 2) {
     [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
     [trending[1]] = await Post.find({ category: categories[0] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
     [trending[2]] = await Post.find({ category: categories[1] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(1)
       .lean();
   } else if (categories.length === 1) {
     trending = await Post.find({ category: categories[0] }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(3)
       .lean();
   } else {
     trending = await Post.find({ category: "General" }, reqFields)
+      .sort({ publishedAt: -1 })
       .limit(3)
       .lean();
   }

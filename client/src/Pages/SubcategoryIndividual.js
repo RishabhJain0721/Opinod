@@ -10,7 +10,6 @@ const SubcategoryIndividual = () => {
   const location = useLocation();
   const subWithDash = location.pathname.split("/")[2];
   const subcategory = subWithDash.replaceAll("-", " ");
-  console.log(subcategory);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +19,6 @@ const SubcategoryIndividual = () => {
     const fetchSubcategoryData = async () => {
       try {
         const res = await getSubcategoryPosts(subcategory, 1);
-        console.log(res);
         setTopPosts(res.topPosts);
       } catch (error) {
         console.log(error);

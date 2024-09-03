@@ -31,11 +31,11 @@ const UpdateProfile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log("File", file);
-    const maxFileSize = 500 * 1024;
+    const maxFileSize = 10000 * 1024;
 
     if (file.size > maxFileSize) {
-      alert("File size exceeds 500 KB");
+      alert("File size exceeds 10 MB");
+      return;
     } else {
       setImage(file);
     }
@@ -51,7 +51,6 @@ const UpdateProfile = () => {
     }
 
     const res = await updateProfile(formData);
-    console.log(res);
     dispatch(
       loginToStore(
         res.token,
@@ -68,8 +67,7 @@ const UpdateProfile = () => {
         res.points
       )
     );
-    console.log(res);
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -119,7 +117,7 @@ const UpdateProfile = () => {
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor="profileImage"
                 >
-                  Profile Image(max size 500 KB)
+                  Profile Image
                 </label>
                 <input
                   type="file"

@@ -10,7 +10,6 @@ const VerifyPosts = () => {
   const fetchPosts = async () => {
     try {
       const unverifiedPosts = await getUnverifiedPosts();
-      console.log(unverifiedPosts);
       setPosts(unverifiedPosts);
     } catch (error) {
       console.log(error);

@@ -45,7 +45,6 @@ const Signup = () => {
     setIsLoading(true); // Start loading
     try {
       await signup({ username, email, password }).then((res) => {
-        console.log("Response : ", res);
         alert("Verification link sent to email. Please verify.");
       });
     } catch (error) {

@@ -43,7 +43,6 @@ const CommunityPostDetails = () => {
   const fetchComments = async () => {
     try {
       const res = await getCommunityPostComments(id);
-      console.log(res);
       setComments(res);
       setIsLoadingComments(false);
     } catch (error) {
@@ -85,7 +84,6 @@ const CommunityPostDetails = () => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

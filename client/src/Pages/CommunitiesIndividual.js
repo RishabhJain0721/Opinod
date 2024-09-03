@@ -35,7 +35,6 @@ const CommunitiesIndividual = () => {
     const fetchCommunityData = async () => {
       try {
         const res = await getCommunityData(communityId);
-        console.log(res);
         setSubcategories(res.subcategories);
         setName(res.name);
         setTopPosts(res.topPosts);
@@ -111,7 +110,7 @@ const CommunitiesIndividual = () => {
       toast.success("Feedback submitted successfully");
       setFeedbackText("");
       setIsModalOpen(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleViewPosts = () => {

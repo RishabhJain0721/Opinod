@@ -26,7 +26,6 @@ const Search = () => {
       const res = await search(searchText);
       setNewsData(res.posts);
       setCommunityData(res.communityPosts);
-      console.log(res);
     } catch (error) {
       console.log(error);
     } finally {

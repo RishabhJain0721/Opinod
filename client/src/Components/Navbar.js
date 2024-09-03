@@ -87,7 +87,6 @@ const Navbar = () => {
     { "Expert Opinions": "66858c5444d20fd45e533bbe" },
     { "Educational Resources": "66858c5444d20fd45e533bbf" },
     { "Book & Article Reviews": "66858c5444d20fd45e533bc0" },
-    { "Quiz Discussions": "66858c5444d20fd45e533bc1" },
   ];
 
   const handleCategorySelect = (category) => {
@@ -95,11 +94,10 @@ const Navbar = () => {
     //   alert("Please login first to view more");
     //   return;
     // }
-    console.log(category);
     if (category === selectedCategory) {
       setSelectedCategory(null);
       dispatch(selectCategory(null));
-      navigate("/");
+      navigate("/home");
       return;
     }
     setSelectedCategory(category);
@@ -148,8 +146,6 @@ const Navbar = () => {
         return faUserGraduate;
       case "Book & Article Reviews":
         return faBook;
-      case "Quiz Discussions":
-        return faPencilRuler;
       case "World News":
         return faEarthAmericas;
       case "Politics":
@@ -197,7 +193,7 @@ const Navbar = () => {
         <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
           <div
             className="flex justify-between items-center mr-4 cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
           >
             <div>
               <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home
@@ -363,20 +359,6 @@ const Navbar = () => {
             </div>
           </div>
         )}
-
-        {/* Quizzes and Challenges
-        <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-          <div className="flex justify-between items-center mr-4">
-            <div className="cursor-pointer">
-              <FontAwesomeIcon icon={faPencil} className="mr-1" /> Quiz /
-              Challenges
-            </div>
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className="text-xs ml-3 cursor-pointer"
-            />
-          </div>
-        </h2> */}
 
         {/* Settings */}
         {/* <h2

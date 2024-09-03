@@ -79,7 +79,6 @@ const CommunitySingleReply = (props) => {
         image,
         username
       );
-      console.log(res);
     } catch (error) {
       throw error;
     }
@@ -150,8 +149,7 @@ const CommunitySingleReply = (props) => {
 
   const handleReport = async () => {
     try {
-      const res = await report(comment._id);
-      console.log(res);
+      await report(comment._id);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -159,7 +157,6 @@ const CommunitySingleReply = (props) => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

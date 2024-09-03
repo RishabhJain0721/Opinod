@@ -66,7 +66,6 @@ const CommunityReply = () => {
     try {
       setIsLoading(true);
       const res = await fetchCommentAndReplies(commentId);
-      console.log(res);
       setIsCommentLiked(likedComments.includes(res.comment._id) ? true : false);
       setIsCommentDisliked(
         dislikedComments.includes(res.comment._id) ? true : false
@@ -100,14 +99,13 @@ const CommunityReply = () => {
 
   const handleSubmitReply = async () => {
     try {
-      const res = await addCommunityReply(
+      await addCommunityReply(
         comment._id,
         comment.postId,
         replyText,
         image,
         username
       );
-      console.log(res);
     } catch (error) {
       throw error;
     }
@@ -190,8 +188,7 @@ const CommunityReply = () => {
 
   const handleReport = async () => {
     try {
-      const res = await report(commentId);
-      console.log(res);
+      await report(commentId);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -199,7 +196,6 @@ const CommunityReply = () => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

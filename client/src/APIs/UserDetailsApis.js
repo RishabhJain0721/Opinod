@@ -153,3 +153,12 @@ export const updateAchievements = async (achievements, username) => {
     throw error;
   }
 };
+
+export const getPeopleWithBadges = async () => {
+  try {
+    const response = await axios.get("/api/user/peopleWithBadges");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

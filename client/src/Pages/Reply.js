@@ -68,7 +68,6 @@ const Reply = () => {
       try {
         setIsLoading(true);
         const res = await fetchCommentAndReplies(commentId);
-        console.log(res);
         setIsCommentLiked(
           likedComments.includes(res.comment._id) ? true : false
         );
@@ -110,7 +109,6 @@ const Reply = () => {
         image,
         username
       );
-      console.log(res);
       window.location.reload();
     } catch (error) {
       throw error;
@@ -181,7 +179,6 @@ const Reply = () => {
   const handleReport = async () => {
     try {
       const res = await report(comment._id);
-      console.log(res);
       toast.error("Comment Reported");
     } catch (error) {
       console.log(error);
@@ -189,7 +186,6 @@ const Reply = () => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

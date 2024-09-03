@@ -20,7 +20,6 @@ const CommunityPosts = () => {
     const fetchPosts = async () => {
       try {
         const res = await getCommunityPosts(communityId, page);
-        console.log(res);
         setPosts(res);
       } catch (error) {
         console.log(error);

@@ -117,7 +117,6 @@ const NewsDetails = (props) => {
           details.publishedAt,
           userCategories
         );
-        console.log(newId);
         navigate(`/details/${newId}`);
       } else {
         const newId = await getNextArticle(
@@ -125,7 +124,6 @@ const NewsDetails = (props) => {
           details.publishedAt,
           category
         );
-        console.log(newId);
         navigate(`/details/${newId}`);
       }
     } catch (error) {
@@ -145,7 +143,6 @@ const NewsDetails = (props) => {
           details.publishedAt,
           userCategories
         );
-        console.log(newId);
         navigate(`/details/${newId}`);
       } else {
         const newId = await getNextArticle(
@@ -153,7 +150,6 @@ const NewsDetails = (props) => {
           details.publishedAt,
           category
         );
-        console.log(newId);
         navigate(`/details/${newId}`);
       }
     } catch (error) {

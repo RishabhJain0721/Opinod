@@ -40,7 +40,6 @@ const Details = () => {
   const fetchComments = async () => {
     try {
       const res = await getComments(id);
-      console.log(res);
       setComments(res);
       setIsLoadingComments(false);
     } catch (error) {
@@ -83,7 +82,6 @@ const Details = () => {
   };
 
   const imageurl = (url) => {
-    console.log(url);
     setImage(url);
   };
 

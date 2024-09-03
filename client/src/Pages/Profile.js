@@ -92,7 +92,6 @@ const ProfilePage = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username, 5);
-      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {
@@ -149,6 +148,19 @@ const ProfilePage = () => {
     navigate("/");
   };
 
+  const noOfBadges = () => {
+    let length = 0;
+    Object.values(achievements).forEach((achi) => {
+      if (achi.Message === true && !Array.isArray(achi.stats.Current)) {
+        length++;
+      }
+      if (Array.isArray(achi.stats.Current)) {
+        length += parseInt(achi.stats.Current.length);
+      }
+    });
+    return length;
+  };
+
   return (
     <div>
       <Topbar />
@@ -188,7 +200,7 @@ const ProfilePage = () => {
               </div>
               <div className="flex flex-col text-center ml-5">
                 <span className="text-base md:text-xl font-semibold">
-                  {user.categories.length}
+                  {noOfBadges()}
                 </span>
                 <span className="text-sm md:text-lg font-normal text-gray-500">
                   Badges
@@ -291,6 +303,8 @@ const ProfilePage = () => {
             <div className="flex flex-col text-gray-600 text-sm">
               {recentLoading ? (
                 <></>
+              ) : recent.length === 0 ? (
+                <div className=" italic text-center mb-3 mt-2">No recents</div>
               ) : (
                 recent.slice(0, 5).map((ele, index) => {
                   if (
@@ -357,36 +371,42 @@ const ProfilePage = () => {
             </div>
 
             {isAchievementsList ? (
-              <div className="flex flex-col text-gray-700 text-sm">
-                {Object.entries(achievements)
-                  .filter(([key, value]) => value.Message === true)
-                  .slice(0, 2)
-                  .map(([key, value]) => {
+              noOfBadges() === 0 ? (
+                <div className="italic text-center mb-3 mt-2 text-gray-600 text-sm">
+                  No achievements to show
+                </div>
+              ) : (
+                <div className="flex flex-col text-gray-700 text-sm">
+                  {Object.entries(achievements)
+                    .filter(([key, value]) => value.Message === true)
+                    .slice(0, 2)
+                    .map(([key, value]) => {
+                      return (
+                        <div key={key}>
+                          <FontAwesomeIcon
+                            icon={faSquare}
+                            className="mr-2 text-blue-500"
+                          />
+                          {key}
+                        </div>
+                      );
+                    })}
+                  {achievements["Top Community Member"].stats.Current.slice(
+                    0,
+                    2
+                  ).map((community, index) => {
                     return (
-                      <div key={key}>
+                      <div key={index} className="text-sm">
                         <FontAwesomeIcon
                           icon={faSquare}
                           className="mr-2 text-blue-500"
                         />
-                        {key}
+                        Top {community} member
                       </div>
                     );
                   })}
-                {achievements["Top Community Member"].stats.Current.slice(
-                  0,
-                  2
-                ).map((community, index) => {
-                  return (
-                    <div key={index} className="text-sm">
-                      <FontAwesomeIcon
-                        icon={faSquare}
-                        className="mr-2 text-blue-500"
-                      />
-                      Top {community} member
-                    </div>
-                  );
-                })}
-              </div>
+                </div>
+              )
             ) : (
               <div className="flex items-center justify-center h-4/5">
                 <MutatingDots

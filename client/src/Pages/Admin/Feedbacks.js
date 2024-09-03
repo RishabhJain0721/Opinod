@@ -11,7 +11,6 @@ const Feedbacks = () => {
   const fetchFeedbacks = async () => {
     try {
       const feedbacks = await getFeedbacks();
-      console.log(feedbacks);
       setFeedbacks(feedbacks);
     } catch (error) {
       console.log(error);

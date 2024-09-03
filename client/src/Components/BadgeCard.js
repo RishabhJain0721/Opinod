@@ -41,7 +41,9 @@ const BadgeCard = (props) => {
 
   return (
     <div
-      className={`flip-card ${isFlipped ? "flipped" : ""}`}
+      className={`flip-card w-full ml-auto mr-auto md:ml-0 ${
+        isFlipped ? "flipped" : ""
+      }`}
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <div className="flip-card-inner">

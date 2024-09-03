@@ -3,7 +3,6 @@ import axios from "axios";
 export const getNews = async (categories) => {
   try {
     const response = await axios.post("/api/news/", { categories });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;

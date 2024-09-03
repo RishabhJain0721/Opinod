@@ -19,7 +19,6 @@ const CommunitySubcategories = () => {
     const fetchCommunityData = async () => {
       try {
         const res = await getCommunityData(communityId);
-        console.log(res);
         setSubcategories(res.subcategories);
       } catch (error) {
         console.log(error);

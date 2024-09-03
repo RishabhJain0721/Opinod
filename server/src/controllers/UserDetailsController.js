@@ -9,7 +9,7 @@ import multer from "multer";
 // Create a multer instance with the storage configuration
 const upload = multer({
   limits: {
-    fileSize: 500 * 1024, // 500KB limit for each file
+    fileSize: 10000 * 1024, // 10MB limit for each file
   },
 });
 

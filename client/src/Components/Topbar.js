@@ -116,7 +116,6 @@ const Topbar = () => {
     { "Expert Opinions": "66858c5444d20fd45e533bbe" },
     { "Educational Resources": "66858c5444d20fd45e533bbf" },
     { "Book & Article Reviews": "66858c5444d20fd45e533bc0" },
-    { "Quiz Discussions": "66858c5444d20fd45e533bc1" },
   ];
 
   const handleCategorySelect = (category) => {
@@ -158,8 +157,6 @@ const Topbar = () => {
         return faUserGraduate;
       case "Book and Article Reviews":
         return faBook;
-      case "Quiz Discussions":
-        return faPencilRuler;
       case "World News":
         return faEarthAmericas;
       case "Politics":
@@ -247,7 +244,7 @@ const Topbar = () => {
             alt="Logo"
             className="w-11 h-11 mr-4 rounded-sm bg-gray-900"
             onClick={() => {
-              navigate("/");
+              navigate("/home");
               dispatch(selectCategory(null));
             }}
           />
@@ -352,7 +349,7 @@ const Topbar = () => {
                   {/* Home */}
                   <h2
                     className="text-2xl font-semibold mb-2 text-white mt-5"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home")}
                   >
                     <div className="flex justify-between items-center mr-4">
                       <div>
@@ -531,61 +528,6 @@ const Topbar = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* Quizzes and Challenges
-                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon icon={faPencil} className="mr-1" />{" "}
-                        Quiz / Challenges
-                      </div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        className="text-xs ml-3"
-                      />
-                    </div>
-                  </h2> */}
-
-                  {/* Settings */}
-                  {/* <h2
-                    className="text-lg mb-2 ml-5 text-white mt-5"
-                    onClick={handleToggleSettings}
-                  >
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon icon={faGear} className="mr-1" />{" "}
-                        Settings{" "}
-                      </div>
-                      <FontAwesomeIcon
-                        icon={toggleSettings ? faChevronDown : faChevronRight}
-                        className="text-xs ml-3"
-                      />
-                    </div>
-                  </h2>
-                  {toggleSettings && (
-                    <>
-                      <button
-                        className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
-                        onClick={() => {}}
-                      >
-                        <FontAwesomeIcon
-                          icon={faBarsProgress}
-                          className="mr-2"
-                        />
-                        Manage preferences
-                      </button>
-                      <button
-                        className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
-                        onClick={() => {}}
-                      >
-                        <FontAwesomeIcon
-                          icon={faCircleQuestion}
-                          className="mr-2"
-                        />
-                        Help
-                      </button>
-                    </>
-                  )} */}
 
                   {/* Profile */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">

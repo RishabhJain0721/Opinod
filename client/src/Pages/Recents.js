@@ -22,7 +22,6 @@ const Recents = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username);
-      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {
@@ -53,19 +52,16 @@ const Recents = () => {
       const a = recents.filter((ele) => {
         return ele.type === "post";
       });
-      console.log(a);
       setRecent(a);
     } else if (filter === "Opinions") {
       const a = recents.filter((ele) => {
         return ele.type === "comment" || ele.type === "communityComment";
       });
-      console.log(a);
       setRecent(a);
     } else if (filter === "Likes") {
       const a = recents.filter((ele) => {
         return ele.type === "like" || ele.type === "communityLike";
       });
-      console.log(a);
       setRecent(a);
     }
   }, [filter]);

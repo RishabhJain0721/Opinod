@@ -15,7 +15,6 @@ const VerifyEmail = () => {
   useEffect(() => {
     // Make an API call to your server to verify the email using the token
     verifyEmail(token).then((res) => {
-      console.log("Response : ", res);
       dispatch(
         loginToStore(
           res.token,

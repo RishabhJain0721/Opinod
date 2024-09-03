@@ -44,6 +44,7 @@ import FeedbackDetails from "./Pages/Admin/FeedbackDetails";
 import ProfileOthers from "./Pages/ProfileOthers";
 import ForgotUsername from "./Pages/ForgotUsername";
 import ForgotPassword from "./Pages/ForgotPassword";
+import Landing from "./Pages/Landing";
 
 const CategoryNewsWrapper = () => {
   const { category } = useParams();
@@ -73,7 +74,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotUsername" element={<ForgotUsername />} />
@@ -192,7 +194,7 @@ function App() {
                 <Route path="verifyPosts" element={<VerifyPosts />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="feedbacks" element={<Feedbacks />} />
-                {/* <Route path="rewards" element={<Rewards />} /> */}
+                <Route path="rewards" element={<Rewards />} />
                 <Route path="post/:id" element={<PostDetails />} />
                 <Route path="feedback/:id" element={<FeedbackDetails />} />
               </Routes>
