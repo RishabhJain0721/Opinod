@@ -405,9 +405,20 @@ const sendPeopleWithBadges = async (req, res) => {
 };
 
 const sendAchievementMail = async (req, res) => {
-  const { email, subject, body } = req.body;
+  const { email, subject, body, badge } = req.body;
   try {
     await sendMail({ email, subject, body });
+    const result = await User.updateOne(
+      { email: email, "badges.name": badge }, // Filter to find the correct document and badge
+      { $set: { "badges.$.rewarded": true } } // Update the rewarded field for the matched badge
+    );
+
+    if (result.matchedCount > 0) {
+      console.log("Update successful");
+    } else {
+      console.log("No matching badge found for the specified email.");
+    }
+
     res.status(200).send({ Message: "Done" });
   } catch (error) {
     res.status(400).send(error);

@@ -38,6 +38,7 @@ const Rewards = () => {
       email: person.email,
       subject: person.subject,
       body: person.body,
+      badge: person.badge.name,
     });
     console.log(`Sending email to: ${person.email}`);
     console.log(`Subject: ${person.subject}`);
