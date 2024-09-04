@@ -18,6 +18,7 @@ import {
   calculateLevel,
   // checkUpgrade,
   sendPeopleWithBadges,
+  sendAchievementMail,
 } from "../../controllers/BadgeController.js";
 
 const router = express.Router();
@@ -38,5 +39,6 @@ router.post("/unfollowUser", unfollowUser);
 router.post("/badges", sendBadges);
 router.post("/updateBadges", updateBadges);
 router.get("/peopleWithBadges", sendPeopleWithBadges);
+router.post("/sendAchievementMail", sendAchievementMail);
 
 export default router;

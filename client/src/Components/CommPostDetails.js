@@ -113,7 +113,7 @@ const CommPostDetails = (props) => {
             <img
               src={src}
               alt="Profile"
-              className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
+              className="w-7 h-7 md:w-7 md:h-7 rounded-full mr-1"
             />
           ) : (
             <FontAwesomeIcon

@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Community from "../models/Community.js";
 import Comment from "../models/Comment.js";
 import CommunityPost from "../models/CommunityPost.js";
+import { sendMail } from "../services/achievementMail.js";
 
 //utility
 const maxFrequent = (arr) => {
@@ -403,4 +404,19 @@ const sendPeopleWithBadges = async (req, res) => {
   }
 };
 
-export { calculateAchievements, calculateLevel, sendPeopleWithBadges };
+const sendAchievementMail = async (req, res) => {
+  const { email, subject, body } = req.body;
+  try {
+    await sendMail({ email, subject, body });
+    res.status(200).send({ Message: "Done" });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+export {
+  calculateAchievements,
+  calculateLevel,
+  sendPeopleWithBadges,
+  sendAchievementMail,
+};

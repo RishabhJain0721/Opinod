@@ -162,3 +162,12 @@ export const getPeopleWithBadges = async () => {
     throw error;
   }
 };
+
+export const sendAchievementMail = async (data) => {
+  try {
+    const response = await axios.post("/api/user/sendAchievementMail", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
