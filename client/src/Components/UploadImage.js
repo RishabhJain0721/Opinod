@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaperclip,
-  faLinkSlash,
-  faLink,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip, faLinkSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 const UploadImage = ({ ongettingurl, cancel }) => {

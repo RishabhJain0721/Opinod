@@ -149,8 +149,14 @@ const sendCommunityPosts = async (req, res) => {
 };
 
 const addPost = async (req, res) => {
-  const { title, description, communityId, selectedSubcategory, username } =
-    req.body;
+  const {
+    title,
+    description,
+    communityId,
+    selectedSubcategory,
+    username,
+    image,
+  } = req.body;
   try {
     const newPost = new CommunityPost({
       title,
@@ -158,6 +164,7 @@ const addPost = async (req, res) => {
       community: communityId,
       subCategory: selectedSubcategory,
       author: username,
+      image,
     });
     await newPost.save();
     res.status(200).send("Post sent for verification");

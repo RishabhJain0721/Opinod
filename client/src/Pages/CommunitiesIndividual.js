@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import FeedbackModal from "../Components/FeedbackModal";
 import { addFeedback } from "../APIs/FeedbackApis";
+import UploadImage from "../Components/UploadImage";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
@@ -30,6 +31,8 @@ const CommunitiesIndividual = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [image, setImage] = useState("");
+  const [triggerRerender, setTriggerRerender] = useState(false);
 
   useEffect(() => {
     const fetchCommunityData = async () => {
@@ -75,17 +78,30 @@ const CommunitiesIndividual = () => {
         communityId,
         selectedSubcategory,
         username,
+        image,
       });
       toast.info("Post submitted for review");
       setTitle("");
       setDescription("");
       setSelectedSubcategory("");
+      setImage("");
+      setTriggerRerender((prev) => !prev);
       setIsModalOpen(true);
     } catch (error) {
       console.log(error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const imageurl = (url) => {
+    setImage(url);
+  };
+
+  const removeImage = () => {
+    setImage("");
+    setTriggerRerender((prev) => !prev);
+    toast.error(`❌ Image removed`, { icon: false });
   };
 
   const Msg = ({ closeToast, toastProps }) => (
@@ -215,8 +231,8 @@ const CommunitiesIndividual = () => {
                 <div className="font-semibold md:font-normal mb-3">
                   Create New Post
                 </div>
-                <div className=" w-full py-5 px-5 border border-blue-200 rounded-xl ">
-                  <div className="flex flex-col space-y-4">
+                <div className="w-full">
+                  <div className="flex flex-row items-center md:space-x-4 space-x-2">
                     {/* Dropdown to select subcategory */}
                     {subcategories.length > 0 && (
                       <select
@@ -224,7 +240,7 @@ const CommunitiesIndividual = () => {
                         id="subcategory"
                         value={selectedSubcategory}
                         onChange={(e) => setSelectedSubcategory(e.target.value)}
-                        className="text-sm text-gray-600 focus:outline-none w-1/2 md:w-1/3"
+                        className="text-sm text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 w-2/3 md:w-1/3 border border-gray-400 rounded-lg py-1"
                       >
                         <option value="">Choose Subcategory</option>
                         {subcategories.map((category, index) => {
@@ -236,26 +252,37 @@ const CommunitiesIndividual = () => {
                         })}
                       </select>
                     )}
-                    {/* Write a title  */}
+                    <span key={triggerRerender} className="text-gray-700">
+                      <UploadImage
+                        ongettingurl={imageurl}
+                        cancel={removeImage}
+                        triggerRerender={triggerRerender}
+                      />
+                    </span>
+                  </div>
+
+                  <div className="mt-4 space-y-4">
+                    {/* Write a title */}
                     <input
                       type="text"
                       onChange={(e) => setTitle(e.target.value)}
                       value={title}
                       placeholder="Write a title for your post"
-                      className="text-sm md:text-base text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border-b border-gray-300 mb-1 placeholder-gray-400"
+                      className="text-sm text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-lg w-full border border-gray-400 placeholder-gray-500 p-2"
                     />
+
                     {/* Write a description */}
                     <textarea
                       type="text"
                       onChange={(e) => setDescription(e.target.value)}
                       value={description}
                       placeholder="Share your invaluable thoughts in detail"
-                      className="text-base md:text-xl min-h-80 text-gray-800 focus:outline-none ml-1 w-full md:w-7/12 border p-1 rounded-sm border-gray-300 mb-1 placeholder-gray-400"
+                      className="text-base md:text-lg text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 w-full border border-gray-400 placeholder-gray-500 p-2 rounded-lg min-h-80"
                     />
                   </div>
 
                   {isSubmitting ? (
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mt-4">
                       <ThreeDots
                         visible={true}
                         height="50"
@@ -271,7 +298,7 @@ const CommunitiesIndividual = () => {
                   ) : (
                     <button
                       onClick={handleSubmitPost}
-                      className="text-white bg-blue-500 w-full py-2 mt-4 rounded-l-full rounded-r-full text-base"
+                      className="text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 w-full py-2 mt-4 rounded-full text-base"
                     >
                       Submit for review
                     </button>

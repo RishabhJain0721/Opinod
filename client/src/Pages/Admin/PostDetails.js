@@ -106,9 +106,19 @@ const PostDetails = () => {
                   {details.subCategory}
                 </div>
 
-                <div className="text-base md:text-2xl font-medium text-gray-800 mx-5">
+                <div className="text-base md:text-2xl font-medium text-gray-800 mx-5 mb-2">
                   {details.title}
                 </div>
+
+                {details.image && (
+                  <div>
+                    <img
+                      className="h-32 md:h-96 mx-5 mb-2"
+                      src={details.image}
+                      alt="img"
+                    />
+                  </div>
+                )}
 
                 <div className="relative overflow-hidden mx-5 text-xs sm:text-sm md:text-lg font-normal mb-4 text-gray-600">
                   {details.description}

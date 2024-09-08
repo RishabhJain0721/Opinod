@@ -140,16 +140,6 @@ const CommPostDetails = (props) => {
           })}
         </div>
       </div>
-      {/* Shift Buttons */}
-      {/* <div className="flex items-center justify-between">
-        <button className="bg-white p-2 text-xl md:text-2xl rounded-full ">
-          <FontAwesomeIcon icon={faAngleLeft} />
-        </button>
-        <button className="bg-white p-2 text-xl md:text-2xl rounded-full ">
-          <FontAwesomeIcon icon={faAngleRight} />
-        </button>
-      </div> */}
-      {/* Category */}
       <div className="text-xs md:text-sm text-gray-500 mb-2 mx-5">
         {details.subCategory}
       </div>
@@ -157,6 +147,11 @@ const CommPostDetails = (props) => {
       <div className="text-base md:text-2xl font-medium text-gray-800 mx-5">
         {details.title}
       </div>
+      {details.image && (
+        <div className="mx-5 my-2">
+          <img src={details.image} alt="img" className="rounded-md" />
+        </div>
+      )}
       {/* Content with gradient blur */}
       <div className="relative overflow-hidden mx-5 text-xs sm:text-sm md:text-lg font-normal mb-4 text-gray-600">
         {details.description}

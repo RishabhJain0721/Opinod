@@ -23,6 +23,10 @@ const communityPostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      required: false,
+    },
     upvotes: {
       type: Number,
       default: 0,
