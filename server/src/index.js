@@ -36,6 +36,9 @@ mongoose
   });
 
 app.use("/api", routes);
+app.get("/health", (req, res) => {
+  res.send({ Message: "OK" });
+});
 
 // async function updateBadgesWithRewardedField() {
 //   try {
