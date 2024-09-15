@@ -23,6 +23,7 @@ const Details = () => {
   const [isLoadingComments, setIsLoadingComments] = useState(true);
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const username = useSelector((state) => state.user.username);
 
@@ -111,19 +112,25 @@ const Details = () => {
             />
           </div>
         ) : (
-          <div className="w-full md:ml-60 md:mt-0">
+          <div className="w-full md:ml-60 md:mt-0 ">
             {/* Comment box */}
-            <div className="w-screen fixed bottom-0 z-40">
-              <div className="flex bg-white border border-t-2 p-3">
-                <input
+            <div className="w-full mr-10 fixed bottom-0 z-40">
+              <div
+                className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                  isFocused ? "h-64" : "h-16"
+                }`}
+              >
+                <textarea
                   type="text"
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  className="border border-gray-800 rounded w-3/4 text-sm p-3 mr-3"
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className="border border-gray-500 rounded w-3/4 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                   placeholder="Give your opinion"
                 />
                 <div
-                  className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                  className="text-xl md:text-2xl text-gray-600 mt-auto mb-4 mr-4 h-6"
                   key={triggerRerender}
                 >
                   <UploadImage
@@ -134,9 +141,12 @@ const Details = () => {
                 </div>
                 <button
                   onClick={handleAddTopComment}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full mb-2 mt-auto h-10"
                 >
-                  <FontAwesomeIcon icon={faPaperPlane} className=" text-lg" />
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    className="text-sm md:text-lg"
+                  />
                 </button>
               </div>
             </div>
