@@ -326,7 +326,6 @@ const calculateAchievements = async (req, res) => {
     Anniversary: anniversary,
     // "Top Followers": topFollowers,
   };
-  console.log(final);
 
   res.status(200).json(final);
 };
@@ -413,11 +412,11 @@ const sendAchievementMail = async (req, res) => {
       { $set: { "badges.$.rewarded": true } } // Update the rewarded field for the matched badge
     );
 
-    if (result.matchedCount > 0) {
-      console.log("Update successful");
-    } else {
-      console.log("No matching badge found for the specified email.");
-    }
+    // if (result.matchedCount > 0) {
+    //   console.log("Update successful");
+    // } else {
+    //   console.log("No matching badge found for the specified email.");
+    // }
 
     res.status(200).send({ Message: "Done" });
   } catch (error) {

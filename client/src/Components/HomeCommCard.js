@@ -62,7 +62,7 @@ const HomeCommCard = ({ id, name, subscribers, posts, topPostTitle }) => {
   );
 
   return (
-    <div className="h-40 md:h-40 w-36 xl:w-52 2xl:w-64 border border-blue-300 rounded-xl mb-2 md:mr-6 cursor-pointer">
+    <div className="h-40 md:h-40 w-full border border-blue-300 rounded-xl mb-2 md:mr-6 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex mb-2 h-28">
         {/* <img

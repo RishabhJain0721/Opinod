@@ -67,10 +67,7 @@ const sendHomeCommunities = async (req, res) => {
       .sort({ subscriberCount: -1 })
       .limit(4)
       .lean();
-    // console.log("Communities ", communities);
     for (const community of communities) {
-      console.log("Processing community:", community.name);
-
       const posts = await CommunityPost.find(
         { community: community._id, isVerified: true },
         {
@@ -87,8 +84,6 @@ const sendHomeCommunities = async (req, res) => {
       community.topPostTitle = posts.length > 0 ? posts[0].title : null;
       community.postCount = postCount;
     }
-
-    console.log("Updated communities:", communities);
 
     res.status(200).send({ Message: "Successfully sent", communities });
   } catch (error) {
@@ -246,13 +241,10 @@ const sendPostDetails = async (req, res) => {
 
 const sendPostComments = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   try {
     const post = await CommunityPost.findById(id);
     const postComments = post.comments;
-    console.log(post.comments);
     const comments = await Comment.find({ _id: { $in: postComments } }).lean();
-    console.log(comments);
 
     for (const comment of comments) {
       const author = await User.findOne(

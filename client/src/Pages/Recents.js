@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { getRecent } from "../APIs/UserDetailsApis";
+import { MutatingDots } from "react-loader-spinner";
 
 const Recents = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Recents = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username);
+      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {
@@ -119,18 +121,24 @@ const Recents = () => {
                   >
                     Opinions
                   </div>
-                  <div
-                    onClick={() => selectFilter("Likes")}
-                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
-                  >
-                    Likes
-                  </div>
                 </div>
               )}
             </div>
             <div className="flex flex-col text-gray-600 text-sm">
               {recentLoading ? (
-                <></>
+                <div className="flex items-center justify-center h-4/5 mt-20">
+                  <MutatingDots
+                    visible={true}
+                    height="100"
+                    width="100"
+                    color="#2196F3"
+                    secondaryColor="#2196F3"
+                    radius="12.5"
+                    ariaLabel="mutating-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </div>
               ) : (
                 recent.map((ele, index) => {
                   {
@@ -196,7 +204,7 @@ const Recents = () => {
                           icon={faSquare}
                           className="  mr-2 text-xs md:text-sm text-blue-500"
                         />
-                        Replied to{" "}
+                        Shared opinion on{" "}
                         <span
                           onClick={() => {
                             if (ele.type === "reply") {
@@ -207,9 +215,10 @@ const Recents = () => {
                           }}
                           className="text-blue-500 cursor-pointer"
                         >
-                          this
+                          {ele.title.length > 25
+                            ? ele.title.slice(0, 25) + "..."
+                            : ele.title}
                         </span>{" "}
-                        post
                       </div>
                     );
                   } else if (ele.type === "post") {
@@ -219,14 +228,16 @@ const Recents = () => {
                           icon={faSquare}
                           className="  mr-2 text-xs md:text-sm text-blue-500"
                         />
-                        Posted a new{" "}
+                        Posted -{" "}
                         <span
-                          onClick={() =>
-                            navigate(`/cpostdetails/${ele.postId}`)
-                          }
+                          onClick={() => {
+                            navigate(`/cpostdetails/${ele.postId}`);
+                          }}
                           className="text-blue-500 cursor-pointer"
                         >
-                          article
+                          {ele?.title?.length > 80
+                            ? ele?.title?.slice(0, 80) + "..."
+                            : ele?.title}
                         </span>
                       </div>
                     );

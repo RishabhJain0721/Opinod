@@ -50,7 +50,7 @@ const Home = () => {
   const fetchOpinions = async () => {
     try {
       setOpinionsLoading(true);
-      const res = await getPopularOpinions(isMobile ? 2 : 3, 1);
+      const res = await getPopularOpinions(isMobile ? 2 : 6, 1);
       setPopularOpinions(res);
     } catch (error) {
       console.log(error);
@@ -63,6 +63,7 @@ const Home = () => {
     try {
       setCommunitiesLoading(true);
       const res = await getHomeCommunities();
+      console.log(res);
       setTopCommunities(res.communities);
     } catch (error) {
       console.log(error);
@@ -75,6 +76,7 @@ const Home = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(null);
+      console.log(res);
       setRecent(res);
     } catch (error) {
       console.log(error);
@@ -171,8 +173,9 @@ const Home = () => {
                 </div>
               )} */}
 
-              <div className="flex flex-wrap justify-start md:ml-6 ">
-                {trending.slice(0, smallScreen ? 2 : 3).map((article) => (
+              {/* <div className="flex flex-wrap justify-start md:ml-10 mr-5 "> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 ml-3 md:ml-10 mr-5">
+                {trending.slice(0, isMobile ? 2 : 6).map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}
@@ -222,8 +225,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-3 md:mt-5 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2 mt-4">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mb-3 mt-2">
                   Popular Opinions
                 </div>
                 <div>
@@ -235,27 +238,26 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start md:ml-6">
-                {popularOpinions
-                  .slice(0, smallScreen ? 2 : 3)
-                  .map((opinion) => (
-                    <OpinionCard
-                      key={opinion._id}
-                      id={opinion._id}
-                      category={opinion.post.category}
-                      profilePhoto={opinion.authorPicture.profilePicture}
-                      author={opinion.author}
-                      datePosted={formatDistanceToNow(
-                        new Date(opinion.createdAt),
-                        { addSuffix: false }
-                      )}
-                      title={opinion.post.title}
-                      text={opinion.text}
-                      upvotes={opinion.upvotes}
-                      downvotes={opinion.downvotes}
-                      postId={opinion.post._id}
-                    />
-                  ))}
+              {/* <div className="flex flex-wrap justify-start md:ml-6"> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 mr-5">
+                {popularOpinions.slice(0, isMobile ? 2 : 6).map((opinion) => (
+                  <OpinionCard
+                    key={opinion._id}
+                    id={opinion._id}
+                    category={opinion.post?.category}
+                    profilePhoto={opinion.authorPicture.profilePicture}
+                    author={opinion.author}
+                    datePosted={formatDistanceToNow(
+                      new Date(opinion.createdAt),
+                      { addSuffix: false }
+                    )}
+                    title={opinion.post?.title}
+                    text={opinion.text}
+                    upvotes={opinion.upvotes}
+                    downvotes={opinion.downvotes}
+                    postId={opinion.post?._id}
+                  />
+                ))}
               </div>
             </>
           )}
@@ -276,7 +278,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700 w-2/3 mb-2">
                   Top Communities
                 </div>
@@ -289,17 +291,20 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10">
-                {topCommunities.slice(0, isMobile ? 2 : 4).map((community) => (
-                  <HomeCommCard
-                    key={community._id}
-                    id={community._id}
-                    name={community.name}
-                    subscribers={community.subscriberCount}
-                    posts={community.postCount}
-                    topPostTitle={community.topPostTitle}
-                  />
-                ))}
+              {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10"> */}
+              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 gap-x-3">
+                {topCommunities
+                  .slice(0, smallScreen ? (isMobile ? 2 : 3) : 4)
+                  .map((community) => (
+                    <HomeCommCard
+                      key={community._id}
+                      id={community._id}
+                      name={community.name}
+                      subscribers={community.subscriberCount}
+                      posts={community.postCount}
+                      topPostTitle={community.topPostTitle}
+                    />
+                  ))}
               </div>
             </>
           )}
@@ -375,8 +380,8 @@ const Home = () => {
                             }}
                             className="text-blue-500 cursor-pointer"
                           >
-                            {ele.title.length > 25
-                              ? ele.title.slice(0, 25) + "..."
+                            {ele.title.length > 80
+                              ? ele.title.slice(0, 80) + "..."
                               : ele.title}
                           </span>
                         </div>
@@ -397,7 +402,7 @@ const Home = () => {
                           >
                             {ele.author}
                           </span>{" "}
-                          replied to{" "}
+                          shared opinion on{" "}
                           <span
                             onClick={() => {
                               if (!username) {
@@ -411,11 +416,10 @@ const Home = () => {
                             }}
                             className="text-blue-500 cursor-pointer"
                           >
-                            {ele.title.length > 25
-                              ? ele.title.slice(0, 25) + "..."
+                            {ele.title.length > 80
+                              ? ele.title.slice(0, 80) + "..."
                               : ele.title}
                           </span>{" "}
-                          post
                         </div>
                       );
                     } else if (ele.type === "post") {
@@ -431,7 +435,7 @@ const Home = () => {
                           >
                             {ele.username}
                           </span>{" "}
-                          posted a new{" "}
+                          posted -{" "}
                           <span
                             onClick={() => {
                               if (!username) {
@@ -441,7 +445,9 @@ const Home = () => {
                             }}
                             className="text-blue-500 cursor-pointer"
                           >
-                            article
+                            {ele.title.length > 80
+                              ? ele.title.slice(0, 80) + "..."
+                              : ele.title}
                           </span>
                         </div>
                       );

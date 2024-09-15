@@ -341,14 +341,16 @@ const ProfilePage = () => {
                           icon={faSquare}
                           className="mr-2 text-blue-500"
                         />
-                        Posted a new{" "}
+                        Posted -{" "}
                         <span
-                          onClick={() =>
-                            navigate(`/cpostdetails/${ele.postId}`)
-                          }
+                          onClick={() => {
+                            navigate(`/cpostdetails/${ele.postId}`);
+                          }}
                           className="text-blue-500 cursor-pointer"
                         >
-                          article
+                          {ele.title.length > 80
+                            ? ele.title.slice(0, 80) + "..."
+                            : ele.title}
                         </span>
                       </div>
                     );

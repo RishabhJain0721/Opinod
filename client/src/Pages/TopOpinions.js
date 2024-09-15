@@ -93,11 +93,11 @@ const TopOpinions = () => {
           ) : (
             <>
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-5 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="text-xl font-semibold text-gray-800 w-auto">
+                <div className="text-xl font-semibold text-gray-800 w-auto md:mb-3">
                   Popular Opinions
                 </div>
               </div>
-              <div className="flex flex-wrap md:ml-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 mr-5">
                 {popularOpinions.map(
                   (opinion) =>
                     opinion.post && (
@@ -136,7 +136,7 @@ const TopOpinions = () => {
                   </div>
                 )}
                 {!hasMore && (
-                  <div className="flex items-center justify-center w-full h-24 text-gray-600">
+                  <div className="flex h-16 items-center justify-center text-sm md:ml-auto md:w-96 text-gray-600">
                     No more opinions available
                   </div>
                 )}

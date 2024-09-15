@@ -152,7 +152,6 @@ const login = async (req, res) => {
     ...userWithoutExtraFields
   } = existingUser;
 
-  console.log(userWithoutExtraFields);
   res.status(200).send({
     message: "Login successful.",
     ...userWithoutExtraFields,

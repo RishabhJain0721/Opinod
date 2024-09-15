@@ -131,7 +131,7 @@ const sendRecent = async (req, res) => {
         },
         {
           $addFields: {
-            all: { $slice: ["$all", -5] },
+            all: { $slice: ["$all", number ? -number : { $size: "$all" }] },
           },
         },
       ]);
@@ -163,6 +163,12 @@ const sendRecent = async (req, res) => {
           { title: 1 }
         ).lean();
         item.title = cPost.title;
+      } else if (item.type === "post") {
+        const cPost = await CommunityPost.findOne(
+          { _id: item.postId },
+          { title: 1 }
+        ).lean();
+        item.title = cPost?.title;
       }
     }
     res.status(200).send(recent.all.reverse());

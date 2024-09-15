@@ -111,40 +111,51 @@ const sendNews = async (req, res) => {
   };
 
   if (categories.length >= 3) {
-    [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+    [trending[0], trending[3]] = await Post.find(
+      { category: categories[0] },
+      reqFields
+    )
       .sort({ publishedAt: -1 })
-      .limit(1)
+      .limit(2)
       .lean();
-    [trending[1]] = await Post.find({ category: categories[1] }, reqFields)
+    [trending[1], trending[4]] = await Post.find(
+      { category: categories[1] },
+      reqFields
+    )
       .sort({ publishedAt: -1 })
-      .limit(1)
+      .limit(2)
       .lean();
-    [trending[2]] = await Post.find({ category: categories[2] }, reqFields)
+    [trending[2], trending[5]] = await Post.find(
+      { category: categories[2] },
+      reqFields
+    )
       .sort({ publishedAt: -1 })
-      .limit(1)
+      .limit(2)
       .lean();
   } else if (categories.length === 2) {
-    [trending[0]] = await Post.find({ category: categories[0] }, reqFields)
+    [trending[0], trending[2], trending[4]] = await Post.find(
+      { category: categories[0] },
+      reqFields
+    )
       .sort({ publishedAt: -1 })
-      .limit(1)
+      .limit(3)
       .lean();
-    [trending[1]] = await Post.find({ category: categories[0] }, reqFields)
+    [trending[1], trending[3], trending[5]] = await Post.find(
+      { category: categories[1] },
+      reqFields
+    )
       .sort({ publishedAt: -1 })
-      .limit(1)
-      .lean();
-    [trending[2]] = await Post.find({ category: categories[1] }, reqFields)
-      .sort({ publishedAt: -1 })
-      .limit(1)
+      .limit(3)
       .lean();
   } else if (categories.length === 1) {
     trending = await Post.find({ category: categories[0] }, reqFields)
       .sort({ publishedAt: -1 })
-      .limit(3)
+      .limit(6)
       .lean();
   } else {
     trending = await Post.find({ category: "General" }, reqFields)
       .sort({ publishedAt: -1 })
-      .limit(3)
+      .limit(6)
       .lean();
   }
   // trending = await Post.find({ category: { $in: categories } }).limit(3);
@@ -161,11 +172,11 @@ const sendNewsDetails = async (req, res) => {
 };
 
 const sendNewsByCategory = async (req, res) => {
-  const { category, username, page } = req.body;
+  const { category, username, page, userCategories } = req.body;
   const pageSize = 9; // Number of posts per page
 
   // Calculate the number of posts to skip based on the page number
-  const skip = (page - 1) * pageSize;
+  let skip = (page - 1) * pageSize;
 
   let news;
 
@@ -179,24 +190,29 @@ const sendNewsByCategory = async (req, res) => {
   // }
 
   if (category == "Trending") {
-    const posts = await Post.find(
-      { category: "General" },
-      {
-        title: 1,
-        image: 1,
-        publishedAt: 1,
-        source: 1,
-        category: 1,
-        comments: 1,
-        upvotes: 1,
-        downvotes: 1,
-      }
-    )
-      .sort({ publishedAt: -1 })
-      .skip(skip)
-      .limit(pageSize)
-      .lean();
+    let posts = [];
+    skip = (page - 1) * (pageSize / userCategories.length);
+    for (let cat of userCategories) {
+      const categoryPosts = await Post.find(
+        { category: cat },
+        {
+          title: 1,
+          image: 1,
+          publishedAt: 1,
+          source: 1,
+          category: 1,
+          comments: 1,
+          upvotes: 1,
+          downvotes: 1,
+        }
+      )
+        .sort({ publishedAt: -1 })
+        .skip(skip)
+        .limit(pageSize / userCategories.length)
+        .lean();
 
+      posts = [...posts, ...categoryPosts];
+    }
     await enrichPostsWithTopComment(posts);
     news = posts;
   } else {

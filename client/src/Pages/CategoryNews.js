@@ -9,6 +9,7 @@ import MobileSearch from "../Components/MobileSearch";
 
 const CategoryNews = () => {
   const category = useSelector((state) => state.category.category);
+  const userCategories = useSelector((state) => state.user.categories);
   const username = useSelector((state) => state.user.username);
   let isArticleLoading = false;
 
@@ -20,7 +21,11 @@ const CategoryNews = () => {
 
   const fetchNews = useCallback(async () => {
     try {
-      const res = await getNewsByCategory(category, username, page);
+      let payload =
+        category === "Trending"
+          ? { category, username, page, userCategories }
+          : { category, username, page };
+      const res = await getNewsByCategory(payload);
       if (res.length > 0) {
         setNews((prevNews) => [...prevNews, ...res]);
         setPage((prevPage) => prevPage + 1);
@@ -72,7 +77,7 @@ const CategoryNews = () => {
       {!isMobile && <Navbar />}
       <div className="flex mt-4 md:mt-16">
         <div className="w-full md:ml-60 mt-11 md:mt-0">
-          <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-7 font-medium text-gray-700 w-auto">
+          <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-7 mb-2 font-medium text-gray-700 w-auto">
             {category}
           </div>
 
@@ -92,12 +97,13 @@ const CategoryNews = () => {
             </div>
           ) : (
             <>
-              <div className="flex flex-wrap justify-start md:ml-6 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 ml-3 md:ml-10 mr-5 ">
                 {news.map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}
                     profilePhoto={article.image}
+                    cat={article.category}
                     name={article.source}
                     datePosted={new Date(
                       article.publishedAt

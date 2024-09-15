@@ -20,12 +20,18 @@ export const getNewsById = async (id) => {
   }
 };
 
-export const getNewsByCategory = async (category, username, page) => {
+export const getNewsByCategory = async ({
+  category,
+  username,
+  page,
+  userCategories,
+}) => {
   try {
     const response = await axios.post("/api/news/byCategory", {
       category,
       username,
       page,
+      userCategories,
     });
     return response.data;
   } catch (error) {
