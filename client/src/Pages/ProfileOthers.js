@@ -36,7 +36,7 @@ const ProfileOthers = () => {
 
   const following = useSelector((state) => state.user.following);
   const [isFollowing, setIsFollowing] = useState(
-    following.includes(name) ? true : false
+    following?.includes(name) ? true : false
   );
 
   const [base64Image, setBase64Image] = useState("");
@@ -47,6 +47,7 @@ const ProfileOthers = () => {
     try {
       setUserLoading(true);
       const res = await getUserDetails(name);
+      console.log(res);
       setUser(res);
       setBase64Image(res.profilePicture.buffer);
       setImageType(res.profilePicture.mimetype);
@@ -114,7 +115,7 @@ const ProfileOthers = () => {
       return 7;
     }
     // Default case if none of the above conditions match
-    return "Level not defined";
+    return 7;
   }
 
   const handleFollow = async () => {
