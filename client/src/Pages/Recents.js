@@ -80,9 +80,9 @@ const Recents = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
+
       <div className="flex mt-16">
-        <div className="md:ml-60 p-4 w-full">
+        <div className="p-4 w-full md:ml-5 md:mr-5">
           <div>
             {/* Recent Activities */}
             <div className=" text-base font-medium mb-1 mt-2">

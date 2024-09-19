@@ -136,10 +136,8 @@ const Home = () => {
 
       {isMobile && <MobileSearch />}
 
-      {!isMobile && <Navbar />}
-
       <div className="flex mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="w-full mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -156,7 +154,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700 mb-2">Trending</div>
                 <div>
                   <button
@@ -173,8 +171,8 @@ const Home = () => {
                 </div>
               )} */}
 
-              {/* <div className="flex flex-wrap justify-start md:ml-10 mr-5 "> */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 ml-3 md:ml-10 mr-5">
+              {/* <div className="flex flex-wrap justify-start md:ml-10 md:mr-10 mr-5 "> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5">
                 {trending.slice(0, isMobile ? 2 : 6).map((article) => (
                   <Card
                     key={article._id}
@@ -225,7 +223,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700 w-2/3 mb-2 md:mb-3 mt-2">
                   Popular Opinions
                 </div>
@@ -239,7 +237,7 @@ const Home = () => {
                 </div>
               </div>
               {/* <div className="flex flex-wrap justify-start md:ml-6"> */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 mr-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 md:mr-10 mr-5">
                 {popularOpinions.slice(0, isMobile ? 2 : 6).map((opinion) => (
                   <OpinionCard
                     key={opinion._id}
@@ -278,7 +276,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+              <div className="text-sm md:text-2xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700 w-2/3 mb-2">
                   Top Communities
                 </div>
@@ -291,8 +289,8 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10"> */}
-              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 gap-x-3">
+              {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
+              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-5">
                 {topCommunities
                   .slice(0, smallScreen ? (isMobile ? 2 : 3) : 4)
                   .map((community) => (
@@ -313,12 +311,12 @@ const Home = () => {
             <></>
           ) : (
             <>
-              <div className="text-sm md:text-2xl ml-5 md:ml-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-sm md:text-2xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700 w-2/3 mb-2">
                   Recent Activities
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 text-gray-600 mb-10">
+              <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10">
                 <div className=" w-full">
                   {recent.map((ele, index) => {
                     {

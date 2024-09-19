@@ -100,7 +100,7 @@ const sendCommunityData = async (req, res) => {
     }).lean();
     const subcategories = community.subCategories;
     const name = community.name;
-    const topPosts = await topCommunityPosts(id, 2);
+    const topPosts = await topCommunityPosts(id, 3);
     res.status(200).send({ subcategories, name, topPosts });
   } catch (error) {
     res.status(404).send(error);

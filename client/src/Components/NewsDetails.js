@@ -194,7 +194,7 @@ const NewsDetails = (props) => {
       {/* <div className=" top-1/2 flex justify-between w-full"> */}
       <button
         onClick={handleLeft}
-        className="fixed top-1/3 md:top-1/2 left-1 md:left-64 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50"
+        className="fixed top-1/3 md:top-1/2 left-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-30"
       >
         {isLeftLoading ? (
           <Vortex
@@ -212,7 +212,7 @@ const NewsDetails = (props) => {
       </button>
       <button
         onClick={handleRight}
-        className="fixed top-1/3 md:top-1/2 right-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-50"
+        className="fixed top-1/3 md:top-1/2 right-1 p-2 text-2xl md:text-3xl rounded-full bg-white border border-blue-400 z-30"
       >
         {isRightLoading ? (
           <Vortex

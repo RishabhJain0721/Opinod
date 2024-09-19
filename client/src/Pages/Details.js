@@ -95,10 +95,10 @@ const Details = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
+
       <div className="flex mt-16">
         {isLoadingDetails ? (
-          <div className="flex items-center justify-center w-screen h-96 md:ml-60">
+          <div className="flex items-center justify-center w-screen h-96  ">
             <MutatingDots
               visible={true}
               height="100"
@@ -112,9 +112,9 @@ const Details = () => {
             />
           </div>
         ) : (
-          <div className="w-full md:ml-60 md:mt-0 ">
+          <div className="w-full md:ml-5 md:mr-5  md:mt-0 ">
             {/* Comment box */}
-            <div className="w-full mr-10 fixed bottom-0 z-40">
+            <div className="w-full fixed bottom-0 left-0 z-40">
               <div
                 className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
                   isFocused ? " h-80" : "h-16"
@@ -126,11 +126,11 @@ const Details = () => {
                   onChange={(e) => setNewReply(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className="border border-gray-500 rounded w-3/4 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
+                  className="border border-gray-500 rounded w-11/12 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                   placeholder="Give your opinion"
                 />
                 <div
-                  className="text-xl md:text-2xl text-gray-600 mt-auto mb-4 mr-4 h-6"
+                  className="text-xl md:text-2xl text-gray-600 mt-auto mb-2 mr-4 h-10"
                   key={triggerRerender}
                 >
                   <UploadImage

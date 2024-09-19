@@ -26,6 +26,7 @@ const CommunityPostDetails = () => {
   const [isLoadingComments, setIsLoadingComments] = useState(true);
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const username = useSelector((state) => state.user.username);
 
@@ -96,10 +97,9 @@ const CommunityPostDetails = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
       <div className="flex mt-16">
         {isLoadingDetails ? (
-          <div className="flex items-center justify-center w-screen h-96 md:ml-60">
+          <div className="flex items-center justify-center w-screen h-96">
             <MutatingDots
               visible={true}
               height="100"
@@ -113,19 +113,25 @@ const CommunityPostDetails = () => {
             />
           </div>
         ) : (
-          <div className="w-full md:ml-60 md:mt-0">
+          <div className="w-full md:mt-0">
             {/* Comment box */}
-            <div className="w-screen fixed bottom-0 z-40">
-              <div className="flex bg-white border border-t-2 p-5">
-                <input
+            <div className="w-full fixed bottom-0 z-40">
+              <div
+                className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                  isFocused ? " h-80" : "h-16"
+                }`}
+              >
+                <textarea
                   type="text"
                   value={newReply}
                   onChange={(e) => setNewReply(e.target.value)}
-                  className="border border-gray-800 rounded w-3/4 p-3 mr-3"
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className="border border-gray-500 rounded w-11/12 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                   placeholder="Give your opinion"
                 />
                 <div
-                  className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                  className="text-xl md:text-2xl text-gray-600 mt-auto mb-2 mr-4 h-10"
                   key={triggerRerender}
                 >
                   <UploadImage
@@ -136,22 +142,25 @@ const CommunityPostDetails = () => {
                 </div>
                 <button
                   onClick={handleAddTopComment}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full mb-2 mt-auto h-10"
                 >
-                  <FontAwesomeIcon icon={faPaperPlane} className=" text-lg" />
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    className="text-sm md:text-lg"
+                  />
                 </button>
               </div>
             </div>
 
             {/* News */}
-            <div className="bg-white p-1 sm:p-2 md:p-3 mb-4 w-auto h-fit">
+            <div className="bg-white p-0 sm:p-2 md:p-3 mb-4 w-auto h-fit">
               <div className="flex flex-col justify-between items-between mb-2">
                 <CommPostDetails details={details} />
 
                 {/* Replies */}
                 <div className="flex items-start flex-col w-full pl-2">
                   {/* Heading */}
-                  <div className="text-base sm:text-lg md:text-xl font-medium mb-2 w-full">
+                  <div className="text-base sm:text-lg md:text-xl ml-3 font-medium mb-2 w-full">
                     Replies :
                   </div>
 
@@ -170,7 +179,7 @@ const CommunityPostDetails = () => {
                       />
                     </div>
                   ) : (
-                    <div className=" mb-16">
+                    <div className="mb-16">
                       {comments.map((comment, index) => (
                         <Comment key={index} opinion={comment} />
                       ))}

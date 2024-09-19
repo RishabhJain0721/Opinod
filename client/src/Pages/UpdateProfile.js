@@ -82,10 +82,10 @@ const UpdateProfile = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
+
       <div className="flex mt-16">
         {!isUpdating ? (
-          <div className="w-full md:ml-60 mt-11 md:mt-0">
+          <div className="w-full   mt-11 md:mt-0">
             <div className="bg-white rounded-lg p-4 md:p-4 md:m-4 h-fit  md:border-blue-400">
               <form onSubmit={handleSubmit} type="multipart/form-data">
                 <div className="mb-4">

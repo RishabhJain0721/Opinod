@@ -134,7 +134,7 @@ const OpinionCard = ({
             : toast.info("Please login to view more!");
         }}
       >
-        {title.length > 70 ? title.slice(0, 70) + "..." : title}
+        {title?.length > 70 ? title?.slice(0, 70) + "..." : title}
       </div>
       <div
         className="flex items-center mb-1"

@@ -74,10 +74,9 @@ const CategoryNews = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
       <div className="flex mt-4 md:mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
-          <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-7 mb-2 font-medium text-gray-700 w-auto">
+        <div className="w-full mt-11 md:mt-0">
+          <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-4 md:mt-7 mb-2 font-medium text-gray-700 w-auto">
             {category}
           </div>
 
@@ -97,7 +96,7 @@ const CategoryNews = () => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 ml-3 md:ml-10 mr-5 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5 ">
                 {news.map((article) => (
                   <Card
                     key={article._id}

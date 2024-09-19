@@ -69,10 +69,8 @@ const Communities = () => {
     <div>
       <Topbar />
 
-      {!isMobile && <Navbar />}
-
       <div className="flex mt-4 md:mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="w-full mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -89,7 +87,7 @@ const Communities = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700">
                   Joined Communities
                 </div>
@@ -124,7 +122,7 @@ const Communities = () => {
                 )}
               </div>
 
-              <div className="text-base md:text-2xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-700">Explore</div>
 
                 {/* Main Topics */}

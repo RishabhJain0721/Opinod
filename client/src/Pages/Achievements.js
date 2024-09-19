@@ -44,9 +44,8 @@ const Achievements = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
       <div className="flex mt-16">
-        <div className="md:ml-60 p-4 w-full">
+        <div className="p-4 w-full">
           <div>
             {/* Achievements */}
             <div className="text-lg font-medium mb-5 mt-3 ml-6">

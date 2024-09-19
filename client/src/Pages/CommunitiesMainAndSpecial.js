@@ -47,10 +47,8 @@ const CommunitiesMain = () => {
     <div>
       <Topbar />
 
-      {!isMobile && <Navbar />}
-
       <div className="flex mt-4 md:mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="w-full  mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -67,8 +65,8 @@ const CommunitiesMain = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">
+              <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+                <div className="font-semibold">
                   {type.slice(0, 1).toUpperCase() + type.slice(1)} Topics
                 </div>
 
@@ -136,10 +134,8 @@ const CommunitiesSpecial = () => {
 
       {isMobile && <MobileSearch />}
 
-      {!isMobile && <Navbar />}
-
       <div className="flex mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="w-full  mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -156,8 +152,8 @@ const CommunitiesSpecial = () => {
             </div>
           ) : (
             <>
-              <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">
+              <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
+                <div className="font-semibold">
                   {type.slice(0, 1).toUpperCase() + type.slice(1)} Topics
                 </div>
 

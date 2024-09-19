@@ -147,10 +147,10 @@ const CommunitiesIndividual = () => {
     <div>
       <Topbar />
 
-      {!isMobile && <Navbar />}
+      {/*   */}
 
       <div className="flex mt-4 md:mt-16">
-        <div className="w-full md:ml-60 mt-11 md:mt-0">
+        <div className="w-full mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -167,13 +167,13 @@ const CommunitiesIndividual = () => {
             </div>
           ) : (
             <>
-              <div className="text-2xl font-semibold ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-2xl font-semibold ml-5 md:ml-10 md:mr-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 {/* Name */}
                 <div className=" font-semibold md:font-normal mb-3">{name}</div>
               </div>
               {subcategories.length > 0 && (
                 <>
-                  <div className="text-xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                  <div className="text-xl ml-5 mr-5 md:ml-10 md:mr-10 flex items-center justify-between text-gray-800 w-auto">
                     {/* Subcategories */}
                     <div className=" font-semibold md:font-normal">
                       Explore sub-categories
@@ -188,7 +188,7 @@ const CommunitiesIndividual = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+                  <div className="flex flex-wrap justify-start mx-5 ">
                     {subcategories
                       .slice(0, isMobile ? 3 : 5)
                       .map((subcategory, index) => {
@@ -205,7 +205,7 @@ const CommunitiesIndividual = () => {
               )}
 
               {/* Top Posts */}
-              <div className="text-xl ml-5 md:ml-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className="font-semibold md:font-normal">Posts</div>
                 <div>
                   <button
@@ -216,7 +216,7 @@ const CommunitiesIndividual = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start mx-5 md:ml-6">
+              <div className="flex flex-wrap justify-start mx-5">
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
@@ -227,7 +227,7 @@ const CommunitiesIndividual = () => {
                 )}
               </div>
 
-              <div className="text-xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
+              <div className="text-xl ml-5 md:ml-10 md:mr-10  mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
                 <div className="font-semibold md:font-normal mb-3">
                   Create New Post
                 </div>

@@ -61,6 +61,7 @@ const CommunityReply = () => {
 
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -208,15 +209,15 @@ const CommunityReply = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
-      <div className="flex flex-col mt-16 md:ml-60">
+
+      <div className="flex flex-col mt-16 md:ml-5 md:mr-5">
         <div
           className="cursor-pointer ml-3 mt-5"
           onClick={() => {
             navigate(`/cpostdetails/${postId}`);
           }}
         >
-          <FontAwesomeIcon icon={faArrowLeft} className="text-sm" /> Go to
+          <FontAwesomeIcon icon={faArrowLeft} className="text-sm" /> &nbsp;Go to
           original post
         </div>
         {isLoading ? (
@@ -243,7 +244,12 @@ const CommunityReply = () => {
                   className="w-6 h-6 rounded-full mr-2"
                 />
                 <div className="flex flex-row items-baseline">
-                  <div className="text-sm font-semibold">{comment.author}</div>
+                  <div
+                    className="text-sm font-semibold"
+                    onClick={() => navigate(`/profile/${comment.author}`)}
+                  >
+                    {comment.author}
+                  </div>
                   <div className="text-xs text-gray-500 ml-2">
                     {/* {formatDistanceToNow(new Date(comment.createdAt), {
                       addSuffix: true,
@@ -331,29 +337,31 @@ const CommunityReply = () => {
             </div>
             <div>
               <div className="text-lg ml-5">Replies :</div>
-              <div className="mb-24">
+              <div className=" mb-28">
                 {replies.map((reply) => {
                   return (
                     <CommunitySingleReply key={reply._id} comment={reply} />
                   );
                 })}
               </div>
-              {/* <ReplyModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              > */}
 
-              <div className="w-screen fixed bottom-0 z-40">
-                <div className="flex bg-white border border-t-2 p-5">
-                  <input
+              <div className="w-screen fixed bottom-0 left-0 z-40">
+                <div
+                  className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                    isFocused ? " h-80" : "h-16"
+                  }`}
+                >
+                  <textarea
                     type="text"
-                    className="border border-gray-800 rounded w-3/4 p-3 mr-3"
+                    className="border border-gray-500 rounded w-11/12 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                     value={replyText}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your opinion..."
                   />
                   <div
-                    className="text-lg md:text-2xl text-gray-600 mt-auto mb-auto mr-4"
+                    className="text-xl md:text-2xl text-gray-600 mt-auto mb-2 mr-4 h-10"
                     key={triggerRerender}
                   >
                     <UploadImage
@@ -364,13 +372,15 @@ const CommunityReply = () => {
                   </div>
                   <button
                     onClick={handleSubmitReply}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-full mb-2 mt-auto h-10"
                   >
-                    <FontAwesomeIcon icon={faPaperPlane} className=" text-lg" />
+                    <FontAwesomeIcon
+                      icon={faPaperPlane}
+                      className="text-sm md:text-lg"
+                    />
                   </button>
                 </div>
               </div>
-              {/* </ReplyModal> */}
             </div>
           </div>
         )}

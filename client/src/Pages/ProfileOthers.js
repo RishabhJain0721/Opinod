@@ -151,10 +151,10 @@ const ProfileOthers = () => {
   return (
     <div>
       <Topbar />
-      {!isMobile && <Navbar />}
-      <div className="flex mt-16 flex-col md:ml-60">
+
+      <div className="flex mt-16 flex-col  ">
         {userLoading ? (
-          <div className="flex items-center justify-center w-full mt-20 md:ml-60">
+          <div className="flex items-center justify-center w-full mt-20  ">
             <MutatingDots
               visible={true}
               height="100"
@@ -169,7 +169,7 @@ const ProfileOthers = () => {
           </div>
         ) : (
           <div className="p-4 pb-0 w-full">
-            <div className="bg-white p-4 md:p-4 md:m-4 h-fit">
+            <div className="bg-white p-4 h-fit">
               {/* First Row: Profile pic, Followers, Following, Category */}
               <div className="flex items-center justify-start mb-2 md:mb-4">
                 {imageType ? (
@@ -243,7 +243,7 @@ const ProfileOthers = () => {
             </div>
           </div>
         )}
-        <div className="flex w-full justify-center md:justify-start md:ml-12 gap-x-5 text-gray-800 font-medium md:text-lg p-1 cursor-pointer">
+        <div className="flex w-full md:w-1/2  justify-center md:justify-start md:ml-12 gap-x-5 text-gray-800 font-medium md:text-lg p-0 cursor-pointer">
           <div
             onClick={toggleView}
             className={`${
@@ -262,7 +262,7 @@ const ProfileOthers = () => {
           </div>
         </div>
         {postsLoading ? (
-          <div className="flex items-center justify-center w-full md:ml-60">
+          <div className="flex items-center justify-center w-full  ">
             <MutatingDots
               visible={true}
               height="100"
@@ -277,12 +277,12 @@ const ProfileOthers = () => {
           </div>
         ) : (
           p && (
-            <div className="flex flex-wrap justify-start mx-5 md:ml-10">
+            <div className="flex flex-wrap justify-start mx-5 md:ml-5">
               {posts.map((post, index) => {
                 return <UserPostCard key={index} post={post} />;
               })}
               {posts.length === 0 && (
-                <div className=" ml-auto mr-auto text-gray-500 italic mt-10">
+                <div className="ml-auto mr-auto text-gray-500 italic mt-10">
                   No posts available
                 </div>
               )}
@@ -290,7 +290,7 @@ const ProfileOthers = () => {
           )
         )}
         {commentsLoading ? (
-          <div className="flex items-center justify-center w-full mt-20 md:ml-60">
+          <div className="flex items-center justify-center w-full mt-20">
             <MutatingDots
               visible={true}
               height="100"
@@ -305,7 +305,7 @@ const ProfileOthers = () => {
           </div>
         ) : (
           c && (
-            <div className="flex flex-wrap justify-start mx-5 md:ml-10">
+            <div className="flex flex-wrap justify-start mx-5 md:ml-5">
               {comments.map((comment, index) => {
                 return <UserComment key={index} opinion={comment} />;
               })}
