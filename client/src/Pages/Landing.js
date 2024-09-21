@@ -52,7 +52,7 @@ function LandingPage() {
               </div>
               <button
                 className="bg-black text-white px-3 py-2 md:px-4 md:py-2 rounded text-sm md:text-base"
-                onClick={() => navigate("/home")}
+                onClick={() => navigate("/")}
               >
                 Get Started
               </button>
@@ -77,7 +77,7 @@ function LandingPage() {
         </p>
         <button
           className="bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
         >
           Start Reading
         </button>

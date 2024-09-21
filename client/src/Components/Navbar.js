@@ -97,7 +97,7 @@ const Navbar = () => {
     if (category === selectedCategory) {
       setSelectedCategory(null);
       dispatch(selectCategory(null));
-      navigate("/home");
+      navigate("/");
       return;
     }
     setSelectedCategory(category);
@@ -193,7 +193,7 @@ const Navbar = () => {
         <h2 className="text-2xl font-semibold mb-2 text-white mt-5">
           <div
             className="flex justify-between items-center mr-4 cursor-pointer"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/")}
           >
             <div>
               <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home

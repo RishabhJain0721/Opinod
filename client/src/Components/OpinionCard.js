@@ -122,7 +122,7 @@ const OpinionCard = ({
   };
 
   return (
-    <div className="pl-2 md:pl-0 rounded-lg w-full">
+    <div className="pl-2 md:pl-0 rounded-lg w-full cursor-pointer">
       <div className="flex items-center">
         <span className="text-xs font-medium text-gray-500">{category}</span>
       </div>

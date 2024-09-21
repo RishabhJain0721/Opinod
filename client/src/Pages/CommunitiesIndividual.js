@@ -157,8 +157,8 @@ const CommunitiesIndividual = () => {
                 visible={true}
                 height="100"
                 width="100"
-                color="#2196F3"
-                secondaryColor="#2196F3"
+                color="#212121"
+                secondaryColor="#212121"
                 radius="12.5"
                 ariaLabel="mutating-dots-loading"
                 wrapperStyle={{}}
@@ -287,8 +287,8 @@ const CommunitiesIndividual = () => {
                         visible={true}
                         height="50"
                         width="40"
-                        color="#2196F3"
-                        secondaryColor="#2196F3"
+                        color="#212121"
+                        secondarycolor="#212121"
                         radius="5"
                         ariaLabel="mutating-dots-loading"
                         wrapperStyle={{}}

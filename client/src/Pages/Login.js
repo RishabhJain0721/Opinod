@@ -57,7 +57,7 @@ const Login = () => {
           res.following
         )
       );
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setError(error.response.data.errorName);
       console.error("Error:", error);
@@ -75,8 +75,8 @@ const Login = () => {
             visible={true}
             height="100"
             width="100"
-            color="#2196F3"
-            secondaryColor="#2196F3"
+            color="#212121"
+            secondaryColor="#212121"
             radius="12.5"
             ariaLabel="mutating-dots-loading"
             wrapperStyle={{}}

@@ -86,8 +86,8 @@ const CategoryNews = () => {
                 visible={true}
                 height="100"
                 width="100"
-                color="#2196F3"
-                secondaryColor="#2196F3"
+                color="#212121"
+                secondaryColor="#212121"
                 radius="12.5"
                 ariaLabel="mutating-dots-loading"
                 wrapperStyle={{}}
@@ -134,11 +134,11 @@ const CategoryNews = () => {
                 <div className="flex items-center justify-center w-full h-24">
                   <MutatingDots
                     visible={true}
-                    height="50"
-                    width="50"
-                    color="#2196F3"
-                    secondaryColor="#2196F3"
-                    radius="7.5"
+                    height="100"
+                    width="100"
+                    color="#212121"
+                    secondaryColor="#212121"
+                    radius="12.5"
                     ariaLabel="mutating-dots-loading"
                     wrapperStyle={{}}
                     wrapperClass=""

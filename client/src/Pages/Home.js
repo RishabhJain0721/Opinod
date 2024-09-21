@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import HomeCommCard from "../Components/HomeCommCard";
+import HomeNavbar from "../Components/HomeNavbar";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -132,11 +133,11 @@ const Home = () => {
 
   return (
     <div>
-      <Topbar />
+      {isMobile ? <Topbar /> : <HomeNavbar />}
 
       {isMobile && <MobileSearch />}
 
-      <div className="flex mt-16">
+      <div className="flex mt-16 md:mt-64">
         <div className="w-full mt-11 md:mt-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
@@ -144,8 +145,8 @@ const Home = () => {
                 visible={true}
                 height="100"
                 width="100"
-                color="#2196F3"
-                secondaryColor="#2196F3"
+                color="#212121"
+                secondaryColor="#212121"
                 radius="12.5"
                 ariaLabel="mutating-dots-loading"
                 wrapperStyle={{}}
@@ -213,8 +214,8 @@ const Home = () => {
                 visible={true}
                 height="100"
                 width="100"
-                color="#2196F3"
-                secondaryColor="#2196F3"
+                color="#212121"
+                secondaryColor="#212121"
                 radius="12.5"
                 ariaLabel="mutating-dots-loading"
                 wrapperStyle={{}}
@@ -236,7 +237,6 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              {/* <div className="flex flex-wrap justify-start md:ml-6"> */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 md:mr-10 mr-5">
                 {popularOpinions.slice(0, isMobile ? 2 : 6).map((opinion) => (
                   <OpinionCard
@@ -266,8 +266,8 @@ const Home = () => {
                 visible={true}
                 height="100"
                 width="100"
-                color="#2196F3"
-                secondaryColor="#2196F3"
+                color="#212121"
+                secondaryColor="#212121"
                 radius="12.5"
                 ariaLabel="mutating-dots-loading"
                 wrapperStyle={{}}
@@ -290,7 +290,7 @@ const Home = () => {
                 </div>
               </div>
               {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
-              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-5">
+              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7 lg:gap-x-10">
                 {topCommunities
                   .slice(0, smallScreen ? (isMobile ? 2 : 3) : 4)
                   .map((community) => (

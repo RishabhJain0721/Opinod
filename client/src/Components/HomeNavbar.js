@@ -46,7 +46,7 @@ import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 import MobileSearch from "./MobileSearch";
 import { toast } from "react-toastify";
 
-const Topbar = () => {
+const HomeNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -65,6 +65,7 @@ const Topbar = () => {
     location.pathname === "/" ? true : false
   );
   const [isAtTop, setIsAtTop] = useState(true);
+  const [isAtTopPc, setIsAtTopPc] = useState(true);
   const [searchText, setSearchText] = useState("");
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -87,6 +88,8 @@ const Topbar = () => {
     const handleScroll = async () => {
       if (window.scrollY > 75) setIsAtTop(false);
       else setIsAtTop(true);
+      if (window.scrollY > 150) setIsAtTopPc(false);
+      else setIsAtTopPc(true);
     };
 
     window.addEventListener("resize", handleResize);
@@ -242,71 +245,70 @@ const Topbar = () => {
   };
 
   return (
-    <div className=" fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
+    <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
+      {isAtTopPc && (
+        <>
+          <div className="text-8xl m-3 flex items-center">
+            <div className="flex items-center justify-between w-8/12">
+              <img
+                src={Opinod}
+                alt="Logo"
+                className="w-16 h-16 mr-4 rounded-md bg-gray-900"
+                onClick={() => {
+                  navigate("/");
+                  dispatch(selectCategory(null));
+                }}
+              />
+              <span className="mr-16">Opinod</span>
+            </div>
+          </div>
+          <div className="text-center m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
+            <div>
+              <span className="font-semibold text-xl underline underline-offset-2">
+                ENGAGE
+              </span>{" "}
+              <br />
+              Share opinions
+            </div>
+            <div>
+              <span className="font-semibold text-xl underline underline-offset-2">
+                LEARN
+              </span>{" "}
+              <br />
+              Gain Insights
+            </div>
+            <div>
+              <span className="font-semibold text-xl underline underline-offset-2">
+                GROW{" "}
+              </span>
+              <br />
+              Build Influence
+            </div>
+          </div>
+        </>
+      )}
+
       <div className="flex items-center justify-between ">
+        {!isAtTopPc && (
+          <>
+            <img
+              src={Opinod}
+              alt="Logo"
+              className="w-11 h-11 mr-4 rounded-sm bg-gray-900"
+              onClick={() => {
+                navigate("/");
+                dispatch(selectCategory(null));
+              }}
+            />
+            <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
+              <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
+              <div className="text-xs text-gray-500 ml-3 md:ml-0 w-28">
+                Engage Learn Grow
+              </div>
+            </h1>
+          </>
+        )}
         <div className="flex items-center justify-start w-full">
-          <img
-            src={Opinod}
-            alt="Logo"
-            className="w-11 h-11 mr-4 rounded-sm bg-gray-900"
-            onClick={() => {
-              navigate("/");
-              dispatch(selectCategory(null));
-            }}
-          />
-          {isHome && isAtTop && isMobile && (
-            <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
-              <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
-              <div className="text-xs text-gray-500 ml-3 md:ml-0">
-                Engage Learn Grow
-              </div>
-            </h1>
-          )}
-          {!isMobile && (
-            <h1 className="text-gray-800 font-League text-center mr-10 flex flex-col ml-16 md:ml-0">
-              <div className="text-2xl font-semibold ml-3 md:ml-0">Opinod</div>
-              <div className="text-xs text-gray-500 ml-3 md:ml-0">
-                Engage Learn Grow
-              </div>
-            </h1>
-          )}
-
-          {isMobile && !isHome && (
-            <div className="md:w-1/4 flex">
-              <input
-                type="text"
-                className=" w-52 text-xs pl-3 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-gray-800"
-                placeholder="Search news/community posts"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <button
-                className="px-4 border border-gray-300 bg-gray-800 border-l-0 rounded-r-full text-white"
-                onClick={handleSearch}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </div>
-          )}
-
-          {isMobile && isHome && !isAtTop && (
-            <div className="md:w-1/4 flex">
-              <input
-                type="text"
-                className="w-52 text-xs pl-3 py-2 border border-gray-300 border-r-0 rounded-l-full focus:outline-none focus:border-gray-800"
-                placeholder="Search news/community posts"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-              />
-              <button
-                className="px-4 border border-gray-300 bg-gray-800 border-l-0 rounded-r-full text-white"
-                onClick={handleSearch}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </div>
-          )}
-
           {!isMobile && (
             <div className="flex flex-row ml-4 xl:ml-8 gap-x-5 xl:gap-x-8">
               {/* Home */}
@@ -545,256 +547,7 @@ const Topbar = () => {
             </div>
           )}
         </div>
-
-        {isMobile ? (
-          <div>
-            {location.pathname === "/profile" ? (
-              <button
-                className="md:hidden text-gray-800"
-                onClick={handleSettings}
-              >
-                <FontAwesomeIcon icon={faGear} />{" "}
-              </button>
-            ) : (
-              <button className="md:hidden" onClick={toggleMenu}>
-                <FontAwesomeIcon icon={faBars} />{" "}
-              </button>
-            )}
-
-            {menuOpen && (
-              <div>
-                <div className="absolute right-0 top-0 h-screen w-64 overflow-auto font-League bg-gray-800 border-l-2 border-gray-300 p-2.5 shadow-sm">
-                  {/* Closing menu button */}
-                  <div
-                    onClick={toggleMenu}
-                    className="text-right text-white cursor-pointer"
-                  >
-                    <FontAwesomeIcon icon={faXmark} />
-                  </div>
-
-                  {/* Home */}
-                  <h2
-                    className="text-2xl font-semibold mb-2 text-white mt-5"
-                    onClick={() => navigate("/")}
-                  >
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon icon={faHouse} className="mr-2" /> Home
-                      </div>
-                    </div>
-                  </h2>
-
-                  {/* Categories */}
-                  <h2
-                    className="text-lg mb-2 ml-5 text-white mt-5"
-                    onClick={handleToggleCategory}
-                  >
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "}
-                        News Categories
-                      </div>
-                      <FontAwesomeIcon
-                        icon={toggleCategory ? faChevronDown : faChevronRight}
-                        className="text-xs ml-3"
-                      />
-                    </div>
-                  </h2>
-                  {toggleCategory && (
-                    <div>
-                      {Object.values(categories).map((cat) => (
-                        <div key={cat}>
-                          <button
-                            className={`flex items-center p-1 px-8 my-0 focus:outline-none ${
-                              selectedCategory === cat
-                                ? "bg-blue-100 rounded-md text-gray-800"
-                                : "text-white"
-                            }`}
-                            onClick={() => handleCategorySelect(cat)}
-                          >
-                            <FontAwesomeIcon
-                              icon={selectIcon(cat)}
-                              className="mr-2"
-                            />
-                            {cat}
-                          </button>
-                        </div>
-                      ))}
-                      {/* <button
-                        className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
-                        onClick={handleAddCategory}
-                      >
-                        Add Category
-                      </button> */}
-                    </div>
-                  )}
-
-                  {/* Communities */}
-                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon
-                          icon={faUsers}
-                          className="mr-1"
-                          onClick={() => navigate("/communities")}
-                        />
-                        <span onClick={() => navigate("/communities")}>
-                          {" "}
-                          Community
-                        </span>
-                      </div>
-                      <FontAwesomeIcon
-                        icon={toggleCommunity ? faChevronDown : faChevronRight}
-                        className="text-xs ml-3"
-                        onClick={handleToggleCommunity}
-                      />
-                    </div>
-                  </h2>
-                  {toggleCommunity && (
-                    <div>
-                      <div>
-                        <button className="flex items-center px-8 p-1 focus:outline-none text-white">
-                          <FontAwesomeIcon
-                            icon={faRankingStar}
-                            className="mr-2"
-                            onClick={() => {
-                              navigate("/communities/main");
-                            }}
-                          />
-                          <span
-                            onClick={() => {
-                              navigate("/communities/main");
-                            }}
-                          >
-                            Main Topics
-                          </span>
-                          <FontAwesomeIcon
-                            icon={showMainTopics ? faChevronUp : faChevronDown}
-                            className=" text-xs ml-3"
-                            onClick={toggleMainTopics}
-                          />
-                        </button>
-                        {showMainTopics && (
-                          <ul className="ml-10 mt-2 space-y-2 text-white">
-                            {mainTopics.map((topic, index) => {
-                              const [name, communityId] =
-                                Object.entries(topic)[0];
-
-                              return (
-                                <div key={communityId}>
-                                  <button
-                                    onClick={() => {
-                                      navigate(`/community/${communityId}`);
-                                    }}
-                                    className="flex justify-start"
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={selectIcon(name)}
-                                      className="mr-2"
-                                    />
-                                    {name}
-                                  </button>
-                                </div>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </div>
-                      <div>
-                        <button className="flex items-center px-8 my-2 focus:outline-none text-white">
-                          <FontAwesomeIcon
-                            icon={faLightbulb}
-                            className="mr-2"
-                            onClick={() => {
-                              navigate("/communities/special");
-                            }}
-                          />
-                          <span
-                            onClick={() => {
-                              navigate("/communities/special");
-                            }}
-                          >
-                            Special Interest
-                          </span>
-                          <FontAwesomeIcon
-                            icon={
-                              showSpecialInterestGroups
-                                ? faChevronUp
-                                : faChevronDown
-                            }
-                            className=" text-xs   ml-2"
-                            onClick={toggleSpecialInterestGroups}
-                          />
-                        </button>
-                        {showSpecialInterestGroups && (
-                          <ul className="ml-10 mt-2 space-y-2 text-white">
-                            {specialIntrestGroups.map((topic, index) => {
-                              const [name, communityId] =
-                                Object.entries(topic)[0];
-
-                              return (
-                                <div key={name}>
-                                  <button
-                                    onClick={() => {
-                                      navigate(`/community/${communityId}`);
-                                    }}
-                                    className="flex justify-start"
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={selectIcon(name)}
-                                      className="mr-2"
-                                    />
-                                    {name}
-                                  </button>
-                                </div>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Profile */}
-                  <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-                    <div
-                      className="flex justify-between items-center mr-4"
-                      onClick={() => navigate("/profile")}
-                    >
-                      <div>
-                        <FontAwesomeIcon icon={faUser} className="mr-1" />{" "}
-                        Profile{" "}
-                      </div>
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        className="text-xs ml-3"
-                      />
-                    </div>
-                  </h2>
-
-                  {username ? (
-                    <button
-                      onClick={() => {
-                        dispatch(logout());
-                        navigate("/");
-                      }}
-                      className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
-                    >
-                      Logout
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => navigate("/login")}
-                      className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
-                    >
-                      LOGIN
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        ) : username ? (
+        {username ? (
           <div className="flex items-center">
             <div className="flex items-center space-x-4 text-gray-800">
               <FontAwesomeIcon
@@ -856,4 +609,4 @@ const Topbar = () => {
   );
 };
 
-export default Topbar;
+export default HomeNavbar;
