@@ -52,6 +52,7 @@ const Home = () => {
     try {
       setOpinionsLoading(true);
       const res = await getPopularOpinions(isMobile ? 2 : 6, 1);
+      console.log(res);
       setPopularOpinions(res);
     } catch (error) {
       console.log(error);
@@ -237,12 +238,13 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 md:mr-10 mr-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 ml-3 md:ml-10 md:mr-10 mr-5">
                 {popularOpinions.slice(0, isMobile ? 2 : 6).map((opinion) => (
                   <OpinionCard
                     key={opinion._id}
                     id={opinion._id}
                     category={opinion.post?.category}
+                    image={opinion.post?.image}
                     profilePhoto={opinion.authorPicture.profilePicture}
                     author={opinion.author}
                     datePosted={formatDistanceToNow(
@@ -290,14 +292,16 @@ const Home = () => {
                 </div>
               </div>
               {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
-              <div className="grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7 lg:gap-x-10">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7  gap-y-5">
                 {topCommunities
-                  .slice(0, smallScreen ? (isMobile ? 2 : 3) : 4)
+                  .slice(0, smallScreen ? (isMobile ? 2 : 6) : 8)
                   .map((community) => (
                     <HomeCommCard
                       key={community._id}
                       id={community._id}
                       name={community.name}
+                      image={community.image}
+                      description={community.description}
                       subscribers={community.subscriberCount}
                       posts={community.postCount}
                       topPostTitle={community.topPostTitle}

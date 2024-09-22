@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 const OpinionCard = ({
   id,
   category,
+  image,
   profilePhoto,
   author,
   datePosted,
@@ -126,6 +127,16 @@ const OpinionCard = ({
       <div className="flex items-center">
         <span className="text-xs font-medium text-gray-500">{category}</span>
       </div>
+      <img
+        src={image}
+        alt="news"
+        className="rounded-xl mb-3 mt-1 hidden md:block md:max-h-52 2xl:max-h-64 w-full object-cover"
+        onClick={() => {
+          username
+            ? navigate(`/details/${postId}`)
+            : toast.info("Please login to view more!");
+        }}
+      />
       <div
         className="text-sm md:text-base font-medium mb-2"
         onClick={() => {

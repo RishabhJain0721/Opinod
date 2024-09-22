@@ -62,10 +62,10 @@ const sendHomeCommunities = async (req, res) => {
   try {
     const communities = await Community.find(
       {},
-      { name: 1, subscriberCount: 1 }
+      { name: 1, subscriberCount: 1, image: 1, description: 1 }
     )
       .sort({ subscriberCount: -1 })
-      .limit(4)
+      .limit(8)
       .lean();
     for (const community of communities) {
       const posts = await CommunityPost.find(

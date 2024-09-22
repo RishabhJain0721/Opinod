@@ -181,6 +181,7 @@ const sendTopComments = async (req, res) => {
       const post = await Post.findById(topComments[i].postId, {
         title: 1,
         category: 1,
+        image: 1,
       });
       topComments[i].post = post;
       const authorPicture = await User.findOne(
