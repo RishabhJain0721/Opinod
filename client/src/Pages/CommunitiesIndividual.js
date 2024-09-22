@@ -216,7 +216,7 @@ const CommunitiesIndividual = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start mx-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-3 md:mx-5">
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
