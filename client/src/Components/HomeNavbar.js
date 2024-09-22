@@ -259,7 +259,7 @@ const HomeNavbar = () => {
                   dispatch(selectCategory(null));
                 }}
               />
-              <span className="mr-16">Opinod</span>
+              <span className="lg:mr-5 xl:mr-14 2xl:mr-16">Opinod</span>
             </div>
           </div>
           <div className="text-center m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
