@@ -47,7 +47,7 @@ const CardSmall = ({
   };
 
   return (
-    <div className="bg-white p-2 w-96 sm:w-80 lg:w-80 xl:w-96 max-w-md duration-150 h-fit md:p-3 md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mb-0 cursor-pointer">
+    <div className="bg-white p-2 duration-150 h-fit md:p-3 md:rounded-lg md:border md:border-gray-300 md:shadow-sm m-4 mb-0 cursor-pointer">
       {/* Profile photo and name */}
       <div className="flex items-center mb-1" onClick={handleClick}>
         <img

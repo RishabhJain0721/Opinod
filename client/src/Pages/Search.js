@@ -103,42 +103,49 @@ const Search = () => {
               </div>
 
               {news && (
-                <div className="flex flex-wrap justify-start md:ml-3 mb-5">
-                  {newsData.map((news) => (
-                    <CardSmall
-                      key={news._id}
-                      id={news._id}
-                      profilePhoto={news.image}
-                      cat={news.category}
-                      name={news.source}
-                      datePosted={formatDistanceToNow(
-                        new Date(news.publishedAt),
-                        { addSuffix: false }
-                      )}
-                      title={news.title}
-                      upvotes={news.upvotes}
-                      downvotes={news.downvotes}
-                    />
-                  ))}
+                <>
+                  {" "}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:mx-2">
+                    {/* <div className="flex flex-wrap justify-start md:ml-3 mb-5"> */}
+                    {newsData.map((news) => (
+                      <CardSmall
+                        key={news._id}
+                        id={news._id}
+                        profilePhoto={news.image}
+                        cat={news.category}
+                        name={news.source}
+                        datePosted={formatDistanceToNow(
+                          new Date(news.publishedAt),
+                          { addSuffix: false }
+                        )}
+                        title={news.title}
+                        upvotes={news.upvotes}
+                        downvotes={news.downvotes}
+                      />
+                    ))}
+                  </div>
                   {newsData.length === 0 && (
                     <div className="text-gray-600 text-sm md:text-lg text-center mx-auto mt-20">
                       No News Articles Found
                     </div>
                   )}
-                </div>
+                </>
               )}
 
               {community && (
-                <div className="flex flex-wrap justify-start mx-5 md:ml-6">
-                  {communityData.map((community) => (
-                    <CommunityPostCard key={community.id} post={community} />
-                  ))}
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-3 md:mx-2">
+                    {/* <div className="flex flex-wrap justify-start mx-5 md:ml-6"> */}
+                    {communityData.map((community) => (
+                      <CommunityPostCard key={community.id} post={community} />
+                    ))}
+                  </div>
                   {communityData.length === 0 && (
                     <div className="text-gray-600 text-sm md:text-lg text-center mx-auto mt-20">
                       No Community Posts Found
                     </div>
                   )}
-                </div>
+                </>
               )}
             </>
           )}
