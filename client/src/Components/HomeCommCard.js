@@ -113,7 +113,10 @@ const HomeCommCard = ({
     //     </div>
     //   </div>
     // </div>
-    <div className="max-w-sm rounded-xl overflow-hidden shadow-lg relative">
+    <div
+      className="max-w-sm rounded-xl overflow-hidden shadow-lg relative "
+      onClick={handleGoToCommunity}
+    >
       <div className="relative">
         {/* Background Image */}
         <img
