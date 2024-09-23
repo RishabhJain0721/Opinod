@@ -832,21 +832,23 @@ const Topbar = () => {
                   className={`${isSearch ? "text-gray-300" : "text-black"}`}
                 />
               </button>
-              <button className="text-xl sm:px-2 px-1">
-                <FontAwesomeIcon
-                  icon={faRightToBracket}
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                />
+              <button
+                className="text-xl sm:px-2 px-1"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                LOGIN
+                {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
               </button>
-              <button className="text-xl sm:px-2 px-1">
-                <FontAwesomeIcon
-                  icon={faUserPlus}
-                  onClick={() => {
-                    navigate("/signup");
-                  }}
-                />
+              <button
+                className="text-xl sm:px-2 px-1"
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                SIGNUP
+                {/* <FontAwesomeIcon icon={faUserPlus} /> */}
               </button>
             </div>
           </div>

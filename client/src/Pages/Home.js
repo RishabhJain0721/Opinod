@@ -51,7 +51,7 @@ const Home = () => {
   const fetchOpinions = async () => {
     try {
       setOpinionsLoading(true);
-      const res = await getPopularOpinions(isMobile ? 2 : 6, 1);
+      const res = await getPopularOpinions(6, 1);
       console.log(res);
       setPopularOpinions(res);
     } catch (error) {
@@ -156,8 +156,10 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 mb-2">Trending</div>
+              <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 mb-2 md:mb-4">
+                  Trending
+                </div>
                 <div>
                   <button
                     className="text-xs md:text-lg text-gray-600 px-2"
@@ -175,7 +177,7 @@ const Home = () => {
 
               {/* <div className="flex flex-wrap justify-start md:ml-10 md:mr-10 mr-5 "> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5">
-                {trending.slice(0, isMobile ? 2 : 6).map((article) => (
+                {trending.map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}
@@ -225,8 +227,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mb-3 mt-2">
+              <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mb-6 mt-4 md:mt-10">
                   Popular Opinions
                 </div>
                 <div>
@@ -239,7 +241,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 ml-3 md:ml-10 md:mr-10 mr-5">
-                {popularOpinions.slice(0, isMobile ? 2 : 6).map((opinion) => (
+                {popularOpinions.map((opinion) => (
                   <OpinionCard
                     key={opinion._id}
                     id={opinion._id}
@@ -278,8 +280,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-2xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2">
+              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mt-8 md:mb-7">
                   Top Communities
                 </div>
                 <div>
@@ -294,7 +296,7 @@ const Home = () => {
               {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7  gap-y-5">
                 {topCommunities
-                  .slice(0, smallScreen ? (isMobile ? 2 : 6) : 8)
+                  .slice(0, smallScreen ? (isMobile ? 4 : 6) : 8)
                   .map((community) => (
                     <HomeCommCard
                       key={community._id}
@@ -315,150 +317,125 @@ const Home = () => {
             <></>
           ) : (
             <>
-              <div className="text-sm md:text-2xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2">
+              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mt-10 md:mb-4">
                   Recent Activities
                 </div>
               </div>
-              <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10">
-                <div className=" w-full">
-                  {recent.map((ele, index) => {
-                    {
-                      /* if (ele.type === "like" || ele.type === "communityLike") {
+              <div>
+                {/* <div className="grid grid-cols-2 text-sm md:text-base text-gray-600"> */}
+                {/* <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10"> */}
+                {/* <div className="w-full"> */}
+                <div className="w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10">
+                    {recent.map((ele, index) => {
                       return (
-                        <div key={index}>
-                          <FontAwesomeIcon
-                            icon={faSquare}
-                            className="  mr-2 text-xs md:text-sm text-blue-500"
-                          />
-                          <span className="text-gray-800 font-medium">
-                            {ele.username}
-                          </span>{" "}
-                          liked{" "}
-                          <span
-                            onClick={() => {
-                              if (ele.type === "like") {
-                                navigate(`/details/${ele.postId}`);
-                              } else if (ele.type === "communityLike") {
-                                navigate(`/cpostdetails/${ele.postId}`);
-                              }
-                            }}
-                            className="text-blue-500 cursor-pointer"
-                          >
-                            this
-                          </span>{" "}
-                          post
+                        <div className="flex items-start" key={index}>
+                          {ele.type === "comment" ||
+                          ele.type === "communityComment" ? (
+                            <div>
+                              <FontAwesomeIcon
+                                icon={faSquare}
+                                className="mr-2 text-xs md:text-sm text-blue-500"
+                              />
+                              <span
+                                className="text-gray-800 font-medium"
+                                onClick={() =>
+                                  navigate(`/profile/${ele.author}`)
+                                }
+                              >
+                                {ele.author}
+                              </span>{" "}
+                              shared opinion on{" "}
+                              <span
+                                onClick={() => {
+                                  if (!username) {
+                                    return toast.info(<Msg />);
+                                  }
+                                  if (ele.type === "comment") {
+                                    navigate(`/details/${ele.postId}`);
+                                  } else if (ele.type === "communityComment") {
+                                    navigate(`/cpostdetails/${ele.postId}`);
+                                  }
+                                }}
+                                className="text-blue-500 cursor-pointer"
+                              >
+                                {ele.title.length > 80
+                                  ? ele.title.slice(0, 80) + "..."
+                                  : ele.title}
+                              </span>
+                            </div>
+                          ) : ele.type === "reply" ||
+                            ele.type === "communityReply" ? (
+                            <div>
+                              <FontAwesomeIcon
+                                icon={faSquare}
+                                className="mr-2 text-xs md:text-sm text-blue-500"
+                              />
+                              <span
+                                className="text-gray-800 font-medium"
+                                onClick={() =>
+                                  navigate(`/profile/${ele.author}`)
+                                }
+                              >
+                                {ele.author}
+                              </span>{" "}
+                              shared opinion on{" "}
+                              <span
+                                onClick={() => {
+                                  if (!username) {
+                                    return toast.info(<Msg />);
+                                  }
+                                  if (ele.type === "reply") {
+                                    navigate(`/details/${ele.postId}`);
+                                  } else if (ele.type === "communityReply") {
+                                    navigate(`/cpostdetails/${ele.postId}`);
+                                  }
+                                }}
+                                className="text-blue-500 cursor-pointer"
+                              >
+                                {ele.title.length > 80
+                                  ? ele.title.slice(0, 80) + "..."
+                                  : ele.title}
+                              </span>{" "}
+                            </div>
+                          ) : ele.type === "post" ? (
+                            <div>
+                              <FontAwesomeIcon
+                                icon={faSquare}
+                                className="mr-2 text-xs md:text-sm text-blue-500"
+                              />
+                              <span
+                                className="text-gray-800 font-medium"
+                                onClick={() =>
+                                  navigate(`/profile/${ele.username}`)
+                                }
+                              >
+                                {ele.username}
+                              </span>{" "}
+                              posted -{" "}
+                              <span
+                                onClick={() => {
+                                  if (!username) {
+                                    return toast.info(<Msg />);
+                                  }
+                                  navigate(`/cpostdetails/${ele.postId}`);
+                                }}
+                                className="text-blue-500 cursor-pointer"
+                              >
+                                {ele.title.length > 80
+                                  ? ele.title.slice(0, 80) + "..."
+                                  : ele.title}
+                              </span>
+                            </div>
+                          ) : null}
                         </div>
                       );
-                    } else */
-                    }
-                    if (
-                      ele.type === "comment" ||
-                      ele.type === "communityComment"
-                    ) {
-                      return (
-                        <div key={index}>
-                          <FontAwesomeIcon
-                            icon={faSquare}
-                            className="  mr-2 text-xs md:text-sm text-blue-500"
-                          />
-                          <span
-                            className="text-gray-800 font-medium"
-                            onClick={() => navigate(`/profile/${ele.author}`)}
-                          >
-                            {ele.author}
-                          </span>{" "}
-                          shared opinion on{" "}
-                          <span
-                            onClick={() => {
-                              if (!username) {
-                                return toast.info(<Msg />);
-                              }
-                              if (ele.type === "comment") {
-                                navigate(`/details/${ele.postId}`);
-                              } else if (ele.type === "communityComment") {
-                                navigate(`/cpostdetails/${ele.postId}`);
-                              }
-                            }}
-                            className="text-blue-500 cursor-pointer"
-                          >
-                            {ele.title.length > 80
-                              ? ele.title.slice(0, 80) + "..."
-                              : ele.title}
-                          </span>
-                        </div>
-                      );
-                    } else if (
-                      ele.type === "reply" ||
-                      ele.type === "communityReply"
-                    ) {
-                      return (
-                        <div key={index}>
-                          <FontAwesomeIcon
-                            icon={faSquare}
-                            className="  mr-2 text-xs md:text-sm text-blue-500"
-                          />
-                          <span
-                            className="text-gray-800 font-medium"
-                            onClick={() => navigate(`/profile/${ele.author}`)}
-                          >
-                            {ele.author}
-                          </span>{" "}
-                          shared opinion on{" "}
-                          <span
-                            onClick={() => {
-                              if (!username) {
-                                return toast.info(<Msg />);
-                              }
-                              if (ele.type === "reply") {
-                                navigate(`/details/${ele.postId}`);
-                              } else if (ele.type === "communityReply") {
-                                navigate(`/cpostdetails/${ele.postId}`);
-                              }
-                            }}
-                            className="text-blue-500 cursor-pointer"
-                          >
-                            {ele.title.length > 80
-                              ? ele.title.slice(0, 80) + "..."
-                              : ele.title}
-                          </span>{" "}
-                        </div>
-                      );
-                    } else if (ele.type === "post") {
-                      return (
-                        <div key={index}>
-                          <FontAwesomeIcon
-                            icon={faSquare}
-                            className="  mr-2 text-xs md:text-sm text-blue-500"
-                          />
-                          <span
-                            className="text-gray-800 font-medium"
-                            onClick={() => navigate(`/profile/${ele.username}`)}
-                          >
-                            {ele.username}
-                          </span>{" "}
-                          posted -{" "}
-                          <span
-                            onClick={() => {
-                              if (!username) {
-                                return toast.info(<Msg />);
-                              }
-                              navigate(`/cpostdetails/${ele.postId}`);
-                            }}
-                            className="text-blue-500 cursor-pointer"
-                          >
-                            {ele.title.length > 80
-                              ? ele.title.slice(0, 80) + "..."
-                              : ele.title}
-                          </span>
-                        </div>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                    })}
+                  </div>
                 </div>
               </div>
+              {/* </div> */}
             </>
           )}
         </div>

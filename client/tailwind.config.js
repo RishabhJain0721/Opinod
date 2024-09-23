@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         League: ["League Spartan", "sans-serif"],
         Poppins: ["Poppins"],
+        Playfair: ["Playfair Display"],
       },
     },
   },

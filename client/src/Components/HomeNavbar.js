@@ -248,19 +248,19 @@ const HomeNavbar = () => {
     <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       {isAtTopPc && (
         <>
-          <div className="text-8xl m-3 flex items-center">
-            <div className="flex items-center justify-between w-8/12">
-              <img
-                src={Opinod}
-                alt="Logo"
-                className="w-16 h-16 mr-4 rounded-md bg-gray-900"
-                onClick={() => {
-                  navigate("/");
-                  dispatch(selectCategory(null));
-                }}
-              />
-              <span className="lg:mr-5 xl:mr-14 2xl:mr-16">Opinod</span>
-            </div>
+          <div className="text-6xl m-3 flex items-center justify-center w-full">
+            {/* <div className="flex items-center justify-between "> */}
+            <img
+              src={Opinod}
+              alt="Logo"
+              className="w-14 h-14 lg:w-16 lg:h-16 absolute left-0 top-0 mt-6 ml-4 rounded-md bg-gray-900"
+              onClick={() => {
+                navigate("/");
+                dispatch(selectCategory(null));
+              }}
+            />
+            <span className="font-Playfair font-medium">OPINOD</span>
+            {/* </div> */}
           </div>
           <div className="text-center m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
             <div>
@@ -585,21 +585,23 @@ const HomeNavbar = () => {
                   className={`${isSearch ? "text-gray-300" : "text-black"}`}
                 />
               </button>
-              <button className="text-xl sm:px-2 px-1">
-                <FontAwesomeIcon
-                  icon={faRightToBracket}
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                />
+              <button
+                className="text-xl sm:px-2 px-1"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                LOGIN
+                {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
               </button>
-              <button className="text-xl sm:px-2 px-1">
-                <FontAwesomeIcon
-                  icon={faUserPlus}
-                  onClick={() => {
-                    navigate("/signup");
-                  }}
-                />
+              <button
+                className="text-xl sm:px-2 px-1"
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                SIGNUP
+                {/* <FontAwesomeIcon icon={faUserPlus} /> */}
               </button>
             </div>
           </div>
