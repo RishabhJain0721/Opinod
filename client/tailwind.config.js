@@ -7,6 +7,8 @@ module.exports = {
         League: ["League Spartan", "sans-serif"],
         Poppins: ["Poppins"],
         Playfair: ["Playfair Display"],
+        Abril: ["Abril Fatface"],
+        Flower: ["Indie Flower"],
       },
     },
   },

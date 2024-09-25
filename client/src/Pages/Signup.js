@@ -11,7 +11,8 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Added loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,15 +43,16 @@ const Signup = () => {
       return;
     }
 
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
       await signup({ username, email, password }).then((res) => {
         alert("Verification link sent to email. Please verify.");
       });
     } catch (error) {
+      setError(error.response.data.errorName);
       console.error("Error:", error);
     } finally {
-      // setIsLoading(false); // End loading
+      setIsLoading(false);
     }
   };
 
@@ -126,6 +128,9 @@ const Signup = () => {
                   required
                 />
               </div>
+              {error && (
+                <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
               <div className="mt-2 text-sm font-medium">
                 Already have an account?
                 <button

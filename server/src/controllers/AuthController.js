@@ -46,6 +46,14 @@ const signup = async (req, res) => {
       errorName: "User already exists",
     });
   }
+  // Check if a user with the same username already exists
+  const existingUserName = await User.findOne({ username });
+  if (existingUserName) {
+    return res.status(400).send({
+      message: "User with this username already exists. Try something else.",
+      errorName: "Username taken. Try something else.",
+    });
+  }
 
   const hashedPassword = hashPassword(password);
 

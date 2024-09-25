@@ -262,25 +262,19 @@ const HomeNavbar = () => {
             <span className="font-Playfair font-medium">OPINOD</span>
             {/* </div> */}
           </div>
-          <div className="text-center m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
+          <div className="text-center text-sm m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
             <div>
-              <span className="font-semibold text-xl underline underline-offset-2">
-                ENGAGE
-              </span>{" "}
+              <span className="text-2xl font-Flower font-bold">ENGAGE</span>{" "}
               <br />
               Share opinions
             </div>
             <div>
-              <span className="font-semibold text-xl underline underline-offset-2">
-                LEARN
-              </span>{" "}
+              <span className="text-2xl font-Flower font-bold">LEARN</span>{" "}
               <br />
               Gain Insights
             </div>
             <div>
-              <span className="font-semibold text-xl underline underline-offset-2">
-                GROW{" "}
-              </span>
+              <span className="text-2xl font-Flower font-bold">GROW </span>
               <br />
               Build Influence
             </div>
@@ -582,7 +576,7 @@ const HomeNavbar = () => {
                 <FontAwesomeIcon
                   icon={faSearch}
                   onClick={toggleSearch}
-                  className={`${isSearch ? "text-gray-300" : "text-black"}`}
+                  className={`${isSearch ? "hidden" : "text-black"}`}
                 />
               </button>
               <button
