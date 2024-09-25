@@ -191,6 +191,9 @@ const sendNewsByCategory = async (req, res) => {
 
   if (category == "Trending") {
     let posts = [];
+    if (userCategories.length == 0) {
+      userCategories.push("General");
+    }
     skip = (page - 1) * (pageSize / userCategories.length);
     for (let cat of userCategories) {
       const categoryPosts = await Post.find(
