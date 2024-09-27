@@ -14,9 +14,11 @@ const pointsMiddleware = (store) => (next) => (action) => {
     JSON.parse(localStorage.getItem("persist:a")) === null
       ? {}
       : JSON.parse(localStorage.getItem("persist:a"));
-  const prevPoints = JSON.parse(prevUser.user).points
-    ? JSON.parse(prevUser.user).points
-    : 0;
+  console.log(prevUser);
+  const prevPoints =
+    prevUser === null || Object.keys(prevUser).length === 0
+      ? 0
+      : prevUser?.user?.points;
 
   // Assuming points is nested under user in state
   const currentPoints = state.user.points;
