@@ -5,19 +5,9 @@ import Topbar from "../Components/Topbar";
 import Navbar from "../Components/Navbar";
 import BadgeCard from "../Components/BadgeCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faInstagram,
-//   faTwitter,
-//   faReddit,
-//   faLinkedin,
-// } from "@fortawesome/free-brands-svg-icons";
 import { getUserDetails } from "../APIs/UserDetailsApis";
 import { logout } from "../Actions/actions";
-import {
-  faCircleUser,
-  faFilter,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import {
   calculateAchievements,
@@ -237,22 +227,6 @@ const ProfilePage = () => {
             </div>
 
             {isLevel && <BadgeCard info={level} />}
-
-            {/* Social Media Links */}
-            {/* <div className="flex justify-start mb-6">
-              <a href={user.instagram} className="mx-2 text-blue-600">
-                <FontAwesomeIcon icon={faInstagram} className="text-2xl" />
-              </a>
-              <a href={user.reddit} className="mx-2 text-blue-600">
-                <FontAwesomeIcon icon={faReddit} className="text-2xl" />
-              </a>
-              <a href={user.linkedin} className="mx-2 text-blue-600">
-                <FontAwesomeIcon icon={faLinkedin} className="text-2xl" />
-              </a>
-              <a href={user.twitter} className="mx-2 text-blue-600">
-                <FontAwesomeIcon icon={faTwitter} className="text-2xl" />
-              </a>
-            </div> */}
 
             {/* Recent Activities */}
             <div className=" text-base font-medium mb-1">

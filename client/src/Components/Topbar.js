@@ -40,6 +40,7 @@ import {
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 import MobileSearch from "./MobileSearch";
 import { toast } from "react-toastify";
+import { forgotPassword } from "../APIs/AuthApis";
 
 const Topbar = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const Topbar = () => {
   const [showSpecialInterestGroups, setShowSpecialInterestGroups] =
     useState(false);
   const [isSearch, setIsSearch] = useState(false);
+  const email = useSelector((state) => state.user.email);
 
   useEffect(() => {
     const handleResize = () => {
@@ -231,6 +233,21 @@ const Topbar = () => {
             onClick={() => navigate("/selectCategories")}
           >
             Change Categories
+          </li>
+          <li
+            className="p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100"
+            onClick={async () => {
+              try {
+                await forgotPassword(email);
+                toast.info("Password reset email sent.");
+              } catch (error) {
+                console.log(error);
+              } finally {
+                // setIsLoading(false);
+              }
+            }}
+          >
+            Change Password
           </li>
           <li
             className="p-2 cursor-pointer hover:bg-gray-100"
