@@ -171,7 +171,7 @@ const sendRecent = async (req, res) => {
         item.title = cPost?.title;
       }
     }
-    res.status(200).send(recent.all.reverse());
+    res.status(200).send(recent?.all?.reverse());
   } catch (error) {
     res.status(400).send({ Message: "Failed to fetch" });
   }

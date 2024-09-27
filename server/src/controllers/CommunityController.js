@@ -60,20 +60,14 @@ const sendCommunities = async (req, res) => {
 
 const sendHomeCommunities = async (req, res) => {
   try {
-    const communities = await Community.find(
-      {},
-      { name: 1, subscriberCount: 1, image: 1, description: 1 }
-    )
+    const communities = await Community.find({})
       .sort({ subscriberCount: -1 })
-      .limit(8)
+      .limit(9)
       .lean();
     for (const community of communities) {
       const posts = await CommunityPost.find(
         { community: community._id, isVerified: true },
-        {
-          title: 1,
-          _id: 0,
-        }
+        { title: 1 }
       )
         .sort({ createdAt: -1 })
         .limit(1);
@@ -82,6 +76,7 @@ const sendHomeCommunities = async (req, res) => {
         community: community._id,
       });
       community.topPostTitle = posts.length > 0 ? posts[0].title : null;
+      community.topPostId = posts.length > 0 ? posts[0].id : null;
       community.postCount = postCount;
     }
 

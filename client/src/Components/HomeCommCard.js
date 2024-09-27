@@ -10,64 +10,63 @@ const HomeCommCard = ({
   id,
   name,
   image,
+  subcategories,
   description,
   subscribers,
   posts,
   topPostTitle,
+  topPostId,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const username = useSelector((state) => state.user.username);
-  // const joinedCommunitiesStore = useSelector(
-  //   (state) => state.user.joinedCommunities
-  // );
   const [loading, setLoading] = useState(false);
 
   const handleGoToCommunity = () => {
     navigate(`/community/${id}`);
   };
 
-  const handleJoinCommunity = async () => {
-    if (!username) {
-      toast.info(<Msg />);
-      return;
-    }
-    try {
-      await joinCommunity(username, id);
-      setLoading(true);
-      dispatch(updateCommunities(id));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleJoinCommunity = async () => {
+  //   if (!username) {
+  //     toast.info(<Msg />);
+  //     return;
+  //   }
+  //   try {
+  //     await joinCommunity(username, id);
+  //     setLoading(true);
+  //     dispatch(updateCommunities(id));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleLeaveCommunity = async () => {
-    try {
-      await leaveCommunity(username, id);
-      setLoading(true);
-      dispatch(updateRemoveCommunity(id));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleLeaveCommunity = async () => {
+  //   try {
+  //     await leaveCommunity(username, id);
+  //     setLoading(true);
+  //     dispatch(updateRemoveCommunity(id));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const Msg = ({ closeToast, toastProps }) => (
-    <div>
-      Please{" "}
-      <span
-        onClick={() => navigate("/login")}
-        className="text-blue-500 font-medium"
-      >
-        login
-      </span>{" "}
-      to join a community
-    </div>
-  );
+  // const Msg = ({ closeToast, toastProps }) => (
+  //   <div>
+  //     Please{" "}
+  //     <span
+  //       onClick={() => navigate("/login")}
+  //       className="text-blue-500 font-medium"
+  //     >
+  //       login
+  //     </span>{" "}
+  //     to join a community
+  //   </div>
+  // );
 
   return (
     // <div className="h-40 md:h-40 w-full border border-blue-300 rounded-xl mb-2 md:mr-6 cursor-pointer">
@@ -135,7 +134,15 @@ const HomeCommCard = ({
 
       {/* Description */}
       <div className="p-2 md:p-4 text-xs md:text-sm">
-        <p className="text-gray-700">{description}</p>
+        {/* <p className="text-gray-700">{description}</p> */}
+
+        <div className="mt-2 md:mt-4">
+          {subcategories?.[0] && (
+            <span className="text-gray-600">
+              {subcategories?.[0]?.name}, {subcategories?.[1]?.name} and more
+            </span>
+          )}
+        </div>
         <div className="mt-2 md:mt-4">
           <span className="text-gray-600 font-semibold">{subscribers}</span>{" "}
           Subscribers
@@ -143,6 +150,21 @@ const HomeCommCard = ({
         <div className="mt-1 md:mt-2">
           <span className="text-gray-600 font-semibold">{posts}</span> Posts
         </div>
+        {topPostTitle && (
+          <div
+            className="mt-2 md:mt-4 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/cpostdetails/${topPostId}`);
+            }}
+          >
+            <span className="text-blue-600">
+              {topPostTitle.length > 30
+                ? topPostTitle.slice(0, 30) + "..."
+                : topPostTitle}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

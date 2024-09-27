@@ -18,7 +18,7 @@ const Signup = () => {
     const { name, value } = e.target;
     switch (name) {
       case "username":
-        setUsername(value);
+        setUsername(value.toLowerCase());
         break;
       case "email":
         setEmail(value.toLowerCase());
@@ -38,8 +38,8 @@ const Signup = () => {
       toast.error("Please fill in all fields.");
       return;
     }
-    if (username.includes(" ") || /[A-Z]/.test(username)) {
-      toast.error("Username can't contain spaces and capital letters");
+    if (username.includes(" ")) {
+      toast.error("Username can't contain spaces");
       return;
     }
 

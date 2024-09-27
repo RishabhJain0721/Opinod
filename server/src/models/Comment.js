@@ -20,6 +20,11 @@ const commentSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    type: {
+      type: String,
+      enum: ["post", "communityPost"],
+      required: true,
+    },
     upvotes: {
       type: Number,
       default: 0,

@@ -177,7 +177,7 @@ const checkCommunityLeader = async (username) => {
   const authors = await CommunityPost.find({}, { author: 1, _id: 0 });
   const userFreq = await CommunityPost.find({ author: username }, { _id: 1 });
   const [maxAuthor, maxFrequency] = maxFrequent(authors);
-  return maxAuthor.slice(11, -3) === username
+  return maxAuthor?.slice(11, -3) === username
     ? {
         Message: true,
         stats: { Current: userFreq.length, Goal: maxFrequency },

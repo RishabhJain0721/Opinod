@@ -5,12 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { selectCategory, logout } from "../Actions/actions";
 import {
-  faBell,
   faUser,
   faSearch,
-  faRightToBracket,
-  faUserPlus,
-  faBars,
   faIcons,
   faClapperboard,
   faMicrochip,
@@ -25,22 +21,15 @@ import {
   faEarthAmericas,
   faXmark,
   faChevronDown,
-  faChevronRight,
-  faBarsProgress,
-  faLayerGroup,
-  faUsers,
-  faPencil,
   faGear,
-  faHouse,
   faChevronUp,
-  faRankingStar,
   faLightbulb,
   faBrain,
   faBook,
   faUserGraduate,
   faPencilRuler,
   faScaleBalanced,
-  faCross,
+  faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 import MobileSearch from "./MobileSearch";
@@ -125,6 +114,9 @@ const HomeNavbar = () => {
     { "Expert Opinions": "66858c5444d20fd45e533bbe" },
     { "Educational Resources": "66858c5444d20fd45e533bbf" },
     { "Book & Article Reviews": "66858c5444d20fd45e533bc0" },
+    { "Poetry/Storytelling": "66f68b5f5d137e724b48d5b1" },
+    { Motivational: "66f68ba55d137e724b48d5b3" },
+    { Interviews: "66f68d4d5d137e724b48d5b4" },
   ];
 
   const handleCategorySelect = (category) => {
@@ -166,6 +158,12 @@ const HomeNavbar = () => {
         return faUserGraduate;
       case "Book and Article Reviews":
         return faBook;
+      case "Poetry/Storytelling":
+        return faPencilRuler;
+      case "Motivational":
+        return faLightbulb;
+      case "Interviews":
+        return faQuestion;
       case "World News":
         return faEarthAmericas;
       case "Politics":
@@ -307,7 +305,7 @@ const HomeNavbar = () => {
             <div className="flex flex-row ml-4 xl:ml-8 gap-x-5 xl:gap-x-8">
               {/* Home */}
               <h2
-                className={`text-base  mb-2 text-gray-800 ${
+                className={`text-base  mb-2 text-gray-700 ${
                   isSearch ? "hidden lg:inline" : ""
                 } mt-3 `}
                 onClick={() => navigate("/")}
@@ -319,7 +317,7 @@ const HomeNavbar = () => {
               </h2>
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-800 ${
+                  className={`text-base cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                   onClick={handleToggleCategory}
@@ -362,7 +360,7 @@ const HomeNavbar = () => {
               {/* Communities */}
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-800 ${
+                  className={`text-base cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                 >
@@ -383,7 +381,7 @@ const HomeNavbar = () => {
                 {toggleCommunity && (
                   <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
                     <div>
-                      <button className="flex text-sm items-center px-2 py-1 focus:outline-none text-gray-800">
+                      <button className="flex text-sm items-center px-2 py-1 focus:outline-none text-gray-700">
                         {/* <FontAwesomeIcon
                         icon={faRankingStar}
                         className="mr-2"

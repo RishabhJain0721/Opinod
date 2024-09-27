@@ -13,6 +13,7 @@ const addTopComment = async (req, res) => {
     parentId: postId,
     text,
     image,
+    type: "post",
     author,
   });
 
@@ -46,6 +47,7 @@ const addTopCommunityComment = async (req, res) => {
     postId,
     parentId: postId,
     text,
+    type: "communityPost",
     image,
     author,
   });
@@ -80,6 +82,7 @@ const addReply = async (req, res) => {
     postId,
     parentId,
     text,
+    type: "post",
     image,
     author,
   });
@@ -117,6 +120,7 @@ const addCommunityReply = async (req, res) => {
     postId,
     parentId,
     text,
+    type: "communityPost",
     image,
     author,
   });
@@ -158,6 +162,7 @@ const sendTopComments = async (req, res) => {
         $match: {
           createdAt: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
           $expr: { $eq: ["$postId", "$parentId"] },
+          $expr: { $eq: ["$type", "post"] },
         },
       },
       {
@@ -178,7 +183,7 @@ const sendTopComments = async (req, res) => {
 
     //Adding post data to top comments
     for (let i = 0; i < topComments.length; i++) {
-      const post = await Post.findById(topComments[i].postId, {
+      let post = await Post.findById(topComments[i].postId, {
         title: 1,
         category: 1,
         image: 1,

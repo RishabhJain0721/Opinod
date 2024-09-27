@@ -153,7 +153,7 @@ const sendNews = async (req, res) => {
       .limit(6)
       .lean();
   } else {
-    trending = await Post.find({ category: "General" }, reqFields)
+    trending = await Post.find({}, reqFields)
       .sort({ publishedAt: -1 })
       .limit(6)
       .lean();
@@ -172,7 +172,7 @@ const sendNewsDetails = async (req, res) => {
 };
 
 const sendNewsByCategory = async (req, res) => {
-  const { category, username, page, userCategories } = req.body;
+  let { category, username, page, userCategories } = req.body;
   const pageSize = 9; // Number of posts per page
 
   // Calculate the number of posts to skip based on the page number
@@ -192,7 +192,17 @@ const sendNewsByCategory = async (req, res) => {
   if (category == "Trending") {
     let posts = [];
     if (userCategories.length == 0) {
-      userCategories.push("General");
+      userCategories = [
+        "General",
+        "Business",
+        "Entertainment",
+        "Health",
+        "Science",
+        "Sports",
+        "Technology",
+        "World",
+        "Nation",
+      ];
     }
     skip = (page - 1) * (pageSize / userCategories.length);
     for (let cat of userCategories) {

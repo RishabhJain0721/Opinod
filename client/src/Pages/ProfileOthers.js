@@ -258,7 +258,7 @@ const ProfileOthers = () => {
               c ? "border-b-2 border-blue-500" : ""
             } w-1/5 md:w-20 flex justify-center p-1`}
           >
-            Comments
+            Opinions
           </div>
         </div>
         {postsLoading ? (
@@ -311,7 +311,7 @@ const ProfileOthers = () => {
               })}
               {comments.length === 0 && (
                 <div className=" ml-auto mr-auto text-gray-500 italic mt-10">
-                  No comments available
+                  No opinions available
                 </div>
               )}
             </div>

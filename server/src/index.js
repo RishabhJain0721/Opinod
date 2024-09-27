@@ -3,7 +3,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import routes from "./routes/index.js";
-import User from "./models/User.js";
 
 const app = express();
 app.use(cors());
@@ -39,31 +38,3 @@ app.use("/api", routes);
 app.get("/health", (req, res) => {
   res.send({ Message: "OK" });
 });
-
-// async function updateBadgesWithRewardedField() {
-//   try {
-//     // Fetch all users
-//     const users = await User.find();
-
-//     // Iterate over each user and update their badges
-//     for (const user of users) {
-//       // Map over the badges array to add the 'rewarded' field if it's missing
-//       const updatedBadges = user.badges.map((badge) => ({
-//         ...badge,
-//         rewarded: badge.rewarded !== undefined ? badge.rewarded : false,
-//       }));
-
-//       // Update the user's badges
-//       user.badges = updatedBadges;
-
-//       // Save the updated user document
-//       await user.save();
-//     }
-
-//     console.log("All badges updated successfully with the rewarded field");
-//   } catch (error) {
-//     console.error("Error updating badges:", error);
-//   }
-// }
-
-// updateBadgesWithRewardedField();

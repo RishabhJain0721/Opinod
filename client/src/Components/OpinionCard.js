@@ -130,7 +130,7 @@ const OpinionCard = ({
       <img
         src={image}
         alt="news"
-        className="rounded-xl mb-3 mt-1 hidden md:block md:max-h-52 2xl:max-h-64 w-full object-cover"
+        className="rounded-xl mb-3 mt-1 hidden md:block md:max-h-52 2xl:h-64 min-h-52  w-full object-cover"
         onClick={() => {
           username
             ? navigate(`/details/${postId}`)

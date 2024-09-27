@@ -103,6 +103,7 @@ const TopOpinions = () => {
                         key={opinion._id}
                         id={opinion._id}
                         category={opinion.post.category}
+                        image={opinion.post?.image}
                         profilePhoto={opinion.authorPicture.profilePicture}
                         author={opinion.author}
                         datePosted={formatDistanceToNow(

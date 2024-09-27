@@ -88,7 +88,7 @@ const Communities = () => {
           ) : (
             <>
               <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-4 md:mt-8 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700">
+                <div className="font-medium text-gray-950">
                   Joined Communities
                 </div>
                 <div>
@@ -123,11 +123,11 @@ const Communities = () => {
               </div>
 
               <div className="text-base md:text-2xl ml-5 md:ml-10 md:mr-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700">Explore</div>
+                <div className="font-medium text-gray-950">Explore</div>
 
                 {/* Main Topics */}
                 <div className="flex justify-between items-center">
-                  <div className="font-normal text-sm md:text-lg text-gray-600">
+                  <div className="font-normal text-sm md:text-lg text-gray-800">
                     Main Topics
                   </div>
                   <div>
@@ -152,7 +152,7 @@ const Communities = () => {
 
                 {/* Special Interest Groups */}
                 <div className="flex justify-between items-center">
-                  <div className="font-normal text-sm md:text-lg text-gray-600">
+                  <div className="font-normal text-sm md:text-lg text-gray-800">
                     Special Interest Groups
                   </div>
                   <div>

@@ -51,7 +51,7 @@ const Home = () => {
   const fetchOpinions = async () => {
     try {
       setOpinionsLoading(true);
-      const res = await getPopularOpinions(6, 1);
+      const res = await getPopularOpinions(3, 1);
       console.log(res);
       setPopularOpinions(res);
     } catch (error) {
@@ -157,7 +157,7 @@ const Home = () => {
           ) : (
             <>
               <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 mb-2 md:mb-4">
+                <div className="font-medium text-gray-950 mb-2 md:mb-4">
                   Trending
                 </div>
                 <div>
@@ -177,7 +177,7 @@ const Home = () => {
 
               {/* <div className="flex flex-wrap justify-start md:ml-10 md:mr-10 mr-5 "> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5">
-                {trending.map((article) => (
+                {trending.slice(0, isMobile ? 5 : 6).map((article) => (
                   <Card
                     key={article._id}
                     id={article._id}
@@ -228,7 +228,7 @@ const Home = () => {
           ) : (
             <>
               <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mb-6 mt-4 md:mt-10">
+                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mb-6 mt-4 md:mt-10">
                   Popular Opinions
                 </div>
                 <div>
@@ -281,7 +281,7 @@ const Home = () => {
           ) : (
             <>
               <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mt-8 md:mb-7">
+                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mt-8 md:mb-7">
                   Top Communities
                 </div>
                 <div>
@@ -296,17 +296,19 @@ const Home = () => {
               {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7  gap-y-5">
                 {topCommunities
-                  .slice(0, smallScreen ? (isMobile ? 4 : 6) : 8)
+                  .slice(0, smallScreen ? (isMobile ? 8 : 9) : 8)
                   .map((community) => (
                     <HomeCommCard
                       key={community._id}
                       id={community._id}
                       name={community.name}
                       image={community.image}
+                      subcategories={community.subCategories}
                       description={community.description}
                       subscribers={community.subscriberCount}
                       posts={community.postCount}
                       topPostTitle={community.topPostTitle}
+                      topPostId={community.topPostId}
                     />
                   ))}
               </div>
@@ -318,16 +320,13 @@ const Home = () => {
           ) : (
             <>
               <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-700 w-2/3 mb-2 md:mt-10 md:mb-4">
+                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mt-10 md:mb-4">
                   Recent Activities
                 </div>
               </div>
               <div>
-                {/* <div className="grid grid-cols-2 text-sm md:text-base text-gray-600"> */}
-                {/* <div className="flex flex-wrap justify-start text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10"> */}
-                {/* <div className="w-full"> */}
                 <div className="w-full">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 text-sm md:text-base mx-5 md:ml-10 md:mr-10 text-gray-600 mb-10">
                     {recent.map((ele, index) => {
                       return (
                         <div className="flex items-start" key={index}>

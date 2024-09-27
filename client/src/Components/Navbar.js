@@ -360,40 +360,6 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Settings */}
-        {/* <h2
-          className="text-lg mb-2 ml-5 text-white mt-5"
-          onClick={handleToggleSettings}
-        >
-          <div className="flex justify-between items-center mr-4">
-            <div className="cursor-pointer">
-              <FontAwesomeIcon icon={faGear} className="mr-1" /> Settings{" "}
-            </div>
-            <FontAwesomeIcon
-              icon={toggleSettings ? faChevronDown : faChevronRight}
-              className="text-xs ml-3 cursor-pointer"
-            />
-          </div>
-        </h2>
-        {toggleSettings && (
-          <>
-            <button
-              className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
-              onClick={() => {}}
-            >
-              <FontAwesomeIcon icon={faBarsProgress} className="mr-2" />
-              Manage
-            </button>
-            <button
-              className="flex items-center p-1 px-8 my-0 focus:outline-none text-white"
-              onClick={() => {}}
-            >
-              <FontAwesomeIcon icon={faCircleQuestion} className="mr-2" />
-              Help
-            </button>
-          </>
-        )} */}
-
         {/* Profile */}
         <h2 className="text-lg mb-2 ml-5 text-white mt-5">
           <div
@@ -429,26 +395,6 @@ const Navbar = () => {
           </button>
         )}
       </div>
-
-      {/* <div className="border-t border-gray-300 mt-4"></div>
-        <div className="text-xl font-semibold mb-4 mt-4 pl-6">ALSO VISIT</div>
-        <div className="pl-6">
-          {alsoVisit.map((category) => (
-            <div key={category}>
-              <button
-                className={`flex items-center p-1 px-2 focus:outline-none ${
-                  selectedCategory === category
-                    ? "bg-blue-100 rounded-md text-gray-800"
-                    : "text-white"
-                }`}
-                onClick={() => handleCategorySelect(category)}
-              >
-                <FontAwesomeIcon icon={selectIcon(category)} className="mr-2" />
-                {category}
-              </button>
-            </div>
-          ))}
-        </div> */}
     </div>
   );
 };
