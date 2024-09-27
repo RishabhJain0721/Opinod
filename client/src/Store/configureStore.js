@@ -10,8 +10,13 @@ const pointsMiddleware = (store) => (next) => (action) => {
   const result = next(action); // Pass action to next middleware/reducer
 
   const state = store.getState();
-  const prevUser = JSON.parse(localStorage.getItem("persist:a")) || {};
-  const prevPoints = JSON.parse(prevUser.user).points || 0; // Initialize previous points from user object in localStorage
+  const prevUser =
+    JSON.parse(localStorage.getItem("persist:a")) === null
+      ? {}
+      : JSON.parse(localStorage.getItem("persist:a"));
+  const prevPoints = JSON.parse(prevUser.user).points
+    ? JSON.parse(prevUser.user).points
+    : 0;
 
   // Assuming points is nested under user in state
   const currentPoints = state.user.points;
