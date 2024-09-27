@@ -79,7 +79,7 @@ const CardSmall = ({
         className=" text-xs w-full rounded-full bg-gray-100 p-0.5"
         onClick={handleClick}
       >
-        See opinions
+        See/give opinions
       </button>
     </div>
   );
