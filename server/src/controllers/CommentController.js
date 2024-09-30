@@ -215,7 +215,7 @@ const sendComments = async (req, res) => {
       { username: comment.author },
       { profilePicture: 1, _id: 0 }
     ).lean();
-    comment.profilePicture = author.profilePicture;
+    comment.profilePicture = author?.profilePicture;
   }
 
   res.send(comments);

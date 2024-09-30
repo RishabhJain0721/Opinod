@@ -137,7 +137,7 @@ const NewsDetails = (props) => {
   const handleRight = async () => {
     try {
       setIsRightLoading(true);
-      if (!category) {
+      if (!category || category === "Trending") {
         const newId = await getNextArticle(
           "right",
           details.publishedAt,

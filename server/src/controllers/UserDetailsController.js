@@ -138,40 +138,56 @@ const sendRecent = async (req, res) => {
       recent = array[0];
     } else recent = await Recent.findOne({}, { all: { $slice: -5 } });
 
+    let arr = [];
     for (const item of recent.all) {
       if (item.type === "comment") {
         const post = await Post.findOne(
           { _id: item.postId },
           { title: 1 }
         ).lean();
-        item.title = post.title;
+        if (post) {
+          item.title = post.title;
+          arr.push(item);
+        }
       } else if (item.type === "communityComment") {
         const cPost = await CommunityPost.findOne(
           { _id: item.postId },
           { title: 1 }
         ).lean();
-        item.title = cPost.title;
+        if (cPost) {
+          item.title = cPost.title;
+          arr.push(item);
+        }
       } else if (item.type === "reply") {
         const post = await Post.findOne(
           { _id: item.postId },
           { title: 1 }
         ).lean();
-        item.title = post.title;
+        if (post) {
+          item.title = post.title;
+          arr.push(item);
+        }
       } else if (item.type === "communityReply") {
         const cPost = await CommunityPost.findOne(
           { _id: item.postId },
           { title: 1 }
         ).lean();
-        item.title = cPost.title;
+        if (cPost) {
+          item.title = cPost.title;
+          arr.push(item);
+        }
       } else if (item.type === "post") {
         const cPost = await CommunityPost.findOne(
           { _id: item.postId },
           { title: 1 }
         ).lean();
-        item.title = cPost?.title;
+        if (cPost) {
+          item.title = cPost.title;
+          arr.push(item);
+        }
       }
     }
-    res.status(200).send(recent?.all?.reverse());
+    res.status(200).send(arr?.reverse());
   } catch (error) {
     res.status(400).send({ Message: "Failed to fetch" });
   }

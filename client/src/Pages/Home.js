@@ -359,9 +359,9 @@ const Home = () => {
                                 }}
                                 className="text-blue-500 cursor-pointer"
                               >
-                                {ele.title.length > 80
-                                  ? ele.title.slice(0, 80) + "..."
-                                  : ele.title}
+                                {ele?.title?.length > 80
+                                  ? ele?.title?.slice(0, 80) + "..."
+                                  : ele?.title}
                               </span>
                             </div>
                           ) : ele.type === "reply" ||
