@@ -220,12 +220,12 @@ const CommunitiesIndividual = () => {
                 {topPosts.map((post, index) => {
                   return <CommunityPostCard key={index} post={post} />;
                 })}
-                {topPosts.length === 0 && (
-                  <div className=" text-xs md:text-sm text-gray-500 ml-auto mr-auto p-4">
-                    No posts to display in this community
-                  </div>
-                )}
               </div>
+              {topPosts.length === 0 && (
+                <div className=" text-xs md:text-sm text-gray-500 text-center ml-auto mr-auto p-4">
+                  No posts to display in this community
+                </div>
+              )}
 
               <div className="text-xl ml-5 md:ml-10 md:mr-10  mt-4 md:mt-8 mr-5 mb-10 flex flex-col justify-between text-gray-800 w-auto">
                 <div className="font-semibold md:font-normal mb-3">
