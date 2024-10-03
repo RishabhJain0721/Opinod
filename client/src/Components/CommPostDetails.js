@@ -154,7 +154,12 @@ const CommPostDetails = (props) => {
       )}
       {/* Content with gradient blur */}
       <div className="relative overflow-hidden mx-5 text-xs sm:text-sm md:text-lg font-normal mb-4 text-gray-600">
-        {details.description}
+        {details.description.split("\n").map((line, index) => (
+          <span key={index}>
+            {line}
+            <br />
+          </span>
+        ))}
       </div>
       {/* Reacts and comments count */}
       {/* <div className="flex mt-5 mb-2 mx-5 text-base md:text-lg font-semibold text-gray-700">
