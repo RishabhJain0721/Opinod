@@ -67,7 +67,7 @@ const CommunityCard = ({ id, name, description, image, subscribers }) => {
         <img
           src={image}
           alt="Profile"
-          className="h-16 w-16 rounded-md mr-2"
+          className="h-20 w-20 rounded-md mr-2"
           onClick={handleGoToCommunity}
         />
         <div className="w-full flex items-center justify-between">

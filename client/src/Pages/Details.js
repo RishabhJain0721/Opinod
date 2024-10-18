@@ -31,6 +31,7 @@ const Details = () => {
     try {
       setIsLoadingDetails(true);
       const res = await getNewsById(id);
+      console.log(res.content.replace(/(\s*\n\s*){3,}/g, "\n\n"));
       setDetails(res);
       setIsLoadingDetails(false);
     } catch (error) {
@@ -96,7 +97,7 @@ const Details = () => {
     <div>
       <Topbar />
 
-      <div className="flex mt-16">
+      <div className="flex md:w-7/12 ml-auto mr-auto mt-16">
         {isLoadingDetails ? (
           <div className="flex items-center justify-center w-screen h-96  ">
             <MutatingDots
@@ -114,9 +115,9 @@ const Details = () => {
         ) : (
           <div className="w-full md:ml-5 md:mr-5  md:mt-0 ">
             {/* Comment box */}
-            <div className="w-full fixed bottom-0 left-0 z-40">
+            <div className="w-7/12 fixed bottom-0 left-auto right-auto  z-40">
               <div
-                className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                className={`flex bg-white  p-3 transition-all duration-300 ${
                   isFocused ? " h-80" : "h-16"
                 }`}
               >
@@ -126,7 +127,7 @@ const Details = () => {
                   onChange={(e) => setNewReply(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className="border border-gray-500 rounded w-11/12 text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
+                  className="border w-10/12  border-gray-500 rounded text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                   placeholder="Give your opinion"
                 />
                 <div

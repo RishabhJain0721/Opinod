@@ -332,28 +332,24 @@ const Topbar = () => {
             <div className="flex flex-row ml-4 xl:ml-8 gap-x-5 xl:gap-x-8">
               {/* Home */}
               <h2
-                className={`text-base  mb-2 text-gray-700 ${
+                className={`text-lg  mb-2 text-gray-700 ${
                   isSearch ? "hidden lg:inline" : ""
                 } mt-3 `}
                 onClick={() => navigate("/")}
               >
                 <div className="flex justify-center items-center cursor-pointer">
-                  {/* <FontAwesomeIcon icon={faHouse} className="mr-2" />  */}
                   Home
                 </div>
               </h2>
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-700 ${
+                  className={`text-lg cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                   onClick={handleToggleCategory}
                 >
                   <div className="flex justify-center items-center mt-3">
-                    <div className="flex items-center">
-                      {/* <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "} */}
-                      Categories
-                    </div>
+                    <div className="flex items-center">Categories</div>
                     <FontAwesomeIcon
                       icon={toggleCategory ? faChevronUp : faChevronDown}
                       className="text-xs ml-2 w-3"
@@ -366,7 +362,7 @@ const Topbar = () => {
                     {Object.values(categories).map((cat) => (
                       <div key={cat}>
                         <button
-                          className={`flex text-sm items-center px-2 py-1 w-full focus:outline-none ${
+                          className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
                             selectedCategory === cat
                               ? "bg-blue-100 rounded-md text-gray-800"
                               : "text-gray-800"
@@ -387,7 +383,7 @@ const Topbar = () => {
               {/* Communities */}
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-700 ${
+                  className={`text-lg cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                 >
@@ -408,12 +404,7 @@ const Topbar = () => {
                 {toggleCommunity && (
                   <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
                     <div>
-                      <button className="flex text-sm items-center px-2 py-1 focus:outline-none text-gray-800">
-                        {/* <FontAwesomeIcon
-                        icon={faRankingStar}
-                        className="mr-2"
-                        onClick={() => navigate("/communities/main")}
-                      /> */}
+                      <button className="flex text-base items-center px-2 py-1 focus:outline-none text-gray-800">
                         <span onClick={() => navigate("/communities/main")}>
                           Main Topics
                         </span>
@@ -452,12 +443,7 @@ const Topbar = () => {
                     </div>
 
                     <div>
-                      <button className="flex items-center px-2 py-1 w-40 text-sm focus:outline-none text-gray-800">
-                        {/* <FontAwesomeIcon
-                        icon={faLightbulb}
-                        className="mr-2"
-                        onClick={() => navigate("/communities/special")}
-                      /> */}
+                      <button className="flex items-center px-2 py-1 w-40 text-base focus:outline-none text-gray-800">
                         <span onClick={() => navigate("/communities/special")}>
                           Special Interest
                         </span>
@@ -503,7 +489,7 @@ const Topbar = () => {
               </div>
               {/* Profile */}
               <h2
-                className={`text-base mb-2 text-gray-700 mt-3 ${
+                className={`text-lg mb-2 text-gray-700 mt-3 ${
                   isSearch ? "hidden lg:inline" : ""
                 }`}
               >
@@ -511,34 +497,9 @@ const Topbar = () => {
                   className="flex justify-between items-center mr-4 cursor-pointer"
                   onClick={() => navigate("/profile")}
                 >
-                  <div>
-                    {/* <FontAwesomeIcon icon={faUser} className="mr-1" />  */}
-                    Profile{" "}
-                  </div>
-                  {/* <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="text-xs ml-3"
-                /> */}
+                  <div>Profile </div>
                 </div>
               </h2>
-              {/* {username ? (
-              <button
-                onClick={() => {
-                  dispatch(logout());
-                  navigate("/");
-                }}
-                className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
-              >
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={() => navigate("/login")}
-                className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
-              >
-                LOGIN
-              </button>
-            )} */}
             </div>
           )}
 
@@ -641,12 +602,6 @@ const Topbar = () => {
                           </button>
                         </div>
                       ))}
-                      {/* <button
-                        className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
-                        onClick={handleAddCategory}
-                      >
-                        Add Category
-                      </button> */}
                     </div>
                   )}
 

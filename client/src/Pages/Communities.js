@@ -23,6 +23,7 @@ const Communities = () => {
     const fetchCommunities = async () => {
       try {
         const res = await getCommunities();
+        console.log(res.communities);
         res.communities.forEach((ele) => {
           if (ele.parent === "main") {
             setMain((prev) => [...prev, ele]);
@@ -146,6 +147,8 @@ const Communities = () => {
                       id={community._id}
                       name={community.name}
                       image={community.image}
+                      posts={community.postCount}
+                      subscribers={community.subscriberCount}
                     />
                   ))}
                 </div>
@@ -171,6 +174,8 @@ const Communities = () => {
                       id={community._id}
                       name={community.name}
                       image={community.image}
+                      posts={community.postCount}
+                      subscribers={community.subscriberCount}
                     />
                   ))}
                 </div>

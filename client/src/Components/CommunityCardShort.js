@@ -6,7 +6,7 @@ import { updateCommunities, updateRemoveCommunity } from "../Actions/actions";
 import { ThreeDots } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-const CommunityCardShort = ({ id, name, image }) => {
+const CommunityCardShort = ({ id, name, image, posts, subscribers }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const username = useSelector((state) => state.user.username);
@@ -53,7 +53,7 @@ const CommunityCardShort = ({ id, name, image }) => {
         <img
           src={image}
           alt="Profile"
-          className=" h-16 w-16 rounded-full cursor-pointer"
+          className=" h-20 w-20 rounded-full cursor-pointer"
           onClick={handleGoToCommunity}
         />
         <div className="w-full flex flex-col items-center justify-between">
@@ -64,6 +64,17 @@ const CommunityCardShort = ({ id, name, image }) => {
           >
             {name}
           </div>
+          {/* Description */}
+          <div className="text-xs text-center text-gray-500 mx-3">
+            {posts >= 0 ? posts + " posts" : ""}
+          </div>
+          {/* Subscribers */}
+          <div className="text-xs text-center text-gray-500 mx-3">
+            {subscribers >= 0 ? subscribers + " subscribers" : ""}
+          </div>
+        </div>
+        <div className="flex justify-center mt-2">
+          {/* Join/Leave button */}
           {joinedCommunitiesStore.includes(id) ? (
             <button
               className="text-center text-blue-500 border border-blue-500 rounded-l-full rounded-r-full text-sm py-0.5 w-20 px-2"

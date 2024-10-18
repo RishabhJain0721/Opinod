@@ -156,8 +156,8 @@ const ProfilePage = () => {
       <Topbar />
 
       <div className="flex mt-16">
-        <div className="  p-4 w-full">
-          <div className="bg-white pt-4 md:p-4 md:m-4 h-fit">
+        <div className="p-4 w-full">
+          <div className="bg-white pt-4 md:p-4 md:m-4 h-fit justify-center flex flex-col">
             {/* First Row: Profile pic, Followers, Following, Category */}
             <div className="flex items-center justify-start mb-2 md:mb-4">
               {imageType ? (
@@ -211,11 +211,6 @@ const ProfilePage = () => {
                 Edit profile
               </button>
             </div>
-
-            {/* Third Row: Email */}
-            {/* <div className="text-xs md:text-lg text-gray-700 mb-4">
-              {user.email}
-            </div> */}
 
             {/* Fourth Row: Description */}
             <div className="text-gray-600 text-sm md:text-base">
@@ -399,10 +394,8 @@ const ProfilePage = () => {
               </div>
             )}
 
-            {/* Edit Profile and Logout Buttons */}
-
             <button
-              className="bg-red-500 text-white w-full px-4 py-2 rounded hover:bg-red-600 duration-100 mt-5"
+              className="bg-red-500 text-white ml-auto mr-auto w-1/3 px-4 py-2 rounded hover:bg-red-600 duration-100 mt-5"
               onClick={handleLogout}
             >
               Logout

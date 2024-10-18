@@ -18,6 +18,7 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import HomeCommCard from "../Components/HomeCommCard";
 import HomeNavbar from "../Components/HomeNavbar";
+import Footer from "../Components/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -439,6 +440,8 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

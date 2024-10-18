@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -250,7 +251,18 @@ const NewsDetails = (props) => {
             : "none",
         }}
       >
-        {details.content}
+        <div>
+          {details.content
+            .replace(/(\s*\n\s*){3,}/g, "\n\n")
+            .split("\n")
+            .map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+        </div>
+        {/* {details.content} */}
       </div>
       {isBlur && (
         <div className="flex items-center justify-center w-full ">

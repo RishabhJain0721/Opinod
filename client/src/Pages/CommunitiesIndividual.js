@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
-import MobileSearch from "../Components/MobileSearch";
+import CommunityTab from "../Components/CommunityTab";
 import CommunityPostCard from "../Components/CommunityPostCard";
 import { getCommunityData, addCommunityPost } from "../APIs/CommunityApis";
 import { MutatingDots, ThreeDots } from "react-loader-spinner";
 import SubcategoryCard from "../Components/SubcategoryCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import FeedbackModal from "../Components/FeedbackModal";
 import { addFeedback } from "../APIs/FeedbackApis";
+import { joinCommunity, leaveCommunity } from "../APIs/UserDetailsApis";
+import { updateCommunities, updateRemoveCommunity } from "../Actions/actions";
 import UploadImage from "../Components/UploadImage";
 
 const CommunitiesIndividual = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const communityId = location.pathname.split("/")[2];
   const username = useSelector((state) => state.user.username);
+  const joinedCommunitiesStore = useSelector(
+    (state) => state.user.joinedCommunities
+  );
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +31,7 @@ const CommunitiesIndividual = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [name, setName] = useState("");
   const [topPosts, setTopPosts] = useState([]);
+  const [community, setCommunity] = useState({});
 
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [title, setTitle] = useState("");
@@ -38,9 +44,11 @@ const CommunitiesIndividual = () => {
     const fetchCommunityData = async () => {
       try {
         const res = await getCommunityData(communityId);
-        setSubcategories(res.subcategories);
-        setName(res.name);
+        console.log(res);
+        setSubcategories(res.community.subCategories);
+        setName(res.community.name);
         setTopPosts(res.topPosts);
+        setCommunity(res);
       } catch (error) {
         console.log(error);
       } finally {
@@ -143,12 +151,37 @@ const CommunitiesIndividual = () => {
     navigate(`/community/${communityId}/subcategories`);
   };
 
+  const handleJoinCommunity = async () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
+    try {
+      await joinCommunity(username, community.community._id);
+      // setLoading(true);
+      dispatch(updateCommunities(community.community._id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const handleLeaveCommunity = async () => {
+    try {
+      await leaveCommunity(username, community.community._id);
+      // setLoading(true);
+      dispatch(updateRemoveCommunity(community.community._id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Topbar />
-
-      {/*   */}
-
       <div className="flex mt-4 md:mt-16">
         <div className="w-full mt-11 md:mt-0">
           {isLoading ? (
@@ -171,6 +204,21 @@ const CommunitiesIndividual = () => {
                 {/* Name */}
                 <div className=" font-semibold md:font-normal mb-3">{name}</div>
               </div>
+              <div className="ml-5 mr-5 md:ml-10 md:mr-10 md:mt-3 mb-7">
+                <CommunityTab
+                  id={community.community._id}
+                  image={community.community.image}
+                  description={community.community.description}
+                  postsCount={community.postCount}
+                  subscribersCount={community.community.subscriberCount}
+                  onJoinClick={
+                    joinedCommunitiesStore.includes(community.community._id)
+                      ? handleLeaveCommunity
+                      : handleJoinCommunity
+                  }
+                />
+              </div>
+
               {subcategories.length > 0 && (
                 <>
                   <div className="text-xl ml-5 mr-5 md:ml-10 md:mr-10 flex items-center justify-between text-gray-800 w-auto">

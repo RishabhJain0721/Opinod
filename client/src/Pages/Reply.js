@@ -197,7 +197,7 @@ const Reply = () => {
   };
 
   return (
-    <div>
+    <div className="md:w-7/12 ml-auto mr-auto">
       <Topbar />
 
       <div className="flex flex-col mt-16   md:ml-5 md:mr-5">
@@ -333,9 +333,9 @@ const Reply = () => {
                 })}
               </div>
 
-              <div className="w-screen fixed bottom-0 left-0 z-40">
+              <div className="w-7/12 fixed bottom-0 left-auto right-auto z-40">
                 <div
-                  className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                  className={`flex bg-white p-3 transition-all duration-300 ${
                     isFocused ? " h-80" : "h-16"
                   }`}
                 >

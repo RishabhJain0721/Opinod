@@ -51,7 +51,14 @@ const topSubcategoryPosts = async (subcategory, skip) => {
 
 const sendCommunities = async (req, res) => {
   try {
-    const communities = await Community.find({});
+    const communities = await Community.find({}).lean();
+    for (const community of communities) {
+      const postCount = await CommunityPost.countDocuments({
+        community: community._id,
+      });
+      community.postCount = postCount;
+    }
+    // console.log(communities);
     res.status(200).send({ Message: "Successfully sent", communities });
   } catch (error) {
     res.status(404).send(error);
@@ -89,14 +96,12 @@ const sendHomeCommunities = async (req, res) => {
 const sendCommunityData = async (req, res) => {
   const { id } = req.body;
   try {
-    const community = await Community.findById(id, {
-      name: 1,
-      subCategories: 1,
-    }).lean();
-    const subcategories = community.subCategories;
-    const name = community.name;
+    const community = await Community.findById(id).lean();
     const topPosts = await topCommunityPosts(id, 3);
-    res.status(200).send({ subcategories, name, topPosts });
+    const postCount = await CommunityPost.countDocuments({
+      community: id,
+    });
+    res.status(200).send({ topPosts, community, postCount });
   } catch (error) {
     res.status(404).send(error);
   }

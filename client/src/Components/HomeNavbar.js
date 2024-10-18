@@ -246,8 +246,7 @@ const HomeNavbar = () => {
     <div className="fixed top-0 left-0 w-full z-50  bg-white border-b-2 border-gray-300 p-2.5 shadow-sm">
       {isAtTopPc && (
         <>
-          <div className="text-6xl m-3 flex items-center justify-center w-full">
-            {/* <div className="flex items-center justify-between "> */}
+          <div className="text-6xl m-3 mb-0 flex items-center justify-center w-full">
             <img
               src={Opinod}
               alt="Logo"
@@ -258,9 +257,8 @@ const HomeNavbar = () => {
               }}
             />
             <span className="font-Playfair font-medium">OPINOD</span>
-            {/* </div> */}
           </div>
-          <div className="text-center text-sm m-3 flex justify-center gap-x-32 lg:gap-x-48 mt-10">
+          <div className="text-center text-sm m-3 mb-9 flex justify-center gap-x-32 lg:gap-x-48 mt-5">
             <div>
               <span className="text-2xl font-Flower font-bold">ENGAGE</span>{" "}
               <br />
@@ -305,28 +303,24 @@ const HomeNavbar = () => {
             <div className="flex flex-row ml-4 xl:ml-8 gap-x-5 xl:gap-x-8">
               {/* Home */}
               <h2
-                className={`text-base  mb-2 text-gray-700 ${
+                className={` text-lg mb-2 text-gray-700 ${
                   isSearch ? "hidden lg:inline" : ""
                 } mt-3 `}
                 onClick={() => navigate("/")}
               >
                 <div className="flex justify-center items-center cursor-pointer">
-                  {/* <FontAwesomeIcon icon={faHouse} className="mr-2" />  */}
                   Home
                 </div>
               </h2>
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-700 ${
+                  className={`text-lg cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                   onClick={handleToggleCategory}
                 >
                   <div className="flex justify-center items-center mt-3">
-                    <div className="flex items-center">
-                      {/* <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "} */}
-                      Categories
-                    </div>
+                    <div className="flex items-center">Categories</div>
                     <FontAwesomeIcon
                       icon={toggleCategory ? faChevronUp : faChevronDown}
                       className="text-xs ml-2 w-3"
@@ -339,7 +333,7 @@ const HomeNavbar = () => {
                     {Object.values(categories).map((cat) => (
                       <div key={cat}>
                         <button
-                          className={`flex text-sm items-center px-2 py-1 w-full focus:outline-none ${
+                          className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
                             selectedCategory === cat
                               ? "bg-blue-100 rounded-md text-gray-800"
                               : "text-gray-800"
@@ -360,7 +354,7 @@ const HomeNavbar = () => {
               {/* Communities */}
               <div className="relative">
                 <h2
-                  className={`text-base cursor-pointer text-gray-700 ${
+                  className={`text-lg cursor-pointer text-gray-700 ${
                     isSearch ? "hidden lg:inline" : ""
                   }`}
                 >
@@ -381,12 +375,7 @@ const HomeNavbar = () => {
                 {toggleCommunity && (
                   <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
                     <div>
-                      <button className="flex text-sm items-center px-2 py-1 focus:outline-none text-gray-700">
-                        {/* <FontAwesomeIcon
-                        icon={faRankingStar}
-                        className="mr-2"
-                        onClick={() => navigate("/communities/main")}
-                      /> */}
+                      <button className="flex text-base items-center px-2 py-1 focus:outline-none text-gray-700">
                         <span onClick={() => navigate("/communities/main")}>
                           Main Topics
                         </span>
@@ -425,12 +414,7 @@ const HomeNavbar = () => {
                     </div>
 
                     <div>
-                      <button className="flex items-center px-2 py-1 w-40 text-sm focus:outline-none text-gray-800">
-                        {/* <FontAwesomeIcon
-                        icon={faLightbulb}
-                        className="mr-2"
-                        onClick={() => navigate("/communities/special")}
-                      /> */}
+                      <button className="flex items-center px-2 py-1 w-40 text-base focus:outline-none text-gray-800">
                         <span onClick={() => navigate("/communities/special")}>
                           Special Interest
                         </span>
@@ -476,7 +460,7 @@ const HomeNavbar = () => {
               </div>
               {/* Profile */}
               <h2
-                className={`text-base mb-2 text-gray-800 mt-3 ${
+                className={`text-lg mb-2 text-gray-800 mt-3 ${
                   isSearch ? "hidden lg:inline" : ""
                 }`}
               >
@@ -484,34 +468,9 @@ const HomeNavbar = () => {
                   className="flex justify-between items-center mr-4 cursor-pointer"
                   onClick={() => navigate("/profile")}
                 >
-                  <div>
-                    {/* <FontAwesomeIcon icon={faUser} className="mr-1" />  */}
-                    Profile{" "}
-                  </div>
-                  {/* <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="text-xs ml-3"
-                /> */}
+                  <div>Profile </div>
                 </div>
               </h2>
-              {/* {username ? (
-              <button
-                onClick={() => {
-                  dispatch(logout());
-                  navigate("/");
-                }}
-                className="block w-full mt-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 mb-20"
-              >
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={() => navigate("/login")}
-                className="block w-full mt-4 py-2 text-gray-800 rounded-lg bg-white mb-20"
-              >
-                LOGIN
-              </button>
-            )} */}
             </div>
           )}
 
@@ -584,7 +543,6 @@ const HomeNavbar = () => {
                 }}
               >
                 LOGIN
-                {/* <FontAwesomeIcon icon={faRightToBracket} /> */}
               </button>
               <button
                 className="text-xl sm:px-2 px-1"
@@ -593,7 +551,6 @@ const HomeNavbar = () => {
                 }}
               >
                 SIGNUP
-                {/* <FontAwesomeIcon icon={faUserPlus} /> */}
               </button>
             </div>
           </div>

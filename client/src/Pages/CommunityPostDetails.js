@@ -97,7 +97,7 @@ const CommunityPostDetails = () => {
   return (
     <div>
       <Topbar />
-      <div className="flex mt-16">
+      <div className="flex md:w-7/12 ml-auto mr-auto mt-16">
         {isLoadingDetails ? (
           <div className="flex items-center justify-center w-screen h-96">
             <MutatingDots
@@ -115,9 +115,9 @@ const CommunityPostDetails = () => {
         ) : (
           <div className="w-full md:mt-0">
             {/* Comment box */}
-            <div className="w-full fixed bottom-0 z-40">
+            <div className="w-7/12 fixed left-auto right-auto bottom-0 z-40">
               <div
-                className={`flex bg-white border border-t-2 p-3 transition-all duration-300 ${
+                className={`flex bg-white p-3 transition-all duration-300 ${
                   isFocused ? " h-80" : "h-16"
                 }`}
               >
