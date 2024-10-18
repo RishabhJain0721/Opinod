@@ -31,6 +31,12 @@ const Signup = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Placeholder for form validation
@@ -79,7 +85,7 @@ const Signup = () => {
             <div className="text-3xl mt-14 mb-8 text-blue-500 font-medium">
               SIGNUP
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
               <div className="flex flex-col">
                 <label
                   htmlFor="username"

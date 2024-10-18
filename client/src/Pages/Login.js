@@ -35,7 +35,7 @@ const Login = () => {
       alert("Please fill in all fields.");
       return;
     }
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
       const res = await login({ username, password });
       console.log("Response : ", res);
@@ -66,6 +66,12 @@ const Login = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <div>
       <Topbar />
@@ -89,7 +95,7 @@ const Login = () => {
             <div className="text-3xl mt-14 mb-8 text-blue-500 font-medium">
               LOGIN
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
               <div className="flex flex-col">
                 <label
                   htmlFor="username"
