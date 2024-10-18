@@ -115,7 +115,7 @@ const Details = () => {
         ) : (
           <div className="w-full md:ml-5 md:mr-5  md:mt-0 ">
             {/* Comment box */}
-            <div className="w-7/12 fixed bottom-0 left-auto right-auto  z-40">
+            <div className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto  z-40">
               <div
                 className={`flex bg-white  p-3 transition-all duration-300 ${
                   isFocused ? " h-80" : "h-16"

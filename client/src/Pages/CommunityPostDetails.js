@@ -115,7 +115,7 @@ const CommunityPostDetails = () => {
         ) : (
           <div className="w-full md:mt-0">
             {/* Comment box */}
-            <div className="w-7/12 fixed left-auto right-auto bottom-0 z-40">
+            <div className="w-full md:w-7/12 fixed left-auto right-auto bottom-0 z-40">
               <div
                 className={`flex bg-white p-3 transition-all duration-300 ${
                   isFocused ? " h-80" : "h-16"
