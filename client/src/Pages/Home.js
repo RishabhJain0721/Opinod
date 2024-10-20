@@ -177,7 +177,7 @@ const Home = () => {
               )} */}
 
               {/* <div className="flex flex-wrap justify-start md:ml-10 md:mr-10 mr-5 "> */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5 cursor-pointer">
                 {trending.slice(0, isMobile ? 5 : 6).map((article) => (
                   <Card
                     key={article._id}

@@ -3,6 +3,7 @@ import axios from "axios";
 import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 import scraper from "./scraper.js";
+import mongoose from "mongoose";
 
 const fetchNews = async (value) => {
   const API_KEY = process.env.NEWS_API_KEY;
@@ -54,8 +55,6 @@ export const fetchNewsForCategories = async () => {
   }
 };
 
-// fetchNewsForCategories();
-
 const deleteDuplicates = async () => {
   const duplicates = await Post.aggregate([
     {
@@ -82,7 +81,9 @@ cron.schedule(
   async () => {
     console.log("6:00 AM News update");
     // Call the task to fetch news for each category
-    await fetchNewsForCategories();
+    mongoose.connection.once("open", async () => {
+      await fetchNewsForCategories();
+    });
     await deleteDuplicates();
   },
   {

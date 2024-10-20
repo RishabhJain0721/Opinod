@@ -211,7 +211,7 @@ const ProfileOthers = () => {
               </div>
 
               {/* Second Row: Name */}
-              <div className="text-lg font-medium">{user.username}</div>
+              <div className="text-2xl font-medium">{user.username}</div>
 
               {/* Fourth Row: Description */}
               <div className="text-gray-600 text-sm md:text-base">

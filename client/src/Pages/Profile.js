@@ -158,70 +158,74 @@ const ProfilePage = () => {
       <div className="flex mt-16">
         <div className="p-4 w-full">
           <div className="bg-white pt-4 md:p-4 md:m-4 h-fit justify-center flex flex-col">
-            {/* First Row: Profile pic, Followers, Following, Category */}
-            <div className="flex items-center justify-start mb-2 md:mb-4">
-              {imageType ? (
-                <img
-                  src={`data:${imageType};base64,${base64Image}`}
-                  alt="Profile"
-                  className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  className="text-6xl mr-4 text-gray-800"
-                />
-              )}
-              <div className="flex flex-col text-center ml-2 md:ml-5">
-                <span className="text-base md:text-xl font-semibold">
-                  {followers ? followers.length : 0}
-                </span>
-                <span className="text-sm md:text-lg font-normal text-gray-500">
-                  Followers
-                </span>
+            <div className="flex md:flex-row flex-col gap-x-20">
+              <div className="flex flex-col">
+                {/* First Row: Profile pic, Followers, Following, Category */}
+                <div className="flex items-center justify-start mb-2 md:mb-3">
+                  {imageType ? (
+                    <img
+                      src={`data:${imageType};base64,${base64Image}`}
+                      alt="Profile"
+                      className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faCircleUser}
+                      className="text-6xl mr-4 text-gray-800"
+                    />
+                  )}
+                  <div className="flex flex-col text-center ml-2 md:ml-5">
+                    <span className="text-base md:text-xl font-semibold">
+                      {followers ? followers.length : 0}
+                    </span>
+                    <span className="text-sm md:text-lg font-normal text-gray-500">
+                      Followers
+                    </span>
+                  </div>
+                  <div className="flex flex-col text-center ml-5">
+                    <span className="text-base md:text-xl font-semibold">
+                      {following ? following.length : 0}
+                    </span>
+                    <span className="text-sm md:text-lg font-normal text-gray-500">
+                      Following
+                    </span>
+                  </div>
+                  <div className="flex flex-col text-center ml-5">
+                    <span className="text-base md:text-xl font-semibold">
+                      {noOfBadges()}
+                    </span>
+                    <span className="text-sm md:text-lg font-normal text-gray-500">
+                      Badges
+                    </span>
+                  </div>
+                </div>
+
+                {/* Second Row: Name and Edit button */}
+                <div className="flex items-center mt-4">
+                  <div className="text-base md:text-2xl font-medium">
+                    {user.username}
+                  </div>
+                  <button
+                    className="px-2 py-1 rounded text-blue-600 duration-100 ml-1 text-xs md:text-base"
+                    onClick={() => navigate("/updateProfile")}
+                  >
+                    Edit profile
+                  </button>
+                </div>
+
+                {/* Fourth Row: Description */}
+                <div className="text-gray-600 text-sm md:text-base">
+                  {user.description !== "undefined" ? (
+                    user.description
+                  ) : (
+                    <div className="italic text-gray-400">
+                      No description added
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-col text-center ml-5">
-                <span className="text-base md:text-xl font-semibold">
-                  {following ? following.length : 0}
-                </span>
-                <span className="text-sm md:text-lg font-normal text-gray-500">
-                  Following
-                </span>
-              </div>
-              <div className="flex flex-col text-center ml-5">
-                <span className="text-base md:text-xl font-semibold">
-                  {noOfBadges()}
-                </span>
-                <span className="text-sm md:text-lg font-normal text-gray-500">
-                  Badges
-                </span>
-              </div>
+              {isLevel && <BadgeCard info={level} />}
             </div>
-
-            {/* Second Row: Name and Edit button */}
-
-            <div className="flex items-center">
-              <div className="text-base md:text-lg font-medium">
-                {user.username}
-              </div>
-              <button
-                className="px-2 py-1 rounded text-blue-600 duration-100 ml-1 text-xs md:text-base"
-                onClick={() => navigate("/updateProfile")}
-              >
-                Edit profile
-              </button>
-            </div>
-
-            {/* Fourth Row: Description */}
-            <div className="text-gray-600 text-sm md:text-base">
-              {user.description !== "undefined" ? (
-                user.description
-              ) : (
-                <div className="italic text-gray-400">No description added</div>
-              )}
-            </div>
-
-            {isLevel && <BadgeCard info={level} />}
 
             {/* Recent Activities */}
             <div className=" text-base font-medium mb-1">
