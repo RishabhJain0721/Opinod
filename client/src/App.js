@@ -44,7 +44,8 @@ import FeedbackDetails from "./Pages/Admin/FeedbackDetails";
 import ProfileOthers from "./Pages/ProfileOthers";
 import ForgotUsername from "./Pages/ForgotUsername";
 import ForgotPassword from "./Pages/ForgotPassword";
-import Landing from "./Pages/Landing";
+import PrivacyPolicy from "./Pages/PrivatePolicy";
+import Terms from "./Pages/Terms";
 
 const CategoryNewsWrapper = () => {
   const { category } = useParams();
@@ -82,6 +83,8 @@ function App() {
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="policy" element={<PrivacyPolicy />} />
+        <Route path="terms" element={<Terms />} />
         <Route
           path="/details/:id"
           element={

@@ -214,7 +214,7 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Fourth Row: Description */}
-                <div className="text-gray-600 text-sm md:text-base">
+                <div className="text-gray-600 text-sm md:text-base max-w-lg">
                   {user.description !== "undefined" ? (
                     user.description
                   ) : (
@@ -228,7 +228,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Recent Activities */}
-            <div className=" text-base font-medium mb-1">
+            <div className=" text-base font-medium mb-1 md:mt-5">
               <div className="flex items-center justify-between text-lg font-medium">
                 <span>
                   Recent Activities{" "}

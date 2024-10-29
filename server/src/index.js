@@ -6,6 +6,8 @@ import routes from "./routes/index.js";
 import cluster from "cluster";
 import os from "os";
 import dotenv from "dotenv";
+import User from "./models/User.js";
+import Post from "./models/Post.js";
 
 // Load environment variables
 dotenv.config();
@@ -55,7 +57,7 @@ if (cluster.isPrimary) {
   // Connect to MongoDB
   mongoose
     .connect(MONGO_URI)
-    .then(() => {
+    .then(async () => {
       console.log("Connected to MongoDB");
 
       // Start Express server

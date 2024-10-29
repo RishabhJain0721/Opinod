@@ -74,7 +74,6 @@ const deleteDuplicates = async () => {
     console.log("Deleted: ", deleteResult);
   }
 };
-
 // Schedule the first task to run at 6:00 AM
 cron.schedule(
   "0 6 * * *",
@@ -83,28 +82,14 @@ cron.schedule(
     // Call the task to fetch news for each category
     mongoose.connection.once("open", async () => {
       await fetchNewsForCategories();
+      await deleteDuplicates();
     });
-    await deleteDuplicates();
   },
   {
     scheduled: true,
     timezone: "Asia/Kolkata",
   }
 );
-
-// Schedule the second task to run at 6:00 PM
-// cron.schedule(
-//   "0 18 * * *",
-//   () => {
-//     console.log("6:00 PM News update");
-//     // Call the task to fetch news for each category
-//     fetchNewsForCategories();
-//   },
-//   {
-//     scheduled: true,
-//     timezone: "Asia/Kolkata",
-//   }
-// );
 
 // Forbidden code
 // Don't uncomment this or you shall suffer.
