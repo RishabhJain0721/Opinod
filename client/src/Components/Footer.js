@@ -1,10 +1,3 @@
-import {
-  faFacebook,
-  faInstagram,
-  faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 const Footer = () => {
@@ -26,7 +19,7 @@ const Footer = () => {
         <input
           type="email"
           placeholder="Enter your email"
-          className="px-4 py-1 rounded-l-md border border-gray-400 focus:outline-none"
+          className="px-4 py-1 w-2/5 md:w-auto rounded-l-md border border-gray-400 focus:outline-none"
         />
         <button
           type="submit"
