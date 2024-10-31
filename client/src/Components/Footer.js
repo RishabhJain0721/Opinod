@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
   const handleNewsletterSignup = () => {
@@ -29,21 +31,18 @@ const Footer = () => {
         </button>
       </form>
       <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-6 text-sm mt-10">
-        <a href="#explore" className="hover:underline">
-          Explore
-        </a>
-        <a href="#contact" className="hover:underline">
+        <div onClick={() => navigate("/contact")} className="hover:underline">
           Contact
-        </a>
-        <a href="#privacy-policy" className="hover:underline">
+        </div>
+        <div onClick={() => navigate("/policy")} className="hover:underline">
           Privacy Policy
-        </a>
-        <a href="#terms-of-use" className="hover:underline">
+        </div>
+        <div onClick={() => navigate("/terms")} className="hover:underline">
           Terms of Use
-        </a>
-        <a href="#support" className="hover:underline">
+        </div>
+        <div onClick={() => navigate("/support")} className="hover:underline">
           Support
-        </a>
+        </div>
       </div>
 
       <div className="text-xs mt-4">© 2021 Opinod. All Rights Reserved.</div>

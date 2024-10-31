@@ -1,4 +1,5 @@
 import Feedback from "../models/Feedback.js";
+import Support from "../models/Support.js";
 
 const sendFeedbacks = async (req, res) => {
   try {
@@ -35,4 +36,19 @@ const sendOneFeedback = async (req, res) => {
   }
 };
 
-export { sendFeedbacks, addFeedback, sendOneFeedback };
+const supportMessage = async (req, res) => {
+  const { name, email, message } = req.body;
+  try {
+    const support = new Support({
+      name,
+      email,
+      message,
+    });
+    await support.save();
+    console.log("Done");
+    res.status(200).send({ message: "Support message added successfully" });
+  } catch (error) {
+    res.status(400).send({ message: "Error adding support message", error });
+  }
+};
+export { sendFeedbacks, addFeedback, sendOneFeedback, supportMessage };

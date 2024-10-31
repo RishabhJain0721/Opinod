@@ -26,3 +26,16 @@ export const getSingleFeedback = async (id) => {
     throw error;
   }
 };
+
+export const support = async (formData) => {
+  try {
+    const response = await axios.post("/api/feedbacks/support", {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
