@@ -1,9 +1,21 @@
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 
 const PrivatePolicy = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-5 text-xs md:text-base">
       <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-8 overflow-y-auto">
+        <div
+          className="cursor-pointer mb-3 md:mb-5 md:my-5"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="text-xs" /> Home
+        </div>
         {/* Header */}
         <h1 className="text-2xl md:text-3xl font-bold mb-6">Privacy Policy</h1>
 
