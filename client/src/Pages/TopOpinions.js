@@ -95,7 +95,7 @@ const TopOpinions = () => {
                   Popular Opinions
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-6 ml-3 md:ml-10 mr-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 ml-3 md:ml-10 mr-5">
                 {popularOpinions.map(
                   (opinion) =>
                     opinion.post && (
@@ -120,7 +120,7 @@ const TopOpinions = () => {
                 )}
 
                 {hasMore && (
-                  <div className="flex items-center justify-center w-full h-24">
+                  <div className="flex items-center justify-center w-screen h-24">
                     <MutatingDots
                       visible={true}
                       height="100"
@@ -134,12 +134,12 @@ const TopOpinions = () => {
                     />
                   </div>
                 )}
-                {!hasMore && (
-                  <div className="flex h-16 items-center justify-center text-sm md:ml-auto md:w-96 text-gray-600">
-                    No more opinions available
-                  </div>
-                )}
               </div>
+              {!hasMore && (
+                <div className="h-16 flex items-center justify-center text-sm text-gray-600">
+                  No more opinions available
+                </div>
+              )}
             </>
           )}
         </div>

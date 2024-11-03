@@ -6,8 +6,7 @@ import routes from "./routes/index.js";
 import cluster from "cluster";
 import os from "os";
 import dotenv from "dotenv";
-import User from "./models/User.js";
-import Post from "./models/Post.js";
+import { deleteDuplicates } from "./services/newsUpdater.js";
 
 // Load environment variables
 dotenv.config();

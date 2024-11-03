@@ -254,7 +254,7 @@ const Card = ({
 
   return !isMobile ? (
     <div
-      className="w-mx-auto bg-white overflow-hidden mb-8"
+      className="w-mx-auto bg-white overflow-hidden mb-8 cursor-pointer"
       onClick={handleClick}
     >
       {/* Image at the top */}

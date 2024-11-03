@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,13 +22,11 @@ import {
   faCircleInfo,
   faCircleQuestion,
   faEarthAmericas,
-  // faXmark,
   faChevronDown,
   faChevronRight,
   faBarsProgress,
   faLayerGroup,
   faUsers,
-  // faPencil,
   faGear,
   faHouse,
   faChevronUp,
@@ -43,6 +41,33 @@ import {
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 
 const Navbar = () => {
+  const dropdownRef1 = useRef(null);
+  const dropdownRef2 = useRef(null);
+
+  // Close the dropdown if clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef1.current &&
+        !dropdownRef1.current.contains(event.target)
+      ) {
+        setToggleCategory(false);
+      }
+      if (
+        dropdownRef2.current &&
+        !dropdownRef2.current.contains(event.target)
+      ) {
+        setToggleCommunity(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const username = useSelector((state) => state.user.username);
   let categories = [
     "General",
@@ -90,10 +115,6 @@ const Navbar = () => {
   ];
 
   const handleCategorySelect = (category) => {
-    // if (!username) {
-    //   alert("Please login first to view more");
-    //   return;
-    // }
     if (category === selectedCategory) {
       setSelectedCategory(null);
       dispatch(selectCategory(null));
@@ -102,16 +123,7 @@ const Navbar = () => {
     }
     setSelectedCategory(category);
     dispatch(selectCategory(category));
-    // if (category === "Most Commented") {
-    //   navigate("/category/MostCommented");
-    //   return;
-    // }
-    // if (category === "Most Reacted") {
-    //   navigate("/category/MostReacted");
-    //   return;
-    // }
     navigate(`/category/${category}`);
-    // window.location.reload();
   };
 
   const selectIcon = (category) => {
@@ -158,14 +170,6 @@ const Navbar = () => {
     }
   };
 
-  // const handleAddCategory = () => {
-  //   if (!username) {
-  //     alert("Please login first to add category");
-  //     return;
-  //   }
-  //   navigate("/selectCategories");
-  // };
-
   const handleToggleCategory = () => {
     setToggleCategory(!toggleCategory);
   };
@@ -202,21 +206,26 @@ const Navbar = () => {
         </h2>
 
         {/* Categories */}
-        <h2
-          className="text-lg mb-2 ml-5 text-white mt-5"
-          onClick={handleToggleCategory}
-        >
-          <div className="flex justify-between items-center mr-4">
-            <div className="cursor-pointer">
-              <FontAwesomeIcon icon={faLayerGroup} className="mr-1" /> News
-              Categories
+
+        <div ref={dropdownRef1}>
+          {" "}
+          <h2
+            className="text-lg mb-2 ml-5 text-white mt-5"
+            onClick={handleToggleCategory}
+          >
+            <div className="flex justify-between items-center mr-4">
+              <div className="cursor-pointer">
+                <FontAwesomeIcon icon={faLayerGroup} className="mr-1" /> News
+                Categories
+              </div>
+              <FontAwesomeIcon
+                icon={toggleCategory ? faChevronDown : faChevronRight}
+                className="text-xs ml-3 cursor-pointer"
+              />
             </div>
-            <FontAwesomeIcon
-              icon={toggleCategory ? faChevronDown : faChevronRight}
-              className="text-xs ml-3 cursor-pointer"
-            />
-          </div>
-        </h2>
+          </h2>
+        </div>
+
         {toggleCategory && (
           <div>
             {Object.values(categories).map((cat) => (
@@ -234,33 +243,31 @@ const Navbar = () => {
                 </button>
               </div>
             ))}
-            {/* <button
-              className="block w-40  mt-4 py-1 mx-7 text-gray-800 rounded-lg bg-white"
-              onClick={handleAddCategory}
-            >
-              Add Category
-            </button> */}
           </div>
         )}
 
         {/* Communities */}
-        <h2 className="text-lg mb-2 ml-5 text-white mt-5">
-          <div className="flex justify-between items-center mr-4">
-            <div className="cursor-pointer">
+        <div ref={dropdownRef2}>
+          {" "}
+          <h2 className="text-lg mb-2 ml-5 text-white mt-5">
+            <div className="flex justify-between items-center mr-4">
+              <div className="cursor-pointer">
+                <FontAwesomeIcon
+                  icon={faUsers}
+                  className="mr-1"
+                  onClick={() => navigate("/communities")}
+                />
+                <span onClick={() => navigate("/communities")}> Community</span>
+              </div>
               <FontAwesomeIcon
-                icon={faUsers}
-                className="mr-1"
-                onClick={() => navigate("/communities")}
+                icon={toggleCommunity ? faChevronDown : faChevronRight}
+                className="text-xs ml-3 cursor-pointer"
+                onClick={handleToggleCommunity}
               />
-              <span onClick={() => navigate("/communities")}> Community</span>
             </div>
-            <FontAwesomeIcon
-              icon={toggleCommunity ? faChevronDown : faChevronRight}
-              className="text-xs ml-3 cursor-pointer"
-              onClick={handleToggleCommunity}
-            />
-          </div>
-        </h2>
+          </h2>
+        </div>
+
         {toggleCommunity && (
           <div>
             <div>

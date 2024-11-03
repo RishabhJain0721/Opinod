@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Opinod from "../Assets/opinodLogo.png";
 import { useSelector, useDispatch } from "react-redux";
@@ -38,11 +38,12 @@ import {
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPagelines } from "@fortawesome/free-brands-svg-icons";
-import MobileSearch from "./MobileSearch";
 import { toast } from "react-toastify";
 import { forgotPassword } from "../APIs/AuthApis";
 
 const Topbar = () => {
+  const dropdownRef1 = useRef(null);
+  const dropdownRef2 = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -92,6 +93,30 @@ const Topbar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Close the dropdown if clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef1.current &&
+        !dropdownRef1.current.contains(event.target)
+      ) {
+        setToggleCategory(false);
+      }
+      if (
+        dropdownRef2.current &&
+        !dropdownRef2.current.contains(event.target)
+      ) {
+        setToggleCommunity(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -342,20 +367,22 @@ const Topbar = () => {
                 </div>
               </h2>
               <div className="relative">
-                <h2
-                  className={`text-lg cursor-pointer text-gray-700 ${
-                    isSearch ? "hidden lg:inline" : ""
-                  }`}
-                  onClick={handleToggleCategory}
-                >
-                  <div className="flex justify-center items-center mt-3">
-                    <div className="flex items-center">Categories</div>
-                    <FontAwesomeIcon
-                      icon={toggleCategory ? faChevronUp : faChevronDown}
-                      className="text-xs ml-2 w-3"
-                    />
-                  </div>
-                </h2>
+                <div ref={dropdownRef1}>
+                  <h2
+                    className={`text-lg cursor-pointer text-gray-700 ${
+                      isSearch ? "hidden lg:inline" : ""
+                    }`}
+                    onClick={handleToggleCategory}
+                  >
+                    <div className="flex justify-center items-center mt-3">
+                      <div className="flex items-center">Categories</div>
+                      <FontAwesomeIcon
+                        icon={toggleCategory ? faChevronUp : faChevronDown}
+                        className="text-xs ml-2 w-3"
+                      />
+                    </div>
+                  </h2>
+                </div>
 
                 {toggleCategory && (
                   <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
@@ -382,110 +409,114 @@ const Topbar = () => {
               </div>
               {/* Communities */}
               <div className="relative">
-                <h2
-                  className={`text-lg cursor-pointer text-gray-700 ${
-                    isSearch ? "hidden lg:inline" : ""
-                  }`}
-                >
-                  <div className="flex justify-between items-center mt-3">
-                    <div className="flex items-center">
-                      <span onClick={() => navigate("/communities")}>
-                        Community
-                      </span>
-                    </div>
-                    <FontAwesomeIcon
-                      icon={toggleCommunity ? faChevronUp : faChevronDown}
-                      className="text-xs ml-2 w-3"
-                      onClick={handleToggleCommunity}
-                    />
-                  </div>
-                </h2>
-
-                {toggleCommunity && (
-                  <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
-                    <div>
-                      <button className="flex text-base items-center px-2 py-1 focus:outline-none text-gray-800">
-                        <span onClick={() => navigate("/communities/main")}>
-                          Main Topics
+                <div ref={dropdownRef2}>
+                  <h2
+                    className={`text-lg cursor-pointer text-gray-700 ${
+                      isSearch ? "hidden lg:inline" : ""
+                    }`}
+                  >
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="flex items-center">
+                        <span onClick={() => navigate("/communities")}>
+                          Community
                         </span>
-                        <FontAwesomeIcon
-                          icon={showMainTopics ? faChevronUp : faChevronDown}
-                          className="text-xs ml-3"
-                          onClick={toggleMainTopics}
-                        />
-                      </button>
-
-                      {showMainTopics && (
-                        <ul className="ml-5 mb-3 mt-2 space-y-2 text-gray-800">
-                          {mainTopics.map((topic, index) => {
-                            const [name, communityId] =
-                              Object.entries(topic)[0];
-
-                            return (
-                              <div key={communityId}>
-                                <button
-                                  onClick={() =>
-                                    navigate(`/community/${communityId}`)
-                                  }
-                                  className="flex justify-start items-center text-sm"
-                                >
-                                  <FontAwesomeIcon
-                                    icon={selectIcon(name)}
-                                    className="mr-2"
-                                  />
-                                  {name}
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </ul>
-                      )}
+                      </div>
+                      <FontAwesomeIcon
+                        icon={toggleCommunity ? faChevronUp : faChevronDown}
+                        className="text-xs ml-2 w-3"
+                        onClick={handleToggleCommunity}
+                      />
                     </div>
+                  </h2>
 
-                    <div>
-                      <button className="flex items-center px-2 py-1 w-40 text-base focus:outline-none text-gray-800">
-                        <span onClick={() => navigate("/communities/special")}>
-                          Special Interest
-                        </span>
-                        <FontAwesomeIcon
-                          icon={
-                            showSpecialInterestGroups
-                              ? faChevronUp
-                              : faChevronDown
-                          }
-                          className="text-xs ml-2"
-                          onClick={toggleSpecialInterestGroups}
-                        />
-                      </button>
+                  {toggleCommunity && (
+                    <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
+                      <div>
+                        <button className="flex text-base items-center px-2 py-1 focus:outline-none text-gray-800">
+                          <span onClick={() => navigate("/communities/main")}>
+                            Main Topics
+                          </span>
+                          <FontAwesomeIcon
+                            icon={showMainTopics ? faChevronUp : faChevronDown}
+                            className="text-xs ml-3"
+                            onClick={toggleMainTopics}
+                          />
+                        </button>
 
-                      {showSpecialInterestGroups && (
-                        <ul className="ml-5 w-48 mb-4 mt-2 space-y-2 text-gray-800">
-                          {specialIntrestGroups.map((topic, index) => {
-                            const [name, communityId] =
-                              Object.entries(topic)[0];
+                        {showMainTopics && (
+                          <ul className="ml-5 mb-3 mt-2 space-y-2 text-gray-800">
+                            {mainTopics.map((topic, index) => {
+                              const [name, communityId] =
+                                Object.entries(topic)[0];
 
-                            return (
-                              <div key={communityId}>
-                                <button
-                                  onClick={() =>
-                                    navigate(`/community/${communityId}`)
-                                  }
-                                  className="flex justify-start items-center text-sm"
-                                >
-                                  <FontAwesomeIcon
-                                    icon={selectIcon(name)}
-                                    className="mr-2"
-                                  />
-                                  {name}
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </ul>
-                      )}
+                              return (
+                                <div key={communityId}>
+                                  <button
+                                    onClick={() =>
+                                      navigate(`/community/${communityId}`)
+                                    }
+                                    className="flex justify-start items-center text-sm"
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={selectIcon(name)}
+                                      className="mr-2"
+                                    />
+                                    {name}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </div>
+
+                      <div>
+                        <button className="flex items-center px-2 py-1 w-40 text-base focus:outline-none text-gray-800">
+                          <span
+                            onClick={() => navigate("/communities/special")}
+                          >
+                            Special Interest
+                          </span>
+                          <FontAwesomeIcon
+                            icon={
+                              showSpecialInterestGroups
+                                ? faChevronUp
+                                : faChevronDown
+                            }
+                            className="text-xs ml-2"
+                            onClick={toggleSpecialInterestGroups}
+                          />
+                        </button>
+
+                        {showSpecialInterestGroups && (
+                          <ul className="ml-5 w-48 mb-4 mt-2 space-y-2 text-gray-800">
+                            {specialIntrestGroups.map((topic, index) => {
+                              const [name, communityId] =
+                                Object.entries(topic)[0];
+
+                              return (
+                                <div key={communityId}>
+                                  <button
+                                    onClick={() =>
+                                      navigate(`/community/${communityId}`)
+                                    }
+                                    className="flex justify-start items-center text-sm"
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={selectIcon(name)}
+                                      className="mr-2"
+                                    />
+                                    {name}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
               {/* Profile */}
               <h2

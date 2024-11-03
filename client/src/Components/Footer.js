@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gradient-to-r from-gray-800 to-blue-900 text-white text-center py-6">
-      <div className="text-sm md:text-base mt-3 mx-3">
+      <div className="text-sm md:text-lg mt-3 mx-3">
         Join our newsletter to get exclusive articles based on your interests
         and stay informed always
       </div>

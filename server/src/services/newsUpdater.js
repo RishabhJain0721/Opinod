@@ -55,7 +55,7 @@ export const fetchNewsForCategories = async () => {
   }
 };
 
-const deleteDuplicates = async () => {
+export const deleteDuplicates = async () => {
   const duplicates = await Post.aggregate([
     {
       $group: {
@@ -69,21 +69,22 @@ const deleteDuplicates = async () => {
     .filter((doc) => doc.count > 1)
     .map((doc) => doc._id);
 
+  console.log("Duplicates: ", titlesToDelete);
+
   for (let title of titlesToDelete) {
     const deleteResult = await Post.deleteOne({ title: title });
     console.log("Deleted: ", deleteResult);
   }
 };
+
 // Schedule the first task to run at 6:00 AM
 cron.schedule(
   "0 6 * * *",
   async () => {
     console.log("6:00 AM News update");
     // Call the task to fetch news for each category
-    mongoose.connection.once("open", async () => {
-      await fetchNewsForCategories();
-      await deleteDuplicates();
-    });
+    await fetchNewsForCategories();
+    await deleteDuplicates();
   },
   {
     scheduled: true,
