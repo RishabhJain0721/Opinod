@@ -233,12 +233,19 @@ const ProfileOthers = () => {
                   Following
                 </button>
               ) : (
-                <button
-                  className="bg-blue-500 text-white w-full md:w-48 rounded-full px-4 py-1 mt-2 md:mt-4"
-                  onClick={handleFollow}
-                >
-                  Follow
-                </button>
+                <>
+                  {" "}
+                  <div className="mt-5 text-xs md:text-sm">
+                    Follow {user.username} to get his articles on top feed in
+                    home page!
+                  </div>
+                  <button
+                    className="bg-blue-500 text-white w-full md:w-48 rounded-full px-4 py-1 mt-2 md:mt-4"
+                    onClick={handleFollow}
+                  >
+                    Follow
+                  </button>
+                </>
               )}
             </div>
           </div>

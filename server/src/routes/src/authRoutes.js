@@ -10,6 +10,7 @@ import {
   forgotPassword,
   resetPasswordPage,
   resetPassword,
+  deleteUser,
 } from "../../controllers/AuthController.js";
 
 const router = express.Router();
@@ -24,5 +25,6 @@ router.post("/reset-username", resetUsername);
 router.post("/forgot-password", forgotPassword);
 router.get("/reset-password-page", resetPasswordPage);
 router.post("/reset-password", resetPassword);
+router.post("/delete-user", deleteUser);
 
 export default router;

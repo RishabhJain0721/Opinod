@@ -40,7 +40,7 @@ const signup = async (req, res) => {
 
   // Check if a user with the same email already exists
   const existingUser = await User.findOne({ email });
-  if (existingUser) {
+  if (existingUser && existingUser.isActive) {
     return res.status(400).send({
       message: "User already exists. Please login.",
       errorName: "User already exists",
@@ -124,7 +124,7 @@ const login = async (req, res) => {
 
   const existingUser = await User.findOne({ username }).lean();
 
-  if (!existingUser) {
+  if (!existingUser || !existingUser.isActive) {
     // No such user found
     return res.status(400).send({
       message: "User does not exist. Please signup.",
@@ -396,6 +396,34 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const { email } = req.body;
+
+  console.log(email);
+  try {
+    const user = await User.findOne({ email });
+    console.log(user);
+    user.isActive = false;
+    await user.save();
+    if (user) {
+      res.status(200).send({
+        status: 200,
+        message: "User deleted successfully.",
+      });
+    } else {
+      res.status(400).send({
+        status: 400,
+        message: "User not found.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: 500,
+      message: "User deletion failed.",
+    });
+  }
+};
+
 export {
   signup,
   verifyEmail,
@@ -407,4 +435,5 @@ export {
   forgotPassword,
   resetPasswordPage,
   resetPassword,
+  deleteUser,
 };

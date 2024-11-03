@@ -53,3 +53,12 @@ export const forgotPassword = async (email) => {
     throw error;
   }
 };
+
+export const deleteAccount = async (email) => {
+  try {
+    const response = await axios.post("/api/auth/delete-user", { email });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

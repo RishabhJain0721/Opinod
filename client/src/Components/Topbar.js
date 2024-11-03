@@ -4,6 +4,7 @@ import Opinod from "../Assets/opinodLogo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { selectCategory, logout } from "../Actions/actions";
+import { deleteAccount } from "../APIs/AuthApis";
 import {
   faUser,
   faSearch,
@@ -234,13 +235,24 @@ const Topbar = () => {
     navigate(`/search/${searchText}`);
   };
 
+  const toastId = useRef(null);
+
   const handleSettings = () => {
-    toast.info(<DropDown />, {
-      autoClose: false,
-      closeOnClick: true,
-      draggable: true,
-      icon: false,
-    });
+    console.log(toastId.current);
+    if (toastId.current && toast.isActive(toastId.current)) {
+      // If the toast is active, close it
+      toast.dismiss(toastId.current);
+      toastId.current = null;
+      console.log("Toast closed");
+    } else {
+      // Otherwise, show the toast and save its ID
+      toastId.current = toast.info(<DropDown />, {
+        autoClose: false,
+        closeOnClick: true,
+        draggable: true,
+        icon: false,
+      });
+    }
   };
 
   const DropDown = () => {
@@ -275,12 +287,60 @@ const Topbar = () => {
             Change Password
           </li>
           <li
-            className="p-2 cursor-pointer hover:bg-gray-100"
-            onClick={() => {
-              toast.info("Please mail us at abs@gmail.com");
-            }}
+            className="p-2  border-b border-gray-200 cursor-pointer hover:bg-gray-100"
+            onClick={() => navigate("/support")}
           >
             Help and Support
+          </li>
+          <li
+            className="p-2 font-semibold cursor-pointer hover:bg-gray-100"
+            onClick={() => {
+              toastId.current = null;
+              toast.info(<DeleteConfirmation />, {
+                autoClose: false,
+                closeOnClick: true,
+                draggable: true,
+                icon: false,
+              });
+            }}
+          >
+            Delete Account
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  const DeleteConfirmation = () => {
+    return (
+      <div className="w-64 rounded-md ">
+        <ul className="list-none p-0 m-0">
+          <li className="p-2 border-b border-gray-200 cursor-pointer font-semibold hover:bg-gray-100">
+            Are you sure you want to delete your account?
+          </li>
+          <li
+            className="p-2 border-b border-red-400 cursor-pointer hover:bg-gray-100"
+            onClick={async () => {
+              try {
+                await deleteAccount(email);
+                toast.success("Account deleted successfully.");
+                navigate("/");
+              } catch (error) {
+                console.log(error);
+                toast.error("Failed to delete account.");
+              }
+            }}
+          >
+            Yes
+          </li>
+          <li
+            className="p-2 border-b border-green-400 font-semibold cursor-pointer hover:bg-gray-100"
+            onClick={() => {
+              toastId.current = null;
+              toast.info(<DropDown />);
+            }}
+          >
+            No
           </li>
         </ul>
       </div>
