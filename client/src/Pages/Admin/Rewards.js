@@ -40,9 +40,6 @@ const Rewards = () => {
       body: person.body,
       badge: person.badge.name,
     });
-    console.log(`Sending email to: ${person.email}`);
-    console.log(`Subject: ${person.subject}`);
-    console.log(`Body: ${person.body}`);
     toast.success(
       `Email sent to ${person.name} for achieving ${person.badge.name}!`
     );

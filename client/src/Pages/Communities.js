@@ -23,7 +23,6 @@ const Communities = () => {
     const fetchCommunities = async () => {
       try {
         const res = await getCommunities();
-        console.log(res.communities);
         res.communities.forEach((ele) => {
           if (ele.parent === "main") {
             setMain((prev) => [...prev, ele]);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
 import AchievementsCard from "../Components/AchievementsCard";
 import TopCommunityMemberCard from "../Components/TopCommunityMemberCard";
 import { calculateAchievements } from "../APIs/UserDetailsApis";

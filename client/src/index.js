@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <div className=" font-Poppins bg-white">
+      <div className="font-Poppins min-h-screen bg-white">
         <App />
         <ToastContainer
           style={{

@@ -67,7 +67,7 @@ const SelectCategories = () => {
   return (
     <div>
       <Topbar />
-      <div className="flex flex-col lg:flex-row px-5 sm:ml-10 mx-auto mt-24 items-center justify-center">
+      <div className="flex flex-col lg:flex-row px-5 sm:ml-10 mx-auto mt-24 items-center justify-center md:mb-20">
         <div className="h-2/4 md:w-1/2">
           <div className="text-3xl mt-14 mb-14 text-blue-500 font-medium">
             SELECT CATEGORIES

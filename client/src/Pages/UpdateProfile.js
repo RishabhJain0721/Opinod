@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
 import { updateProfile } from "../APIs/UserDetailsApis";
 import { loginToStore } from "../Actions/actions";
 import { MutatingDots } from "react-loader-spinner";

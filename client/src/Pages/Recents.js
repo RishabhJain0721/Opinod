@@ -23,7 +23,6 @@ const Recents = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(user.username);
-      console.log(res);
       setRecents(res);
       setRecent(res);
     } catch (error) {

@@ -14,7 +14,6 @@ const pointsMiddleware = (store) => (next) => (action) => {
     JSON.parse(localStorage.getItem("persist:a")) === null
       ? {}
       : JSON.parse(localStorage.getItem("persist:a"));
-  console.log(prevUser);
   const prevPoints =
     prevUser === null || Object.keys(prevUser).length === 0
       ? 0

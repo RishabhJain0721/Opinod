@@ -129,11 +129,6 @@ const CommPostDetails = (props) => {
           {details.author}
         </div>
         <div className="ml-auto text-xs md:text-sm text-gray-500 flex items-center">
-          {/* {new Date(details.publishedAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })} */}
           <FontAwesomeIcon icon={faClock} className="text-gray-500 ml-3 mr-1" />
           {formatDistanceToNow(new Date(details.createdAt), {
             addSuffix: true,
@@ -153,7 +148,7 @@ const CommPostDetails = (props) => {
         </div>
       )}
       {/* Content with gradient blur */}
-      <div className="relative overflow-hidden mx-5 text-xs sm:text-sm md:text-lg font-normal mb-4 text-gray-600">
+      <div className="relative overflow-hidden mx-5 text-sm md:text-lg font-normal mb-4 text-gray-600">
         {details.description.split("\n").map((line, index) => (
           <span key={index}>
             {line}
@@ -161,12 +156,6 @@ const CommPostDetails = (props) => {
           </span>
         ))}
       </div>
-      {/* Reacts and comments count */}
-      {/* <div className="flex mt-5 mb-2 mx-5 text-base md:text-lg font-semibold text-gray-700">
-        <div>Reactions: {likes + dislikes}</div>
-        <div className="ml-10">Comments: {details.totalComments}</div>
-      </div> */}
-      {/* Upvote, Downvote, Shares */}
       <div className="flex items-center mx-5 justify-between md:justify-start mb-5 text-gray-700">
         {likeToggle ? (
           <div className="ml-4">

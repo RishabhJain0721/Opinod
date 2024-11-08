@@ -238,12 +238,10 @@ const Topbar = () => {
   const toastId = useRef(null);
 
   const handleSettings = () => {
-    console.log(toastId.current);
     if (toastId.current && toast.isActive(toastId.current)) {
       // If the toast is active, close it
       toast.dismiss(toastId.current);
       toastId.current = null;
-      console.log("Toast closed");
     } else {
       // Otherwise, show the toast and save its ID
       toastId.current = toast.info(<DropDown />, {
@@ -442,30 +440,30 @@ const Topbar = () => {
                       />
                     </div>
                   </h2>
-                </div>
 
-                {toggleCategory && (
-                  <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
-                    {Object.values(categories).map((cat) => (
-                      <div key={cat}>
-                        <button
-                          className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
-                            selectedCategory === cat
-                              ? "bg-blue-100 rounded-md text-gray-800"
-                              : "text-gray-800"
-                          }`}
-                          onClick={() => handleCategorySelect(cat)}
-                        >
-                          <FontAwesomeIcon
-                            icon={selectIcon(cat)}
-                            className="mr-2"
-                          />
-                          {cat}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                  {toggleCategory && (
+                    <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
+                      {Object.values(categories).map((cat) => (
+                        <div key={cat}>
+                          <button
+                            className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
+                              selectedCategory === cat
+                                ? "bg-blue-100 rounded-md text-gray-800"
+                                : "text-gray-800"
+                            }`}
+                            onClick={() => handleCategorySelect(cat)}
+                          >
+                            <FontAwesomeIcon
+                              icon={selectIcon(cat)}
+                              className="mr-2"
+                            />
+                            {cat}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               {/* Communities */}
               <div className="relative">

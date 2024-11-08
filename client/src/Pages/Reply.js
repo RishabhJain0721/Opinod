@@ -63,6 +63,8 @@ const Reply = () => {
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isAboveFooter, setIsAboveFooter] = useState(false);
+  const [footerTop, setFooterTop] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -195,6 +197,32 @@ const Reply = () => {
     setTriggerRerender((prev) => !prev);
     toast.error(`❌ Image removed`, { icon: false });
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const footer = document.querySelector("footer");
+      const commentBox = document.getElementById("comment-box");
+
+      if (footer && commentBox) {
+        const footerTop = footer.getBoundingClientRect().top;
+        const commentBoxHeight = commentBox.offsetHeight;
+
+        // Check if the comment box is close to overlapping the footer
+        if (footerTop <= window.innerHeight - commentBoxHeight) {
+          setIsAboveFooter(true);
+        } else {
+          setIsAboveFooter(false);
+        }
+
+        setFooterTop(footerTop);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="md:w-7/12 ml-auto mr-auto">
@@ -333,7 +361,20 @@ const Reply = () => {
                 })}
               </div>
 
-              <div className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto z-40">
+              <div
+                className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto z-40"
+                id="comment-box"
+                style={{
+                  transform:
+                    isAboveFooter && !isFocused
+                      ? "translateY(-100%)"
+                      : "translateY(0)",
+                  bottom:
+                    isAboveFooter && !isFocused
+                      ? window.innerHeight - footerTop - 72
+                      : 0,
+                }}
+              >
                 <div
                   className={`flex bg-white p-3 transition-all duration-300 ${
                     isFocused ? " h-80" : "h-16"

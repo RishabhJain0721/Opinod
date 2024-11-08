@@ -38,7 +38,6 @@ const Login = () => {
     setIsLoading(true);
     try {
       const res = await login({ username, password });
-      console.log("Response : ", res);
       dispatch(
         loginToStore(
           res.token,
@@ -90,7 +89,7 @@ const Login = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row px-5 sm:ml-10 mx-auto mt-10 md:mt-24 items-center justify-center">
+        <div className="flex flex-col lg:flex-row px-5 sm:ml-10 mx-auto mt-10 md:mt-24 md:mb-16 items-center justify-center">
           <div className="h-2/4">
             <div className="text-3xl mt-14 mb-8 text-blue-500 font-medium">
               LOGIN
@@ -168,11 +167,11 @@ const Login = () => {
               </div>
             </form>
           </div>
-          <div className=" h-96">
+          <div className="h-96 -mb-20 md:mb-0">
             <img
               src={Image}
               alt="Failed to load"
-              className=" h-1/2 sm:h-2/3 lg:h-full ml-0 lg:ml-20"
+              className="h-1/2 sm:h-2/3 lg:h-full ml-0 lg:ml-20"
             />
           </div>
         </div>

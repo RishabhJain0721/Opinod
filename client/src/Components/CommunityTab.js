@@ -42,7 +42,7 @@ const CommunityTab = ({
         {joinedCommunitiesStore.includes(id) ? (
           <button
             onClick={onJoinClick}
-            className="mt-4 border border-red-600 text-red-500 px-4 py-2 rounded-lg w-full text-center font-bold transition"
+            className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg w-full text-center font-bold transition"
           >
             Leave Community
           </button>

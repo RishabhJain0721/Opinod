@@ -7,7 +7,6 @@ import {
   useParams,
 } from "react-router-dom";
 import Home from "./Pages/Home";
-import About from "./Pages/About";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import VerifyEmail from "./Pages/VerifyEmail";
@@ -48,6 +47,7 @@ import PrivacyPolicy from "./Pages/PrivatePolicy";
 import Terms from "./Pages/Terms";
 import Contact from "./Pages/Contact";
 import Support from "./Pages/Support";
+import Layout from "./Components/Layout";
 
 const CategoryNewsWrapper = () => {
   const { category } = useParams();
@@ -77,137 +77,138 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/home" element={<Home />} /> */}
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotUsername" element={<ForgotUsername />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/policy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/support" element={<Support />} />
-        <Route
-          path="/details/:id"
-          element={
-            <RequireAuth>
-              <Details />
-            </RequireAuth>
-          }
-        />
-        <Route path="/category/:category" element={<CategoryNewsWrapper />} />
-        <Route path="/topOpinions" element={<TopOpinions />} />
-        <Route
-          path="/profile"
-          element={
-            <RequireAuth>
-              <Profile />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/details/:id/reply/:commentId"
-          element={
-            <RequireAuth>
-              <Reply />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/updateProfile"
-          element={
-            <RequireAuth>
-              <UpdateProfile />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/achievements"
-          element={
-            <RequireAuth>
-              <Achievements />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/selectCategories"
-          element={
-            <RequireAuth>
-              <SelectCategories />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/recents"
-          element={
-            <RequireAuth>
-              <Recents />
-            </RequireAuth>
-          }
-        />
-        <Route path="/communities" element={<Communities />} />
-        <Route path="/communities/main" element={<CommunitiesMain />} />
-        <Route path="/communities/special" element={<CommunitiesSpecial />} />
-        <Route
-          path="/communities/joined"
-          element={
-            <RequireAuth>
-              <CommunitiesJoined />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/community/:id"
-          element={<CommunitiesIndividualWrapper />}
-        />
-        <Route
-          path="/community/:id/subcategories"
-          element={<CommunitySubcategories />}
-        />
-        <Route
-          path="/community/:id/posts"
-          element={<CommunityPostsWrapper />}
-        />
-        <Route
-          path="/subcategory/:subcategory"
-          element={<SubcategoryIndividual />}
-        />
-        <Route
-          path="/cpostdetails/:id"
-          element={
-            <RequireAuth>
-              <CommunityPostDetails />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/cpostdetails/:id/reply/:commentId"
-          element={
-            <RequireAuth>
-              <CommunityReply />
-            </RequireAuth>
-          }
-        />
-        <Route path="/search/:searchText" element={<Search />} />
-        <Route path="/profile/:id" element={<ProfileOthers />} />
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route
-          path="/admin/*"
-          element={
-            <IsAdmin>
-              <Routes>
-                <Route path="verifyPosts" element={<VerifyPosts />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="feedbacks" element={<Feedbacks />} />
-                <Route path="rewards" element={<Rewards />} />
-                <Route path="post/:id" element={<PostDetails />} />
-                <Route path="feedback/:id" element={<FeedbackDetails />} />
-              </Routes>
-            </IsAdmin>
-          }
-        />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgotUsername" element={<ForgotUsername />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/support" element={<Support />} />
+          <Route
+            path="/details/:id"
+            element={
+              <RequireAuth>
+                <Details />
+              </RequireAuth>
+            }
+          />
+          <Route path="/category/:category" element={<CategoryNewsWrapper />} />
+          <Route path="/topOpinions" element={<TopOpinions />} />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/details/:id/reply/:commentId"
+            element={
+              <RequireAuth>
+                <Reply />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/updateProfile"
+            element={
+              <RequireAuth>
+                <UpdateProfile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/achievements"
+            element={
+              <RequireAuth>
+                <Achievements />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/selectCategories"
+            element={
+              <RequireAuth>
+                <SelectCategories />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/recents"
+            element={
+              <RequireAuth>
+                <Recents />
+              </RequireAuth>
+            }
+          />
+          <Route path="/communities" element={<Communities />} />
+          <Route path="/communities/main" element={<CommunitiesMain />} />
+          <Route path="/communities/special" element={<CommunitiesSpecial />} />
+          <Route
+            path="/communities/joined"
+            element={
+              <RequireAuth>
+                <CommunitiesJoined />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/community/:id"
+            element={<CommunitiesIndividualWrapper />}
+          />
+          <Route
+            path="/community/:id/subcategories"
+            element={<CommunitySubcategories />}
+          />
+          <Route
+            path="/community/:id/posts"
+            element={<CommunityPostsWrapper />}
+          />
+          <Route
+            path="/subcategory/:subcategory"
+            element={<SubcategoryIndividual />}
+          />
+          <Route
+            path="/cpostdetails/:id"
+            element={
+              <RequireAuth>
+                <CommunityPostDetails />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/cpostdetails/:id/reply/:commentId"
+            element={
+              <RequireAuth>
+                <CommunityReply />
+              </RequireAuth>
+            }
+          />
+          <Route path="/search/:searchText" element={<Search />} />
+          <Route path="/profile/:id" element={<ProfileOthers />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route
+            path="/admin/*"
+            element={
+              <IsAdmin>
+                <Routes>
+                  <Route path="verifyPosts" element={<VerifyPosts />} />
+                  <Route path="reports" element={<Reports />} />
+                  <Route path="feedbacks" element={<Feedbacks />} />
+                  <Route path="rewards" element={<Rewards />} />
+                  <Route path="post/:id" element={<PostDetails />} />
+                  <Route path="feedback/:id" element={<FeedbackDetails />} />
+                </Routes>
+              </IsAdmin>
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );

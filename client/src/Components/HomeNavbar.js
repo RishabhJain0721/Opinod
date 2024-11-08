@@ -355,30 +355,29 @@ const HomeNavbar = () => {
                       />
                     </div>
                   </h2>
+                  {toggleCategory && (
+                    <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
+                      {Object.values(categories).map((cat) => (
+                        <div key={cat}>
+                          <button
+                            className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
+                              selectedCategory === cat
+                                ? "bg-blue-100 rounded-md text-gray-800"
+                                : "text-gray-800"
+                            }`}
+                            onClick={() => handleCategorySelect(cat)}
+                          >
+                            <FontAwesomeIcon
+                              icon={selectIcon(cat)}
+                              className="mr-2"
+                            />
+                            {cat}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-
-                {toggleCategory && (
-                  <div className="absolute top-full mt-2 left-0 bg-white border rounded-md shadow-lg z-50">
-                    {Object.values(categories).map((cat) => (
-                      <div key={cat}>
-                        <button
-                          className={`flex text-base items-center px-2 py-1 w-full focus:outline-none ${
-                            selectedCategory === cat
-                              ? "bg-blue-100 rounded-md text-gray-800"
-                              : "text-gray-800"
-                          }`}
-                          onClick={() => handleCategorySelect(cat)}
-                        >
-                          <FontAwesomeIcon
-                            icon={selectIcon(cat)}
-                            className="mr-2"
-                          />
-                          {cat}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
               {/* Communities */}
               <div className="relative">

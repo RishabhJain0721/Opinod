@@ -24,6 +24,8 @@ const Details = () => {
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isAboveFooter, setIsAboveFooter] = useState(false);
+  const [footerTop, setFooterTop] = useState(0);
 
   const username = useSelector((state) => state.user.username);
 
@@ -31,7 +33,6 @@ const Details = () => {
     try {
       setIsLoadingDetails(true);
       const res = await getNewsById(id);
-      console.log(res.content.replace(/(\s*\n\s*){3,}/g, "\n\n"));
       setDetails(res);
       setIsLoadingDetails(false);
     } catch (error) {
@@ -90,8 +91,34 @@ const Details = () => {
   const removeImage = () => {
     setImage("");
     setTriggerRerender((prev) => !prev);
-    toast.error(`❌ Image removed`, { icon: false });
+    toast.error("❌ Image removed", { icon: false });
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const footer = document.querySelector("footer");
+      const commentBox = document.getElementById("comment-box");
+
+      if (footer && commentBox) {
+        const footerTop = footer.getBoundingClientRect().top;
+        const commentBoxHeight = commentBox.offsetHeight;
+
+        // Check if the comment box is close to overlapping the footer
+        if (footerTop <= window.innerHeight - commentBoxHeight) {
+          setIsAboveFooter(true);
+        } else {
+          setIsAboveFooter(false);
+        }
+
+        setFooterTop(footerTop);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div>
@@ -99,7 +126,7 @@ const Details = () => {
 
       <div className="flex md:w-7/12 ml-auto mr-auto mt-16">
         {isLoadingDetails ? (
-          <div className="flex items-center justify-center w-screen h-96  ">
+          <div className="flex items-center justify-center w-screen h-96">
             <MutatingDots
               visible={true}
               height="100"
@@ -113,12 +140,25 @@ const Details = () => {
             />
           </div>
         ) : (
-          <div className="w-full md:ml-5 md:mr-5  md:mt-0 ">
+          <div className="w-full md:ml-5 md:mr-5 md:mt-0">
             {/* Comment box */}
-            <div className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto  z-40">
+            <div
+              id="comment-box"
+              className={`w-full md:w-7/12 fixed left-auto right-auto z-40 bottom-0`}
+              style={{
+                transform:
+                  isAboveFooter && !isFocused
+                    ? "translateY(-100%)"
+                    : "translateY(0)",
+                bottom:
+                  isAboveFooter && !isFocused
+                    ? window.innerHeight - footerTop - 72
+                    : 0,
+              }}
+            >
               <div
-                className={`flex bg-white  p-3 transition-all duration-300 ${
-                  isFocused ? " h-80" : "h-16"
+                className={`flex bg-white p-3 transition-all duration-300 ${
+                  isFocused ? "h-80" : "h-16"
                 }`}
               >
                 <textarea
@@ -127,11 +167,11 @@ const Details = () => {
                   onChange={(e) => setNewReply(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className="border w-10/12  border-gray-500 rounded text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
+                  className="border w-10/12 border-gray-500 rounded text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
                   placeholder="Give your opinion"
                 />
                 <div
-                  className="text-xl md:text-2xl text-gray-600 mt-auto mb-2 mr-4 h-10"
+                  className="text-xl md:text-2xl text-gray-600 mr-4 h-10 mt-auto"
                   key={triggerRerender}
                 >
                   <UploadImage
@@ -142,7 +182,7 @@ const Details = () => {
                 </div>
                 <button
                   onClick={handleAddTopComment}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-full mb-2 mt-auto h-10"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full h-10 mt-auto"
                 >
                   <FontAwesomeIcon
                     icon={faPaperPlane}
@@ -159,9 +199,8 @@ const Details = () => {
 
                 {/* Replies */}
                 <div className="flex items-start flex-col w-full pl-2">
-                  {/* Heading */}
                   <div className="text-base sm:text-lg md:text-xl font-medium mb-2 w-full">
-                    Opinions :
+                    Opinions:
                   </div>
 
                   {isLoadingComments ? (
@@ -179,10 +218,15 @@ const Details = () => {
                       />
                     </div>
                   ) : (
-                    <div className=" mb-16">
+                    <div className="mb-8 w-full">
                       {comments.map((comment, index) => (
                         <Comment key={index} opinion={comment} />
                       ))}
+                      {comments.length === 0 && (
+                        <div className="ml-auto mr-auto text-gray-500 italic text-center mt-6">
+                          No opinions available
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

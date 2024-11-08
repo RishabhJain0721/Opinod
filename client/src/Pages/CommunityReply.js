@@ -62,6 +62,8 @@ const CommunityReply = () => {
   const [image, setImage] = useState("");
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isAboveFooter, setIsAboveFooter] = useState(false);
+  const [footerTop, setFooterTop] = useState(0);
 
   const fetchData = async () => {
     try {
@@ -206,6 +208,32 @@ const CommunityReply = () => {
     toast.error(`❌ Image removed`, { icon: false });
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const footer = document.querySelector("footer");
+      const commentBox = document.getElementById("comment-box");
+
+      if (footer && commentBox) {
+        const footerTop = footer.getBoundingClientRect().top;
+        const commentBoxHeight = commentBox.offsetHeight;
+
+        // Check if the comment box is close to overlapping the footer
+        if (footerTop <= window.innerHeight - commentBoxHeight) {
+          setIsAboveFooter(true);
+        } else {
+          setIsAboveFooter(false);
+        }
+
+        setFooterTop(footerTop);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="md:w-7/12 ml-auto mr-auto">
       <Topbar />
@@ -251,9 +279,6 @@ const CommunityReply = () => {
                     {comment.author}
                   </div>
                   <div className="text-xs text-gray-500 ml-2">
-                    {/* {formatDistanceToNow(new Date(comment.createdAt), {
-                      addSuffix: true,
-                    })} */}
                     {new Date(comment.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
@@ -317,12 +342,6 @@ const CommunityReply = () => {
                     {commentDislikes}
                   </button>
                 )}
-                {/* <button
-                  className="flex items-center mr-4"
-                  onClick={handleOpenModal}
-                >
-                  <FontAwesomeIcon icon={faReply} className="mr-1" /> Reply
-                </button> */}
                 <button className="flex items-center mr-4">
                   <FontAwesomeIcon icon={faCommentDots} className="mr-1" />{" "}
                   {replies.length}
@@ -337,7 +356,7 @@ const CommunityReply = () => {
             </div>
             <div>
               <div className="text-lg ml-5">Replies :</div>
-              <div className=" mb-28">
+              <div className="mb-28">
                 {replies.map((reply) => {
                   return (
                     <CommunitySingleReply key={reply._id} comment={reply} />
@@ -345,10 +364,23 @@ const CommunityReply = () => {
                 })}
               </div>
 
-              <div className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto z-40">
+              <div
+                className="w-full md:w-7/12 fixed bottom-0 left-auto right-auto z-40"
+                id="comment-box"
+                style={{
+                  transform:
+                    isAboveFooter && !isFocused
+                      ? "translateY(-100%)"
+                      : "translateY(0)",
+                  bottom:
+                    isAboveFooter && !isFocused
+                      ? window.innerHeight - footerTop - 72
+                      : 0,
+                }}
+              >
                 <div
                   className={`flex bg-white p-3 transition-all duration-300 ${
-                    isFocused ? " h-80" : "h-16"
+                    isFocused ? "h-80" : "h-16"
                   }`}
                 >
                   <textarea

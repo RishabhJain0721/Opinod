@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
 import MobileSearch from "../Components/MobileSearch";
 import Card from "../Components/Card";
 import OpinionCard from "../Components/OpinionCard";
@@ -18,7 +17,6 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import HomeCommCard from "../Components/HomeCommCard";
 import HomeNavbar from "../Components/HomeNavbar";
-import Footer from "../Components/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -53,7 +51,6 @@ const Home = () => {
     try {
       setOpinionsLoading(true);
       const res = await getPopularOpinions(3, 1);
-      console.log(res);
       setPopularOpinions(res);
     } catch (error) {
       console.log(error);
@@ -66,7 +63,6 @@ const Home = () => {
     try {
       setCommunitiesLoading(true);
       const res = await getHomeCommunities();
-      console.log(res);
       setTopCommunities(res.communities);
     } catch (error) {
       console.log(error);
@@ -79,7 +75,6 @@ const Home = () => {
     try {
       setRecentLoading(true);
       const res = await getRecent(null);
-      console.log(res);
       setRecent(res);
     } catch (error) {
       console.log(error);
@@ -440,8 +435,6 @@ const Home = () => {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

@@ -154,7 +154,7 @@ const Signup = () => {
               </button>
             </form>
           </div>
-          <div className=" h-96">
+          <div className="h-96 -mb-20 md:mb-0">
             <img
               src={Image}
               alt="Failed to load"

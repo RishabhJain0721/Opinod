@@ -47,7 +47,6 @@ const ProfileOthers = () => {
     try {
       setUserLoading(true);
       const res = await getUserDetails(name);
-      console.log(res);
       setUser(res);
       setBase64Image(res.profilePicture.buffer);
       setImageType(res.profilePicture.mimetype);
@@ -317,7 +316,7 @@ const ProfileOthers = () => {
                 return <UserComment key={index} opinion={comment} />;
               })}
               {comments.length === 0 && (
-                <div className=" ml-auto mr-auto text-gray-500 italic mt-10">
+                <div className="ml-auto mr-auto text-gray-500 italic mt-10 mb-10">
                   No opinions available
                 </div>
               )}

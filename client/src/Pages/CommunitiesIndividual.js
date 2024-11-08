@@ -44,7 +44,6 @@ const CommunitiesIndividual = () => {
     const fetchCommunityData = async () => {
       try {
         const res = await getCommunityData(communityId);
-        console.log(res);
         setSubcategories(res.community.subCategories);
         setName(res.community.name);
         setTopPosts(res.topPosts);
