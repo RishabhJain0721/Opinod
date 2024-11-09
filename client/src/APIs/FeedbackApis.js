@@ -39,3 +39,21 @@ export const support = async (formData) => {
     throw error;
   }
 };
+
+export const getSupportMails = async () => {
+  try {
+    const response = await axios.get("/api/feedbacks/support");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSingleSupportMail = async (id) => {
+  try {
+    const response = await axios.post("/api/feedbacks/support/getOne", { id });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

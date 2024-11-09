@@ -47,6 +47,8 @@ import PrivacyPolicy from "./Pages/PrivatePolicy";
 import Terms from "./Pages/Terms";
 import Contact from "./Pages/Contact";
 import Support from "./Pages/Support";
+import SupportMails from "./Pages/Admin/SupportMails";
+import SupportMailDetails from "./Pages/Admin/SupportMailDetails";
 import Layout from "./Components/Layout";
 
 const CategoryNewsWrapper = () => {
@@ -204,6 +206,8 @@ function App() {
                   <Route path="rewards" element={<Rewards />} />
                   <Route path="post/:id" element={<PostDetails />} />
                   <Route path="feedback/:id" element={<FeedbackDetails />} />
+                  <Route path="support" element={<SupportMails />} />
+                  <Route path="support/:id" element={<SupportMailDetails />} />
                 </Routes>
               </IsAdmin>
             }

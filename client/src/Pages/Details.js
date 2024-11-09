@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
 import NewsDetails from "../Components/NewsDetails";
 import Comment from "../Components/Comment";
 import { getNewsById } from "../APIs/NewsApis";
@@ -152,7 +151,7 @@ const Details = () => {
                     : "translateY(0)",
                 bottom:
                   isAboveFooter && !isFocused
-                    ? window.innerHeight - footerTop - 72
+                    ? window.innerHeight - footerTop - 64
                     : 0,
               }}
             >

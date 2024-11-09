@@ -371,7 +371,7 @@ const Reply = () => {
                       : "translateY(0)",
                   bottom:
                     isAboveFooter && !isFocused
-                      ? window.innerHeight - footerTop - 72
+                      ? window.innerHeight - footerTop - 64
                       : 0,
                 }}
               >

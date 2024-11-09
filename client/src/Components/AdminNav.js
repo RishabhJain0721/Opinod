@@ -44,6 +44,12 @@ const AdminNav = () => {
           >
             Rewards
           </button>
+          <button
+            onClick={() => navigate("/admin/support")}
+            className="hover:underline bg-transparent border-none text-white cursor-pointer focus:outline-none"
+          >
+            Support Mails
+          </button>
         </nav>
       </div>
     </div>
