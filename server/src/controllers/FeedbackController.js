@@ -45,10 +45,35 @@ const supportMessage = async (req, res) => {
       message,
     });
     await support.save();
-    console.log("Done");
     res.status(200).send({ message: "Support message added successfully" });
   } catch (error) {
     res.status(400).send({ message: "Error adding support message", error });
   }
 };
-export { sendFeedbacks, addFeedback, sendOneFeedback, supportMessage };
+
+const getSupportMails = async (req, res) => {
+  try {
+    const support = await Support.find().lean();
+    res.status(200).send(support);
+  } catch (error) {
+    res.status(400).send({ message: "Error fetching support messages", error });
+  }
+};
+
+const getOneSupportMail = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const support = await Support.findById(id).lean();
+    res.status(200).send(support);
+  } catch (error) {
+    res.status(400).send({ message: "Error fetching support message", error });
+  }
+};
+export {
+  sendFeedbacks,
+  addFeedback,
+  sendOneFeedback,
+  supportMessage,
+  getSupportMails,
+  getOneSupportMail,
+};
