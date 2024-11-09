@@ -15,7 +15,7 @@ const fetchNews = async (value) => {
 };
 
 export const fetchNewsForCategories = async () => {
-  console.log("Fetching news for all categories");
+  // console.log("Fetching news for all categories");
   const cat = [
     "general",
     "business",
@@ -30,11 +30,17 @@ export const fetchNewsForCategories = async () => {
 
   for (let i = 0; i < cat.length; i++) {
     const articles = await fetchNews(cat[i]);
+    // console.log(
+    //   "Articles length for category ",
+    //   cat[i],
+    //   " is: ",
+    //   articles.length
+    // );
 
     //save the news articles in the database
     for (let j = 0; j < articles.length; j++) {
       const article = articles[j];
-      console.log("Post is:", article.title);
+      // console.log(`Post ${j + 1} title is:`, article.title);
 
       const body = await scraper(articles[j].url);
 
@@ -48,6 +54,8 @@ export const fetchNewsForCategories = async () => {
       });
 
       await post.save();
+
+      // console.log(`Post ${j + 1} saved`);
 
       // Wait for 3 seconds (3000 milliseconds) before proceeding
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -69,11 +77,13 @@ export const deleteDuplicates = async () => {
     .filter((doc) => doc.count > 1)
     .map((doc) => doc._id);
 
-  console.log("Duplicates: ", titlesToDelete);
+  // console.log("Duplicates: ", titlesToDelete);
 
   for (let title of titlesToDelete) {
-    const deleteResult = await Post.deleteOne({ title: title });
-    console.log("Deleted: ", deleteResult);
+    const deleteResult = await Post.deleteOne({
+      title: title,
+    });
+    // console.log("Deleted: ", deleteResult);
   }
 };
 

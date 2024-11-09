@@ -202,7 +202,7 @@ const checkTopCommunityMember = async (username) => {
       async (communityId) => {
         if (communityId) {
           const authors = await CommunityPost.find(
-            { community: communityId },
+            { community: communityId, isVerified: true },
             { author: 1, _id: 0 }
           );
           const [maxAuthor, maxFrequency] = maxFrequent(authors);
