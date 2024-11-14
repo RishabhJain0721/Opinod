@@ -157,7 +157,7 @@ const Details = () => {
             >
               <div
                 className={`flex bg-white p-3 transition-all duration-300 ${
-                  isFocused ? "h-80" : "h-16"
+                  isFocused ? "h-48" : "h-16"
                 }`}
               >
                 <textarea
@@ -166,7 +166,7 @@ const Details = () => {
                   onChange={(e) => setNewReply(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className="border w-10/12 border-gray-500 rounded text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar"
+                  className="border w-10/12 border-gray-500 rounded text-sm p-3 mr-3 md:ml-2 overflow-y-auto no-scrollbar::-webkit-scrollbar no-scrollbar focus:outline-none"
                   placeholder="Give your opinion"
                 />
                 <div

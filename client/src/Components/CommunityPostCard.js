@@ -126,7 +126,7 @@ const CommunityPostCard = (props) => {
   };
 
   return (
-    <div className="p-2 mb-2 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg">
+    <div className="p-2 mb-2 md:m-4 md:rounded-lg md:border md:border-gray-300 md:shadow-sm bg-white rounded-lg cursor-pointer">
       <div className="flex items-center mb-1">
         <span className="text-xs text-gray-500">{subCategory}</span>
       </div>

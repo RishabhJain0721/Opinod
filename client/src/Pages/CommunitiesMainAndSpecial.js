@@ -132,8 +132,6 @@ const CommunitiesSpecial = () => {
     <div>
       <Topbar />
 
-      {isMobile && <MobileSearch />}
-
       <div className="flex mt-16">
         <div className="w-full  mt-11 md:mt-0">
           {isLoading ? (

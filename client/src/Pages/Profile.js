@@ -202,7 +202,7 @@ const ProfilePage = () => {
 
                 {/* Second Row: Name and Edit button */}
                 <div className="flex items-center mt-4">
-                  <div className="text-lg md:text-2xl font-medium">
+                  <div className="text-xl md:text-2xl font-medium">
                     {user.username}
                   </div>
                   <button
