@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Topbar from "../Components/Topbar";
-import Navbar from "../Components/Navbar";
 import {
   getUserDetails,
   getUserPosts,
@@ -13,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { MutatingDots } from "react-loader-spinner";
 import UserPostCard from "../Components/UserPostCard";
 import UserComment from "../Components/UserComment";
-import { toast } from "react-toastify";
 import { follow, unfollow } from "../Actions/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
@@ -209,43 +207,52 @@ const ProfileOthers = () => {
                 </div>
               </div>
 
-              {/* Second Row: Name */}
-              <div className="text-2xl font-medium">{user.username}</div>
-
-              {/* Fourth Row: Description */}
-              <div className="text-gray-600 text-sm md:text-base">
-                {user.description !== "undefined" ? (
-                  user.description
-                ) : (
-                  <div className="italic text-gray-400">
-                    No description added
+              <div className="flex w-full flex-col md:flex-row">
+                <div className="md:w-11/12">
+                  {/* Name */}
+                  <div className="text-2xl font-medium">{user.username}</div>
+                  {/* Description */}
+                  <div className="text-gray-600 text-sm md:text-base">
+                    {user.description !== "undefined" ? (
+                      user.description
+                    ) : (
+                      <div className="italic text-gray-400">
+                        No description added
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
+                {/* Follow button */}
+                <div className=" border-gray-300 border-2 rounded-md p-4 h-min w-auto max-w-xs mt-4 md:ml-4">
+                  {isFollowing ? (
+                    <>
+                      <div className="text-xs md:text-sm">
+                        Follow {user.username} to get his articles on top feed
+                        in home page!
+                      </div>
+                      <button
+                        className="bg-red-500 text-white font-semibold w-full rounded-md px-4 py-2 mt-3"
+                        onClick={handleUnfollow}
+                      >
+                        Unfollow
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-xs md:text-sm">
+                        Follow {user.username} to get his articles on top feed
+                        in home page!
+                      </div>
+                      <button
+                        className="bg-gray-800 text-white font-semibold w-full rounded-md px-4 py-2 mt-3"
+                        onClick={handleFollow}
+                      >
+                        Follow
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
-
-              {/* Follow button */}
-              {isFollowing ? (
-                <button
-                  className="bg-gray-400 text-white font-medium w-full md:w-48 rounded-full px-4 py-1 mt-2 md:mt-4"
-                  onClick={handleUnfollow}
-                >
-                  Following
-                </button>
-              ) : (
-                <>
-                  {" "}
-                  <div className="mt-5 text-xs md:text-sm">
-                    Follow {user.username} to get his articles on top feed in
-                    home page!
-                  </div>
-                  <button
-                    className="bg-blue-500 text-white w-full md:w-48 rounded-full px-4 py-1 mt-2 md:mt-4"
-                    onClick={handleFollow}
-                  >
-                    Follow
-                  </button>
-                </>
-              )}
             </div>
           </div>
         )}

@@ -17,7 +17,10 @@ const Footer = () => {
         and stay informed always
       </div>
 
-      <form className="mt-4 flex justify-center items-center text-sm md:text-base">
+      <form
+        className="mt-4 flex justify-center items-center text-sm md:text-base"
+        onSubmit={handleNewsletterSignup}
+      >
         <input
           type="email"
           placeholder="Enter your email"
