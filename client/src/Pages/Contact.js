@@ -22,16 +22,11 @@ const Contact = () => {
         <div className="mt-6 space-y-4 text-gray-700">
           <div>
             <h3 className="font-semibold">Address</h3>
-            <p>123 Main St</p>
-            <p>Cityville, ST 12345</p>
-          </div>
-          <div>
-            <h3 className="font-semibold">Phone</h3>
-            <p>(123) 456-7890</p>
+            <p> New delhi, India</p>
           </div>
           <div>
             <h3 className="font-semibold">Email</h3>
-            <p>contact@yourcompany.com</p>
+            <p>Support@opinod.com</p>
           </div>
         </div>
       </div>
