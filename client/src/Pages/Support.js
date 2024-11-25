@@ -42,7 +42,7 @@ const Support = () => {
             <FontAwesomeIcon icon={faArrowLeft} className="text-xs" /> Home
           </div>
           <h2 className="text-2xl font-bold text-center text-gray-800">
-            Support
+            Help Center
           </h2>
           {/* <p className="text-sm my-4">Let us know if you need any help!</p> */}
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -59,6 +59,7 @@ const Support = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Enter your name"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -76,6 +77,7 @@ const Support = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="Enter your email"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -93,6 +95,7 @@ const Support = () => {
                 value={formData.message}
                 onChange={handleChange}
                 rows="4"
+                placeholder="Enter your message"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
