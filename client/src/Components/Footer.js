@@ -44,7 +44,7 @@ const Footer = () => {
           Terms of Use
         </div>
         <div onClick={() => navigate("/support")} className="hover:underline">
-          Support
+          Help Center
         </div>
       </div>
 
