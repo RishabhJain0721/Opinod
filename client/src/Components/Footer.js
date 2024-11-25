@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-xs mt-4">© 2021 Opinod. All Rights Reserved.</div>
+      <div className="text-xs mt-4">© 2024 Opinod. All Rights Reserved.</div>
     </footer>
   );
 };
