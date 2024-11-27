@@ -1,42 +1,48 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  host: "smtpout.secureserver.net", // Outgoing server
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.ADMIN_EMAIL,
     pass: process.env.ADMIN_PASSWORD,
   },
 });
 
-const sendVerificationMail = async (verificationToken, email) => {
+const sendVerificationMail = async (verificationToken, email, username) => {
   const baseUrl = process.env.BASE_URL;
   const verificationLink = `${baseUrl}/verify-email?token=${verificationToken}`;
   let status = false;
 
-  // Email body with HTML and CSS styling
-  let mailOptions = {
-    from: "rishujain0721@gmail.com",
+  const mailOptions = {
+    from: process.env.ADMIN_EMAIL,
     to: email,
-    subject: "Verify your email",
+    subject: "Verify Your Email for Opinod.com",
     html: `
-        <div style="font-family: Arial, sans-serif;">
-          <p style="color: #666;">Welcome to our NEWS! To get started, please verify your email address by clicking the link below:</p>
-          <p><a href="${verificationLink}" target="_blank" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Verify Email Address</a></p>
-          <p style="color: #666;">If you did not sign up for an account, you can safely ignore this email.</p>
-          <p style="color: #666;">Thank you!</p>
-        </div>
-      `,
+      <div style="font-family: Arial, sans-serif;">
+        <p>Hello ${username}</p>
+        <p>Welcome to <a href="https://opinod.com">opinod.com</a> - where genuine opinions matter.</p>
+        <p>To verify your email, please click the link below:</p>
+        <p>
+          <a href="${verificationLink}" target="_blank" 
+             style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">
+            Verify Email Address
+          </a>
+        </p>
+        <p>If you didn’t sign up, please ignore this email.</p>
+        <p>Thank you,<br>The Opinod Team</p>
+      </div>
+    `,
   };
 
-  // Send the email
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log("Email sent: " + info.response);
-      status = true;
-    }
-  });
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+    status = true;
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
 
   return status;
 };

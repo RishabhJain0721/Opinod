@@ -74,7 +74,7 @@ const signup = async (req, res) => {
   await newUser.save();
 
   try {
-    const status = sendVerificationMail(verificationToken, email);
+    const status = sendVerificationMail(verificationToken, email, username);
     if (!status) {
       throw new Error("Email verification failed");
     }

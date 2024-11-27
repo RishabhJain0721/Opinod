@@ -148,7 +148,7 @@ const Signup = () => {
               </div>
               <button
                 type="submit"
-                className="p-2 rounded-lg bg-blue-500 text-white text-base font-semibold mt-2 w-80 focus:outline-none"
+                className="p-2 rounded-lg mb-10 bg-blue-500 text-white text-base font-semibold mt-2 w-80 focus:outline-none"
               >
                 Signup
               </button>

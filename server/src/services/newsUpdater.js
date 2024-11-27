@@ -1,9 +1,7 @@
 import cron from "node-cron";
 import axios from "axios";
 import Post from "../models/Post.js";
-import Comment from "../models/Comment.js";
 import scraper from "./scraper.js";
-import mongoose from "mongoose";
 
 const fetchNews = async (value) => {
   const API_KEY = process.env.NEWS_API_KEY;
@@ -68,7 +66,9 @@ export const deleteDuplicates = async () => {
     {
       $group: {
         _id: "$title",
-        count: { $sum: 1 },
+        count: {
+          $sum: 1,
+        },
       },
     },
   ]);
