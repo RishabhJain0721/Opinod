@@ -63,7 +63,9 @@ const SubcategoryIndividual = () => {
             <>
               {/* Top Posts */}
               <div className="text-xl md:text-4xl ml-5 md:ml-10 mt-4 md:mt-8 mr-5 flex flex-col justify-between text-gray-800 w-auto">
-                <div className="font-semibold md:font-normal">Posts</div>
+                <div className="font-semibold md:font-normal">
+                  {subcategory}
+                </div>
               </div>
               <div className="flex flex-wrap justify-start mx-5 md:ml-6">
                 {topPosts.map((post, index) => {
