@@ -45,9 +45,9 @@ const NewsDetails = (props) => {
 
   const [likes, setLikes] = useState(details.upvotes);
   const [dislikes, setDislikes] = useState(details.downvotes);
-  const [isLiked, setIsLiked] = useState(likedPosts.includes(details._id));
+  const [isLiked, setIsLiked] = useState(likedPosts?.includes(details._id));
   const [isDisliked, setIsDisiked] = useState(
-    dislikedPosts.includes(details._id)
+    dislikedPosts?.includes(details._id)
   );
   const [likeToggle, setLikeToggle] = useState(false);
   const [dislikeToggle, setDislikeToggle] = useState(false);
@@ -55,7 +55,23 @@ const NewsDetails = (props) => {
   const [isLeftLoading, setIsLeftLoading] = useState(false);
   const [isRightLoading, setIsRightLoading] = useState(false);
 
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to like/dislike!
+    </div>
+  );
+
   const handleLike = async () => {
+    if (!username) {
+      return toast.info(<Msg />);
+    }
     await likePost(username, details._id);
     dispatch(like(details._id));
     setIsLiked(true);
@@ -70,6 +86,9 @@ const NewsDetails = (props) => {
   };
 
   const handleDislike = async () => {
+    if (!username) {
+      return toast.info(<Msg />);
+    }
     await dislikePost(username, details._id);
     dispatch(dislike(details._id));
     setIsDisiked(true);
@@ -109,6 +128,17 @@ const NewsDetails = (props) => {
     setDislikeToggle(false);
   };
 
+  let allCategories = [
+    "General",
+    "Entertainment",
+    "Technology",
+    "Science",
+    "Health",
+    "Business",
+    "Sports",
+    "World",
+  ];
+
   const handleLeft = async () => {
     try {
       setIsLeftLoading(true);
@@ -116,14 +146,14 @@ const NewsDetails = (props) => {
         const newId = await getNextArticle(
           "left",
           details.publishedAt,
-          userCategories
+          userCategories.length !== 0 ? userCategories : allCategories
         );
         navigate(`/details/${newId}`);
       } else {
         const newId = await getNextArticle(
           "left",
           details.publishedAt,
-          category
+          category ? category : "General"
         );
         navigate(`/details/${newId}`);
       }
@@ -142,14 +172,14 @@ const NewsDetails = (props) => {
         const newId = await getNextArticle(
           "right",
           details.publishedAt,
-          userCategories
+          userCategories.length !== 0 ? userCategories : allCategories
         );
         navigate(`/details/${newId}`);
       } else {
         const newId = await getNextArticle(
           "right",
           details.publishedAt,
-          category
+          category ? category : "General"
         );
         navigate(`/details/${newId}`);
       }
@@ -268,7 +298,9 @@ const NewsDetails = (props) => {
         <div className="flex items-center justify-center w-full ">
           <button
             className="text-blue-500 mx-auto mb-3"
-            onClick={() => setIsBlur(false)}
+            onClick={() => {
+              setIsBlur(false);
+            }}
           >
             See more
           </button>

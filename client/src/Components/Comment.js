@@ -29,7 +29,7 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "react-toastify";
 import UploadImage from "./UploadImage";
 
-const Comment = ({ opinion }) => {
+const Comment = ({ opinion, fetchCommentsCallback }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -51,10 +51,10 @@ const Comment = ({ opinion }) => {
   const [commentLikes, setCommentLikes] = useState(opinion.upvotes);
   const [commentDislikes, setCommentDislikes] = useState(opinion.downvotes);
   const [isCommentLiked, setIsCommentLiked] = useState(
-    username ? (likedComments.includes(opinion._id) ? true : false) : false
+    username ? (likedComments?.includes(opinion._id) ? true : false) : false
   );
   const [isCommentDisliked, setIsCommentDisliked] = useState(
-    username ? (dislikedComments.includes(opinion._id) ? true : false) : false
+    username ? (dislikedComments?.includes(opinion._id) ? true : false) : false
   );
   const [commentLikeToggle, setCommentLikeToggle] = useState(false);
   const [commentDislikeToggle, setCommentDislikeToggle] = useState(false);
@@ -65,6 +65,10 @@ const Comment = ({ opinion }) => {
   const [triggerRerender, setTriggerRerender] = useState(false);
 
   const handleOpenModal = () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
     setIsModalOpen(true);
   };
 
@@ -86,19 +90,34 @@ const Comment = ({ opinion }) => {
               image,
               username
             );
-      window.location.reload();
     } catch (error) {
       throw error;
+    } finally {
+      setIsModalOpen(false);
+      setReplyText("");
+      setImage("");
+      fetchCommentsCallback();
     }
-    setIsModalOpen(false);
-    setReplyText("");
-    setImage("");
-
-    //this has to optimised later to avoid reloading and fetching only the updated comment(no. of replies)
-    window.location.reload();
   };
 
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to perform action!
+    </div>
+  );
+
   const handleCommentLike = async () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
     await likeComment(username, opinion._id);
     dispatch(likeCom(opinion._id));
     setIsCommentLiked(true);
@@ -111,6 +130,10 @@ const Comment = ({ opinion }) => {
     setCommentLikes(commentLikes - 1);
   };
   const handleCommentDislike = async () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
     await dislikeComment(username, opinion._id);
     dispatch(dislikeCom(opinion._id));
     setIsCommentDisliked(true);
@@ -124,10 +147,6 @@ const Comment = ({ opinion }) => {
   };
 
   const handleToggleCommentLike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this comment.");
-      return;
-    }
     setCommentLikeToggle(true);
     if (isCommentLiked) {
       await handleRemoveCommentLike();
@@ -141,10 +160,6 @@ const Comment = ({ opinion }) => {
   };
 
   const handleToggleCommentDislike = async () => {
-    if (!username) {
-      alert("Please login to like/dislike this comment.");
-      return;
-    }
     setCommentDislikeToggle(true);
     if (isCommentDisliked) {
       await handleRemoveCommentDislike();
@@ -158,6 +173,10 @@ const Comment = ({ opinion }) => {
   };
 
   const handleReport = async () => {
+    if (!username) {
+      toast.info(<Msg />);
+      return;
+    }
     try {
       await report(opinion._id);
       toast.error("Comment Reported");
@@ -275,6 +294,10 @@ const Comment = ({ opinion }) => {
         <div
           className="flex items-center text-gray-500 text-xs ml-8"
           onClick={() => {
+            if (!username) {
+              toast.info(<Msg />);
+              return;
+            }
             type === "cpostdetails"
               ? navigate(`/cpostdetails/${postId}/reply/${opinion._id}`)
               : navigate(`/details/${postId}/reply/${opinion._id}`);

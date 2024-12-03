@@ -76,10 +76,10 @@ const CommunityPostDetails = () => {
 
     try {
       setIsLoadingComments(true);
-      await addTopCommunityComment(id, newReply, image, username);
-      await fetchComments();
       setNewReply("");
       setImage("");
+      await addTopCommunityComment(id, newReply, image, username);
+      await fetchComments();
       setTriggerRerender((prev) => !prev);
     } catch (err) {
       throw err;
@@ -106,7 +106,7 @@ const CommunityPostDetails = () => {
         const commentBoxHeight = commentBox.offsetHeight;
 
         // Check if the comment box is close to overlapping the footer
-        if (footerTop <= window.innerHeight - commentBoxHeight) {
+        if (footerTop <= window.innerHeight) {
           setIsAboveFooter(true);
         } else {
           setIsAboveFooter(false);
@@ -151,15 +151,16 @@ const CommunityPostDetails = () => {
                   isAboveFooter && !isFocused
                     ? "translateY(-100%)"
                     : "translateY(0)",
-                bottom:
-                  isAboveFooter && !isFocused
+                bottom: isAboveFooter
+                  ? !isFocused
                     ? window.innerHeight - footerTop - 64
-                    : 0,
+                    : window.innerHeight - footerTop
+                  : 0,
               }}
             >
               <div
                 className={`flex bg-white p-3 transition-all duration-300 ${
-                  isFocused ? "h-48" : "h-16"
+                  isFocused ? "h-24" : "h-16"
                 }`}
               >
                 <textarea
@@ -222,7 +223,11 @@ const CommunityPostDetails = () => {
                   ) : (
                     <div className="mb-8 w-full">
                       {comments.map((comment, index) => (
-                        <Comment key={index} opinion={comment} />
+                        <Comment
+                          key={index}
+                          opinion={comment}
+                          fetchCommentsCallback={fetchComments}
+                        />
                       ))}
                       {comments.length === 0 && (
                         <div className="ml-auto mr-auto text-gray-500 italic text-center mt-6 mb-6">

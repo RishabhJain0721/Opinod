@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import NewsDetails from "../Components/NewsDetails";
 import Comment from "../Components/Comment";
@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 
 const Details = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [details, setDetails] = useState();
   const [newReply, setNewReply] = useState("");
   const [comments, setComments] = useState([]);
@@ -27,6 +28,19 @@ const Details = () => {
   const [footerTop, setFooterTop] = useState(0);
 
   const username = useSelector((state) => state.user.username);
+
+  const Msg = ({ closeToast, toastProps }) => (
+    <div>
+      Please{" "}
+      <span
+        onClick={() => navigate("/login")}
+        className="text-blue-500 font-medium"
+      >
+        login
+      </span>{" "}
+      to comment!
+    </div>
+  );
 
   const fetchDetails = async () => {
     try {
@@ -65,6 +79,9 @@ const Details = () => {
   }, [id]);
 
   const handleAddTopComment = async () => {
+    if (!username) {
+      return toast.info(<Msg />);
+    }
     if (!newReply) {
       toast.error("Please write something.");
       return;
@@ -72,14 +89,13 @@ const Details = () => {
 
     try {
       setIsLoadingComments(true);
+      setNewReply("");
+      setImage("");
       await addTopComment(id, newReply, image, username);
       await fetchComments();
       setTriggerRerender((prev) => !prev);
     } catch (err) {
       throw err;
-    } finally {
-      setNewReply("");
-      setImage("");
     }
   };
 
@@ -93,26 +109,26 @@ const Details = () => {
     toast.error("❌ Image removed", { icon: false });
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const footer = document.querySelector("footer");
-      const commentBox = document.getElementById("comment-box");
+  const handleScroll = () => {
+    const footer = document.querySelector("footer");
+    const commentBox = document.getElementById("comment-box");
 
-      if (footer && commentBox) {
-        const footerTop = footer.getBoundingClientRect().top;
-        const commentBoxHeight = commentBox.offsetHeight;
+    if (footer && commentBox) {
+      const footerTop = footer.getBoundingClientRect().top;
+      const commentBoxHeight = commentBox.offsetHeight;
 
-        // Check if the comment box is close to overlapping the footer
-        if (footerTop <= window.innerHeight - commentBoxHeight) {
-          setIsAboveFooter(true);
-        } else {
-          setIsAboveFooter(false);
-        }
-
-        setFooterTop(footerTop);
+      // Check if the comment box is close to overlapping the footer
+      if (footerTop <= window.innerHeight) {
+        setIsAboveFooter(true);
+      } else {
+        setIsAboveFooter(false);
       }
-    };
 
+      setFooterTop(footerTop);
+    }
+  };
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -149,15 +165,16 @@ const Details = () => {
                   isAboveFooter && !isFocused
                     ? "translateY(-100%)"
                     : "translateY(0)",
-                bottom:
-                  isAboveFooter && !isFocused
+                bottom: isAboveFooter
+                  ? !isFocused
                     ? window.innerHeight - footerTop - 64
-                    : 0,
+                    : window.innerHeight - footerTop
+                  : 0,
               }}
             >
               <div
-                className={`flex bg-white p-3 transition-all duration-300 ${
-                  isFocused ? "h-48" : "h-16"
+                className={`flex bg-white p-3 transition-all ${
+                  isFocused ? "h-24" : "h-16"
                 }`}
               >
                 <textarea
@@ -219,7 +236,11 @@ const Details = () => {
                   ) : (
                     <div className="mb-8 w-full">
                       {comments.map((comment, index) => (
-                        <Comment key={index} opinion={comment} />
+                        <Comment
+                          key={index}
+                          opinion={comment}
+                          fetchCommentsCallback={fetchComments}
+                        />
                       ))}
                       {comments.length === 0 && (
                         <div className="ml-auto mr-auto text-gray-500 italic text-center mt-6">

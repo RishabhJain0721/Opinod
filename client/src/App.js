@@ -91,14 +91,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/support" element={<Support />} />
-          <Route
-            path="/details/:id"
-            element={
-              <RequireAuth>
-                <Details />
-              </RequireAuth>
-            }
-          />
+          <Route path="/details/:id" element={<Details />} />
           <Route path="/category/:category" element={<CategoryNewsWrapper />} />
           <Route path="/topOpinions" element={<TopOpinions />} />
           <Route

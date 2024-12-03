@@ -66,30 +66,28 @@ const Reply = () => {
   const [isAboveFooter, setIsAboveFooter] = useState(false);
   const [footerTop, setFooterTop] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetchCommentAndReplies(commentId);
-        setIsCommentLiked(
-          likedComments.includes(res.comment._id) ? true : false
-        );
-        setIsCommentDisliked(
-          dislikedComments.includes(res.comment._id) ? true : false
-        );
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchCommentAndReplies(commentId);
+      setIsCommentLiked(likedComments.includes(res.comment._id) ? true : false);
+      setIsCommentDisliked(
+        dislikedComments.includes(res.comment._id) ? true : false
+      );
 
-        setCommentLikes(res.comment.upvotes);
-        setCommentDislikes(res.comment.downvotes);
-        setComment(res.comment);
-        setBase64Image(res.comment.profilePicture.buffer);
-        setMimetype(res.comment.profilePicture.mimetype);
-        setReplies(res.replies);
-      } catch (error) {
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      setCommentLikes(res.comment.upvotes);
+      setCommentDislikes(res.comment.downvotes);
+      setComment(res.comment);
+      setBase64Image(res.comment.profilePicture.buffer);
+      setMimetype(res.comment.profilePicture.mimetype);
+      setReplies(res.replies);
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
 
     const handleResize = () => {
@@ -112,7 +110,7 @@ const Reply = () => {
         image,
         username
       );
-      window.location.reload();
+      fetchData();
     } catch (error) {
       throw error;
     }
@@ -208,7 +206,7 @@ const Reply = () => {
         const commentBoxHeight = commentBox.offsetHeight;
 
         // Check if the comment box is close to overlapping the footer
-        if (footerTop <= window.innerHeight - commentBoxHeight) {
+        if (footerTop <= window.innerHeight) {
           setIsAboveFooter(true);
         } else {
           setIsAboveFooter(false);
@@ -369,15 +367,16 @@ const Reply = () => {
                     isAboveFooter && !isFocused
                       ? "translateY(-100%)"
                       : "translateY(0)",
-                  bottom:
-                    isAboveFooter && !isFocused
+                  bottom: isAboveFooter
+                    ? !isFocused
                       ? window.innerHeight - footerTop - 64
-                      : 0,
+                      : window.innerHeight - footerTop
+                    : 0,
                 }}
               >
                 <div
                   className={`flex bg-white p-3 transition-all duration-300 ${
-                    isFocused ? "h-48" : "h-16"
+                    isFocused ? "h-24" : "h-16"
                   }`}
                 >
                   <textarea

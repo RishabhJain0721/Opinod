@@ -131,29 +131,17 @@ const OpinionCard = ({
         src={image}
         alt="news"
         className="rounded-xl mb-3 mt-1 hidden md:block md:max-h-52 2xl:h-64 min-h-52  w-full object-cover"
-        onClick={() => {
-          username
-            ? navigate(`/details/${postId}`)
-            : toast.info("Please login to view more!");
-        }}
+        onClick={() => navigate(`/details/${postId}`)}
       />
       <div
         className="text-sm md:text-base font-medium mb-2"
-        onClick={() => {
-          username
-            ? navigate(`/details/${postId}`)
-            : toast.info("Please login to view more!");
-        }}
+        onClick={() => navigate(`/details/${postId}`)}
       >
         {title?.length > 70 ? title?.slice(0, 70) + "..." : title}
       </div>
       <div
         className="flex items-center mb-1"
-        onClick={() => {
-          username
-            ? navigate(`/details/${postId}`)
-            : toast.info("Please login to view more!");
-        }}
+        onClick={() => navigate(`/details/${postId}`)}
       >
         <img
           src={src}

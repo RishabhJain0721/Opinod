@@ -96,10 +96,6 @@ const Card = ({
   }, []);
 
   const handleClick = () => {
-    if (!username) {
-      alert("Please login to view details of this article.");
-      return;
-    }
     navigate(`/details/${id}`);
   };
 
@@ -243,7 +239,7 @@ const Card = ({
       >
         login
       </span>{" "}
-      to to perform action!
+      to perform action!
     </div>
   );
 

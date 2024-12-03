@@ -102,6 +102,8 @@ const CommunityReply = () => {
 
   const handleSubmitReply = async () => {
     try {
+      setReplyText("");
+      setImage("");
       await addCommunityReply(
         comment._id,
         comment.postId,
@@ -112,8 +114,6 @@ const CommunityReply = () => {
     } catch (error) {
       throw error;
     }
-    setReplyText("");
-    setImage("");
     fetchData();
   };
 
@@ -218,7 +218,7 @@ const CommunityReply = () => {
         const commentBoxHeight = commentBox.offsetHeight;
 
         // Check if the comment box is close to overlapping the footer
-        if (footerTop <= window.innerHeight - commentBoxHeight) {
+        if (footerTop <= window.innerHeight) {
           setIsAboveFooter(true);
         } else {
           setIsAboveFooter(false);
@@ -372,15 +372,16 @@ const CommunityReply = () => {
                     isAboveFooter && !isFocused
                       ? "translateY(-100%)"
                       : "translateY(0)",
-                  bottom:
-                    isAboveFooter && !isFocused
+                  bottom: isAboveFooter
+                    ? !isFocused
                       ? window.innerHeight - footerTop - 64
-                      : 0,
+                      : window.innerHeight - footerTop
+                    : 0,
                 }}
               >
                 <div
                   className={`flex bg-white p-3 transition-all duration-300 ${
-                    isFocused ? "h-48" : "h-16"
+                    isFocused ? "h-24" : "h-16"
                   }`}
                 >
                   <textarea
