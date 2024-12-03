@@ -14,13 +14,16 @@ const ForgotUsername = () => {
       toast.error("Please fill in all fields.");
       return;
     }
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
       await forgotUsername(email);
       alert("Username reset email sent.");
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

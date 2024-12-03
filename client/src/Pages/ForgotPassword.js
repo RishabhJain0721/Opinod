@@ -20,7 +20,10 @@ const ForgotPassword = () => {
       alert("Password reset email sent.");
       setIsLoading(false);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

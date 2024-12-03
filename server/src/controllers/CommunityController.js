@@ -58,7 +58,6 @@ const sendCommunities = async (req, res) => {
       });
       community.postCount = postCount;
     }
-    // console.log(communities);
     res.status(200).send({ Message: "Successfully sent", communities });
   } catch (error) {
     res.status(404).send(error);

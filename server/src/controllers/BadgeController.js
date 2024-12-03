@@ -389,7 +389,6 @@ const sendPeopleWithBadges = async (req, res) => {
   try {
     let data = [];
     const users = await User.find({}, { username: 1, email: 1, badges: 1 });
-    // console.log(users);
     for (let user of users) {
       for (let badge of user.badges) {
         if (badge.unlocked === true && badge.rewarded === false) {
@@ -411,12 +410,6 @@ const sendAchievementMail = async (req, res) => {
       { email: email, "badges.name": badge }, // Filter to find the correct document and badge
       { $set: { "badges.$.rewarded": true } } // Update the rewarded field for the matched badge
     );
-
-    // if (result.matchedCount > 0) {
-    //   console.log("Update successful");
-    // } else {
-    //   console.log("No matching badge found for the specified email.");
-    // }
 
     res.status(200).send({ Message: "Done" });
   } catch (error) {

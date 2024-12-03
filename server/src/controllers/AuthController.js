@@ -196,6 +196,13 @@ const forgotUsername = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
+    if (!user) {
+      return res.status(400).send({
+        status: 400,
+        message: "User not found.",
+      });
+    }
+
     const serverUrl = process.env.SERVER_URL;
     const resetButtonLink = `${serverUrl}/api/auth/reset-username-page?id=${user._id}`;
 
@@ -320,6 +327,13 @@ const forgotPassword = async (req, res) => {
       email,
     });
 
+    if (!user) {
+      return res.status(400).send({
+        status: 400,
+        message: "User not found.",
+      });
+    }
+
     const serverUrl = process.env.SERVER_URL;
     const resetButtonLink = `${serverUrl}/api/auth/reset-password-page?id=${user._id}`;
 
@@ -399,10 +413,8 @@ const resetPassword = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { email } = req.body;
 
-  console.log(email);
   try {
     const user = await User.findOne({ email });
-    console.log(user);
     user.isActive = false;
     await user.save();
     if (user) {

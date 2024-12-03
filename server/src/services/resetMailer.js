@@ -2,7 +2,9 @@ import nodemailer from "nodemailer";
 import "dotenv/config";
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  host: "smtpout.secureserver.net", // Outgoing server
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.ADMIN_EMAIL,
     pass: process.env.ADMIN_PASSWORD,

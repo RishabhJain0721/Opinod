@@ -22,12 +22,10 @@ async function scraper(url) {
     const $ = cheerio.load(response.data);
     let body = "";
     $("p").each(function (i, elem) {
-      //   console.log(i + "th paragraph is:", $(this).text());
       if (!isPromotional($(this).text()) && $(this).text().length > 100) {
         body += $(this).text() + "\n\n";
       }
     });
-    // console.log("Body is:", body);
     return body;
   } catch (error) {
     console.error("Failed to retrieve the page:", error);
