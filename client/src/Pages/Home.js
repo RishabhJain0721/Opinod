@@ -154,7 +154,7 @@ const Home = () => {
             <>
               <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-950 mb-2 md:mb-4">
-                  Trending
+                  Trending News
                 </div>
                 <div>
                   <button

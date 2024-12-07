@@ -130,7 +130,7 @@ const CommunitiesIndividual = () => {
     }
     try {
       await addFeedback({ feedbackText, username });
-      toast.success("Feedback submitted successfully");
+      toast.success("Thanks a lot for your valuable feedback 🙏🏻");
       setFeedbackText("");
       setIsModalOpen(false);
     } catch (error) {}
