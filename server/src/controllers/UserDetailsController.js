@@ -6,6 +6,7 @@ import Post from "../models/Post.js";
 import Recent from "../models/Recent.js";
 import multer from "multer";
 import NewsletterEmail from "../models/NewsletterEmail.js";
+import "../services/userCleaner.js";
 
 // Create a multer instance with the storage configuration
 const upload = multer({

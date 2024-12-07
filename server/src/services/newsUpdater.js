@@ -101,18 +101,3 @@ cron.schedule(
     timezone: "Asia/Kolkata",
   }
 );
-
-// Forbidden code
-// Don't uncomment this or you shall suffer.
-
-// const delAllPosts = async () => {
-//   await Post.deleteMany({});
-// };
-
-// delAllPosts();
-
-// const delAllComments = async () => {
-//   await Comment.deleteMany({});
-// };
-
-// delAllComments();
