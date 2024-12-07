@@ -67,7 +67,9 @@ const UpdateProfile = () => {
           res.dislikedPosts,
           res.likedComments,
           res.dislikedComments,
-          res.points
+          res.points,
+          res.followers,
+          res.following
         )
       );
       navigate("/profile");

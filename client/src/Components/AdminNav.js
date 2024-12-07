@@ -50,6 +50,12 @@ const AdminNav = () => {
           >
             Support Mails
           </button>
+          <button
+            onClick={() => navigate("/admin/newsletterEmails")}
+            className="hover:underline bg-transparent border-none text-white cursor-pointer focus:outline-none"
+          >
+            Newsletter
+          </button>
         </nav>
       </div>
     </div>

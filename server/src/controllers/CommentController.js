@@ -229,7 +229,7 @@ const sendCommentAndReplies = async (req, res) => {
       { username: comment.author },
       { profilePicture: 1, _id: 0 }
     ).lean();
-    comment.profilePicture = author.profilePicture;
+    comment.profilePicture = author?.profilePicture;
     const replies = await Comment.find({
       _id: { $in: comment.children },
     }).lean();
@@ -238,7 +238,7 @@ const sendCommentAndReplies = async (req, res) => {
         { username: reply.author },
         { profilePicture: 1, _id: 0 }
       ).lean();
-      reply.profilePicture = author.profilePicture;
+      reply.profilePicture = author?.profilePicture;
     }
     res.status(200).send({ comment, replies });
   } catch (error) {

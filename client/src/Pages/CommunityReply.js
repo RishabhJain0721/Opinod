@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaperPlane,
+  faArrowLeft,
+  faCircleUser,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faThumbsDown,
   faThumbsUp,
@@ -77,8 +81,8 @@ const CommunityReply = () => {
       setCommentLikes(res.comment.upvotes);
       setCommentDislikes(res.comment.downvotes);
       setComment(res.comment);
-      setBase64Image(res.comment.profilePicture.buffer);
-      setMimetype(res.comment.profilePicture.mimetype);
+      setBase64Image(res.comment?.profilePicture?.buffer || "");
+      setMimetype(res.comment?.profilePicture?.mimetype || "");
       setReplies(res.replies);
     } catch (error) {
       throw error;
@@ -266,11 +270,18 @@ const CommunityReply = () => {
           <div>
             <div className="flex items-start flex-col p-4 bg-blue-100 rounded-lg shadow-md mt-3 mx-3 mb-4">
               <div className="flex items-center justify-center mb-2">
-                <img
-                  src={`data:${mimetype};base64,${base64Image}`}
-                  alt="Profile"
-                  className="w-6 h-6 rounded-full mr-2"
-                />
+                {mimetype != "" ? (
+                  <img
+                    src={`data:${mimetype};base64,${base64Image}`}
+                    alt="Profile"
+                    className="w-6 h-6 rounded-full mr-2"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faCircleUser}
+                    className="text-2xl mr-2 text-gray-800"
+                  />
+                )}
                 <div className="flex flex-row items-baseline">
                   <div
                     className="text-sm font-semibold"

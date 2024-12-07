@@ -26,12 +26,13 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { toast } from "react-toastify";
 import UploadImage from "./UploadImage";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const CommunitySingleReply = (props) => {
   const comment = props.comment;
 
-  const base64Image = comment.profilePicture.buffer;
-  const imageType = comment.profilePicture.mimetype;
+  const base64Image = comment.profilePicture?.buffer;
+  const imageType = comment.profilePicture?.mimetype;
   const src = `data:${imageType};base64,${base64Image}`;
 
   const dispatch = useDispatch();
@@ -171,11 +172,18 @@ const CommunitySingleReply = (props) => {
       <div className="flex flex-col">
         <div className="flex items-start flex-col p-2 mt-1 mx-3">
           <div className="flex items-center justify-center mb-2">
-            <img
-              src={src}
-              alt="Profile"
-              className="w-6 h-6 rounded-full mr-2"
-            />
+            {imageType ? (
+              <img
+                src={src}
+                alt="Profile"
+                className="w-6 h-6 rounded-full mr-2"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                className="text-2xl mr-2 text-gray-800"
+              />
+            )}
             <div className="flex flex-row items-baseline">
               <div
                 className="text-sm font-semibold"

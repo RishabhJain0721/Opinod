@@ -231,7 +231,8 @@ const sendPostDetails = async (req, res) => {
       { username: post.author },
       { profilePicture: 1 }
     ).exec();
-    post.profilePic = user.profilePicture;
+    post.profilePic = user?.profilePicture;
+
     res.status(200).send(post);
   } catch (error) {
     res.status(400).send(error);
@@ -242,15 +243,15 @@ const sendPostComments = async (req, res) => {
   const { id } = req.body;
   try {
     const post = await CommunityPost.findById(id);
-    const postComments = post.comments;
+    const postComments = post?.comments;
     const comments = await Comment.find({ _id: { $in: postComments } }).lean();
 
     for (const comment of comments) {
       const author = await User.findOne(
-        { username: comment.author },
+        { username: comment?.author },
         { profilePicture: 1, _id: 0 }
       ).lean();
-      comment.profilePicture = author.profilePicture;
+      comment.profilePicture = author?.profilePicture;
     }
 
     res.status(200).send(comments);

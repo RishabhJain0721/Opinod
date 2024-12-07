@@ -1,13 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { newsletterSignup } from "../APIs/UserDetailsApis";
 
 const Footer = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
-  const handleNewsletterSignup = () => {
-    alert(`Signed up with: ${email}`);
-    setEmail("");
+  const handleNewsletterSignup = async (e) => {
+    e.preventDefault();
+
+    console.log(email);
+    if (!email) {
+      toast.error("Please enter an email");
+      return;
+    }
+    try {
+      await newsletterSignup(email);
+      toast.success(`Subscribed to newsletter : ${email}`);
+    } catch (error) {
+      toast.error("Error subscribing to newsletter");
+      console.error("Error:", error);
+    } finally {
+      setEmail("");
+    }
   };
 
   return (
@@ -24,6 +40,8 @@ const Footer = () => {
         <input
           type="email"
           placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="px-4 py-1 w-3/5 md:w-auto rounded-l-md border border-gray-400 text-gray-800 focus:outline-none"
         />
         <button

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { eachHourOfInterval } from "date-fns";
 
 export const selectCategories = async (username, categories) => {
   try {
@@ -166,6 +165,24 @@ export const getPeopleWithBadges = async () => {
 export const sendAchievementMail = async (data) => {
   try {
     const response = await axios.post("/api/user/sendAchievementMail", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const newsletterSignup = async (email) => {
+  try {
+    const response = await axios.post("/api/user/newsletterSignup", { email });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getNewsletterEmails = async () => {
+  try {
+    const response = await axios.get("/api/user/newsletterEmails");
     return response.data;
   } catch (error) {
     throw error;

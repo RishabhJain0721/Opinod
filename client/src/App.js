@@ -50,6 +50,8 @@ import Support from "./Pages/Support";
 import SupportMails from "./Pages/Admin/SupportMails";
 import SupportMailDetails from "./Pages/Admin/SupportMailDetails";
 import Layout from "./Components/Layout";
+import NewsletterEmails from "./Pages/Admin/NewsletterEmails";
+import NotFound from "./Pages/NotFound";
 
 const CategoryNewsWrapper = () => {
   const { category } = useParams();
@@ -201,11 +203,16 @@ function App() {
                   <Route path="feedback/:id" element={<FeedbackDetails />} />
                   <Route path="support" element={<SupportMails />} />
                   <Route path="support/:id" element={<SupportMailDetails />} />
+                  <Route
+                    path="newsletterEmails"
+                    element={<NewsletterEmails />}
+                  />
                 </Routes>
               </IsAdmin>
             }
           />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

@@ -91,11 +91,11 @@ const userSchema = new mongoose.Schema({
   },
   followers: {
     type: [String],
-    default: 0,
+    default: [],
   },
   following: {
     type: [String],
-    default: 0,
+    default: [],
   },
   badges: {
     type: Array,

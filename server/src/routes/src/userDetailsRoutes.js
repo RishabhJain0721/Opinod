@@ -12,6 +12,8 @@ import {
   unfollowUser,
   sendBadges,
   updateBadges,
+  newsletterSignup,
+  newsletterEmails,
 } from "../../controllers/UserDetailsController.js";
 import {
   calculateAchievements,
@@ -40,5 +42,7 @@ router.post("/badges", sendBadges);
 router.post("/updateBadges", updateBadges);
 router.get("/peopleWithBadges", sendPeopleWithBadges);
 router.post("/sendAchievementMail", sendAchievementMail);
+router.post("/newsletterSignup", newsletterSignup);
+router.get("/newsletterEmails", newsletterEmails);
 
 export default router;

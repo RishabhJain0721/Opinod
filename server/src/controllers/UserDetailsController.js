@@ -5,6 +5,7 @@ import CommunityPost from "../models/CommunityPost.js";
 import Post from "../models/Post.js";
 import Recent from "../models/Recent.js";
 import multer from "multer";
+import NewsletterEmail from "../models/NewsletterEmail.js";
 
 // Create a multer instance with the storage configuration
 const upload = multer({
@@ -279,6 +280,26 @@ const updateBadges = async (req, res) => {
   }
 };
 
+const newsletterSignup = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = new NewsletterEmail({ email });
+    await user.save();
+    res.status(200).send("Subscribed successfully");
+  } catch (error) {
+    res.status(400).send("Subscription failed");
+  }
+};
+
+const newsletterEmails = async (req, res) => {
+  try {
+    const emails = await NewsletterEmail.find();
+    res.status(200).send(emails);
+  } catch (error) {
+    res.status(400).send("Failed to fetch emails");
+  }
+};
+
 export {
   addCategories,
   updateProfile,
@@ -292,4 +313,6 @@ export {
   unfollowUser,
   sendBadges,
   updateBadges,
+  newsletterSignup,
+  newsletterEmails,
 };

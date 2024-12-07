@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Topbar";
 import {
   getUserDetails,
@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileOthers = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const name = location.pathname.split("/")[2];
@@ -45,6 +46,7 @@ const ProfileOthers = () => {
     try {
       setUserLoading(true);
       const res = await getUserDetails(name);
+      if (!res.profilePicture) navigate("/*");
       setUser(res);
       setBase64Image(res.profilePicture.buffer);
       setImageType(res.profilePicture.mimetype);
