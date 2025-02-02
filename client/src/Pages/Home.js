@@ -136,6 +136,56 @@ const Home = () => {
 
       <div className="flex mt-16 md:mt-64">
         <div className="w-full mt-11 md:mt-0">
+          {communitiesLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <MutatingDots
+                visible={true}
+                height="100"
+                width="100"
+                color="#212121"
+                secondaryColor="#212121"
+                radius="12.5"
+                ariaLabel="mutating-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ) : (
+            <>
+              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mt-8 md:mb-7">
+                  Top Communities
+                </div>
+                <div>
+                  <button
+                    className="text-xs md:text-lg text-gray-600 px-2"
+                    onClick={handleViewTopCommunities}
+                  >
+                    See all
+                  </button>
+                </div>
+              </div>
+              {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7  gap-y-5">
+                {topCommunities
+                  .slice(0, smallScreen ? (isMobile ? 8 : 9) : 8)
+                  .map((community) => (
+                    <HomeCommCard
+                      key={community._id}
+                      id={community._id}
+                      name={community.name}
+                      image={community.image}
+                      subcategories={community.subCategories}
+                      description={community.description}
+                      subscribers={community.subscriberCount}
+                      posts={community.postCount}
+                      topPostTitle={community.topPostTitle}
+                      topPostId={community.topPostId}
+                    />
+                  ))}
+              </div>
+            </>
+          )}
           {isLoading ? (
             <div className="flex items-center justify-center h-96">
               <MutatingDots
@@ -256,57 +306,6 @@ const Home = () => {
                     postId={opinion.post?._id}
                   />
                 ))}
-              </div>
-            </>
-          )}
-
-          {communitiesLoading ? (
-            <div className="flex items-center justify-center h-96">
-              <MutatingDots
-                visible={true}
-                height="100"
-                width="100"
-                color="#212121"
-                secondaryColor="#212121"
-                radius="12.5"
-                ariaLabel="mutating-dots-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              />
-            </div>
-          ) : (
-            <>
-              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mt-8 md:mb-7">
-                  Top Communities
-                </div>
-                <div>
-                  <button
-                    className="text-xs md:text-lg text-gray-600 px-2"
-                    onClick={handleViewTopCommunities}
-                  >
-                    See all
-                  </button>
-                </div>
-              </div>
-              {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7  gap-y-5">
-                {topCommunities
-                  .slice(0, smallScreen ? (isMobile ? 8 : 9) : 8)
-                  .map((community) => (
-                    <HomeCommCard
-                      key={community._id}
-                      id={community._id}
-                      name={community.name}
-                      image={community.image}
-                      subcategories={community.subCategories}
-                      description={community.description}
-                      subscribers={community.subscriberCount}
-                      posts={community.postCount}
-                      topPostTitle={community.topPostTitle}
-                      topPostId={community.topPostId}
-                    />
-                  ))}
               </div>
             </>
           )}

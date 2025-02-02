@@ -17,13 +17,13 @@ const pointsMiddleware = (store) => (next) => (action) => {
   const prevPoints =
     prevUser === null || Object.keys(prevUser).length === 0
       ? 0
-      : prevUser?.user?.points;
+      : JSON.parse(prevUser?.user).points;
 
   // Assuming points is nested under user in state
   const currentPoints = state.user.points;
 
   if (
-    Math.floor(prevPoints / 60) !== Math.floor(currentPoints / 60) &&
+    Math.floor(prevPoints / 10) !== Math.floor(currentPoints / 10) &&
     currentPoints &&
     currentPoints > prevPoints
   ) {
