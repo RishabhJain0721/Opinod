@@ -655,45 +655,6 @@ const Topbar = () => {
                     </div>
                   </h2>
 
-                  {/* Categories */}
-                  <h2
-                    className="text-lg mb-2 ml-5 text-white mt-5"
-                    onClick={handleToggleCategory}
-                  >
-                    <div className="flex justify-between items-center mr-4">
-                      <div>
-                        <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "}
-                        News Categories
-                      </div>
-                      <FontAwesomeIcon
-                        icon={toggleCategory ? faChevronDown : faChevronRight}
-                        className="text-xs ml-3"
-                      />
-                    </div>
-                  </h2>
-                  {toggleCategory && (
-                    <div>
-                      {Object.values(categories).map((cat) => (
-                        <div key={cat}>
-                          <button
-                            className={`flex items-center p-1 px-8 my-0 focus:outline-none ${
-                              selectedCategory === cat
-                                ? "bg-blue-100 rounded-md text-gray-800"
-                                : "text-white"
-                            }`}
-                            onClick={() => handleCategorySelect(cat)}
-                          >
-                            <FontAwesomeIcon
-                              icon={selectIcon(cat)}
-                              className="mr-2"
-                            />
-                            {cat}
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
                   {/* Communities */}
                   <h2 className="text-lg mb-2 ml-5 text-white mt-5">
                     <div className="flex justify-between items-center mr-4">
@@ -817,6 +778,45 @@ const Topbar = () => {
                           </ul>
                         )}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Categories */}
+                  <h2
+                    className="text-lg mb-2 ml-5 text-white mt-5"
+                    onClick={handleToggleCategory}
+                  >
+                    <div className="flex justify-between items-center mr-4">
+                      <div>
+                        <FontAwesomeIcon icon={faLayerGroup} className="mr-1" />{" "}
+                        News Categories
+                      </div>
+                      <FontAwesomeIcon
+                        icon={toggleCategory ? faChevronDown : faChevronRight}
+                        className="text-xs ml-3"
+                      />
+                    </div>
+                  </h2>
+                  {toggleCategory && (
+                    <div>
+                      {Object.values(categories).map((cat) => (
+                        <div key={cat}>
+                          <button
+                            className={`flex items-center p-1 px-8 my-0 focus:outline-none ${
+                              selectedCategory === cat
+                                ? "bg-blue-100 rounded-md text-gray-800"
+                                : "text-white"
+                            }`}
+                            onClick={() => handleCategorySelect(cat)}
+                          >
+                            <FontAwesomeIcon
+                              icon={selectIcon(cat)}
+                              className="mr-2"
+                            />
+                            {cat}
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   )}
 

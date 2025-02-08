@@ -30,6 +30,7 @@ const ProfilePage = () => {
   const [achievements, setAchievements] = useState({});
   const [level, setLevel] = useState();
   const [isAchievementsList, setIsAchievementsList] = useState(false);
+  const [isRewardList, setIsRewardList] = useState(true);
   const [isLevel, setIsLevel] = useState(false);
   const [recentLoading, setRecentLoading] = useState(false);
 
@@ -382,6 +383,37 @@ const ProfilePage = () => {
                   })}
                 </div>
               )
+            ) : (
+              <div className="flex items-center justify-center h-4/5">
+                <MutatingDots
+                  visible={true}
+                  height="100"
+                  width="100"
+                  color="#212121"
+                  secondaryColor="#212121"
+                  radius="12.5"
+                  ariaLabel="mutating-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            )}
+
+            {/* Rewards */}
+            <div className="flex items-center justify-between text-lg font-medium mt-2">
+              <span>Rewards</span>
+              {/* <button
+                className="px-2 font-normal text-gray-600 text-xs md:text-base"
+                onClick={() => navigate("/rewards")}
+              >
+                See all
+              </button> */}
+            </div>
+
+            {isRewardList ? (
+              <div className="italic text-center mb-3 mt-2 text-gray-600 text-sm">
+                COMING SOON
+              </div>
             ) : (
               <div className="flex items-center justify-center h-4/5">
                 <MutatingDots

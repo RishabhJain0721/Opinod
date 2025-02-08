@@ -152,7 +152,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+              <div className="text-lg md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-5 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-950 w-2/3 md:mt-8">
                   Top Communities
                 </div>
@@ -166,7 +166,7 @@ const Home = () => {
                 </div>
               </div>
               {/* <div className="flex flex-wrap justify-between md:justify-start mx-5 md:ml-10 md:mr-10"> */}
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7 gap-y-5 my-10">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mx-5 md:ml-10 md:mr-10 gap-x-7 gap-y-5 mt-5 mb-10 md:my-10">
                 {topCommunities
                   .slice(0, smallScreen ? (isMobile ? 8 : 9) : 8)
                   .map((community) => (
@@ -202,7 +202,7 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+              <div className="text-lg md:text-3xl ml-5 md:ml-10 md:mr-10 mt-2 md:mt-8 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-950 mb-2 md:mb-4">
                   Trending News
                 </div>
@@ -222,7 +222,7 @@ const Home = () => {
               )} */}
 
               {/* <div className="flex flex-wrap justify-start md:ml-10 md:mr-10 mr-5 "> */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5 cursor-pointer my-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 ml-3 md:ml-10 md:mr-10 mr-5 cursor-pointer mt-2 mb-5">
                 {trending.slice(0, isMobile ? 5 : 6).map((article) => (
                   <Card
                     key={article._id}
@@ -273,8 +273,8 @@ const Home = () => {
             </div>
           ) : (
             <>
-              <div className="text-base md:text-3xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-center justify-between text-gray-800 w-auto">
-                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mb-6 mt-4 md:mt-10">
+              <div className="text-lg md:text-3xl ml-5 md:ml-10 md:mr-10 mr-5 flex items-baseline justify-between text-gray-800 w-auto">
+                <div className="font-medium text-gray-950 w-2/3 mb-2 md:mb-6">
                   Popular Opinions
                 </div>
                 <div>
@@ -314,7 +314,7 @@ const Home = () => {
             <></>
           ) : (
             <>
-              <div className="text-sm md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
+              <div className="text-lg md:text-3xl ml-5 md:ml-10 md:mr-10 mt-5 md:mt-2 mr-5 flex items-center justify-between text-gray-800 w-auto">
                 <div className="font-medium text-gray-950 w-2/3 mb-2 md:mt-10 md:mb-4">
                   Recent Activities
                 </div>
